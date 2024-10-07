@@ -1,0 +1,44 @@
+.time-slots {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping for time slots */
+  justify-content: space-between; /* Distributes space between slots */
+  gap: 10px; /* Space between time slots */
+}
+
+.time-slot {
+  flex: 1 1 12%; /* Slots take up equal space and adjust with container size */
+  min-width: 100px; /* Minimum width for the slot */
+  max-width: 150px; /* Maximum width for the slot */
+}
+
+.time-slot button {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  font-size: calc(8px + 1vw); /* Adjust font size based on viewport width */
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.time-slot button:disabled {
+  background-color: red;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .time-slot {
+    flex: 1 1 48%; /* Adjust to 2 slots per row on smaller screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  .time-slot {
+    flex: 1 1 8%; /* More slots per row on larger screens */
+  }
+}
