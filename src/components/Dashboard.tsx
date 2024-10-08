@@ -53,7 +53,6 @@ const Dashboard: React.FC = () => {
     };
 
     const handleCloseModal = () => {
-        console.log('close modal')
         setModalOpen(false);
         setSelectedTimeSlot(null);
     };
@@ -62,10 +61,6 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
         handleOpenModal({courtId, time, date: selectedDate, player1: namePlayer, isPayed})
     };
-
-    // const handleCloseForm = () => {
-    //     setSelectedTimeSlot(null);
-    // };
 
     const getPlayersNames = async () => {
         const playersNames = await axios.get(`${apiUrl}/register/names`, {
