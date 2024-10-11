@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import M from 'materialize-css';
 import Swal from 'sweetalert2';
 import Select from "react-select";
+import axios from "axios";
 
 interface ModalProps {
     id: string;
@@ -35,7 +36,7 @@ interface ReserveFormData {
 
 const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playersNames, onClose}) => {
     const initialFormData: ReserveFormData = {
-        court: selectedTimeSlot.courtId.toString(),
+        court: 'Court '+selectedTimeSlot.courtId.toString(),
         player1: selectedTimeSlot.player1,
         player2: '',
         player3: '',
@@ -50,6 +51,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const modalElement = document.getElementById(id);
@@ -84,92 +86,107 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const validateForm = () => {
         let isValid = true;
         if (formData.isVisit) {
-            if (formData.visitName === '') {
+            if (!formData.visitName) {
                 isValid = false;
-                console.log('Visit name, must not be empty.');
+                console.log('Visit name must not be empty.');
             } else {
-                const visitNameTrimmed = validateText(formData.visitName);
-                if (visitNameTrimmed instanceof Error) {
-                    isValid = false;
-                } else if (visitNameTrimmed) {
+                try {
+                    const visitNameTrimmed = validateText(formData.visitName);
                     setFormData((prevState) => ({
                         ...prevState,
                         visitName: visitNameTrimmed.toString(),
                     }));
+                } catch (error) {
+                    isValid = false;
+                    console.log('Error with visit name validation:', error);
                 }
             }
         }
-        const {player2, player3, player4} = formData;
-        if (formData.isDouble && formData.isVisit) {
-            if (!player3 || !player4) {
-                isValid = false;
-                console.log('Player 3, and Player 4 must not be empty.');
-            } else {
-                const playersSet = new Set([player3, player4]);
-                if (playersSet.size !== 2) {
+        const { player2, player3, player4 } = formData;
+        if (formData.isDouble) {
+            if (formData.isVisit) {
+                if (!player3 || !player4) {
                     isValid = false;
-                    console.log('Player 3, and Player 4 must be distinct.');
+                    console.log('Player 3 and Player 4 must not be empty.');
+                } else if (new Set([player3, player4]).size !== 2) {
+                    isValid = false;
+                    console.log('Player 3 and Player 4 must be distinct.');
                 }
             }
-        } else if (formData.isDouble) {
-            if (!player2 || !player3 || !player4) {
-                isValid = false;
-                console.log('Player 2, Player 3, and Player 4 must not be empty.');
-            } else {
-                const playersSet = new Set([player2, player3, player4]);
-                if (playersSet.size !== 3) {
+            else {
+                if (!player2 || !player3 || !player4) {
                     isValid = false;
-                    console.log('Player2, Player 3, and Player 4 must be distinct.');
+                    console.log('Player 2, Player 3, and Player 4 must not be empty.');
+                } else if (new Set([player2, player3, player4]).size !== 3) {
+                    isValid = false;
+                    console.log('Player 2, Player 3, and Player 4 must be distinct.');
                 }
             }
         } else if (!player2 && !formData.isVisit) {
             isValid = false;
-            console.log('Player 2,must not be empty.');
+            console.log('Player 2 must not be empty.');
         }
         return isValid;
     };
 
-
     const handleChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | any,
-        field?: string
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
-        // Check if it's a select change from react-select (i.e., when an object is passed instead of an event)
-        if (field) {
+        const { name, value, type } = e.target;
+        if (type === 'checkbox') {
+            const { checked } = e.target as HTMLInputElement;
             setFormData((prevState) => ({
                 ...prevState,
-                [field]: e.value, // React-select provides the selected option as an object
+                [name]: checked, // Update with checkbox true/false value
             }));
-        } else {
-            const {name, value, type} = e.target;
-            if (type === 'checkbox') {
-                const {checked} = e.target as HTMLInputElement;
+            if (name  === 'isVisit') {
+                // console.log('isVisit:', checked);
                 setFormData((prevState) => ({
                     ...prevState,
-                    [name]: checked,
-                    // If 'isVisit' is checked, reset player2 to an empty string
-                    ...(name === 'isVisit' && checked ? {player2: ''} : {}),
-                    // If 'isVisit' is unchecked, reset visitName to an empty string
-                    ...(name === 'isVisit' && !checked ? {visitName: ''} : {}),
-                }));
-            } else {
-                setFormData((prevState) => ({
-                    ...prevState,
-                    [name]: value,
+                    player2: '', // Update with checkbox true/false value
+                    isForRanking: false, // Update with checkbox true/false value
                 }));
             }
+            if (name  === 'isVisit' && !checked) {
+                setFormData((prevState) => ({
+                    ...prevState,
+                    visitName: '', // Update with checkbox true/false value
+                    isForRanking: true,
+                }));
+            }
+            if (name === 'isDouble' && !checked) {
+                setFormData((prevState) => ({
+                    ...prevState,
+                    player3: '', // Update with checkbox true/false value
+                    player4: '', // Update with checkbox true/false value
+                }));
+            }
+        } else {
+            // Handle regular input fields (text, select, etc.)
+            // console.log(name, value)
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value, // Update with new input value
+            }));
         }
     };
 
-    const handleReserve = () => {
+    const handleReserve = async () => {
         if (validateForm()) {
-            Swal.fire({
+            await Swal.fire({
                 icon: 'success',
                 title: 'Reservation Successful',
                 text: 'Your reservation has been made!',
             });
+            try {
+                const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+                console.log('Reservation created successfully:', response.data);
+                return response.data; // Return the response data as needed
+            } catch (error) {
+                console.error('Error creating reservation:', error);
+                throw error; // Handle the error as necessary
+            }
         }
-        // Add your reservation logic here...
         onClose(); // Close the modal after successful reservation
     };
 
@@ -190,17 +207,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         </div>
                         <div className="input-field col s12">
                             <Select
-                                value={formattedPlayers.find(option => option.value === formData.player2)}
+                                value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
                                 onChange={(selectedOption) =>
                                     setFormData((prevState) => ({
                                         ...prevState,
-                                        player2: selectedOption ? selectedOption.value : ''  // Store the selected value
+                                        player2: selectedOption ? selectedOption.value : ''  // Store the selected value or reset to empty
                                     }))
                                 }
                                 options={formattedPlayers}
                                 placeholder="Select a player 2"
                                 isSearchable
-                                isDisabled={formData.isVisit}
+                                isDisabled={formData.isVisit} // Disable if 'isVisit' is true
                             />
                         </div>
                         <div className="input-field-checked col s12">
@@ -277,6 +294,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         name="isForRanking"
                                         checked={formData.isForRanking}
                                         onChange={handleChange}
+                                        disabled={formData.isVisit} // Disable when isVisit is true
                                     />
                                     <span>Is for Ranking</span>
                                 </label>
