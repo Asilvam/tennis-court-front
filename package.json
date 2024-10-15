@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "engines": {
-    "node": ">=18.20.4",
-    "npm": ">=10.7.0"
+    "node": "18.20.4",
+    "npm": "10.7.0"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
