@@ -21,7 +21,6 @@ const AdminRegister: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [users, setUsers] = useState<Register[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
-    const [selectedUser, setSelectedUser] = useState<Register | null>(null); // State for selected user
     const [editUser, setEditUser] = useState<Register | null>(null); // State for editing user
 
     useEffect(() => {
@@ -46,7 +45,6 @@ const AdminRegister: React.FC = () => {
     }, []);
 
     const handleEdit = (user: Register) => {
-        setSelectedUser(user); // Set the selected user
         setEditUser({...user}); // Clone user info for editing
         const modal = M.Modal.getInstance(document.getElementById('editModal')!);
         modal.open(); // Open the modal
