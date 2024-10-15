@@ -13,21 +13,18 @@ self.addEventListener('push', (event) => {
     );
 });
 
-// self.addEventListener('notificationclick', (event) => {
-//     event.notification.close();
-//     event.waitUntil(
-//         clients.openWindow('/')
-//     );
-// });
+self.addEventListener('push', function (event) {
+    console.log('Push event received:', event);
+    const data = event.data ? event.data.json() : {};
+    console.log('Push data:', data);
 
-self.addEventListener('push', function(event) {
+    const title = data.title || 'Default Title';
     const options = {
-        body: event.data ? event.data.text() : 'Default message',
-        icon: 'icon.png',
-        badge: 'badge.png'
+        body: data.body || 'Default Body',
     };
+
     event.waitUntil(
-        self.registration.showNotification('Notification Title', options)
+        self.registration.showNotification(title, options)
     );
 });
 
