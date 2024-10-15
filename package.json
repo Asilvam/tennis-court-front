@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "start": "npm run preview",
-    "preview": "vite preview --port $PORT"
+    "preview": "vite preview"
   },
   "engines": {
     "node": "18.x",
