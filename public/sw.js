@@ -20,18 +20,14 @@ self.addEventListener('push', (event) => {
 //     );
 // });
 
-self.addEventListener('push', function (event) {
-    console.log('Push event received:', event);
-    const data = event.data ? event.data.json() : {};
-    console.log('Push data:', data);
-
-    const title = data.title || 'Default Title';
+self.addEventListener('push', function(event) {
     const options = {
-        body: data.body || 'Default Body',
+        body: event.data ? event.data.text() : 'Default message',
+        icon: 'icon.png',
+        badge: 'badge.png'
     };
-
     event.waitUntil(
-        self.registration.showNotification(title, options)
+        self.registration.showNotification('Notification Title', options)
     );
 });
 
