@@ -7,6 +7,7 @@ import Login from "./components/Login.tsx";
 import Dashboard from "./components/Dashboard.tsx";
 import Home from "./components/Home.tsx";
 import PlayerForm from "./components/PlayerForm.tsx";
+import AdminRegister from "./components/AdminRegister.tsx";
 
 const App: React.FC = () => {
     return (
@@ -16,9 +17,8 @@ const App: React.FC = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<PlayerForm />} />
-                    <Route
-                        path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
-                    />
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/adminregister" element={<ProtectedRoute><AdminRegister /></ProtectedRoute>} />
                     {/* Add other routes here */}
                 </Routes>
             </Router>

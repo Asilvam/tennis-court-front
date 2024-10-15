@@ -27,7 +27,7 @@
 }
 
 .time-slot button:disabled {
-  background-color: red;
+  background-color: #f14f4f;
   cursor: not-allowed;
 }
 
