@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "buildh": "vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "start": "npm run preview",
     "preview": "vite preview --port $PORT",
