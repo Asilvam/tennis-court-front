@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
+import axios from "axios";
 
 // Function to convert VAPID public key from base64 to UInt8Array
 const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
@@ -30,9 +31,7 @@ const subscribeUserToPush = async () => {
             applicationServerKey: urlBase64ToUint8Array(apiVapidPublicKey), // Replace with your VAPID public key
         });
 
-        await fetch(`${apiUrl}/notifications/subscribe`, {
-            method: 'POST',
-            body: JSON.stringify(subscription),
+        await axios.post(`${apiUrl}/notifications/subscribe`, subscription, {
             headers: {
                 'Content-Type': 'application/json',
             },

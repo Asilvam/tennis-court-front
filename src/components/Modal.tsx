@@ -162,8 +162,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 }));
             }
         } else {
-            // Handle regular input fields (text, select, etc.)
-            // console.log(name, value)
             setFormData((prevState) => ({
                 ...prevState,
                 [name]: value, // Update with new input value
