@@ -1,6 +1,6 @@
 import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Carousel styles
-import { Carousel } from 'react-responsive-carousel';
+import {Carousel} from 'react-responsive-carousel';
 
 const Home: React.FC = () => {
     const infoItems = [
@@ -23,10 +23,16 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <h1>Welcome to Tennis Club</h1>
+            <h4 style={{textAlign: 'center', margin: '20px 0'}}>Welcome to Tennis Club</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>
                 {infoItems.map((item, index) => (
-                    <div key={index} style={{ height: '500px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <div key={index} style={{
+                        height: '500px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
                         <img
                             src={item.imageUrl}
                             alt={item.title}
@@ -40,9 +46,16 @@ const Home: React.FC = () => {
                                 zIndex: -1 // Send the image behind the text
                             }}
                         />
-                        <div style={{ textAlign: 'center', marginTop: '150px', color: '#fff', backgroundColor: '#000', padding: '20px', borderRadius: '5px' }}> {/* Background added for contrast */}
-                            <h2 style={{ margin: '0', fontSize: '24px' }}>{item.title}</h2> {/* Font size adjustment */}
-                            <p style={{ margin: '0', fontSize: '16px' }}>{item.content}</p> {/* Font size adjustment */}
+                        <div style={{
+                            textAlign: 'center',
+                            marginTop: '150px',
+                            color: '#fff',
+                            backgroundColor: '#000',
+                            padding: '20px',
+                            borderRadius: '5px'
+                        }}> {/* Background added for contrast */}
+                            <h2 style={{margin: '0', fontSize: '24px'}}>{item.title}</h2> {/* Font size adjustment */}
+                            <p style={{margin: '0', fontSize: '16px'}}>{item.content}</p> {/* Font size adjustment */}
                         </div>
                     </div>
                 ))}
