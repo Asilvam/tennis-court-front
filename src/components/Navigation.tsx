@@ -9,27 +9,18 @@ const Navigation: React.FC = () => {
     const sidenavRef = useRef<HTMLUListElement>(null); // Reference to the sidenav element
     const navigate = useNavigate();
 
-    // Initialize Materialize CSS components (dropdown and sidenav)
     useEffect(() => {
-        // Initialize dropdown menu
         const dropdownElems = document.querySelectorAll('.dropdown-trigger');
         M.Dropdown.init(dropdownElems, {alignment: 'right'});
-
-        // Initialize sidenav
         const sidenavInstance = M.Sidenav.init(sidenavRef.current, {});
-
-        // Close sidenav on menu item click
         const closeSidenavOnClick = () => sidenavInstance?.close();
         sidenavInstance.el.addEventListener('click', closeSidenavOnClick);
-
-        // Cleanup event listener and destroy sidenav instance
         return () => {
             sidenavInstance.el.removeEventListener('click', closeSidenavOnClick);
             sidenavInstance?.destroy();
         };
     }, []);
 
-    // Handle logout and remove token
     const handleLogout = () => {
         if (existTokenInLocalStorage()) {
             removeTokenFromLocalStorage();
@@ -44,7 +35,6 @@ const Navigation: React.FC = () => {
     };
 
     const tokenExists = existTokenInLocalStorage();
-
     return (
         <>
             {/* Navigation bar */}
@@ -70,14 +60,17 @@ const Navigation: React.FC = () => {
                     </ul>
                 </div>
             </nav>
-
             {/* Dropdown Structure */}
             <ul id="dropdown1" className="dropdown-content">
                 <li>
-                    <Link to="/dashboard">Dashboard Courts</Link>
+                    <Link to="/dashboard">
+                        Dashboard Courts
+                    </Link>
                 </li>
                 <li>
-                    <Link to="/reserve-form">Reserve Form</Link>
+                    <Link to="/">
+                        My Reserves
+                    </Link>
                 </li>
                 <li className="divider"></li>
                 <li>
@@ -86,7 +79,6 @@ const Navigation: React.FC = () => {
                     </a>
                 </li>
             </ul>
-
             {/* Mobile Navigation (sidenav) */}
             <ul className="sidenav green darken-4" id="mobile-nav" ref={sidenavRef}>
                 {!tokenExists && (
@@ -104,7 +96,7 @@ const Navigation: React.FC = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/reserve-form" className="white-text"
+                    <Link to="/" className="white-text"
                           onClick={() => sidenavRef.current?.classList.remove('open')}>
                         My Reserves
                     </Link>
