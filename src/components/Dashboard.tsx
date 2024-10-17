@@ -22,7 +22,7 @@ interface CourtType {
 
 const Dashboard: React.FC = () => {
     const userContext = useContext(UserContext);
-    const namePlayer = userContext?.userInfo?.name;
+    const namePlayer = userContext?.userInfo.name;
     const [courts, setCourts] = useState<CourtType[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate()); // Default to today's date
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{

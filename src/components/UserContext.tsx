@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, {createContext, useState, ReactNode, useEffect} from 'react';
 
 // Define the user info type
 interface UserInfo {
@@ -20,13 +20,16 @@ interface UserProviderProps {
     children: ReactNode;
 }
 
-// UserProvider to wrap your app
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-    const [userInfo, setUserInfo] = useState<UserInfo>({
-        name: '',
-        email: '',
-        role: ''
+    const [userInfo, setUserInfo] = useState<UserInfo>(() => {
+        const storedUserInfo = localStorage.getItem('userInfo');
+        return storedUserInfo ? JSON.parse(storedUserInfo) : { name: '', email: '', role: '' };
     });
+
+    useEffect(() => {
+        // Store user info in local storage whenever it changes
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }, [userInfo]);
 
     return (
         <UserContext.Provider value={{ userInfo, setUserInfo }}>

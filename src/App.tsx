@@ -12,17 +12,21 @@ import Navigation from './components/Navigation.tsx';
 
 const App: React.FC = () => {
     return (
-        <AuthProvider>
-            <UserProvider> {/* Wrap the whole app in UserProvider */}
+        <UserProvider> {/* Wrap the whole app in UserProvider */}
+            <AuthProvider>
                 <Router>
                     <div>
                         <Navigation/>
                         <div className="container">
                             <Routes>
-                                <Route path="/" element={<Home/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                                <Route path="/register" element={<PlayerForm/>}/>
-                                <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+                                <Route path="/"
+                                       element={<Home/>}/>
+                                <Route path="/login"
+                                       element={<Login/>}/>
+                                <Route path="/register"
+                                       element={<PlayerForm/>}/>
+                                <Route path="/dashboard"
+                                       element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
                                        element={<ProtectedRoute><AdminRegister/></ProtectedRoute>}/>
                                 {/* Add other routes here */}
@@ -30,8 +34,8 @@ const App: React.FC = () => {
                         </div>
                     </div>
                 </Router>
-            </UserProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </UserProvider>
     );
 };
 
