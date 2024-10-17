@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import {useAuth} from "./AuthContext.tsx";
 import {Link, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
+import {UserContext} from './UserContext';
 
 export interface LoginResponse {
     accessToken: string;
@@ -20,6 +21,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState<never | null>(null);
     const [generateLoading, setGenerateLoading] = useState(false);
     const {setToken} = useAuth();
+    const userContext = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -34,8 +36,8 @@ const Login: React.FC = () => {
                 title: 'Login Successful',
                 text: `Welcome ${namePlayer}!`,
             });
-            navigate('/', {state: {username, namePlayer, role}});
-
+            userContext?.setUserInfo({ ...userContext?.userInfo, name: namePlayer, email: username, role: role });
+            navigate('/dashboard');
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 // Handle AxiosError specifically

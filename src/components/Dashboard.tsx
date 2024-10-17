@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import TimeSlot from './TimeSlot';
 import {DateTime} from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
-import {useLocation} from "react-router-dom";
 import Modal from './Modal';
 import badge from '/badge.svg';
 import Swal from "sweetalert2";
+import {UserContext} from "./UserContext.tsx";
 
 interface TimeSlotType {
     time: string;
@@ -21,15 +21,15 @@ interface CourtType {
 }
 
 const Dashboard: React.FC = () => {
-    const location = useLocation();
-    const {namePlayer} = location.state || {};
+    const userContext = useContext(UserContext);
+    const namePlayer = userContext?.userInfo?.name;
     const [courts, setCourts] = useState<CourtType[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate()); // Default to today's date
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
         courtId: number;
         time: string;
         date: string;
-        player1: string;
+        player1: string|undefined;
         isPayed: boolean;
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
         courtId: number;
         time: string;
         date: string;
-        player1: string;
+        player1: string|undefined;
         isPayed:boolean;
     } | null>) => {
         setSelectedTimeSlot(timeSlot);

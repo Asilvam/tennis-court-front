@@ -14,7 +14,7 @@ interface ModalProps {
         courtId: number;
         date: string;
         time: string;
-        player1: string;
+        player1: string|undefined;
         isPayed: boolean;
     }|null;
     playersNames: string[];
