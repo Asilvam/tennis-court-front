@@ -110,8 +110,6 @@ const AdminRegister: React.FC = () => {
                 <tr>
                     <th>Name Player</th>
                     <th>Email</th>
-                    <th>Cellular</th>
-                    <th>Role</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -120,8 +118,6 @@ const AdminRegister: React.FC = () => {
                     <tr key={user.email}>
                         <td>{user.namePlayer}</td>
                         <td>{user.email}</td>
-                        <td>{user.cellular}</td>
-                        <td>{user.role}</td>
                         <td>
                             <button className="btn yellow" onClick={() => handleEdit(user)}>
                                 Edit
