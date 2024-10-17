@@ -6,6 +6,7 @@ import axios from "axios";
 import {useLocation} from "react-router-dom";
 import Modal from './Modal';
 import badge from '/badge.svg';
+import Swal from "sweetalert2";
 
 interface TimeSlotType {
     time: string;
@@ -41,7 +42,18 @@ const Dashboard: React.FC = () => {
     const token = localStorage.getItem('token');
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedDate(event.target.value); // Update the selected date based on user input
+        const selectedDate = event.target.value;
+
+        if (selectedDate < minDate || selectedDate > maxDate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Date',
+                text: `Please select a date between ${minDate} and ${maxDate}.`,
+            });
+            return; // Stop further execution
+        }
+
+        setSelectedDate(selectedDate); // Update the selected date
         setSelectedTimeSlot(null); // Clear selected time slot when switching dates
     };
 
