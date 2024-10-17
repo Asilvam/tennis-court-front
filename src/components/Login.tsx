@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {useAuth} from "./AuthContext.tsx";
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import Swal from 'sweetalert2';
 
 export interface LoginResponse {
     accessToken: string;
@@ -25,15 +26,36 @@ const Login: React.FC = () => {
         e.preventDefault();
         setGenerateLoading(true);
         try {
-            const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', {username, password});
-            const {accessToken, namePlayer, role} = response.data;
+            const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', { username, password });
+            const { accessToken, namePlayer, role } = response.data;
+
             setToken(accessToken);
+
+            // Show success message
+            await Swal.fire({
+                icon: 'success',
+                title: 'Login Successful',
+                text: `Welcome ${namePlayer}!`,
+            });
+
+            // Navigate to dashboard
             navigate('/dashboard', { state: { username, namePlayer, role } });
+
         } catch (err) {
-            console.error(err)
+            console.error(err);
+
+            // Show error message
+            await Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'Please check your username and password.',
+            });
+
             setError('Login failed');
+
+        } finally {
+            setGenerateLoading(false); // Stop loading spinner
         }
-        setGenerateLoading(false);
     };
 
     return (
@@ -76,6 +98,18 @@ const Login: React.FC = () => {
                             </div>
                             {error && <p className="red-text">{error}</p>}
                         </form>
+                        <div className="card-content">
+                            <div className="row">
+                                <div className="col s12">
+                                    <h6>Welcome to Our Tennis Club!</h6>
+                                    <p>To access our services, please sign in to your account.</p>
+                                    <p>If you don't have an account yet, you can <Link to="/register">sign
+                                        up</Link> to
+                                        become
+                                        a member of our club.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
