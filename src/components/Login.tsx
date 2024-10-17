@@ -34,7 +34,7 @@ const Login: React.FC = () => {
                 title: 'Login Successful',
                 text: `Welcome ${namePlayer}!`,
             });
-            navigate('/dashboard', {state: {username, namePlayer, role}});
+            navigate('/', {state: {username, namePlayer, role}});
 
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {

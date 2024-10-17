@@ -74,7 +74,7 @@ const Navigation: React.FC = () => {
             {/* Dropdown Structure */}
             <ul id="dropdown1" className="dropdown-content">
                 <li>
-                    <Link to="/reserve-list">Reserve List</Link>
+                    <Link to="/dashboard">Dashboard Courts</Link>
                 </li>
                 <li>
                     <Link to="/reserve-form">Reserve Form</Link>
@@ -98,15 +98,15 @@ const Navigation: React.FC = () => {
                     </li>
                 )}
                 <li>
-                    <Link to="/reserve-list" className="white-text"
+                    <Link to="/dashboard" className="white-text"
                           onClick={() => sidenavRef.current?.classList.remove('open')}>
-                        Reserve List
+                        Dashboard Courts
                     </Link>
                 </li>
                 <li>
                     <Link to="/reserve-form" className="white-text"
                           onClick={() => sidenavRef.current?.classList.remove('open')}>
-                        Reserve Form
+                        My Reserves
                     </Link>
                 </li>
                 <li>

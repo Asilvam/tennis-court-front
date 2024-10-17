@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Carousel styles
 import {Carousel} from 'react-responsive-carousel';
 
 const Home: React.FC = () => {
+
+    const [showInfo, setShowInfo] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowInfo(false);
+        }, 6000); // Show for 3 seconds
+
+        return () => clearTimeout(timer);
+    }, []);
     const infoItems = [
         {
             title: "Contact Information",
@@ -60,6 +70,22 @@ const Home: React.FC = () => {
                     </div>
                 ))}
             </Carousel>
+
+            {showInfo && (
+                <div style={{
+                    backgroundColor: '#ffeb3b', // Flashy color
+                    color: '#000',
+                    padding: '10px',
+                    textAlign: 'center',
+                    marginTop: '20px',
+                    fontSize: '18px',
+                    animation: 'flash 2s', // Add flash effect
+                    position: 'relative',
+                    zIndex: 1
+                }}>
+                    Important: Please follow all club rules and respect others!
+                </div>
+            )}
         </div>
     );
 };
