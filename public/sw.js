@@ -1,22 +1,14 @@
-self.addEventListener('push', (event) => {
-    const data = event.data.json();
-    console.log('Push received:', data);
-
-    const options = {
-        body: data.body,
-        icon: data.icon || '/icon.png',
-        badge: '/badge.png',
-    };
-
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
     event.waitUntil(
-        self.registration.showNotification(data.title, options)
+        clients.openWindow('/')
     );
 });
 
 self.addEventListener('push', function (event) {
-    console.log('Push event received:', event);
+    // console.log('Push event received:', event);
     const data = event.data ? event.data.json() : {};
-    console.log('Push data:', data);
+    // console.log('Push data:', data);
 
     const title = data.title || 'Default Title';
     const options = {

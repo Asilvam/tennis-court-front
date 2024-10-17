@@ -3,6 +3,8 @@ import M from 'materialize-css';
 import Swal from 'sweetalert2';
 import Select from "react-select";
 import axios from "axios";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface ModalProps {
     id: string;
@@ -14,20 +16,20 @@ interface ModalProps {
         time: string;
         player1: string;
         isPayed: boolean;
-    };
+    }|null;
     playersNames: string[];
     onClose: () => void;
 }
 
 interface ReserveFormData {
     court: string;
-    player1: string;
+    player1: string | undefined;
     player2: string;
     player3: string;
     player4: string;
-    dateToPlay: string;
-    turn: string;
-    isPaidNight: boolean;
+    dateToPlay: string | undefined;
+    turn: string | undefined;
+    isPaidNight: boolean | undefined;
     isVisit: boolean;
     visitName: string;
     isDouble: boolean;
@@ -35,15 +37,16 @@ interface ReserveFormData {
 }
 
 const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playersNames, onClose}) => {
+
     const initialFormData: ReserveFormData = {
-        court: 'Court '+selectedTimeSlot.courtId.toString(),
-        player1: selectedTimeSlot.player1,
+        court: 'Court '+selectedTimeSlot?.courtId.toString(),
+        player1: selectedTimeSlot?.player1,
         player2: '',
         player3: '',
         player4: '',
-        dateToPlay: selectedTimeSlot.date,
-        turn: selectedTimeSlot.time,
-        isPaidNight: selectedTimeSlot.isPayed,
+        dateToPlay: selectedTimeSlot?.date,
+        turn: selectedTimeSlot?.time,
+        isPaidNight: selectedTimeSlot?.isPayed,
         isVisit: false,
         visitName: '',
         isForRanking: true,
@@ -51,6 +54,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
+    const [generateLoading, setGenerateLoading] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -170,23 +174,42 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     const handleReserve = async () => {
-        if (validateForm()) {
-            await Swal.fire({
-                icon: 'success',
-                title: 'Reservation Successful',
-                text: 'Your reservation has been made!',
-            });
-            try {
-                const response = await axios.post(`${apiUrl}/court-reserve`, formData);
-                console.log('Reservation created successfully:', response.data);
-                return response.data; // Return the response data as needed
-            } catch (error) {
-                console.error('Error creating reservation:', error);
-                throw error; // Handle the error as necessary
+        setGenerateLoading(true);
+        if (!validateForm()) return;
+
+        try {
+            // Make API request to create reservation
+            const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+
+            // Show success message if the request was successful
+            if (response.status === 200 || response.status === 201) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Reservation Successful',
+                    text: 'Your reservation has been made!',
+                });
+            } else {
+                throw new Error('Unexpected response status');
             }
+
+            console.log('Reservation created successfully:', response.data);
+            return response.data; // Return the response data if needed
+        } catch (error) {
+            console.error('Error creating reservation:', error);
+            // Show error message if something went wrong
+            await Swal.fire({
+                icon: 'error',
+                title: 'Reservation Failed',
+                text: 'There was an issue creating your reservation. Please try again.',
+            });
+
+            throw error; // Rethrow the error if further handling is necessary
+        } finally {
+            setGenerateLoading(false);
+            onClose(); // Always close the modal regardless of success or failure
         }
-        onClose(); // Close the modal after successful reservation
     };
+
 
     return (
         <div id={id} className="modal">
@@ -307,9 +330,11 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 <button
                     className="modal-close btn waves-effect waves-light"
                     onClick={handleReserve}
+                    disabled={generateLoading} // Disable button when loading
                 >
-                    Reserve
+                    {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Reserve
                 </button>
+
                 <button
                     className="modal-close btn waves-effect waves-light"
                     style={{marginLeft: '20px'}} // Add margin here

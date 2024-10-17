@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import TimeSlot from './TimeSlot';
 import {DateTime} from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
 import {useLocation} from "react-router-dom";
 import Modal from './Modal';
+import badge from '/badge.svg';
 
 interface TimeSlotType {
     time: string;
@@ -32,6 +33,9 @@ const Dashboard: React.FC = () => {
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
+    const minDate = DateTime.now().toISODate();
+    const maxDate = DateTime.now().plus({ days: 2 }).toISODate();
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
@@ -57,10 +61,10 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = (courtId: number, time: string, isPayed:boolean) => {
-        setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
-        handleOpenModal({courtId, time, date: selectedDate, player1: namePlayer, isPayed})
-    };
+    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean) => {
+        setSelectedTimeSlot({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
+        handleOpenModal({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
+    }, [selectedDate, namePlayer]);
 
     const getPlayersNames = async () => {
         const playersNames = await axios.get(`${apiUrl}/register/names`, {
@@ -74,27 +78,42 @@ const Dashboard: React.FC = () => {
         setPlayersNames(namesWithoutMe);
     }
 
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
+            if (!response.data) throw new Error('No data received');
+            setCourts(response.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
-                if (!response.data) {
-                    throw new Error('No data received');
-                }
-                getPlayersNames();
-                setCourts(response.data);
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    console.error('Error fetching data:', error.message, error.response);
-                } else {
-                    console.error('Unexpected error:', (error as Error).message);
-                }
-            }
-        };
+        getPlayersNames();
+    }, []);
+
+    useEffect(() => {
         fetchData();
     }, [selectedDate]);
 
-    return (
+    return loading ? (
+        <div className="preloader-wrapper active">
+            <div className="spinner-layer spinner-blue-only">
+                <div className="circle-clipper left">
+                    <div className="circle"></div>
+                </div>
+                <div className="gap-patch">
+                    <div className="circle"></div>
+                </div>
+                <div className="circle-clipper right">
+                    <div className="circle"></div>
+                </div>
+            </div>
+        </div>
+    )  :(
         <div className="container">
             <div className="app">
                 <h3>Welcome, {namePlayer}!</h3>
@@ -104,14 +123,17 @@ const Dashboard: React.FC = () => {
                         type="date"
                         value={selectedDate}
                         onChange={handleDateChange}
-                        min={DateTime.now().toISODate()}
-                        max={DateTime.now().plus({days: 2}).toISODate()}// Minimum date set to today
+                        min={minDate}
+                        max={maxDate}// Minimum date set to today
                     />
                 </div>
                 <div className="courts-container">
                     {courts.map((court) => (
                         <div key={court.id} className="court-row">
-                            <h2>{court.name}</h2>
+                            <h2>
+                                <img src={badge} alt="Court Icon"
+                                     style={{width: '24px', height: '24px', marginRight: '8px'}}/> {court.name}
+                            </h2>
                             <div className="time-slots">
                                 {court.timeSlots.map((slot) => (
                                     <TimeSlot
@@ -126,7 +148,7 @@ const Dashboard: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {selectedTimeSlot && (
+                {isModalOpen && (
                     <div>
                         <Modal
                             id="timeSlotModal"

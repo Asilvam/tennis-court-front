@@ -30,13 +30,11 @@ const subscribeUserToPush = async () => {
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToUint8Array(apiVapidPublicKey), // Replace with your VAPID public key
         });
-
         await axios.post(`${apiUrl}/notifications/subscribe`, subscription, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-
         console.log('User subscribed to push notifications:', subscription);
     } catch (error) {
         console.error('Failed to subscribe the user to push notifications:', error);
@@ -48,9 +46,9 @@ const registerServiceWorkerAndSubscribe = () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .register('/sw.js')
-            .then((registration) => {
+            .then( async (registration) => {
                 console.log('Service Worker registered with scope:', registration.scope);
-                subscribeUserToPush();
+                await subscribeUserToPush();
             })
             .catch((error) => {
                 console.error('Service Worker registration failed:', error);
@@ -60,8 +58,23 @@ const registerServiceWorkerAndSubscribe = () => {
 
 const Main: React.FC = () => {
     useEffect(() => {
-        registerServiceWorkerAndSubscribe();
+        const subscribeToPush = async () => {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const existingSubscription = await registration.pushManager.getSubscription();
+
+                if (!existingSubscription) {
+                    registerServiceWorkerAndSubscribe();
+                } else {
+                    console.log('User is already subscribed:', existingSubscription);
+                }
+            } catch (error) {
+                console.error('Failed to check subscription or register service worker:', error);
+            }
+        };
+        subscribeToPush();
     }, []);
+
 
     return <App />;
 };
