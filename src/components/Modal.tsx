@@ -239,6 +239,12 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 placeholder="Select a player 2"
                                 isSearchable
                                 isDisabled={formData.isVisit} // Disable if 'isVisit' is true
+                                menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
+                                maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
+                                menuPlacement="auto"              // Auto placement to decide whether to drop up or down
+                                styles={{
+                                    menuPortal: base => ({ ...base, zIndex: 9999 }) // Set high z-index for dropdown
+                                }}
                             />
                         </div>
                         <div className="input-field-checked col s12">
@@ -290,9 +296,11 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Select a player 3"
                                             isSearchable
-                                            menuPortalTarget={document.body} // Attach the dropdown to body to avoid modal overlap
+                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
+                                            maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
+                                            menuPlacement="auto"              // Auto placement to decide whether to drop up or down
                                             styles={{
-                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
+                                                menuPortal: base => ({ ...base, zIndex: 9999 }) // Set high z-index for dropdown
                                             }}
                                         />
                                     </div>
@@ -308,13 +316,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Select a player 4"
                                             isSearchable
-                                            menuPortalTarget={document.body} // Attach the dropdown to body to avoid modal overlap
+                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
+                                            maxMenuHeight={200}               // Set max height for 5 players
+                                            menuPlacement="auto"              // Auto placement to adjust dropdown direction
                                             styles={{
                                                 menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
                                             }}
                                         />
                                     </div>
-
                                 </>
                             )}
                             <p>
