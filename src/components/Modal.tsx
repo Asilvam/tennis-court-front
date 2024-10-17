@@ -290,6 +290,10 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Select a player 3"
                                             isSearchable
+                                            menuPortalTarget={document.body} // Attach the dropdown to body to avoid modal overlap
+                                            styles={{
+                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
+                                            }}
                                         />
                                     </div>
                                     <div className="input-field col s12">
@@ -304,8 +308,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Select a player 4"
                                             isSearchable
+                                            menuPortalTarget={document.body} // Attach the dropdown to body to avoid modal overlap
+                                            styles={{
+                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
+                                            }}
                                         />
                                     </div>
+
                                 </>
                             )}
                             <p>
