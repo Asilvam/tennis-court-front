@@ -37,7 +37,7 @@ const Login: React.FC = () => {
                 text: `Welcome ${namePlayer}!`,
             });
             userContext?.setUserInfo({ ...userContext?.userInfo, name: namePlayer, email: username, role: role });
-            navigate('/dashboard');
+            navigate('/');
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 // Handle AxiosError specifically
