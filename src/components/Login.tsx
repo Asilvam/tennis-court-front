@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState<never | null>(null);
     const [generateLoading, setGenerateLoading] = useState(false);
     const {setToken} = useAuth();
     const navigate = useNavigate();
