@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string>('');
     const [generateLoading, setGenerateLoading] = useState(false);
     const {setToken} = useAuth();
     const navigate = useNavigate();
@@ -26,33 +26,26 @@ const Login: React.FC = () => {
         e.preventDefault();
         setGenerateLoading(true);
         try {
-            const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', { username, password });
-            const { accessToken, namePlayer, role } = response.data;
-
+            const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', {username, password});
+            const {accessToken, namePlayer, role} = response.data;
             setToken(accessToken);
-
-            // Show success message
             await Swal.fire({
                 icon: 'success',
                 title: 'Login Successful',
                 text: `Welcome ${namePlayer}!`,
             });
+            navigate('/dashboard', {state: {username, namePlayer, role}});
 
-            // Navigate to dashboard
-            navigate('/dashboard', { state: { username, namePlayer, role } });
-
-        } catch (err) {
-            console.error(err);
-
-            // Show error message
-            await Swal.fire({
-                icon: 'error',
-                title: 'Login Failed',
-                text: 'Please check your username and password.',
-            });
-
-            setError('Login failed');
-
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                // Handle AxiosError specifically
+                if (error.response) {
+                    // Server responded with a status code outside the range of 2xx
+                    console.log('Response data:', error.response.data);
+                    console.log('Response status:', error.response.status);
+                    setError(error.response.data.message);
+                }
+            }
         } finally {
             setGenerateLoading(false); // Stop loading spinner
         }
