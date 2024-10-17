@@ -89,7 +89,6 @@ const PlayerForm: React.FC = () => {
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formDataToSend);
-
             if (response.data.status === 400) {
                 await Swal.fire({
                     icon: 'error',
