@@ -89,23 +89,26 @@ const Navigation: React.FC = () => {
                         </Link>
                     </li>
                 )}
+                {tokenExists && (
                 <li>
                     <Link to="/dashboard" className="white-text"
                           onClick={() => sidenavRef.current?.classList.remove('open')}>
                         Dashboard Courts
                     </Link>
-                </li>
+                </li>)}
+                {tokenExists && (
                 <li>
                     <Link to="/" className="white-text"
                           onClick={() => sidenavRef.current?.classList.remove('open')}>
                         My Reserves
                     </Link>
-                </li>
+                </li>)}
+                {tokenExists && (
                 <li>
                     <a href="#!" className="white-text" onClick={handleLogout}>
                         Logout
                     </a>
-                </li>
+                </li>)}
             </ul>
         </>
     );
