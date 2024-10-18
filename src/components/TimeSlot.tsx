@@ -12,7 +12,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({ time, available, isPayed, onClick }
     return (
         <div
             className={`time-slot ${available ? 'available' : 'unavailable'} ${available && isPayed ? 'night' : ''}`}
-            onClick={available ? () => onClick(time) : undefined}
+            onClick={() => onClick(time) }
         >
             {time}
         </div>

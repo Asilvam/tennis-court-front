@@ -8,10 +8,22 @@ import badge from '/badge.svg';
 import Swal from "sweetalert2";
 import {UserContext} from "./UserContext.tsx";
 
+
+interface CourtReserve {
+    player1: string;              // Primary player (required)
+    player2?: string;             // Optional second player
+    player3?: string;             // Optional third player for doubles
+    player4?: string;             // Optional fourth player for doubles
+    isDouble: boolean;            // Indicates if the reservation is for doubles
+    isVisit: boolean;             // Indicates if the reservation involves a visitor
+    visitName?: string;           // Optional visitor name
+}
+
 interface TimeSlotType {
     time: string;
     available: boolean;
     isPayed: boolean;
+    data: CourtReserve | null;
 }
 
 interface CourtType {
@@ -73,10 +85,41 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean) => {
+    const showPlayerMatchInfo = (reservation: CourtReserve) => {
+        const { player1, player2, player3, player4, isDouble, isVisit, visitName } = reservation;
+
+        let playerInfo = '';
+
+        if (isDouble) {
+            // For doubles matches, show player 1 & 2 on separate lines vs player 3 & 4 on separate lines
+            playerInfo = `${player1} ${player2 ? player2 : ''}<br>vs<br>${player3 ? player3 : 'N/A'} ${player4 ? player4 : 'N/A'}`;
+        } else {
+            // For single matches, show player 1 on one line and vs player 2 or visitor name on the next line
+            if (isVisit) {
+                playerInfo = `${player1}<br>vs<br>${visitName ? visitName : 'Visitor'}`;
+            } else {
+                playerInfo = `${player1}<br>vs<br>${player2 ? player2 : 'N/A'}`;
+            }
+        }
+
+        // Show SweetAlert2 with match info
+        Swal.fire({
+            icon: 'info',
+            title: 'Match Information',
+            html: `<strong>${playerInfo}</strong>`,
+        });
+    };
+
+
+    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve | null) => {
+        if (!available && data) {
+          showPlayerMatchInfo(data)
+            return; // Stop further execution
+        }
         setSelectedTimeSlot({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
         handleOpenModal({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
     }, [selectedDate, namePlayer]);
+
 
     const getPlayersNames = async () => {
         const playersNames = await axios.get(`${apiUrl}/register/names`, {
@@ -153,7 +196,7 @@ const Dashboard: React.FC = () => {
                                         time={slot.time}
                                         available={slot.available}
                                         isPayed={slot.isPayed}
-                                        onClick={() => handleTimeSlotClick(court.id, slot.time, slot.isPayed)}
+                                        onClick={() => handleTimeSlotClick(court.id, slot.time, slot.isPayed, slot.available, slot.data)}
                                     />
                                 ))}
                             </div>

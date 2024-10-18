@@ -15,7 +15,6 @@
 
 .time-slot.unavailable {
     background-color: #f44336; /* Rojo para horarios no disponibles */
-    cursor: not-allowed;
 }
 
 .time-slot.night {
