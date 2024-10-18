@@ -23,7 +23,7 @@ interface TimeSlotType {
     time: string;
     available: boolean;
     isPayed: boolean;
-    data: CourtReserve | null;
+    data: CourtReserve;
 }
 
 interface CourtType {
@@ -85,35 +85,24 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const showPlayerMatchInfo = (reservation: CourtReserve) => {
-        const {player1, player2, player3, player4, isDouble, isVisit, visitName} = reservation;
-
-        let playerInfo = '';
-
-        if (isDouble) {
-            // For doubles matches, show player 1 & 2 on separate lines vs player 3 & 4 on separate lines
-            playerInfo = `${player1} ${player2 ? player2 : ''}<br>vs<br>${player3 ? player3 : 'N/A'} ${player4 ? player4 : 'N/A'}`;
-        } else {
-            // For single matches, show player 1 on one line and vs player 2 or visitor name on the next line
-            if (isVisit) {
-                playerInfo = `${player1}<br>vs<br>${visitName ? visitName : 'Visitor'}`;
-            } else {
-                playerInfo = `${player1}<br>vs<br>${player2 ? player2 : 'N/A'}`;
-            }
-        }
-
-        // Show SweetAlert2 with match info
-        Swal.fire({
-            icon: 'info',
-            title: 'Match Information',
-            html: `<strong>${playerInfo}</strong>`,
-        });
-    };
-
-
-    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve | null) => {
+    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve ) => {
         if (!available) {
-            showPlayerMatchInfo(data)
+            const {player1, player2, player3, player4, isDouble, isVisit, visitName} = data;
+            let playerInfo: string;
+            if (isDouble) {
+                playerInfo = `${player1} ${player2 ? player2 : ''}<br>vs<br>${player3 ? player3 : 'N/A'} ${player4 ? player4 : 'N/A'}`;
+            } else {
+                if (isVisit) {
+                    playerInfo = `${player1}<br>vs<br>${visitName ? visitName : 'Visitor'}`;
+                } else {
+                    playerInfo = `${player1}<br>vs<br>${player2 ? player2 : 'N/A'}`;
+                }
+            }
+            Swal.fire({
+                icon: 'info',
+                title: 'Match Information',
+                html: `<strong>${playerInfo}</strong>`,
+            });
             return; // Stop further execution
         }
         setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
