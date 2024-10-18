@@ -41,14 +41,14 @@ const Dashboard: React.FC = () => {
         courtId: number;
         time: string;
         date: string;
-        player1: string|undefined;
+        player1: string | undefined;
         isPayed: boolean;
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const minDate = DateTime.now().toISODate();
-    const maxDate = DateTime.now().plus({ days: 2 }).toISODate();
+    const maxDate = DateTime.now().plus({days: 2}).toISODate();
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem('token');
@@ -73,8 +73,8 @@ const Dashboard: React.FC = () => {
         courtId: number;
         time: string;
         date: string;
-        player1: string|undefined;
-        isPayed:boolean;
+        player1: string | undefined;
+        isPayed: boolean;
     } | null>) => {
         setSelectedTimeSlot(timeSlot);
         setModalOpen(true);
@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
     };
 
     const showPlayerMatchInfo = (reservation: CourtReserve) => {
-        const { player1, player2, player3, player4, isDouble, isVisit, visitName } = reservation;
+        const {player1, player2, player3, player4, isDouble, isVisit, visitName} = reservation;
 
         let playerInfo = '';
 
@@ -112,12 +112,12 @@ const Dashboard: React.FC = () => {
 
 
     const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve | null) => {
-        if (!available && data) {
-          showPlayerMatchInfo(data)
+        if (!available) {
+            showPlayerMatchInfo(data)
             return; // Stop further execution
         }
-        setSelectedTimeSlot({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
-        handleOpenModal({ courtId, time, date: selectedDate, player1: namePlayer, isPayed });
+        setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
+        handleOpenModal({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
     }, [selectedDate, namePlayer]);
 
 
@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
         </div>
-    )  :(
+    ) : (
         <div className="container">
             <div className="app">
                 <h3>Welcome, {namePlayer}!</h3>
