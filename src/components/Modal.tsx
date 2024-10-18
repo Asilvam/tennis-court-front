@@ -92,7 +92,11 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         if (formData.isVisit) {
             if (!formData.visitName) {
                 isValid = false;
-                console.log('Visit name must not be empty.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Missing Visitor Name',
+                    text: 'Visit name must not be empty.',
+                });
             } else {
                 try {
                     const visitNameTrimmed = validateText(formData.visitName);
@@ -100,36 +104,61 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         ...prevState,
                         visitName: visitNameTrimmed.toString(),
                     }));
-                } catch (error) {
+                } catch (error:any) {
                     isValid = false;
-                    console.log('Error with visit name validation:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Error with visit name validation: ' + error.message,
+                    });
                 }
             }
         }
+
         const { player2, player3, player4 } = formData;
         if (formData.isDouble) {
             if (formData.isVisit) {
                 if (!player3 || !player4) {
                     isValid = false;
-                    console.log('Player 3 and Player 4 must not be empty.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Missing Players',
+                        text: 'Player 3 and Player 4 must not be empty.',
+                    });
                 } else if (new Set([player3, player4]).size !== 2) {
                     isValid = false;
-                    console.log('Player 3 and Player 4 must be distinct.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Duplicate Players',
+                        text: 'Player 3 and Player 4 must be distinct.',
+                    });
                 }
-            }
-            else {
+            } else {
                 if (!player2 || !player3 || !player4) {
                     isValid = false;
-                    console.log('Player 2, Player 3, and Player 4 must not be empty.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Missing Players',
+                        text: 'Player 2, Player 3, and Player 4 must not be empty.',
+                    });
                 } else if (new Set([player2, player3, player4]).size !== 3) {
                     isValid = false;
-                    console.log('Player 2, Player 3, and Player 4 must be distinct.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Duplicate Players',
+                        text: 'Player 2, Player 3, and Player 4 must be distinct.',
+                    });
                 }
             }
         } else if (!player2 && !formData.isVisit) {
             isValid = false;
-            console.log('Player 2 must not be empty.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Player',
+                text: 'Player 2 must not be empty.',
+            });
         }
+
         return isValid;
     };
 
@@ -176,12 +205,8 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const handleReserve = async () => {
         setGenerateLoading(true);
         if (!validateForm()) return;
-
         try {
-            // Make API request to create reservation
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
-
-            // Show success message if the request was successful
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
                     icon: 'success',
@@ -191,25 +216,30 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             } else {
                 throw new Error('Unexpected response status');
             }
-
             console.log('Reservation created successfully:', response.data);
             return response.data; // Return the response data if needed
         } catch (error) {
-            console.error('Error creating reservation:', error);
-            // Show error message if something went wrong
-            await Swal.fire({
-                icon: 'error',
-                title: 'Reservation Failed',
-                text: 'There was an issue creating your reservation. Please try again.',
-            });
-
-            throw error; // Rethrow the error if further handling is necessary
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    const { message } = error.response.data;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Reservation Error',
+                        text: `${message}`,  // Using <pre> to keep the format
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: 'Unable to communicate with the server.',
+                    });
+                }
+            }
         } finally {
             setGenerateLoading(false);
             onClose(); // Always close the modal regardless of success or failure
         }
     };
-
 
     return (
         <div id={id} className="modal">
@@ -352,7 +382,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 >
                     {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Reserve
                 </button>
-
                 <button
                     className="modal-close btn waves-effect waves-light"
                     style={{marginLeft: '20px'}} // Add margin here
@@ -361,7 +390,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Cancel
                 </button>
             </div>
-
         </div>
     );
 };
