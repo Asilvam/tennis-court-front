@@ -8,7 +8,6 @@ import badge from '/badge.svg';
 import Swal from "sweetalert2";
 import {UserContext} from "./UserContext.tsx";
 
-
 interface CourtReserve {
     player1: string;              // Primary player (required)
     player2?: string;             // Optional second player
@@ -36,7 +35,7 @@ const Dashboard: React.FC = () => {
     const userContext = useContext(UserContext);
     const namePlayer = userContext?.userInfo.name;
     const [courts, setCourts] = useState<CourtType[]>([]);
-    const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate()); // Default to today's date
+    const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
         courtId: number;
         time: string;
@@ -55,7 +54,6 @@ const Dashboard: React.FC = () => {
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedDate = event.target.value;
-
         if (selectedDate < minDate || selectedDate > maxDate) {
             Swal.fire({
                 icon: 'error',
@@ -64,7 +62,6 @@ const Dashboard: React.FC = () => {
             });
             return; // Stop further execution
         }
-
         setSelectedDate(selectedDate); // Update the selected date
         setSelectedTimeSlot(null); // Clear selected time slot when switching dates
     };
@@ -108,7 +105,6 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
         handleOpenModal({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
     }, [selectedDate, namePlayer]);
-
 
     const getPlayersNames = async () => {
         const playersNames = await axios.get(`${apiUrl}/register/names`, {
