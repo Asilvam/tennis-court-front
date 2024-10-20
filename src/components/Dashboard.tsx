@@ -136,8 +136,9 @@ const Dashboard: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        console.log('modal changed:', isModalOpen);
         fetchData();
-    }, [selectedDate]);
+    }, [selectedDate, isModalOpen]);
 
     return loading ? (
         <div className="preloader-wrapper active">

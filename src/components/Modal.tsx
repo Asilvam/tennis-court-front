@@ -206,6 +206,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         setGenerateLoading(true);
         if (!validateForm()) return;
         try {
+            Swal.fire({
+                title: 'Processing Reservation',
+                html: '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                backdrop: true,
+                didOpen: () => {
+                    Swal.showLoading(); // Display the spinner
+                },
+            });
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
@@ -237,6 +248,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             }
         } finally {
             setGenerateLoading(false);
+            Swal.close(); // Close the modal
             onClose(); // Always close the modal regardless of success or failure
         }
     };
