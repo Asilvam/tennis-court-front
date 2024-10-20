@@ -5,6 +5,7 @@ import Select from "react-select";
 import axios from "axios";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useNavigate} from "react-router-dom";
 
 interface ModalProps {
     id: string;
@@ -56,6 +57,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
     const [generateLoading, setGenerateLoading] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const modalElement = document.getElementById(id);
@@ -228,7 +230,8 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 throw new Error('Unexpected response status');
             }
             console.log('Reservation created successfully:', response.data);
-            return response.data; // Return the response data if needed
+            navigate('/');
+            // return // Return the response data if needed
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
