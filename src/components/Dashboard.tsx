@@ -46,6 +46,7 @@ const Dashboard: React.FC = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
+    const [activeReserve, setActiveReserve] = useState<CourtReserve | null>(null);
     const minDate = DateTime.now().toISODate();
     const maxDate = DateTime.now().plus({days: 2}).toISODate();
 
@@ -82,7 +83,7 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve ) => {
+    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve) => {
         if (!available) {
             const {player1, player2, player3, player4, isDouble, isVisit, visitName} = data;
             let playerInfo: string;
@@ -118,6 +119,20 @@ const Dashboard: React.FC = () => {
         setPlayersNames(namesWithoutMe);
     }
 
+    const getActiveReserves = async () => {
+        try {
+            const reserves = await axios.get(`${apiUrl}/court-reserve/active/${namePlayer}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setActiveReserve(reserves.data);
+            // console.log('reserves.data-->', reserves.data);
+        } catch (error){
+            console.log(error);
+        }
+    };
+
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -133,10 +148,11 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         getPlayersNames();
+        getActiveReserves()
     }, []);
 
     useEffect(() => {
-        console.log('modal changed:', isModalOpen);
+        // console.log('modal changed:', isModalOpen);
         fetchData();
     }, [selectedDate]);
 
@@ -157,7 +173,8 @@ const Dashboard: React.FC = () => {
     ) : (
         <div className="container">
             <div className="app">
-                <h3>Welcome, {namePlayer}!</h3>
+                <h4>Welcome, {namePlayer}!</h4>
+                {activeReserve && <p className="red-text">Remember you have actives reserves</p>}
                 <div className="date-picker">
                     <label>Select a Date: </label>
                     <input
@@ -171,10 +188,10 @@ const Dashboard: React.FC = () => {
                 <div className="courts-container">
                     {courts.map((court) => (
                         <div key={court.id} className="court-row">
-                            <h2>
+                            <h5>
                                 <img src={badge} alt="Court Icon"
                                      style={{width: '24px', height: '24px', marginRight: '8px'}}/> {court.name}
-                            </h2>
+                            </h5>
                             <div className="time-slots">
                                 {court.timeSlots.map((slot) => (
                                     <TimeSlot

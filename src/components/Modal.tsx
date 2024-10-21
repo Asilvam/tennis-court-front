@@ -6,6 +6,7 @@ import axios from "axios";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
+import {DateTime} from "luxon";
 
 interface ModalProps {
     id: string;
@@ -15,9 +16,9 @@ interface ModalProps {
         courtId: number;
         date: string;
         time: string;
-        player1: string|undefined;
+        player1: string | undefined;
         isPayed: boolean;
-    }|null;
+    } | null;
     playersNames: string[];
     onClose: () => void;
 }
@@ -40,7 +41,7 @@ interface ReserveFormData {
 const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playersNames, onClose}) => {
 
     const initialFormData: ReserveFormData = {
-        court: 'Court '+selectedTimeSlot?.courtId.toString(),
+        court: 'Court ' + selectedTimeSlot?.courtId.toString(),
         player1: selectedTimeSlot?.player1,
         player2: '',
         player3: '',
@@ -58,6 +59,9 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const [generateLoading, setGenerateLoading] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
+    const timezone = 'America/Santiago'; // Chile timezone
+    const currentTime = DateTime.now().setZone(timezone);
+    const today = currentTime.startOf('day');
 
     useEffect(() => {
         const modalElement = document.getElementById(id);
@@ -91,6 +95,28 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
 
     const validateForm = () => {
         let isValid = true;
+        if (formData.turn) {
+            if (formData.dateToPlay != null) {
+                const reservationDate = DateTime.fromISO(formData.dateToPlay, {zone: timezone});
+                const isToday = reservationDate.hasSame(today, 'day');
+                if (isToday) {
+                    const [start, end] = formData.turn.split('-');
+                    const startTime = DateTime.fromFormat(start, 'HH:mm', { zone: timezone });
+                    const endTime = DateTime.fromFormat(end, 'HH:mm', { zone: timezone });
+                    const isWithinTimeRange = (currentTime >= startTime && currentTime < endTime) || currentTime < startTime;
+                    if (!isWithinTimeRange) {
+                        isValid = false;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'The selected time is not available. Please select a different time.',
+                        });
+                    }
+                }
+            }
+
+
+        }
         if (formData.isVisit) {
             if (!formData.visitName) {
                 isValid = false;
@@ -106,7 +132,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         ...prevState,
                         visitName: visitNameTrimmed.toString(),
                     }));
-                } catch (error:any) {
+                } catch (error: any) {
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
@@ -117,7 +143,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             }
         }
 
-        const { player2, player3, player4 } = formData;
+        const {player2, player3, player4} = formData;
         if (formData.isDouble) {
             if (formData.isVisit) {
                 if (!player3 || !player4) {
@@ -167,14 +193,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
-        const { name, value, type } = e.target;
+        const {name, value, type} = e.target;
         if (type === 'checkbox') {
-            const { checked } = e.target as HTMLInputElement;
+            const {checked} = e.target as HTMLInputElement;
             setFormData((prevState) => ({
                 ...prevState,
                 [name]: checked, // Update with checkbox true/false value
             }));
-            if (name  === 'isVisit') {
+            if (name === 'isVisit') {
                 // console.log('isVisit:', checked);
                 setFormData((prevState) => ({
                     ...prevState,
@@ -182,7 +208,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     isForRanking: false, // Update with checkbox true/false value
                 }));
             }
-            if (name  === 'isVisit' && !checked) {
+            if (name === 'isVisit' && !checked) {
                 setFormData((prevState) => ({
                     ...prevState,
                     visitName: '', // Update with checkbox true/false value
@@ -206,19 +232,22 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
 
     const handleReserve = async () => {
         setGenerateLoading(true);
-        if (!validateForm()) return;
+        if (!validateForm()) {
+            setGenerateLoading(false); // Reset loading state if form is invalid
+            return;
+        }
         try {
             Swal.fire({
                 title: 'Processing Reservation',
-                html: '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>',
+                text: 'Please wait while your reservation is being processed.',
                 showConfirmButton: false,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                backdrop: true,
                 didOpen: () => {
-                    Swal.showLoading(); // Display the spinner
+                    Swal.showLoading(); // Display the default spinner from SweetAlert2
                 },
             });
+
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
@@ -226,20 +255,21 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     title: 'Reservation Successful',
                     text: 'Your reservation has been made!',
                 });
+                navigate('/'); // Redirect after successful reservation
             } else {
                 throw new Error('Unexpected response status');
             }
-            console.log('Reservation created successfully:', response.data);
-            navigate('/');
-            // return // Return the response data if needed
+
         } catch (error) {
+            // console.log(error);
+            Swal.close(); // Ensure the previous Swal is closed before opening a new one
             if (axios.isAxiosError(error)) {
-                if (error.response) {
+                if (error.response && error.response.data && error.response.data.message) {
                     const { message } = error.response.data;
                     Swal.fire({
                         icon: 'error',
                         title: 'Reservation Error',
-                        text: `${message}`,  // Using <pre> to keep the format
+                        text: message || 'There was an issue with your reservation. Please try again.',
                     });
                 } else {
                     Swal.fire({
@@ -248,13 +278,19 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         text: 'Unable to communicate with the server.',
                     });
                 }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Unexpected Error',
+                    text: 'An unexpected error occurred. Please try again later.',
+                });
             }
         } finally {
             setGenerateLoading(false);
-            Swal.close(); // Close the modal
-            onClose(); // Always close the modal regardless of success or failure
+            onClose(); // Trigger any modal close functionality
         }
     };
+
 
     return (
         <div id={id} className="modal">
@@ -288,7 +324,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
                                 menuPlacement="auto"              // Auto placement to decide whether to drop up or down
                                 styles={{
-                                    menuPortal: base => ({ ...base, zIndex: 9999 }) // Set high z-index for dropdown
+                                    menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
                                 }}
                             />
                         </div>
@@ -345,7 +381,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
                                             menuPlacement="auto"              // Auto placement to decide whether to drop up or down
                                             styles={{
-                                                menuPortal: base => ({ ...base, zIndex: 9999 }) // Set high z-index for dropdown
+                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
                                             }}
                                         />
                                     </div>
