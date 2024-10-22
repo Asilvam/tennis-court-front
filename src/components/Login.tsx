@@ -1,11 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {useAuth} from "./AuthContext.tsx";
 import {Link, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
-import {UserContext} from './UserContext';
+import {useUser} from './UserContext';
 
 export interface LoginResponse {
     accessToken: string;
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState<never | null>(null);
     const [generateLoading, setGenerateLoading] = useState(false);
     const {setToken} = useAuth();
-    const userContext = useContext(UserContext);
+    const {setUserInfo} = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,12 +31,12 @@ const Login: React.FC = () => {
             const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', {username, password});
             const {accessToken, namePlayer, role} = response.data;
             setToken(accessToken);
+            setUserInfo({name: namePlayer, email: username, role});
             await Swal.fire({
                 icon: 'success',
                 title: 'Login Successful',
                 text: `Welcome ${namePlayer}!`,
             });
-            userContext?.setUserInfo({ ...userContext?.userInfo, name: namePlayer, email: username, role: role });
             navigate('/');
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {

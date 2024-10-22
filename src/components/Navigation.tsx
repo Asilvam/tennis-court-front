@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {existTokenInLocalStorage, removeTokenFromLocalStorage} from '../utils/tokenUtils';
 import Swal from 'sweetalert2';
@@ -6,7 +6,6 @@ import {
     existUserInfoInLocalStorage,
     removeUserInfoFromLocalStorage
 } from "../utils/userUtils.ts";
-import {UserContext} from "./UserContext.tsx";
 
 declare const M: any;
 
@@ -43,13 +42,6 @@ const Navigation: React.FC = () => {
     };
 
     const tokenExists = existTokenInLocalStorage();
-    const userContext = useContext(UserContext);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const rolePlayer = userContext?.userInfo.role;
-    if (rolePlayer === 'admin') {
-        setIsAdmin(true);
-    }
-
     return (
         <>
             {/* Navigation bar */}
@@ -123,7 +115,7 @@ const Navigation: React.FC = () => {
                             My Reserves
                         </Link>
                     </li>)}
-                {tokenExists && isAdmin && (
+                {tokenExists && (
                     <li>
                         <Link to="/adminregister" className="white-text"
                               onClick={() => sidenavRef.current?.classList.remove('open')}>

@@ -10,6 +10,8 @@ import PlayerForm from './components/PlayerForm.tsx';
 import AdminRegister from './components/AdminRegister.tsx';
 import Navigation from './components/Navigation.tsx';
 import ReservationSummary from "./components/ReservationSummary.tsx";
+import Unauthorized from "./components/Unauthorized.tsx";
+import NotFound from "./components/NotFound.tsx";
 
 const App: React.FC = () => {
     return (
@@ -31,8 +33,10 @@ const App: React.FC = () => {
                                 <Route path="/dashboard"
                                        element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
-                                       element={<ProtectedRoute><AdminRegister/></ProtectedRoute>}/>
-                                {/* Add other routes here */}
+                                       element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
+                                {/* Unauthorized access page */}
+                                <Route path="/unauthorized" element={<Unauthorized />} />
+                                <Route path="*" element={<NotFound/>}/>
                             </Routes>
                         </div>
                     </div>

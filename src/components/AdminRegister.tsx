@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Swal from 'sweetalert2';
 import M from 'materialize-css';
 import axios from "axios";
+import Select from 'react-select';
 
 interface Register {
     namePlayer: string;
@@ -18,27 +19,49 @@ interface Register {
 }
 
 const AdminRegister: React.FC = () => {
+
+    const initialEditUser: Register = {
+        namePlayer: '',             // Empty string for player's name
+        category: '',               // Empty string for category
+        email: '',                  // Empty string for email
+        cellular: '',               // Empty string for cellular number
+        pwd: '',                    // Empty string for password
+        statePlayer: false,         // Default state is inactive (false)
+        emailVerified: false,       // Default email verification status is false
+        updatePayment: false,       // Default payment update status is false
+        verificationToken: '',      // Empty string for verification token
+        points: '0',                // Default points as a string (can be '0' or '0 points')
+        role: 'user'                // Default role is 'user'
+    };
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [users, setUsers] = useState<Register[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
-    const [editUser, setEditUser] = useState<Register | null>(null); // State for editing user
+    const [editUser, setEditUser] = useState<Register >(initialEditUser); // State for editing user
+
+    const categoryOptions = [
+        { value: 'A', label: 'A' },
+        { value: 'B', label: 'B' },
+        { value: 'C', label: 'C' },
+        { value: 'D', label: 'D' },
+    ];
+
+    const fetchRegisters = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/register`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setUsers(data); // Assuming data is an array of users
+        } catch (error) {
+            console.error('Error fetching registers:', error);
+            Swal.fire('Error', 'Failed to fetch registers', 'error');
+        }
+    };
 
     useEffect(() => {
-        const fetchRegisters = async () => {
-            try {
-                const response = await fetch(`${apiUrl}/register`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setUsers(data); // Assuming data is an array of users
-            } catch (error) {
-                console.error('Error fetching registers:', error);
-                Swal.fire('Error', 'Failed to fetch registers', 'error');
-            }
-        };
         fetchRegisters();
-
         // Initialize Materialize Modal
         const modalElems = document.querySelectorAll('.modal');
         M.Modal.init(modalElems);
@@ -82,6 +105,8 @@ const AdminRegister: React.FC = () => {
             } catch (error) {
                 console.error('Error updating user:', error);
                 Swal.fire('Error', 'Failed to update user.', 'error');
+            } finally {
+                fetchRegisters()
             }
         }
     };
@@ -191,24 +216,23 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* Category */}
-                            <div className="input-field"
-                                 style={{marginTop: '10px'}}>
-                                <select
+                            <div className="input-field" style={{paddingTop: '10px'}}>
+                                <Select
                                     name="category"
-                                    value={editUser.category}
-                                    onChange={handleInputChange}
-                                    className="browser-default"
-                                >
-                                    <option value="" disabled>
-                                        Choose category
-                                    </option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                                <label className="active">Category
-                                </label>
+                                    value={categoryOptions.find(option => option.value === editUser.category)}
+                                    onChange={(selectedOption) =>
+                                        setEditUser((prevState) => ({
+                                            ...prevState,
+                                            category: selectedOption ? selectedOption.value : '',
+                                        }))
+                                    }
+                                    options={categoryOptions}
+                                    placeholder="Choose category"
+                                    isSearchable
+                                    className="react-select-container"
+                                    classNamePrefix="react-select"
+                                />
+                                <label className="active">Category</label>
                             </div>
 
                             {/* Points */}
@@ -223,8 +247,8 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* State Player */}
-                            <div className="input-field" style={{ marginTop: '10px' }}>
-                                <label style={{ display: 'flex', alignItems: 'left' }}>
+                            <div className="input-field" style={{marginTop: '10px'}}>
+                                <label style={{display: 'flex', alignItems: 'left'}}>
                                     <input
                                         type="checkbox"
                                         name="statePlayer"
@@ -236,13 +260,13 @@ const AdminRegister: React.FC = () => {
                                             })
                                         }
                                     />
-                                    <span style={{ marginLeft: '10px' }}>State Player</span>
+                                    <span style={{marginLeft: '10px'}}>State Player</span>
                                 </label>
                             </div>
 
                             {/* Update Payment */}
-                            <div className="input-field" style={{ marginTop: '60px' }}>
-                                <label style={{ display: 'flex', alignItems: 'right' }}>
+                            <div className="input-field" style={{marginTop: '60px'}}>
+                                <label style={{display: 'flex', alignItems: 'right'}}>
                                     <input
                                         type="checkbox"
                                         name="updatePayment"
@@ -254,20 +278,21 @@ const AdminRegister: React.FC = () => {
                                             })
                                         }
                                     />
-                                    <span style={{ marginLeft: '10px' }}>Update Payment</span>
+                                    <span style={{marginLeft: '10px'}}>Update Payment</span>
                                 </label>
                             </div>
 
                         </form>
                     )}
                 </div>
-                <div className="modal-footer">
-                    <button className="modal-close btn red"
-                            style={{marginRight: '20px'}}
-                    >Cancel
+                <div className="modal-footer"
+                     style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 20px'}}>
+                    <button className="modal-close btn red" style={{marginRight: '10px'}}>
+                        Cancel
                     </button>
                     <button className="btn green" onClick={handleSave}>Save</button>
                 </div>
+
             </div>
         </div>
     );

@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
                         <div key={court.id} className="court-row">
                             <h5>
                                 <img src={badge} alt="Court Icon"
-                                     style={{width: '24px', height: '24px', marginRight: '8px'}}/> {court.name}
+                                     style={{width: '20px', height: '20px', marginRight: '8px'}}/> {court.name}
                             </h5>
                             <div className="time-slots">
                                 {court.timeSlots.map((slot) => (

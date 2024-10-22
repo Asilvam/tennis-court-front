@@ -1,4 +1,4 @@
-import React, {createContext, useState, ReactNode, useEffect} from 'react';
+import React, {createContext, useState, ReactNode, useEffect, useContext} from 'react';
 
 // Define the user info type
 interface UserInfo {
@@ -36,4 +36,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             {children}
         </UserContext.Provider>
     );
+};
+
+export const useUser = (): UserContextType => {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('useUser must be used within a UserProvider');
+    }
+    return context;
 };
