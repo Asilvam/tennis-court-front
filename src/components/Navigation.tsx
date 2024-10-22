@@ -1,24 +1,30 @@
-import React, {useEffect, useRef} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {existTokenInLocalStorage, removeTokenFromLocalStorage} from '../utils/tokenUtils';
+import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { existTokenInLocalStorage, removeTokenFromLocalStorage } from '../utils/tokenUtils';
 import {
-    existUserInfoInLocalStorage,
-    removeUserInfoFromLocalStorage
-} from "../utils/userUtils.ts";
+    getUserInfoFromLocalStorage,
+    removeUserInfoFromLocalStorage,
+} from '../utils/userUtils.ts';
 
 declare const M: any;
 
 const Navigation: React.FC = () => {
-    const sidenavRef = useRef<HTMLUListElement>(null); // Reference to the sidenav element
+    const sidenavRef = useRef<HTMLUListElement>(null);
     const navigate = useNavigate();
+
+    const tokenExists = existTokenInLocalStorage();
+    const isUserRoleAdmin = getUserInfoFromLocalStorage() === 'admin';
 
     useEffect(() => {
         const dropdownElems = document.querySelectorAll('.dropdown-trigger');
-        M.Dropdown.init(dropdownElems, {alignment: 'right'});
+        M.Dropdown.init(dropdownElems, { alignment: 'right' });
+
         const sidenavInstance = M.Sidenav.init(sidenavRef.current, {});
         const closeSidenavOnClick = () => sidenavInstance?.close();
+
         sidenavInstance.el.addEventListener('click', closeSidenavOnClick);
+
         return () => {
             sidenavInstance.el.removeEventListener('click', closeSidenavOnClick);
             sidenavInstance?.destroy();
@@ -26,28 +32,31 @@ const Navigation: React.FC = () => {
     }, []);
 
     const handleLogout = () => {
-        if (existTokenInLocalStorage()) {
+        if (tokenExists) {
             removeTokenFromLocalStorage();
+            removeUserInfoFromLocalStorage();
             Swal.fire({
                 icon: 'success',
                 title: 'Logged out successfully!',
                 showConfirmButton: false,
                 timer: 1500,
             });
+            navigate('/');
         }
-        if (existUserInfoInLocalStorage()){
-            removeUserInfoFromLocalStorage();
-        }
-        navigate('/');
     };
 
-    const tokenExists = existTokenInLocalStorage();
+    const navItems = [
+        { to: '/dashboard', label: 'Reserves Courts', show: tokenExists },
+        { to: '/', label: 'My Reserves', show: tokenExists },
+        { to: '/adminregister', label: 'Admin Reserves', show: tokenExists && isUserRoleAdmin },
+    ];
+
     return (
         <>
             {/* Navigation bar */}
             <nav className="green darken-4">
                 <div className="nav-wrapper">
-                    <Link to="/" className="brand-logo" style={{marginLeft: '20px'}}>
+                    <Link to="/" className="brand-logo" style={{ marginLeft: '20px' }}>
                         Tennis Club
                     </Link>
                     <a href="/" data-target="mobile-nav" className="sidenav-trigger">
@@ -67,67 +76,55 @@ const Navigation: React.FC = () => {
                     </ul>
                 </div>
             </nav>
+
             {/* Dropdown Structure */}
             <ul id="dropdown1" className="dropdown-content">
-                <li>
-                    <Link to="/dashboard">
-                        Reserves Courts
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/">
-                        My Reserves
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/">
-                        Admin Reserves
-                    </Link>
-                </li>
-                <li className="divider"></li>
-                <li>
-                    <a href="#!" onClick={handleLogout}>
-                        Logout
-                    </a>
-                </li>
+                {navItems.map(
+                    (item, index) =>
+                        item.show && (
+                            <li key={index}>
+                                <Link to={item.to}>{item.label}</Link>
+                            </li>
+                        )
+                )}
+                {tokenExists && (
+                    <>
+                        <li className="divider"></li>
+                        <li>
+                            <a href="#!" onClick={handleLogout}>
+                                Logout
+                            </a>
+                        </li>
+                    </>
+                )}
             </ul>
+
             {/* Mobile Navigation (sidenav) */}
             <ul className="sidenav green darken-4" id="mobile-nav" ref={sidenavRef}>
                 {!tokenExists && (
                     <li>
-                        <Link to="/login" className="white-text"
-                              onClick={() => sidenavRef.current?.classList.remove('open')}>
+                        <Link to="/login" className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
                             Login
                         </Link>
                     </li>
                 )}
-                {tokenExists && (
-                    <li>
-                        <Link to="/dashboard" className="white-text"
-                              onClick={() => sidenavRef.current?.classList.remove('open')}>
-                            Reserves Courts
-                        </Link>
-                    </li>)}
-                {tokenExists && (
-                    <li>
-                        <Link to="/" className="white-text"
-                              onClick={() => sidenavRef.current?.classList.remove('open')}>
-                            My Reserves
-                        </Link>
-                    </li>)}
-                {tokenExists && (
-                    <li>
-                        <Link to="/adminregister" className="white-text"
-                              onClick={() => sidenavRef.current?.classList.remove('open')}>
-                            Admin Reserves
-                        </Link>
-                    </li>)}
+                {navItems.map(
+                    (item, index) =>
+                        item.show && (
+                            <li key={index}>
+                                <Link to={item.to} className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
+                                    {item.label}
+                                </Link>
+                            </li>
+                        )
+                )}
                 {tokenExists && (
                     <li>
                         <a href="#!" className="white-text" onClick={handleLogout}>
                             Logout
                         </a>
-                    </li>)}
+                    </li>
+                )}
             </ul>
         </>
     );
