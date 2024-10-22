@@ -3,8 +3,6 @@ import M from 'materialize-css';
 import Swal from 'sweetalert2';
 import Select from "react-select";
 import axios from "axios";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
 
@@ -56,7 +54,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
-    const [generateLoading, setGenerateLoading] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const timezone = 'America/Santiago'; // Chile timezone
@@ -114,8 +111,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     }
                 }
             }
-
-
         }
         if (formData.isVisit) {
             if (!formData.visitName) {
@@ -132,7 +127,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         ...prevState,
                         visitName: visitNameTrimmed.toString(),
                     }));
-                } catch (error: any) {
+                } catch (error:any) {
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
@@ -142,7 +137,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 }
             }
         }
-
         const {player2, player3, player4} = formData;
         if (formData.isDouble) {
             if (formData.isVisit) {
@@ -231,9 +225,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     const handleReserve = async () => {
-        setGenerateLoading(true);
         if (!validateForm()) {
-            setGenerateLoading(false); // Reset loading state if form is invalid
             return;
         }
         try {
@@ -255,7 +247,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     title: 'Reservation Successful',
                     text: 'Your reservation has been made!',
                 });
-                navigate('/'); // Redirect after successful reservation
+                navigate('/summary', { state: { formData } });
             } else {
                 throw new Error('Unexpected response status');
             }
@@ -286,11 +278,9 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 });
             }
         } finally {
-            setGenerateLoading(false);
             onClose(); // Trigger any modal close functionality
         }
     };
-
 
     return (
         <div id={id} className="modal">
@@ -321,7 +311,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 isSearchable
                                 isDisabled={formData.isVisit} // Disable if 'isVisit' is true
                                 menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
+                                maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
                                 menuPlacement="auto"              // Auto placement to decide whether to drop up or down
                                 styles={{
                                     menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
@@ -378,7 +368,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             placeholder="Select a player 3"
                                             isSearchable
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={200}               // Set max height (adjust for 5 players, typically around 200px)
+                                            maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
                                             menuPlacement="auto"              // Auto placement to decide whether to drop up or down
                                             styles={{
                                                 menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
@@ -398,7 +388,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             placeholder="Select a player 4"
                                             isSearchable
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={200}               // Set max height for 5 players
+                                            maxMenuHeight={160}               // Set max height for 5 players
                                             menuPlacement="auto"              // Auto placement to adjust dropdown direction
                                             styles={{
                                                 menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
@@ -429,9 +419,8 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 <button
                     className="modal-close btn waves-effect waves-light"
                     onClick={handleReserve}
-                    disabled={generateLoading} // Disable button when loading
                 >
-                    {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Reserve
+                    Reserve
                 </button>
                 <button
                     className="modal-close btn waves-effect waves-light"

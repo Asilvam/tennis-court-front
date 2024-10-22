@@ -9,6 +9,7 @@ import Home from './components/Home.tsx';
 import PlayerForm from './components/PlayerForm.tsx';
 import AdminRegister from './components/AdminRegister.tsx';
 import Navigation from './components/Navigation.tsx';
+import ReservationSummary from "./components/ReservationSummary.tsx";
 
 const App: React.FC = () => {
     return (
@@ -25,6 +26,8 @@ const App: React.FC = () => {
                                        element={<Login/>}/>
                                 <Route path="/register"
                                        element={<PlayerForm/>}/>
+                                <Route path="/summary"
+                                       element={<ReservationSummary/>}/>
                                 <Route path="/dashboard"
                                        element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
