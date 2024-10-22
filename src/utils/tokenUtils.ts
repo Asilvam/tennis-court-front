@@ -25,7 +25,7 @@ const existTokenInLocalStorage = (): boolean => !!localStorage.getItem('token');
 const removeTokenFromLocalStorage = (): boolean => {
     if (localStorage.getItem('token')) {
         localStorage.removeItem('token');
-        console.log('Token removed from localStorage');
+        // console.log('Token removed from localStorage');
         return true;
     }
         return false;

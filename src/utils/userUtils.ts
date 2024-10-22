@@ -32,7 +32,7 @@ export const existUserInfoInLocalStorage = (): boolean => !!localStorage.getItem
 export const removeUserInfoFromLocalStorage = (): boolean => {
     if (localStorage.getItem('userInfo')) {
         localStorage.removeItem('userInfo');
-        console.log('userInfo removed from localStorage');
+        // console.log('userInfo removed from localStorage');
         return true;
     }
     return false;
