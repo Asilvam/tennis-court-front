@@ -187,41 +187,29 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
-        const {name, value, type} = e.target;
-        if (type === 'checkbox') {
-            const {checked} = e.target as HTMLInputElement;
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: checked, // Update with checkbox true/false value
-            }));
-            if (name === 'isVisit') {
-                // console.log('isVisit:', checked);
-                setFormData((prevState) => ({
-                    ...prevState,
-                    player2: '', // Update with checkbox true/false value
-                    isForRanking: false, // Update with checkbox true/false value
-                }));
+        const {checked} = e.target as HTMLInputElement;
+        const { name, value, type } = e.target;
+        setFormData((prevState) => {
+            const updatedState = { ...prevState, [name]: type === 'checkbox' ? checked : value };
+            if (type === 'checkbox') {
+                if (name === 'isVisit') {
+                    return {
+                        ...updatedState,
+                        player2: checked ? '' : updatedState.player2,
+                        isForRanking: checked ? false : true,
+                        visitName: checked ? updatedState.visitName : '', // Reset visitName when unchecked
+                    };
+                }
+                if (name === 'isDouble' && !checked) {
+                    return {
+                        ...updatedState,
+                        player3: '', // Reset player3 if isDouble is unchecked
+                        player4: '', // Reset player4 if isDouble is unchecked
+                    };
+                }
             }
-            if (name === 'isVisit' && !checked) {
-                setFormData((prevState) => ({
-                    ...prevState,
-                    visitName: '', // Update with checkbox true/false value
-                    isForRanking: true,
-                }));
-            }
-            if (name === 'isDouble' && !checked) {
-                setFormData((prevState) => ({
-                    ...prevState,
-                    player3: '', // Update with checkbox true/false value
-                    player4: '', // Update with checkbox true/false value
-                }));
-            }
-        } else {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: value, // Update with new input value
-            }));
-        }
+            return updatedState;
+        });
     };
 
     const handleReserve = async () => {
@@ -239,7 +227,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.showLoading(); // Display the default spinner from SweetAlert2
                 },
             });
-
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
@@ -251,7 +238,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             } else {
                 throw new Error('Unexpected response status');
             }
-
         } catch (error) {
             // console.log(error);
             Swal.close(); // Ensure the previous Swal is closed before opening a new one
