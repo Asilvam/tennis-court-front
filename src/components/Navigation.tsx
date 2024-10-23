@@ -14,7 +14,9 @@ const Navigation: React.FC = () => {
     const navigate = useNavigate();
 
     const tokenExists = existTokenInLocalStorage();
-    const isUserRoleAdmin = getUserInfoFromLocalStorage() === 'admin';
+    const userInfo = getUserInfoFromLocalStorage();
+    const isUserRoleAdmin = userInfo?.role === 'admin';
+
 
     useEffect(() => {
         const dropdownElems = document.querySelectorAll('.dropdown-trigger');
@@ -47,7 +49,7 @@ const Navigation: React.FC = () => {
 
     const navItems = [
         { to: '/dashboard', label: 'Reserves Courts', show: tokenExists },
-        { to: '/', label: 'My Reserves', show: tokenExists },
+        { to: '/myhistory', label: 'My Reserves history', show: tokenExists },
         { to: '/adminregister', label: 'Admin Reserves', show: tokenExists && isUserRoleAdmin },
     ];
 

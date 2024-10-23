@@ -15,7 +15,7 @@ interface Register {
     updatePayment: boolean;
     verificationToken: string;
     points: string;
-    role: 'admin' | 'user';
+    role: string;
 }
 
 const AdminRegister: React.FC = () => {
@@ -44,6 +44,11 @@ const AdminRegister: React.FC = () => {
         { value: 'B', label: 'B' },
         { value: 'C', label: 'C' },
         { value: 'D', label: 'D' },
+    ];
+
+    const roleOptions = [
+        { value: 'user', label: 'User' },
+        { value: 'admin', label: 'Admin' },
     ];
 
     const fetchRegisters = async () => {
@@ -182,6 +187,7 @@ const AdminRegister: React.FC = () => {
                                     name="email"
                                     value={editUser.email}
                                     onChange={handleInputChange}
+                                    disabled={true}
                                 />
                                 <label className="active">Email</label>
                             </div>
@@ -198,22 +204,28 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* Role */}
-                            <div className="input-field"
-                            >
-                                <select
+                            <div className="input-field" style={{paddingTop: '10px'}}>
+                                <Select
                                     name="role"
-                                    value={editUser.role}
-                                    onChange={handleInputChange}
-                                    className="browser-default"
-                                >
-                                    <option value="" disabled>
-                                        Choose role
-                                    </option>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
+                                    value={roleOptions.find(option => option.value === editUser.role)}
+                                    onChange={(selectedOption) =>
+                                        setEditUser((prevState) => ({
+                                            ...prevState,
+                                            role: selectedOption && (selectedOption.value === 'admin' || selectedOption.value === 'user')
+                                                ? selectedOption.value // Use the selected value if valid
+                                                : 'user', // Fallback to 'user' if null or invalid
+                                        }))
+                                    }
+
+                                    options={roleOptions}
+                                    placeholder="Choose role"
+                                    isSearchable
+                                    className="react-select-container"
+                                    classNamePrefix="react-select"
+                                />
                                 <label className="active">Role</label>
                             </div>
+
 
                             {/* Category */}
                             <div className="input-field" style={{paddingTop: '10px'}}>
@@ -223,7 +235,9 @@ const AdminRegister: React.FC = () => {
                                     onChange={(selectedOption) =>
                                         setEditUser((prevState) => ({
                                             ...prevState,
-                                            category: selectedOption ? selectedOption.value : '',
+                                            category: selectedOption
+                                                ? selectedOption.value
+                                                : 'C',
                                         }))
                                     }
                                     options={categoryOptions}

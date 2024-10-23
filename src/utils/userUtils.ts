@@ -4,19 +4,18 @@ interface UserInfo {
     role: 'admin' | 'user';
 }
 
-// Retrieve userInfo from localStorage
-export const getUserInfoFromLocalStorage = (): string | null => {
+export const getUserInfoFromLocalStorage = (): UserInfo | null => {
     const userInfoDataString = localStorage.getItem('userInfo');
-    if (userInfoDataString) {
-        try {
-            const userInfoData: UserInfo = JSON.parse(userInfoDataString);
-            return userInfoData.role;
-        } catch (error) {
-            console.error('Error parsing userInfo from localStorage:', error);
-            return null;
-        }
+    if (!userInfoDataString) {
+        return null;
     }
-    return null;
+    try {
+        const userInfo: UserInfo = JSON.parse(userInfoDataString);
+        return userInfo;
+    } catch (error) {
+        console.error('Failed to parse userInfo from localStorage:', error);
+        return null;
+    }
 };
 
 // Set userInfo in localStorage

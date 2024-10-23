@@ -12,6 +12,7 @@ import Navigation from './components/Navigation.tsx';
 import ReservationSummary from "./components/ReservationSummary.tsx";
 import Unauthorized from "./components/Unauthorized.tsx";
 import NotFound from "./components/NotFound.tsx";
+import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 
 const App: React.FC = () => {
     return (
@@ -32,6 +33,8 @@ const App: React.FC = () => {
                                        element={<ReservationSummary/>}/>
                                 <Route path="/dashboard"
                                        element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+                                <Route path="/myhistory"
+                                       element={<ProtectedRoute><MyHistoryReserve/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
                                        element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
                                 {/* Unauthorized access page */}

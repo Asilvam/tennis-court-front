@@ -1,10 +1,10 @@
 .time-slot {
     display: block;
-    width: 100px; /* Ancho del bloque */
-    height: 50px; /* Alto del bloque */
-    margin: 5px;
+    width: 50px; /* Ancho del bloque */
+    height: 30px; /* Alto del bloque */
+    margin: 1px;
     text-align: center;
-    line-height: 50px;
+    line-height: 30px;
     color: white;
     cursor: pointer;
 }
@@ -18,5 +18,5 @@
 }
 
 .time-slot.night {
-    background-color: #88e598; /* Rojo para horarios no disponibles */
+    background-color: #838383; /* Rojo para horarios no disponibles */
 }

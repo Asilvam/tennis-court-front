@@ -7,6 +7,7 @@ import Modal from './Modal';
 import badge from '/badge.svg';
 import Swal from "sweetalert2";
 import {UserContext} from "./UserContext.tsx";
+import {getTokenFromLocalStorage} from "../utils/tokenUtils.ts";
 
 interface CourtReserve {
     player1: string;              // Primary player (required)
@@ -51,7 +52,7 @@ const Dashboard: React.FC = () => {
     const maxDate = DateTime.now().plus({days: 2}).toISODate();
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token');
+    const token = getTokenFromLocalStorage();
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedDate = event.target.value;

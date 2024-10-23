@@ -6,9 +6,9 @@ interface TokenData {
 const getTokenFromLocalStorage = (): string | null => {
     const tokenDataString = localStorage.getItem('token');
     if (tokenDataString) {
-        const tokenData: TokenData = JSON.parse(tokenDataString);
-        // console.log('Token retrieved from localStorage');
-        return tokenData.token;
+        // const tokenData: TokenData = JSON.parse(tokenDataString);
+        console.log('Token retrieved from localStorage');
+        return tokenDataString;
     }
     return null;
 };

@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard.tsx";
 import PlayerForm from "./components/PlayerForm.tsx";
 import AdminRegister from "./components/AdminRegister.tsx";
 import ReservationSummary from "./components/ReservationSummary.tsx";
+import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const Router: React.FC = () => {
             <Route path="/register" element={<PlayerForm/>}/>
             <Route path="/adminregister" element={<AdminRegister/>}/>
             <Route path="/summary" element={<ReservationSummary/>}/>
+            <Route path="/myhistory" element={<MyHistoryReserve/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     );
