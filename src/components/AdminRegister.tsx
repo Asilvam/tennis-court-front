@@ -103,8 +103,6 @@ const AdminRegister: React.FC = () => {
                 }
 
                 Swal.fire('Success', `${editUser.namePlayer}'s information has been updated.`, 'success');
-
-                // Close the modal after a successful update
                 const modal = M.Modal.getInstance(document.getElementById('editModal')!);
                 modal.close();
             } catch (error) {
@@ -115,14 +113,13 @@ const AdminRegister: React.FC = () => {
             }
         }
     };
-    // Filter users based on search term
     const filteredUsers = users.filter(user =>
         user.namePlayer.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <div className="container">
-            <h4 className="left-align">Register List</h4>
+            <h6 className="left-align">Register List</h6>
             {/* Search Input */}
             <div className="input-field">
                 <input
@@ -149,7 +146,7 @@ const AdminRegister: React.FC = () => {
                         <td>{user.namePlayer}</td>
                         <td>{user.email}</td>
                         <td>
-                            <button className="btn yellow" onClick={() => handleEdit(user)}>
+                            <button className="btn green" onClick={() => handleEdit(user)}>
                                 Edit
                             </button>
                         </td>

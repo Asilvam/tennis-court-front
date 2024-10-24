@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import TimeSlot from './TimeSlot';
 import {DateTime} from 'luxon';
 import '../styles/Dashboard.css';
@@ -6,8 +6,8 @@ import axios from "axios";
 import Modal from './Modal';
 import badge from '/badge.svg';
 import Swal from "sweetalert2";
-import {UserContext} from "./UserContext.tsx";
 import {getTokenFromLocalStorage} from "../utils/tokenUtils.ts";
+import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
 
 interface CourtReserve {
     player1: string;              // Primary player (required)
@@ -33,8 +33,8 @@ interface CourtType {
 }
 
 const Dashboard: React.FC = () => {
-    const userContext = useContext(UserContext);
-    const namePlayer = userContext?.userInfo.name;
+    const userInfo = getUserInfoFromLocalStorage();
+    const namePlayer = userInfo?.name || '';
     const [courts, setCourts] = useState<CourtType[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
@@ -159,7 +159,7 @@ const Dashboard: React.FC = () => {
 
     return loading ? (
         <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
+            <div className="spinner-layer spinner-green-only">
                 <div className="circle-clipper left">
                     <div className="circle"></div>
                 </div>
@@ -174,7 +174,7 @@ const Dashboard: React.FC = () => {
     ) : (
         <div className="container">
             <div className="app">
-                <h4>Welcome, {namePlayer}!</h4>
+                <h6>Welcome, {namePlayer}!</h6>
                 {activeReserve && <p className="red-text">Remember you have actives reserves</p>}
                 <div className="date-picker">
                     <label>Select a Date: </label>
@@ -189,10 +189,10 @@ const Dashboard: React.FC = () => {
                 <div className="courts-container">
                     {courts.map((court) => (
                         <div key={court.id} className="court-row">
-                            <h5>
+                            <h6>
                                 <img src={badge} alt="Court Icon"
                                      style={{width: '20px', height: '20px', marginRight: '8px'}}/> {court.name}
-                            </h5>
+                            </h6>
                             <div className="time-slots">
                                 {court.timeSlots.map((slot) => (
                                     <TimeSlot

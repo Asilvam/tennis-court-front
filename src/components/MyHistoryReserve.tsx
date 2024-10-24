@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-import { DateTime } from 'luxon';
-import { getUserInfoFromLocalStorage } from '../utils/userUtils';
-import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTrash, faEye} from '@fortawesome/free-solid-svg-icons';
+import {DateTime} from 'luxon';
+import {getUserInfoFromLocalStorage} from '../utils/userUtils';
+import {getTokenFromLocalStorage} from '../utils/tokenUtils';
 import M from 'materialize-css';
 
 interface Reservation {
@@ -25,6 +25,7 @@ const MyHistoryReserve: React.FC = () => {
     const today = DateTime.now().startOf('day');
     const userInfo = getUserInfoFromLocalStorage();
     const token = getTokenFromLocalStorage();
+    const [loading, setLoading] = useState(false);
     const namePlayer = userInfo?.name || '';
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -35,6 +36,7 @@ const MyHistoryReserve: React.FC = () => {
     }, []);
 
     const fetchReserves = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
                 headers: {
@@ -44,6 +46,8 @@ const MyHistoryReserve: React.FC = () => {
             setReserves(response.data);
         } catch (error) {
             console.error('Error fetching reservation data:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -65,17 +69,38 @@ const MyHistoryReserve: React.FC = () => {
         const modal = document.getElementById('reserveModal');
         if (modal) {
             const instance = M.Modal.getInstance(modal);
-            instance.open();
+            if (instance) {
+                instance.open();
+            } else {
+                // If the instance is not initialized, initialize it here
+                const newInstance = M.Modal.init(modal);
+                newInstance.open();
+            }
         }
     };
+
 
     const closeModal = () => {
         setSelectedReserve(null);
     };
 
-    return (
+    return loading ? (
+        <div className="preloader-wrapper active">
+            <div className="spinner-layer spinner-green-only">
+                <div className="circle-clipper left">
+                    <div className="circle"></div>
+                </div>
+                <div className="gap-patch">
+                    <div className="circle"></div>
+                </div>
+                <div className="circle-clipper right">
+                    <div className="circle"></div>
+                </div>
+            </div>
+        </div>
+    ) :  (
         <div className="container mt-5">
-            <h5>My History Reservations</h5>
+            <h6>My History Reservations</h6>
             <table className="striped">
                 <thead>
                 <tr>
@@ -92,12 +117,12 @@ const MyHistoryReserve: React.FC = () => {
                         <td>{reserve.court}</td>
                         <td>{reserve.turn}</td>
                         <td>
-                            <button className="btn blue" onClick={() => openModal(reserve)}>
-                                <FontAwesomeIcon icon={faEye} /> View
+                            <button className="btn green" onClick={() => openModal(reserve)}>
+                                <FontAwesomeIcon icon={faEye}/> View
                             </button>
                             {DateTime.fromISO(reserve.dateToPlay) >= today && (
                                 <button className="btn red" onClick={() => handleDelete(reserve.idCourtReserve)}>
-                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                    <FontAwesomeIcon icon={faTrash}/> Delete
                                 </button>
                             )}
                         </td>
@@ -109,7 +134,7 @@ const MyHistoryReserve: React.FC = () => {
             {/* Materialize modal for viewing details */}
             <div id="reserveModal" className="modal">
                 <div className="modal-content">
-                    <h5>Reservation Details</h5>
+                    <h6>Reservation Details</h6>
                     {selectedReserve && (
                         <>
                             <p><strong>Player 1:</strong> {namePlayer}</p>
@@ -119,7 +144,8 @@ const MyHistoryReserve: React.FC = () => {
                             <p><strong>Date:</strong> {selectedReserve.dateToPlay}</p>
                             <p><strong>Court:</strong> {selectedReserve.court}</p>
                             <p><strong>Turn:</strong> {selectedReserve.turn}</p>
-                            {selectedReserve.visitName && <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
+                            {selectedReserve.visitName &&
+                                <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
                         </>
                     )}
                 </div>
