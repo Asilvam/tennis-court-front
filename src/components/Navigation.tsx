@@ -6,7 +6,7 @@ import {
     getUserInfoFromLocalStorage,
     removeUserInfoFromLocalStorage,
 } from '../utils/userUtils.ts';
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const M: any;
 
 const Navigation: React.FC = () => {

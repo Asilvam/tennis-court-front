@@ -5,6 +5,7 @@ import Select from "react-select";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
+import {customStyles} from "../utils/customStyles.ts";
 
 interface ModalProps {
     id: string;
@@ -127,6 +128,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         ...prevState,
                         visitName: visitNameTrimmed.toString(),
                     }));
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } catch (error:any) {
                     isValid = false;
                     Swal.fire({
@@ -299,9 +301,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                 maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
                                 menuPlacement="auto"              // Auto placement to decide whether to drop up or down
-                                styles={{
-                                    menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
-                                }}
+                                styles={customStyles} // Apply custom styles here
                             />
                         </div>
                         <div className="input-field-checked col s12">
@@ -356,9 +356,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                             maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
                                             menuPlacement="auto"              // Auto placement to decide whether to drop up or down
-                                            styles={{
-                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
-                                            }}
+                                            styles={customStyles} // Apply custom styles here
                                         />
                                     </div>
                                     <div className="input-field col s12">
@@ -376,9 +374,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                             maxMenuHeight={160}               // Set max height for 5 players
                                             menuPlacement="auto"              // Auto placement to adjust dropdown direction
-                                            styles={{
-                                                menuPortal: base => ({...base, zIndex: 9999}) // Set high z-index for dropdown
-                                            }}
+                                            styles={customStyles} // Apply custom styles here
                                         />
                                     </div>
                                 </>

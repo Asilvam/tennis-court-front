@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import M from 'materialize-css';
 import axios from "axios";
 import Select from 'react-select';
+import {customStyles} from "../utils/customStyles.ts";
 
 interface Register {
     namePlayer: string;
@@ -178,16 +179,16 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* Email */}
-                            <div className="input-field">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={editUser.email}
-                                    onChange={handleInputChange}
-                                    disabled={true}
-                                />
-                                <label className="active">Email</label>
-                            </div>
+                            {/*<div className="input-field">*/}
+                            {/*    <input*/}
+                            {/*        type="email"*/}
+                            {/*        name="email"*/}
+                            {/*        value={editUser.email}*/}
+                            {/*        onChange={handleInputChange}*/}
+                            {/*        disabled={true}*/}
+                            {/*    />*/}
+                            {/*    <label className="active">Email</label>*/}
+                            {/*</div>*/}
 
                             {/* Cellular */}
                             <div className="input-field">
@@ -201,7 +202,7 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* Role */}
-                            <div className="input-field" style={{paddingTop: '10px'}}>
+                            <div className="input-field" style={{paddingTop: '5px'}}>
                                 <Select
                                     name="role"
                                     value={roleOptions.find(option => option.value === editUser.role)}
@@ -219,13 +220,13 @@ const AdminRegister: React.FC = () => {
                                     isSearchable
                                     className="react-select-container"
                                     classNamePrefix="react-select"
+                                    styles={customStyles} // Apply custom styles here
                                 />
                                 <label className="active">Role</label>
                             </div>
 
-
                             {/* Category */}
-                            <div className="input-field" style={{paddingTop: '10px'}}>
+                            <div className="input-field" style={{paddingTop: '5px'}}>
                                 <Select
                                     name="category"
                                     value={categoryOptions.find(option => option.value === editUser.category)}
@@ -242,6 +243,7 @@ const AdminRegister: React.FC = () => {
                                     isSearchable
                                     className="react-select-container"
                                     classNamePrefix="react-select"
+                                    styles={customStyles} // Apply custom styles here
                                 />
                                 <label className="active">Category</label>
                             </div>
@@ -258,8 +260,8 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* State Player */}
-                            <div className="input-field" style={{marginTop: '10px'}}>
-                                <label style={{display: 'flex', alignItems: 'left'}}>
+                            <div className="input-field" >
+                                <label>
                                     <input
                                         type="checkbox"
                                         name="statePlayer"
@@ -276,8 +278,8 @@ const AdminRegister: React.FC = () => {
                             </div>
 
                             {/* Update Payment */}
-                            <div className="input-field" style={{marginTop: '60px'}}>
-                                <label style={{display: 'flex', alignItems: 'right'}}>
+                            <div className="input-field" style={{marginLeft: '130px' , marginBottom: '30px'}}>
+                                <label >
                                     <input
                                         type="checkbox"
                                         name="updatePayment"
@@ -297,8 +299,8 @@ const AdminRegister: React.FC = () => {
                     )}
                 </div>
                 <div className="modal-footer"
-                     style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 20px'}}>
-                    <button className="modal-close btn red" style={{marginRight: '10px'}}>
+                     style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 30px'}}>
+                    <button className="modal-close btn red" style={{marginRight: '15px'}}>
                         Cancel
                     </button>
                     <button className="btn green" onClick={handleSave}>Save</button>
