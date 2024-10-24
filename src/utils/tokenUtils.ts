@@ -6,8 +6,7 @@ interface TokenData {
 const getTokenFromLocalStorage = (): string | null => {
     const tokenDataString = localStorage.getItem('token');
     if (tokenDataString) {
-        // const tokenData: TokenData = JSON.parse(tokenDataString);
-        console.log('Token retrieved from localStorage');
+        // console.log('Token retrieved from localStorage');
         return tokenDataString;
     }
     return null;
@@ -16,7 +15,7 @@ const getTokenFromLocalStorage = (): string | null => {
 const setTokenInLocalStorage = (token: string): void => {
     const tokenData: TokenData = { token };
     localStorage.setItem('token', JSON.stringify(tokenData));
-    console.log('Token set in localStorage');
+    // console.log('Token set in localStorage');
 };
 
 const existTokenInLocalStorage = (): boolean => !!localStorage.getItem('token');

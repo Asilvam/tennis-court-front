@@ -87,7 +87,7 @@ const AdminRegister: React.FC = () => {
     const handleSave = async () => {
         if (editUser) {
             try {
-                console.log(editUser);
+                // console.log(editUser);
                 const response = await axios.patch(
                     `${apiUrl}/register/${editUser.email}`, // Using email to identify the user
                     editUser, // The updated user data
