@@ -66,7 +66,7 @@ const Main: React.FC = () => {
                 if (!existingSubscription) {
                     registerServiceWorkerAndSubscribe();
                 } else {
-                    console.log('User is already subscribed:', existingSubscription);
+                    console.log('User is already subscribed:');
                 }
             } catch (error) {
                 console.error('Failed to check subscription or register service worker:', error);
