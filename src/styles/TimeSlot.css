@@ -1,10 +1,10 @@
 .time-slot {
     display: block;
     width: 50px; /* Ancho del bloque */
-    height: 40px; /* Alto del bloque */
+    height: 30px; /* Alto del bloque */
     margin: 1px;
     text-align: center;
-    line-height: 40px;
+    line-height: 30px;
     color: white;
     cursor: pointer;
 }
