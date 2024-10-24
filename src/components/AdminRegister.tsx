@@ -119,7 +119,7 @@ const AdminRegister: React.FC = () => {
 
     return (
         <div className="container">
-            <h6 className="left-align">Register List</h6>
+            {/*<h6 className="left-align">Register List</h6>*/}
             {/* Search Input */}
             <div className="input-field">
                 <input
@@ -163,7 +163,7 @@ const AdminRegister: React.FC = () => {
             {/* Edit Modal */}
             <div id="editModal" className="modal">
                 <div className="modal-content">
-                    <h4>Edit User</h4>
+                    {/*<h5>Edit User</h5>*/}
                     {editUser && (
                         <form>
                             {/* Name Player */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faCalendar,
@@ -11,6 +11,7 @@ import {
 
 const ReservationSummary: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate(); // Add useNavigate hook
     const {formData} = location.state || {}; // Destructure formData from location.state
 
     // If formData doesn't exist, display a fallback message
@@ -40,15 +41,20 @@ const ReservationSummary: React.FC = () => {
         visitName,
     } = formData;
 
+    // Function to navigate back to dashboard
+    const handleBackToDashboard = () => {
+        navigate('/dashboard'); // Replace with your dashboard route
+    };
+
     return (
         <div className="container mt-5">
             <div className="card-body">
                 <h5 className="card-title mb-4">
-                    Court Reservation resume
+                    Court Reservation summary
                 </h5>
 
                 <p>
-                    {' '}You have a reservation to play <br />
+                    {' '}You have a reservation to play <br/>
                     {isDouble ? (
                         <>
                             <strong>{player1} with {player2 || visitName}</strong> <br/>
@@ -65,46 +71,52 @@ const ReservationSummary: React.FC = () => {
                     {' '}<strong>{dateToPlay}</strong>
                 </p>
 
-            <p>
-                Turn is <br/>
-                <FontAwesomeIcon icon={faClock} className="me-2"/>
-                {' '}<strong>{turn}</strong>
-            </p>
+                <p>
+                    Turn is <br/>
+                    <FontAwesomeIcon icon={faClock} className="me-2"/>
+                    {' '}<strong>{turn}</strong>
+                </p>
 
-            <p>
-                Court to play <br/>
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
-                {' '}<strong>{court}</strong>
-            </p>
+                <p>
+                    Court to play <br/>
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
+                    {' '}<strong>{court}</strong>
+                </p>
 
-            {isPaidNight && (
-                <div className="alert alert-info">
-                    <FontAwesomeIcon icon={faTriangleExclamation}/>
-                    {' '}<strong>Note:</strong> This time slot is paid.
+                {isPaidNight && (
+                    <div className="alert alert-info">
+                        <FontAwesomeIcon icon={faTriangleExclamation}/>
+                        {' '}<strong>Note:</strong> This time slot is paid.
+                    </div>
+                )}
+
+                {!isVisit && (
+                    <>
+                        <p>
+                            <FontAwesomeIcon icon={faClock} className="me-2"/>
+                            {' '}Don't forget to update your ranking after the match.
+                        </p>
+                        <p>
+                            Your court reservation ID and your reservation pass. <br/> it was send it for email
+                        </p>
+                    </>
+                )}
+
+                <div className="mt-4">
+                    <p>We look forward to seeing you on the court!</p>
+                    <p>Best regards,</p>
+                    <p>Your Tennis Club</p>
                 </div>
-            )}
-
-            {!isVisit && (
-                <>
-                    <p>
-                        <FontAwesomeIcon icon={faClock} className="me-2"/>
-                        {' '}Don't forget to update your ranking after the match.
-                    </p>
-                    <p>
-                        Your court reservation ID and your reservation pass. <br/> it was send it for email
-                    </p>
-                </>
-            )}
-
-            <div className="mt-4">
-                <p>We look forward to seeing you on the court!</p>
-                <p>Best regards,</p>
-                <p>Your Tennis Club</p>
+                {/* Button to go back to dashboard */}
+                <div className="mt-4">
+                    <button className="btn btn-primary" onClick={handleBackToDashboard}>
+                        Back to Dashboard
+                    </button>
+                </div>
             </div>
         </div>
-</div>
-)
-    ;
+    )
+        ;
 };
 
 export default ReservationSummary;

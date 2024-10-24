@@ -174,7 +174,7 @@ const Dashboard: React.FC = () => {
     ) : (
         <div className="container">
             <div className="app">
-                <h6>Welcome, {namePlayer}!</h6>
+                <h6><strong>Welcome, {namePlayer} </strong></h6>
                 {activeReserve && <p className="red-text">Remember you have actives reserves</p>}
                 <div className="date-picker">
                     <label>Select a Date: </label>
@@ -191,7 +191,7 @@ const Dashboard: React.FC = () => {
                         <div key={court.id} className="court-row">
                             <h6>
                                 <img src={badge} alt="Court Icon"
-                                     style={{width: '20px', height: '20px', marginRight: '8px'}}/> {court.name}
+                                     style={{width: '15px', height: '15px', marginRight: '8px'}}/> {court.name}
                             </h6>
                             <div className="time-slots">
                                 {court.timeSlots.map((slot) => (

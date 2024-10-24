@@ -6,6 +6,7 @@ import {DateTime} from 'luxon';
 import {getUserInfoFromLocalStorage} from '../utils/userUtils';
 import {getTokenFromLocalStorage} from '../utils/tokenUtils';
 import M from 'materialize-css';
+import Swal from 'sweetalert2';
 
 interface Reservation {
     court: string;
@@ -22,18 +23,33 @@ interface Reservation {
 const MyHistoryReserve: React.FC = () => {
     const [reserves, setReserves] = useState<Reservation[]>([]);
     const [selectedReserve, setSelectedReserve] = useState<Reservation | null>(null);
-    const today = DateTime.now().startOf('day');
     const userInfo = getUserInfoFromLocalStorage();
     const token = getTokenFromLocalStorage();
     const [loading, setLoading] = useState(false);
     const namePlayer = userInfo?.name || '';
     const apiUrl = import.meta.env.VITE_API_URL;
+    const timezone = 'America/Santiago'; // Chile timezone
+    const currentTime = DateTime.now().setZone(timezone); // Current time in the specified timezone
+    const today = currentTime.startOf('day');
 
     useEffect(() => {
         fetchReserves();
         const elems = document.querySelectorAll('.modal');
         M.Modal.init(elems);
     }, []);
+
+    const isOkToDelete = (reserve: Reservation) : boolean => {
+        if (!reserve.state){
+            return false;
+        }
+        const [start] = reserve.turn.split('-');
+        const startTime = DateTime.fromFormat(start, 'HH:mm', { zone: timezone });
+        const reservationDate = DateTime.fromISO(reserve.dateToPlay, { zone: timezone });
+        const isToday = reservationDate.hasSame(today, 'day');
+        const isBeforeTimeRange = currentTime < startTime;
+        const isFutureDate = reservationDate > today;
+        return (isToday && isBeforeTimeRange) || isFutureDate;
+    }
 
     const fetchReserves = async () => {
         setLoading(true);
@@ -53,14 +69,31 @@ const MyHistoryReserve: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            await axios.delete(`${apiUrl}/court-reserve/${id}`, {
+            const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setReserves((prevReserves) => prevReserves.filter((reserve) => reserve.idCourtReserve !== id));
+
+            if (response.status === 200) {
+                // If the response is OK, show a success SweetAlert message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Annulled!',
+                    text: 'The reservation has been successfully Annulled.',
+                    confirmButtonText: 'OK',
+                });
+            }
         } catch (error) {
             console.error('Error deleting reservation:', error);
+
+            // Show an error SweetAlert message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error deleting the reservation. Please try again.',
+                confirmButtonText: 'OK',
+            });
         }
     };
 
@@ -100,7 +133,7 @@ const MyHistoryReserve: React.FC = () => {
         </div>
     ) :  (
         <div className="container mt-5">
-            <h6>My History Reservations</h6>
+            <h6><strong>My History </strong></h6>
             <table className="striped">
                 <thead>
                 <tr>
@@ -120,7 +153,7 @@ const MyHistoryReserve: React.FC = () => {
                             <button className="btn green" onClick={() => openModal(reserve)}>
                                 <FontAwesomeIcon icon={faEye}/>
                             </button>
-                            {DateTime.fromISO(reserve.dateToPlay) >= today && (
+                            {isOkToDelete(reserve)  && (
                                 <button className="btn red" onClick={() => handleDelete(reserve.idCourtReserve)}>
                                     <FontAwesomeIcon icon={faTrash}/>
                                 </button>
@@ -134,7 +167,7 @@ const MyHistoryReserve: React.FC = () => {
             {/* Materialize modal for viewing details */}
             <div id="reserveModal" className="modal">
                 <div className="modal-content">
-                    <h6>Reservation Details</h6>
+                    <h6><strong>Reservation Details</strong></h6>
                     {selectedReserve && (
                         <>
                             <p><strong>Player 1:</strong> {namePlayer}</p>
@@ -146,11 +179,13 @@ const MyHistoryReserve: React.FC = () => {
                             <p><strong>Turn:</strong> {selectedReserve.turn}</p>
                             {selectedReserve.visitName &&
                                 <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
+                            {!selectedReserve.state &&
+                                <p><strong>State reserve:</strong> This reserved was Annulled</p>}
                         </>
                     )}
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close btn blue" onClick={closeModal}>Close</button>
+                    <button className="modal-close btn green" onClick={closeModal}>Close</button>
                 </div>
             </div>
         </div>

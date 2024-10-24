@@ -271,7 +271,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     return (
         <div id={id} className="modal">
             <div className="modal-content">
-                <h5>{title}</h5>
+                <h6>{title}</h6>
                 {selectedTimeSlot ? (
                     <div className="container">
                         {formData.isPaidNight && <p className="red-text">Remember this turn is paid</p>}
