@@ -42,66 +42,69 @@ const ReservationSummary: React.FC = () => {
 
     return (
         <div className="container mt-5">
-                <div className="card-body">
-                    <h5 className="card-title mb-4">
-                        Court Reservation resume
-                    </h5>
+            <div className="card-body">
+                <h5 className="card-title mb-4">
+                    Court Reservation resume
+                </h5>
 
-                    <p>
-                        {' '}You have a reservation to play <br/>
-                        {isDouble ? (
-                            <strong>against {player3} and {player4}</strong>
-                        ) : (
-                            <strong>{player1} against {player2 || visitName}</strong>
-                        )}
-                    </p>
-
-                    <p>
-                        Date to play is <br/>
-                        <FontAwesomeIcon icon={faCalendar} className="me-2"/>
-
-                        {' '}<strong>{dateToPlay}</strong>
-                    </p>
-
-                    <p>
-                        Turn is <br/>
-                        <FontAwesomeIcon icon={faClock} className="me-2"/>
-                        {' '}<strong>{turn}</strong>
-                    </p>
-
-                    <p>
-                        Court to play <br/>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
-                        {' '}<strong>{court}</strong>
-                    </p>
-
-                    {isPaidNight && (
-                        <div className="alert alert-info">
-                            <FontAwesomeIcon icon={faTriangleExclamation}/>
-                            {' '}<strong>Note:</strong> This time slot is paid.
-                        </div>
-                    )}
-
-                    {!isVisit && (
+                <p>
+                    {' '}You have a reservation to play <br />
+                    {isDouble ? (
                         <>
-                            <p>
-                                <FontAwesomeIcon icon={faClock} className="me-2"/>
-                                {' '}Don't forget to update your ranking after the match.
-                            </p>
-                            <p>
-                                Your court reservation ID and your reservation pass. <br/> it was send it for email
-                            </p>
+                            <strong>{player1} with {player2 || visitName}</strong> <br/>
+                            <strong>against {player3} and {player4}</strong>
                         </>
+                    ) : (
+                        <strong>{player1} against {player2 || visitName}</strong>
                     )}
+                </p>
+                <p>
+                    Date to play is <br/>
+                    <FontAwesomeIcon icon={faCalendar} className="me-2"/>
 
-                    <div className="mt-4">
-                        <p>We look forward to seeing you on the court!</p>
-                        <p>Best regards,</p>
-                        <p>Your Tennis Club</p>
-                    </div>
+                    {' '}<strong>{dateToPlay}</strong>
+                </p>
+
+            <p>
+                Turn is <br/>
+                <FontAwesomeIcon icon={faClock} className="me-2"/>
+                {' '}<strong>{turn}</strong>
+            </p>
+
+            <p>
+                Court to play <br/>
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
+                {' '}<strong>{court}</strong>
+            </p>
+
+            {isPaidNight && (
+                <div className="alert alert-info">
+                    <FontAwesomeIcon icon={faTriangleExclamation}/>
+                    {' '}<strong>Note:</strong> This time slot is paid.
                 </div>
+            )}
+
+            {!isVisit && (
+                <>
+                    <p>
+                        <FontAwesomeIcon icon={faClock} className="me-2"/>
+                        {' '}Don't forget to update your ranking after the match.
+                    </p>
+                    <p>
+                        Your court reservation ID and your reservation pass. <br/> it was send it for email
+                    </p>
+                </>
+            )}
+
+            <div className="mt-4">
+                <p>We look forward to seeing you on the court!</p>
+                <p>Best regards,</p>
+                <p>Your Tennis Club</p>
             </div>
-    );
+        </div>
+</div>
+)
+    ;
 };
 
 export default ReservationSummary;

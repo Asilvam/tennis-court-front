@@ -118,11 +118,11 @@ const MyHistoryReserve: React.FC = () => {
                         <td>{reserve.turn}</td>
                         <td>
                             <button className="btn green" onClick={() => openModal(reserve)}>
-                                <FontAwesomeIcon icon={faEye}/> View
+                                <FontAwesomeIcon icon={faEye}/>
                             </button>
                             {DateTime.fromISO(reserve.dateToPlay) >= today && (
                                 <button className="btn red" onClick={() => handleDelete(reserve.idCourtReserve)}>
-                                    <FontAwesomeIcon icon={faTrash}/> Delete
+                                    <FontAwesomeIcon icon={faTrash}/>
                                 </button>
                             )}
                         </td>
