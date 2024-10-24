@@ -50,7 +50,7 @@ const Navigation: React.FC = () => {
     const navItems = [
         { to: '/dashboard', label: 'Reserves Courts', show: tokenExists },
         { to: '/myhistory', label: 'My History', show: tokenExists },
-        { to: '/adminregister', label: 'Admin Reserves', show: tokenExists && isUserRoleAdmin },
+        { to: '/adminregister', label: 'Admin Users', show: tokenExists && isUserRoleAdmin },
     ];
 
     return (
