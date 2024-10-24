@@ -69,31 +69,42 @@ const MyHistoryReserve: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to annul this reservation?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, annul it!',
+                cancelButtonText: 'No, keep it',
             });
-
-            if (response.status === 200) {
-                // If the response is OK, show a success SweetAlert message
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Annulled!',
-                    text: 'The reservation has been successfully Annulled.',
-                    confirmButtonText: 'OK',
+            if (result.isConfirmed) {
+                const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
+                if (response.status === 200) {
+                    // Show a success message if deletion is successful
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Annulled!',
+                        text: 'The reservation has been successfully annulled.',
+                        confirmButtonText: 'OK',
+                    });
+                }
             }
         } catch (error) {
-            console.error('Error deleting reservation:', error);
+            console.error('Error annulling reservation:', error);
 
             // Show an error SweetAlert message
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'There was an error deleting the reservation. Please try again.',
+                text: 'There was an error annulling the reservation. Please try again.',
                 confirmButtonText: 'OK',
             });
+        } finally {
+            fetchReserves();
         }
     };
 
