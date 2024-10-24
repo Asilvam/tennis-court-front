@@ -71,11 +71,11 @@ const MyHistoryReserve: React.FC = () => {
         try {
             const result = await Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you really want to annul this reservation?',
+                text: 'Do you really want to annulled this reservation?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, annul it!',
-                cancelButtonText: 'No, keep it',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
             });
             if (result.isConfirmed) {
                 const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
