@@ -38,21 +38,23 @@ const AdminRegister: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [users, setUsers] = useState<Register[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
-    const [editUser, setEditUser] = useState<Register >(initialEditUser); // State for editing user
+    const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
+    const [loading, setLoading] = useState(false);
 
     const categoryOptions = [
-        { value: 'A', label: 'A' },
-        { value: 'B', label: 'B' },
-        { value: 'C', label: 'C' },
-        { value: 'D', label: 'D' },
+        {value: 'A', label: 'A'},
+        {value: 'B', label: 'B'},
+        {value: 'C', label: 'C'},
+        {value: 'D', label: 'D'},
     ];
 
     const roleOptions = [
-        { value: 'user', label: 'User' },
-        { value: 'admin', label: 'Admin' },
+        {value: 'user', label: 'User'},
+        {value: 'admin', label: 'Admin'},
     ];
 
     const fetchRegisters = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${apiUrl}/register`);
             if (!response.ok) {
@@ -63,6 +65,8 @@ const AdminRegister: React.FC = () => {
         } catch (error) {
             console.error('Error fetching registers:', error);
             Swal.fire('Error', 'Failed to fetch registers', 'error');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,9 +78,12 @@ const AdminRegister: React.FC = () => {
     }, []);
 
     const handleEdit = (user: Register) => {
-        setEditUser({...user}); // Clone user info for editing
-        const modal = M.Modal.getInstance(document.getElementById('editModal')!);
-        modal.open(); // Open the modal
+        setEditUser({ ...user });
+        const modal = document.getElementById('editModal');
+        if (modal) {
+            const instance = M.Modal.getInstance(modal) || M.Modal.init(modal);
+            instance.open();
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -98,14 +105,15 @@ const AdminRegister: React.FC = () => {
                         },
                     }
                 );
-
                 if (response.status !== 200) {
                     throw new Error('Failed to update user.');
                 }
-
                 Swal.fire('Success', `${editUser.namePlayer}'s information has been updated.`, 'success');
-                const modal = M.Modal.getInstance(document.getElementById('editModal')!);
-                modal.close();
+                const modal = document.getElementById('editModal');
+                if (modal) {
+                    const instance = M.Modal.getInstance(modal);
+                    if (instance) instance.close();
+                }
             } catch (error) {
                 console.error('Error updating user:', error);
                 Swal.fire('Error', 'Failed to update user.', 'error');
@@ -118,7 +126,21 @@ const AdminRegister: React.FC = () => {
         user.namePlayer.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return (
+    return loading ? (
+        <div className="preloader-wrapper active">
+            <div className="spinner-layer spinner-green-only">
+                <div className="circle-clipper left">
+                    <div className="circle"></div>
+                </div>
+                <div className="gap-patch">
+                    <div className="circle"></div>
+                </div>
+                <div className="circle-clipper right">
+                    <div className="circle"></div>
+                </div>
+            </div>
+        </div>
+    ) : (
         <div className="container">
             {/*<h6 className="left-align">Register List</h6>*/}
             {/* Search Input */}
@@ -131,7 +153,6 @@ const AdminRegister: React.FC = () => {
                 />
                 <label></label>
             </div>
-
             {/* User List Table */}
             <table className="striped">
                 <thead>
@@ -160,7 +181,6 @@ const AdminRegister: React.FC = () => {
                 )}
                 </tbody>
             </table>
-
             {/* Edit Modal */}
             <div id="editModal" className="modal">
                 <div className="modal-content">
@@ -177,7 +197,6 @@ const AdminRegister: React.FC = () => {
                                 />
                                 <label className="active">Name Player</label>
                             </div>
-
                             {/* Email */}
                             {/*<div className="input-field">*/}
                             {/*    <input*/}
@@ -189,7 +208,6 @@ const AdminRegister: React.FC = () => {
                             {/*    />*/}
                             {/*    <label className="active">Email</label>*/}
                             {/*</div>*/}
-
                             {/* Cellular */}
                             <div className="input-field">
                                 <input
@@ -200,21 +218,24 @@ const AdminRegister: React.FC = () => {
                                 />
                                 <label className="active">Cellular</label>
                             </div>
-
                             {/* Role */}
                             <div className="input-field" style={{paddingTop: '5px'}}>
                                 <Select
                                     name="role"
                                     value={roleOptions.find(option => option.value === editUser.role)}
-                                    onChange={(selectedOption) =>
-                                        setEditUser((prevState) => ({
-                                            ...prevState,
-                                            role: selectedOption && (selectedOption.value === 'admin' || selectedOption.value === 'user')
-                                                ? selectedOption.value // Use the selected value if valid
-                                                : 'user', // Fallback to 'user' if null or invalid
-                                        }))
-                                    }
-
+                                    onChange={(selectedOption) => {
+                                        if (selectedOption && 'value' in selectedOption) {
+                                            setEditUser((prevState) => ({
+                                                ...prevState,
+                                                role: selectedOption.value // Use the selected value if valid
+                                            }));
+                                        } else {
+                                            setEditUser((prevState) => ({
+                                                ...prevState,
+                                                role: 'user'  // Reset to empty if no option is selected
+                                            }));
+                                        }
+                                    }}
                                     options={roleOptions}
                                     placeholder="Choose role"
                                     isSearchable
@@ -224,30 +245,33 @@ const AdminRegister: React.FC = () => {
                                 />
                                 <label className="active">Role</label>
                             </div>
-
                             {/* Category */}
                             <div className="input-field" style={{paddingTop: '5px'}}>
                                 <Select
                                     name="category"
                                     value={categoryOptions.find(option => option.value === editUser.category)}
-                                    onChange={(selectedOption) =>
-                                        setEditUser((prevState) => ({
-                                            ...prevState,
-                                            category: selectedOption
-                                                ? selectedOption.value
-                                                : 'C',
-                                        }))
-                                    }
+                                    onChange={(selectedOption) => {
+                                        if (selectedOption && 'value' in selectedOption) {
+                                            setEditUser((prevState) => ({
+                                                ...prevState,
+                                                category: selectedOption.value // Use the selected value if valid
+                                            }));
+                                        } else {
+                                            setEditUser((prevState) => ({
+                                                ...prevState,
+                                                category: 'C'  // Reset to empty if no option is selected
+                                            }));
+                                        }
+                                    }}
                                     options={categoryOptions}
                                     placeholder="Choose category"
                                     isSearchable
                                     className="react-select-container"
                                     classNamePrefix="react-select"
-                                    styles={customStyles} // Apply custom styles here
+                                    styles={customStyles}
                                 />
                                 <label className="active">Category</label>
                             </div>
-
                             {/* Points */}
                             <div className="input-field">
                                 <input
@@ -258,9 +282,8 @@ const AdminRegister: React.FC = () => {
                                 />
                                 <label className="active">Points</label>
                             </div>
-
                             {/* State Player */}
-                            <div className="input-field" >
+                            <div className="input-field">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -276,10 +299,9 @@ const AdminRegister: React.FC = () => {
                                     <span style={{marginLeft: '10px'}}>State Player</span>
                                 </label>
                             </div>
-
                             {/* Update Payment */}
-                            <div className="input-field" style={{marginLeft: '130px' , marginBottom: '30px'}}>
-                                <label >
+                            <div className="input-field" style={{marginLeft: '130px', marginBottom: '30px'}}>
+                                <label>
                                     <input
                                         type="checkbox"
                                         name="updatePayment"
@@ -294,7 +316,6 @@ const AdminRegister: React.FC = () => {
                                     <span style={{marginLeft: '10px'}}>Update Payment</span>
                                 </label>
                             </div>
-
                         </form>
                     )}
                 </div>

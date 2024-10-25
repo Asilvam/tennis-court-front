@@ -288,12 +288,19 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         <div className="input-field col s12">
                             <Select
                                 value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
-                                onChange={(selectedOption) =>
-                                    setFormData((prevState) => ({
-                                        ...prevState,
-                                        player2: selectedOption ? selectedOption.value : ''  // Store the selected value or reset to empty
-                                    }))
-                                }
+                                onChange={(selectedOption) => {
+                                    if (selectedOption && 'value' in selectedOption) {
+                                        setFormData((prevState) => ({
+                                            ...prevState,
+                                            player2: selectedOption.value  // Store the selected value if it exists
+                                        }));
+                                    } else {
+                                        setFormData((prevState) => ({
+                                            ...prevState,
+                                            player2: ''  // Reset to empty if no option is selected
+                                        }));
+                                    }
+                                }}
                                 options={formattedPlayers}
                                 placeholder="Select a player 2"
                                 isSearchable
@@ -344,12 +351,19 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     <div className="input-field col s12">
                                         <Select
                                             value={formattedPlayers.find(option => option.value === formData.player3)}
-                                            onChange={(selectedOption) =>
-                                                setFormData((prevState) => ({
-                                                    ...prevState,
-                                                    player3: selectedOption ? selectedOption.value : ''  // Store the selected value
-                                                }))
-                                            }
+                                            onChange={(selectedOption) => {
+                                                if (selectedOption && 'value' in selectedOption) {
+                                                    setFormData((prevState) => ({
+                                                        ...prevState,
+                                                        player3: selectedOption.value  // Store the selected value if it exists
+                                                    }));
+                                                } else {
+                                                    setFormData((prevState) => ({
+                                                        ...prevState,
+                                                        player3: ''  // Reset to empty if no option is selected
+                                                    }));
+                                                }
+                                            }}
                                             options={formattedPlayers}
                                             placeholder="Select a player 3"
                                             isSearchable
@@ -362,12 +376,19 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     <div className="input-field col s12">
                                         <Select
                                             value={formattedPlayers.find(option => option.value === formData.player4)}
-                                            onChange={(selectedOption) =>
-                                                setFormData((prevState) => ({
-                                                    ...prevState,
-                                                    player4: selectedOption ? selectedOption.value : ''  // Store the selected value
-                                                }))
-                                            }
+                                            onChange={(selectedOption) => {
+                                                if (selectedOption && 'value' in selectedOption) {
+                                                    setFormData((prevState) => ({
+                                                        ...prevState,
+                                                        player4: selectedOption.value  // Store the selected value if it exists
+                                                    }));
+                                                } else {
+                                                    setFormData((prevState) => ({
+                                                        ...prevState,
+                                                        player4: ''  // Reset to empty if no option is selected
+                                                    }));
+                                                }
+                                            }}
                                             options={formattedPlayers}
                                             placeholder="Select a player 4"
                                             isSearchable

@@ -95,8 +95,6 @@ const MyHistoryReserve: React.FC = () => {
             }
         } catch (error) {
             console.error('Error annulling reservation:', error);
-
-            // Show an error SweetAlert message
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
