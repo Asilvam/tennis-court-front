@@ -1,13 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import TimeSlot from './TimeSlot';
 import {DateTime} from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
 import Modal from './Modal';
-import badge from '/badge.svg';
 import Swal from "sweetalert2";
 import {getTokenFromLocalStorage} from "../utils/tokenUtils.ts";
 import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
+import '../styles/Reserves.css';
 
 interface CourtReserve {
     player1: string;              // Primary player (required)
@@ -20,25 +19,24 @@ interface CourtReserve {
 }
 
 interface TimeSlotType {
-    time: string;
+    court: string;
     available: boolean;
     isPayed: boolean;
-    data: CourtReserve;
+    data: string;
 }
 
 interface CourtType {
-    id: number;
-    name: string;
-    timeSlots: TimeSlotType[];
+    time: string;
+    slots: TimeSlotType[];
 }
 
 const Dashboard: React.FC = () => {
     const userInfo = getUserInfoFromLocalStorage();
     const namePlayer = userInfo?.name || '';
-    const [courts, setCourts] = useState<CourtType[]>([]);
+    const [timeSlots, setTimeSlots] = useState<CourtType[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
-        courtId: number;
+        courtId: string;
         time: string;
         date: string;
         player1: string | undefined;
@@ -60,7 +58,7 @@ const Dashboard: React.FC = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Invalid Date',
-                text: `Please select a date between ${minDate} and ${maxDate}.`,
+                text: `Por favor seleccione fecha entre ${minDate} y ${maxDate}.`,
             });
             return; // Stop further execution
         }
@@ -69,7 +67,7 @@ const Dashboard: React.FC = () => {
     };
 
     const handleOpenModal = (timeSlot: React.SetStateAction<{
-        courtId: number;
+        courtId: string;
         time: string;
         date: string;
         player1: string | undefined;
@@ -84,23 +82,12 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = useCallback((courtId: number, time: string, isPayed: boolean, available: boolean, data: CourtReserve) => {
+    const handleTimeSlotClick = useCallback((courtId: string, time: string, isPayed: boolean, available: boolean, data: string) => {
         if (!available) {
-            const {player1, player2, player3, player4, isDouble, isVisit, visitName} = data;
-            let playerInfo: string;
-            if (isDouble) {
-                playerInfo = `${player1} ${player2 ? player2 : ''}<br>vs<br>${player3 ? player3 : 'N/A'} ${player4 ? player4 : 'N/A'}`;
-            } else {
-                if (isVisit) {
-                    playerInfo = `${player1}<br>vs<br>${visitName ? visitName : 'Visitor'}`;
-                } else {
-                    playerInfo = `${player1}<br>vs<br>${player2 ? player2 : 'N/A'}`;
-                }
-            }
             Swal.fire({
                 icon: 'info',
                 title: 'Match Information',
-                html: `<strong>${playerInfo}</strong>`,
+                html: `Reservado Jugadores</br><strong>${data}</strong>`,
             });
             return; // Stop further execution
         }
@@ -128,7 +115,6 @@ const Dashboard: React.FC = () => {
                 },
             });
             setActiveReserve(reserves.data);
-            // console.log('reserves.data-->', reserves.data);
         } catch (error){
             console.log(error);
         }
@@ -139,7 +125,7 @@ const Dashboard: React.FC = () => {
         try {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
             if (!response.data) throw new Error('No data received');
-            setCourts(response.data);
+            setTimeSlots(response.data);
         } catch (error) {
             console.error(error);
         } finally {
@@ -174,10 +160,10 @@ const Dashboard: React.FC = () => {
     ) : (
         <div className="container">
             <div className="app">
-                <h6><strong>Welcome, {namePlayer} </strong></h6>
-                {activeReserve && <p className="red-text">Remember you have actives reserves</p>}
+                <h6><strong>Hola, {namePlayer} </strong></h6>
+                {activeReserve && <p className="red-text">Recuerda, tienes reservas activas.</p>}
                 <div className="date-picker">
-                    <label>Select a Date: </label>
+                    <label>Selecciona una fecha: </label>
                     <input
                         type="date"
                         value={selectedDate}
@@ -186,22 +172,20 @@ const Dashboard: React.FC = () => {
                         max={maxDate}// Minimum date set to today
                     />
                 </div>
-                <div className="courts-container">
-                    {courts.map((court) => (
-                        <div key={court.id} className="court-row">
-                            <h6>
-                                <img src={badge} alt="Court Icon"
-                                     style={{width: '15px', height: '15px', marginRight: '8px'}}/> {court.name}
-                            </h6>
-                            <div className="time-slots">
-                                {court.timeSlots.map((slot) => (
-                                    <TimeSlot
-                                        key={slot.time}
-                                        time={slot.time}
-                                        available={slot.available}
-                                        isPayed={slot.isPayed}
-                                        onClick={() => handleTimeSlotClick(court.id, slot.time, slot.isPayed, slot.available, slot.data)}
-                                    />
+                <div className="flex flex-col items-center">
+                    {timeSlots.map((timeSlot, index) => (
+                        <div key={index} className="time-slot-container">
+                            <div className="time-slot-time">{timeSlot.time}</div>
+                            <div className="time-slot-courts">
+                                {timeSlot.slots.map((slot, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`time-slot ${slot.available ? 'available' : 'unavailable'} ${slot.isPayed ? 'paid' : ''}`}
+                                    >
+                                        <div className="time-slot-court"
+                                             onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data)}
+                                        >{slot.court}</div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -211,7 +195,7 @@ const Dashboard: React.FC = () => {
                     <div>
                         <Modal
                             id="timeSlotModal"
-                            title="Reserve Turn"
+                            title="Reserva de Cancha"
                             isOpen={isModalOpen}
                             selectedTimeSlot={selectedTimeSlot}
                             playersNames={playersNames}

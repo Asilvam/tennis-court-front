@@ -108,7 +108,7 @@ const AdminRegister: React.FC = () => {
                 if (response.status !== 200) {
                     throw new Error('Failed to update user.');
                 }
-                Swal.fire('Success', `${editUser.namePlayer}'s information has been updated.`, 'success');
+                Swal.fire('Success', `${editUser.namePlayer} information actualizada.`, 'success');
                 const modal = document.getElementById('editModal');
                 if (modal) {
                     const instance = M.Modal.getInstance(modal);
@@ -169,7 +169,7 @@ const AdminRegister: React.FC = () => {
                         <td>{user.email}</td>
                         <td>
                             <button className="btn green" onClick={() => handleEdit(user)}>
-                                Edit
+                                Editar
                             </button>
                         </td>
                     </tr>
@@ -182,7 +182,7 @@ const AdminRegister: React.FC = () => {
                 </tbody>
             </table>
             {/* Edit Modal */}
-            <div id="editModal" className="modal">
+            <div id="editModal" className="modal" style={{ width: '400px' }}>
                 <div className="modal-content">
                     {/*<h5>Edit User</h5>*/}
                     {editUser && (

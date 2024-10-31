@@ -12,7 +12,7 @@ interface ModalProps {
     title: string;
     isOpen: boolean;
     selectedTimeSlot: {
-        courtId: number;
+        courtId: string;
         date: string;
         time: string;
         player1: string | undefined;
@@ -40,7 +40,7 @@ interface ReserveFormData {
 const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playersNames, onClose}) => {
 
     const initialFormData: ReserveFormData = {
-        court: 'Court ' + selectedTimeSlot?.courtId.toString(),
+        court: '' + selectedTimeSlot?.courtId,
         player1: selectedTimeSlot?.player1,
         player2: '',
         player3: '',
@@ -107,7 +107,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'The selected time is not available. Please select a different time.',
+                            text: 'Este horario, ya no esta disponible.',
                         });
                     }
                 }
@@ -119,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 Swal.fire({
                     icon: 'error',
                     title: 'Missing Visitor Name',
-                    text: 'Visit name must not be empty.',
+                    text: 'nombre de la visita no puede ser en blanco!',
                 });
             } else {
                 try {
@@ -147,14 +147,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.fire({
                         icon: 'error',
                         title: 'Missing Players',
-                        text: 'Player 3 and Player 4 must not be empty.',
+                        text: 'Player 3 y player 4 no pueden ser en blanco',
                     });
                 } else if (new Set([player3, player4]).size !== 2) {
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
                         title: 'Duplicate Players',
-                        text: 'Player 3 and Player 4 must be distinct.',
+                        text: 'Player 3 y Player 4 deben ser distintos.',
                     });
                 }
             } else {
@@ -179,7 +179,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             Swal.fire({
                 icon: 'error',
                 title: 'Missing Player',
-                text: 'Player 2 must not be empty.',
+                text: 'Player 2 no puede ser en blanco.',
             });
         }
 
@@ -221,7 +221,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         try {
             Swal.fire({
                 title: 'Processing Reservation',
-                text: 'Please wait while your reservation is being processed.',
+                text: 'Procesando Reserva...',
                 showConfirmButton: false,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -229,12 +229,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.showLoading(); // Display the default spinner from SweetAlert2
                 },
             });
+            console.log(formData);
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
                     icon: 'success',
-                    title: 'Reservation Successful',
-                    text: 'Your reservation has been made!',
+                    title: 'Reserva Lista',
+                    text: 'Tu reserva esta lista!',
                 });
                 navigate('/summary', { state: { formData } });
             } else {
@@ -255,14 +256,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.fire({
                         icon: 'error',
                         title: 'Network Error',
-                        text: 'Unable to communicate with the server.',
+                        text: 'Error de Red',
                     });
                 }
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Unexpected Error',
-                    text: 'An unexpected error occurred. Please try again later.',
+                    text: 'Un error inesperado ha ocurrido. Intente mas tarde.',
                 });
             }
         } finally {
@@ -271,17 +272,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     return (
-        <div id={id} className="modal">
+        <div id={id} className="modal" style={{ width: '400px' }}>
             <div className="modal-content">
-                <h6>{title}</h6>
+                <h6><strong> {title} </strong></h6>
                 {selectedTimeSlot ? (
                     <div className="container">
-                        {formData.isPaidNight && <p className="red-text">Remember this turn is paid</p>}
+                        {formData.isPaidNight && <p className="red-text">Recuerda que este turno es pagado</p>}
                         <div>
                             <p>
-                                <strong>Court:</strong> {selectedTimeSlot.courtId} <br/>
-                                <strong>Date:</strong> {selectedTimeSlot.date} <br/>
-                                <strong>Turn:</strong> {selectedTimeSlot.time} <br/>
+                                <strong>Cancha:</strong> {selectedTimeSlot.courtId} <br/>
+                                <strong>Fecha:</strong> {selectedTimeSlot.date} <br/>
+                                <strong>Turno:</strong> {selectedTimeSlot.time} <br/>
                                 <strong>Player 1:</strong> {selectedTimeSlot.player1}
                             </p>
                         </div>
@@ -302,7 +303,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     }
                                 }}
                                 options={formattedPlayers}
-                                placeholder="Select a player 2"
+                                placeholder="Selecciona un player 2"
                                 isSearchable
                                 isDisabled={formData.isVisit} // Disable if 'isVisit' is true
                                 menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
@@ -320,7 +321,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         checked={formData.isVisit}
                                         onChange={handleChange}
                                     />
-                                    <span>Visit</span>
+                                    <span>Visita</span>
                                 </label>
                             </p>
                             {formData.isVisit && (
@@ -330,7 +331,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         name="visitName"
                                         value={formData.visitName}
                                         onChange={handleChange}
-                                        placeholder="Enter visit name"
+                                        placeholder="Ingrese nombre de la visita"
                                     />
                                 </div>
                             )}
@@ -342,7 +343,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         checked={formData.isDouble}
                                         onChange={handleChange}
                                     />
-                                    <span>Play Double</span>
+                                    <span>Dobles</span>
                                 </label>
                             </p>
                             {/* Mostrar campos para Player 3 y Player 4 si se selecciona "Play Double" */}
@@ -365,7 +366,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                                 }
                                             }}
                                             options={formattedPlayers}
-                                            placeholder="Select a player 3"
+                                            placeholder="Selecciona un player 3"
                                             isSearchable
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                             maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
@@ -390,7 +391,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                                 }
                                             }}
                                             options={formattedPlayers}
-                                            placeholder="Select a player 4"
+                                            placeholder="Selecciona un player 4"
                                             isSearchable
                                             menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                             maxMenuHeight={160}               // Set max height for 5 players
@@ -409,7 +410,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         onChange={handleChange}
                                         disabled={formData.isVisit} // Disable when isVisit is true
                                     />
-                                    <span>Is for Ranking</span>
+                                    <span>Es por Ranking</span>
                                 </label>
                             </p>
                         </div>
@@ -423,14 +424,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     className="modal-close btn waves-effect waves-light"
                     onClick={handleReserve}
                 >
-                    Reserve
+                    Reservar
                 </button>
                 <button
                     className="modal-close btn waves-effect waves-light"
                     style={{marginLeft: '20px'}} // Add margin here
                     onClick={onClose}
                 >
-                    Cancel
+                    Cancelar
                 </button>
             </div>
         </div>

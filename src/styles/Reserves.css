@@ -1,0 +1,72 @@
+/* Container for each time slot */
+.time-slot-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    border: 1px solid #c9c9c9;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: #ffffff;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Time displayed vertically on the left */
+.time-slot-time {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 0.1rem;
+    width: 10px; /* Fixed width for alignment */
+    text-align: center;
+}
+
+/* Flex container for each court's information */
+.time-slot-courts {
+    display: flex;
+    justify-content: space-between;
+   margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Individual court style */
+.time-slot {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Availability colors */
+.time-slot.available {
+    background-color: #e0f7e0; /* Light green for available */
+    color: #2e7d32;
+    border: 1px solid #4caf50;
+}
+
+.time-slot.unavailable {
+    background-color: #ffebee; /* Light red for unavailable */
+    color: #c62828;
+    border: 1px solid #f44336;
+}
+
+/* Court name */
+.time-slot-court {
+    font-weight: bold;
+}
+
+/* Player names (displayed if unavailable) */
+.time-slot-name {
+    font-size: 0.8rem;
+    color: inherit;
+    white-space: nowrap;
+}
+
+/* Paid status for specific slots */
+.time-slot.paid {
+    background-color: #dfdede; /* Soft yellow if paid */
+    border-color: #000000;
+}
