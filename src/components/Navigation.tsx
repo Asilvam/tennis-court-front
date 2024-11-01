@@ -48,9 +48,9 @@ const Navigation: React.FC = () => {
     };
 
     const navItems = [
-        { to: '/dashboard', label: 'Reserves Courts', show: tokenExists },
-        { to: '/myhistory', label: 'My History', show: tokenExists },
-        { to: '/adminregister', label: 'Admin Users', show: tokenExists && isUserRoleAdmin },
+        { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
+        { to: '/myhistory', label: 'Mi historial', show: tokenExists },
+        { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
     ];
 
     return (

@@ -131,7 +131,7 @@ const PlayerForm: React.FC = () => {
                             autoFocus
                             required
                         />
-                        <label htmlFor="namePlayer">Name Player</label>
+                        <label htmlFor="namePlayer">Nombre Jugador</label>
                     </div>
 
                     {/* Cellular */}
@@ -144,7 +144,7 @@ const PlayerForm: React.FC = () => {
                             onChange={handleChange}
                             required
                         />
-                        <label htmlFor="cellular">Cellular</label>
+                        <label htmlFor="cellular">Nª Celular</label>
                     </div>
 
                     {/* Email */}
@@ -193,10 +193,10 @@ const PlayerForm: React.FC = () => {
                     {/* Buttons */}
                     <div className="col s12" style={{marginTop: '20px'}}>
                         <button type="submit" className="btn green darken-4" disabled={generateLoading}>
-                            {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Generate Player
+                            {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Crear Jugador
                         </button>
                         <a href="/" className="btn grey darken-1" style={{marginLeft: '15px'}}>
-                            Cancel
+                            Cancelar
                         </a>
                     </div>
                 </form>
