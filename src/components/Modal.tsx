@@ -272,7 +272,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     return (
-        <div id={id} className="modal" style={{ width: '400px' }}>
+        <div id={id} className="modal" style={{ width: '300px' }}>
             <div className="modal-content">
                 <h6><strong> {title} </strong></h6>
                 {selectedTimeSlot ? (
