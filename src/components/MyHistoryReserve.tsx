@@ -126,6 +126,11 @@ const MyHistoryReserve: React.FC = () => {
         setSelectedReserve(null);
     };
 
+    const extractNumber = (text: string): number | null => {
+        const match = text.match(/\d+/);
+        return match ? parseInt(match[0], 10) : null;
+    };
+
     return loading ? (
         <div className="preloader-wrapper active">
             <div className="spinner-layer spinner-green-only">
@@ -141,14 +146,14 @@ const MyHistoryReserve: React.FC = () => {
             </div>
         </div>
     ) :  (
-        <div className="container mt-5">
-            <h6><strong>My History </strong></h6>
+        <div className="container">
+            <h6><strong>Historial de reservas </strong></h6>
             <table className="striped">
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Court</th>
-                    <th>Turn</th>
+                    <th>Fecha</th>
+                    <th>Cancha</th>
+                    <th>Turno</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -156,7 +161,7 @@ const MyHistoryReserve: React.FC = () => {
                 {reserves.map((reserve) => (
                     <tr key={reserve.idCourtReserve}>
                         <td>{reserve.dateToPlay}</td>
-                        <td>{reserve.court}</td>
+                        <td className="center-align">{extractNumber(reserve.court)}</td>
                         <td>{reserve.turn}</td>
                         <td>
                             <button className="btn green" onClick={() => openModal(reserve)}>
@@ -176,25 +181,25 @@ const MyHistoryReserve: React.FC = () => {
             {/* Materialize modal for viewing details */}
             <div id="reserveModal" className="modal">
                 <div className="modal-content">
-                    <h6><strong>Reservation Details</strong></h6>
+                    <h6><strong>Detalle Reserva</strong></h6>
                     {selectedReserve && (
                         <>
                             <p><strong>Player 1:</strong> {namePlayer}</p>
                             <p><strong>Player 2:</strong> {selectedReserve.player2}</p>
                             {selectedReserve.player3 && <p><strong>Player 3:</strong> {selectedReserve.player3}</p>}
                             {selectedReserve.player4 && <p><strong>Player 4:</strong> {selectedReserve.player4}</p>}
-                            <p><strong>Date:</strong> {selectedReserve.dateToPlay}</p>
-                            <p><strong>Court:</strong> {selectedReserve.court}</p>
-                            <p><strong>Turn:</strong> {selectedReserve.turn}</p>
+                            <p><strong>Fecha:</strong> {selectedReserve.dateToPlay}</p>
+                            <p><strong>Cancha:</strong> {selectedReserve.court}</p>
+                            <p><strong>Turno:</strong> {selectedReserve.turn}</p>
                             {selectedReserve.visitName &&
                                 <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
                             {!selectedReserve.state &&
-                                <p><strong>State reserve:</strong> This reserved was Annulled</p>}
+                                <p><strong>Estado reserva:</strong> Esta reserva fue cancelada.</p>}
                         </>
                     )}
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close btn green" onClick={closeModal}>Close</button>
+                    <button className="modal-close btn green" onClick={closeModal}>Cerrar</button>
                 </div>
             </div>
         </div>

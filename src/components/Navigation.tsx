@@ -58,8 +58,8 @@ const Navigation: React.FC = () => {
             {/* Navigation bar */}
             <nav className="green darken-4">
                 <div className="nav-wrapper">
-                    <Link to="/" className="brand-logo" style={{ marginLeft: '20px' }}>
-                        Tennis Club
+                    <Link to="/" className="brand-logo" style={{ marginLeft: '10px' }}>
+                       Tenis Quintero
                     </Link>
                     <a href="/" data-target="mobile-nav" className="sidenav-trigger">
                         <i className="material-icons">menu</i>

@@ -86,8 +86,16 @@ const Dashboard: React.FC = () => {
         if (!available) {
             Swal.fire({
                 icon: 'info',
-                title: 'Match Information',
+                title: 'Informacion Partido',
                 html: `Reservado Jugadores</br><strong>${data}</strong>`,
+            });
+            return; // Stop further execution
+        }
+        if (activeReserve){
+            Swal.fire({
+                icon: 'error',
+                title: 'Informacion',
+                text: 'Ya tienes una reserva activa',
             });
             return; // Stop further execution
         }
