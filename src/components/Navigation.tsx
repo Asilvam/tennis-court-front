@@ -102,7 +102,16 @@ const Navigation: React.FC = () => {
             </ul>
 
             {/* Mobile Navigation (sidenav) */}
-            <ul className="sidenav light-blue darken-4" id="mobile-nav" ref={sidenavRef}>
+            <ul
+                className="sidenav light-blue darken-4"
+                id="mobile-nav"
+                ref={sidenavRef}
+                style={{
+                    width: '180px',   // Adjust the width as needed
+                    height: '25%',  // Full viewport height
+                    paddingTop: '10px' // Optional padding for spacing
+                }}
+            >
                 {!tokenExists && (
                     <li>
                         <Link to="/login" className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
@@ -128,6 +137,7 @@ const Navigation: React.FC = () => {
                     </li>
                 )}
             </ul>
+
         </>
     );
 };
