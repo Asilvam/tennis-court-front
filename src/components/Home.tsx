@@ -24,11 +24,11 @@ const Home: React.FC = () => {
             content: "Por cada 9 lucas!",
             imageUrl: "/images/powerade.svg"
         },
-        // {
-        //     title: "Player Rankings",
-        //     content: "Don't forget to update your ranking after each match.",
-        //     imageUrl: "/images/player-rankings.jpg"
-        // } ,
+        {
+            title: "Los Mejores Premios del año",
+            content: "Paga 9 por cada una, y puede que sean tuyas...",
+            imageUrl: "/images/power.jpeg"
+        } ,
         {
             title: "Copa Davis 2024",
             content: "Gracias a todos los que participaron",
