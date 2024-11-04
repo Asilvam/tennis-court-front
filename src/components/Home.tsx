@@ -88,7 +88,7 @@ const Home: React.FC = () => {
                     position: 'relative',
                     zIndex: 1
                 }}>
-                    Important: Please follow all club rules and respect others!
+                    Importante: Sino te gusta la wea LL se los pitea!
                 </div>
             )}
         </div>
