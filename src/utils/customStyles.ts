@@ -10,13 +10,13 @@ export const customStyles: StylesConfig<OptionType> = {
         ...base,
         minHeight: '40px', // Adjust this value to set the height
         height: '40px',    // Set the input height
-        fontSize: '12px',
+        fontSize: '14px',
     }),
     valueContainer: (base) => ({
         ...base,
         height: '40px',
         padding: '0 6px',
-        fontSize: '12px',
+        fontSize: '14px',
     }),
     input: (base) => ({
         ...base,

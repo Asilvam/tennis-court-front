@@ -118,7 +118,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 isValid = false;
                 Swal.fire({
                     icon: 'error',
-                    title: 'Missing Visitor Name',
+                    title: 'Error',
                     text: 'nombre de la visita no puede ser en blanco!',
                 });
             } else {
@@ -146,14 +146,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
-                        title: 'Missing Players',
+                        title: 'Error Players',
                         text: 'Player 3 y player 4 no pueden ser en blanco',
                     });
                 } else if (new Set([player3, player4]).size !== 2) {
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
-                        title: 'Duplicate Players',
+                        title: 'Error Players',
                         text: 'Player 3 y Player 4 deben ser distintos.',
                     });
                 }
@@ -162,15 +162,15 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
-                        title: 'Missing Players',
-                        text: 'Player 2, Player 3, and Player 4 must not be empty.',
+                        title: 'Error Players',
+                        text: 'Player 2, Player 3, y Player 4 no debe en blanco.',
                     });
                 } else if (new Set([player2, player3, player4]).size !== 3) {
                     isValid = false;
                     Swal.fire({
                         icon: 'error',
-                        title: 'Duplicate Players',
-                        text: 'Player 2, Player 3, and Player 4 must be distinct.',
+                        title: 'Error Players',
+                        text: 'Player 2, Player 3, y Player 4 deben ser distintos.',
                     });
                 }
             }
@@ -178,7 +178,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             isValid = false;
             Swal.fire({
                 icon: 'error',
-                title: 'Missing Player',
+                title: 'Error Player',
                 text: 'Player 2 no puede ser en blanco.',
             });
         }
@@ -280,7 +280,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         {formData.isPaidNight && <p className="red-text">Recuerda que este turno es pagado</p>}
                         <div>
                             <p>
-                                <strong>Cancha:</strong> {selectedTimeSlot.courtId} <br/>
+                                <strong> {selectedTimeSlot.courtId} </strong> <br/>
                                 <strong>Fecha:</strong> {selectedTimeSlot.date} <br/>
                                 <strong>Turno:</strong> {selectedTimeSlot.time} <br/>
                                 <strong>Player 1:</strong> {selectedTimeSlot.player1}
@@ -308,7 +308,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 isDisabled={formData.isVisit} // Disable if 'isVisit' is true
                                 menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
                                 maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
-                                menuPlacement="auto"              // Auto placement to decide whether to drop up or down
+                                menuPlacement="bottom"              // Auto placement to decide whether to drop up or down
                                 styles={customStyles} // Apply custom styles here
                             />
                         </div>
@@ -368,10 +368,19 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Selecciona un player 3"
                                             isSearchable
-                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
-                                            menuPlacement="auto"              // Auto placement to decide whether to drop up or down
-                                            styles={customStyles} // Apply custom styles here
+                                            menuPortalTarget={document.body}
+                                            maxMenuHeight={160}
+                                            menuPlacement="auto"
+                                            menuPosition="fixed"             // Fixes the dropdown position to avoid scrolling along with the page
+                                            styles={{
+                                                ...customStyles,
+                                                menuPortal: base => ({ ...base, zIndex: 9999 }),  // Ensure highest zIndex to avoid modal overlap
+                                                menu: base => ({
+                                                    ...base,
+                                                    width: '100%',                // Ensure the dropdown width matches the select input on mobile
+                                                    position: 'absolute',         // Positions the menu outside any overflow-hidden containers
+                                                }),
+                                            }}
                                         />
                                     </div>
                                     <div className="input-field col s12">
@@ -393,14 +402,24 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Selecciona un player 4"
                                             isSearchable
-                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={160}               // Set max height for 5 players
-                                            menuPlacement="auto"              // Auto placement to adjust dropdown direction
-                                            styles={customStyles} // Apply custom styles here
+                                            menuPortalTarget={document.body}
+                                            maxMenuHeight={160}
+                                            menuPlacement="auto"
+                                            menuPosition="fixed"
+                                            styles={{
+                                                ...customStyles,
+                                                menuPortal: base => ({ ...base, zIndex: 9999 }),
+                                                menu: base => ({
+                                                    ...base,
+                                                    width: '100%',
+                                                    position: 'absolute',
+                                                }),
+                                            }}
                                         />
                                     </div>
                                 </>
                             )}
+
                             <p>
                                 <label>
                                     <input
