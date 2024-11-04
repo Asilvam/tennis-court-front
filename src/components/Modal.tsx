@@ -368,19 +368,10 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Selecciona un player 3"
                                             isSearchable
-                                            menuPortalTarget={document.body}
-                                            maxMenuHeight={160}
-                                            menuPlacement="auto"
-                                            menuPosition="fixed"             // Fixes the dropdown position to avoid scrolling along with the page
-                                            styles={{
-                                                ...customStyles,
-                                                menuPortal: base => ({ ...base, zIndex: 9999 }),  // Ensure highest zIndex to avoid modal overlap
-                                                menu: base => ({
-                                                    ...base,
-                                                    width: '100%',                // Ensure the dropdown width matches the select input on mobile
-                                                    position: 'absolute',         // Positions the menu outside any overflow-hidden containers
-                                                }),
-                                            }}
+                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
+                                            maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
+                                            menuPlacement="bottom"              // Auto placement to decide whether to drop up or down
+                                            styles={customStyles} // Apply custom styles here
                                         />
                                     </div>
                                     <div className="input-field col s12">
@@ -402,24 +393,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             options={formattedPlayers}
                                             placeholder="Selecciona un player 4"
                                             isSearchable
-                                            menuPortalTarget={document.body}
-                                            maxMenuHeight={160}
-                                            menuPlacement="auto"
-                                            menuPosition="fixed"
-                                            styles={{
-                                                ...customStyles,
-                                                menuPortal: base => ({ ...base, zIndex: 9999 }),
-                                                menu: base => ({
-                                                    ...base,
-                                                    width: '100%',
-                                                    position: 'absolute',
-                                                }),
-                                            }}
+                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
+                                            maxMenuHeight={160}               // Set max height for 5 players
+                                            menuPlacement="bottom"              // Auto placement to adjust dropdown direction
+                                            styles={customStyles} // Apply custom styles here
                                         />
                                     </div>
                                 </>
                             )}
-
                             <p>
                                 <label>
                                     <input
