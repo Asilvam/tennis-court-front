@@ -16,8 +16,8 @@ const Home: React.FC = () => {
     const infoItems = [
         {
             title: "informacion de contacto",
-            content: "Telefono: +56912345678, Direccion: Tennis Club, Main Street 123",
-            imageUrl: "/images/contact-info.jpg"
+            content: "Telefono: +56912345678, Direccion: Avenida Normandie S/N",
+            imageUrl: "/images/logo-club.jpg"
         },
         // {
         //     title: "Court Schedulers",
@@ -30,7 +30,7 @@ const Home: React.FC = () => {
         //     imageUrl: "/images/player-rankings.jpg"
         // } ,
         {
-            title: "Copa Davis",
+            title: "Copa Davis 2024",
             content: "Gracias a todos los que participaron",
             imageUrl: "/images/tennis-club.jpeg"
         }
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <h4 style={{textAlign: 'center', margin: '20px 0'}}>Club de tenis Quintero</h4>
+            <h4 style={{textAlign: 'center', margin: '20px 0', color:' #1621cc '}}>Club de tenis Quintero</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>
                 {infoItems.map((item, index) => (
                     <div key={index} style={{
@@ -53,8 +53,8 @@ const Home: React.FC = () => {
                             alt={item.title}
                             style={{
                                 width: '100%',
-                                height: '400px',
-                                objectFit: 'cover',
+                                height: '75%',
+                                objectFit: 'scale-down',
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
@@ -64,13 +64,13 @@ const Home: React.FC = () => {
                         <div style={{
                             textAlign: 'center',
                             marginTop: '150px',
-                            color: '#fff',
-                            backgroundColor: '#000',
+                            color: '#1621cc',
+                            backgroundColor: '#0fd7ff',
                             padding: '20px',
-                            borderRadius: '5px'
+                            borderRadius: '4px'
                         }}> {/* Background added for contrast */}
-                            <h2 style={{margin: '0', fontSize: '24px'}}>{item.title}</h2> {/* Font size adjustment */}
-                            <p style={{margin: '0', fontSize: '16px'}}>{item.content}</p> {/* Font size adjustment */}
+                            <h2 style={{margin: '0', fontSize: '20px'}}>{item.title}</h2> {/* Font size adjustment */}
+                            <p style={{margin: '0', fontSize: '12px'}}>{item.content}</p> {/* Font size adjustment */}
                         </div>
                     </div>
                 ))}
@@ -78,8 +78,8 @@ const Home: React.FC = () => {
 
             {showInfo && (
                 <div style={{
-                    backgroundColor: '#ffeb3b', // Flashy color
-                    color: '#000',
+                    backgroundColor: '#f5ff11', // Flashy color
+                    color: '#1621cc',
                     padding: '10px',
                     textAlign: 'center',
                     marginTop: '20px',

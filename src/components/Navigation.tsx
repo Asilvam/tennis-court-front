@@ -56,10 +56,10 @@ const Navigation: React.FC = () => {
     return (
         <>
             {/* Navigation bar */}
-            <nav className="green darken-4">
+            <nav className="blue darken-4">
                 <div className="nav-wrapper">
-                    <Link to="/" className="brand-logo" style={{ marginLeft: '10px' }}>
-                       Tenis Quintero
+                    <Link to="/" className="brand-logo" style={{ marginLeft: '10px', fontSize: '18px' }}>
+                       Club de Tenis Quintero
                     </Link>
                     <a href="/" data-target="mobile-nav" className="sidenav-trigger">
                         <i className="material-icons">menu</i>
@@ -102,7 +102,7 @@ const Navigation: React.FC = () => {
             </ul>
 
             {/* Mobile Navigation (sidenav) */}
-            <ul className="sidenav green darken-4" id="mobile-nav" ref={sidenavRef}>
+            <ul className="sidenav light-blue darken-4" id="mobile-nav" ref={sidenavRef}>
                 {!tokenExists && (
                     <li>
                         <Link to="/login" className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
