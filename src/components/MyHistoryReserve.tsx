@@ -164,11 +164,11 @@ const MyHistoryReserve: React.FC = () => {
                         <td className="center-align">{extractNumber(reserve.court)}</td>
                         <td>{reserve.turn}</td>
                         <td>
-                            <button className="btn green" onClick={() => openModal(reserve)}>
+                            <button className="btn blue darken-4" onClick={() => openModal(reserve)}>
                                 <FontAwesomeIcon icon={faEye}/>
                             </button>
                             {isOkToDelete(reserve)  && (
-                                <button className="btn red" onClick={() => handleDelete(reserve.idCourtReserve)}>
+                                <button className="btn red darken-2" onClick={() => handleDelete(reserve.idCourtReserve)}>
                                     <FontAwesomeIcon icon={faTrash}/>
                                 </button>
                             )}
@@ -199,7 +199,7 @@ const MyHistoryReserve: React.FC = () => {
                     )}
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close btn green" onClick={closeModal}>Cerrar</button>
+                    <button className="modal-close btn blue darken-4" onClick={closeModal}>Cerrar</button>
                 </div>
             </div>
         </div>
