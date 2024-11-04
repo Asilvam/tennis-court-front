@@ -53,7 +53,7 @@ const Home: React.FC = () => {
                             alt={item.title}
                             style={{
                                 width: '100%',
-                                height: '75%',
+                                height: '100%',
                                 objectFit: 'scale-down',
                                 position: 'absolute',
                                 top: 0,
