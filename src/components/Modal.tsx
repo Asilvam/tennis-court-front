@@ -421,19 +421,20 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             </div>
             <div className="modal-footer">
                 <button
-                    className="modal-close btn waves-effect waves-light"
+                    className="modal-close btn waves-effect waves-light blue darken-4"
                     onClick={handleReserve}
                 >
                     Reservar
                 </button>
                 <button
-                    className="modal-close btn waves-effect waves-light"
-                    style={{marginLeft: '20px'}} // Add margin here
+                    className="modal-close btn waves-effect waves-light blue darken-1"
                     onClick={onClose}
+                    style={{marginLeft: '20px'}}
                 >
                     Cancelar
                 </button>
             </div>
+
         </div>
     );
 };

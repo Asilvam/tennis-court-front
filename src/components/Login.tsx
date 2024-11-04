@@ -80,28 +80,27 @@ const Login: React.FC = () => {
                             </div>
                             <div className="left-align">
                                 <button
-                                    className="btn waves-effect waves-light"
+                                    className="btn waves-effect waves-light blue darken-4"
                                     type="submit"
                                     disabled={generateLoading}
                                     style={{marginTop: '20px'}}
                                 >
-                                    {generateLoading && (
+                                    {generateLoading ? (
                                         <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>
-                                    )}{' '}
-                                    Login
+                                    ) : (
+                                        'Login'
+                                    )}
                                 </button>
+
                             </div>
                             {error && <p className="red-text">{error}</p>}
                         </form>
                         <div className="card-content">
                             <div className="row">
-                                <div className="col s12">
-                                    <h6>Welcome to Our Tennis Club!</h6>
-                                    <p>To access our services, please sign in to your account.</p>
-                                    <p>If you don't have an account yet, you can <Link to="/register">sign
-                                        up</Link> to
-                                        become
-                                        a member of our club.</p>
+                            <div className="col s12">
+                                    <h6>¡Bienvenido a Club de Tenis Quintero APP!</h6>
+                                    <p>Para acceder a nuestros servicios, por favor inicia sesión en tu cuenta.</p>
+                                    <p>Si aún no tienes una cuenta, puedes <Link to="/register">registrarte</Link> para convertirte en miembro de nuestro club.</p>
                                 </div>
                             </div>
                         </div>

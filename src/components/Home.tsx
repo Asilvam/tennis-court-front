@@ -19,11 +19,11 @@ const Home: React.FC = () => {
             content: "Telefono: +56912345678, Direccion: Avenida Normandie S/N",
             imageUrl: "/images/logo-club.jpg"
         },
-        // {
-        //     title: "Court Schedulers",
-        //     content: "Use our app to schedule your court times!",
-        //     imageUrl: "/images/court-scheduler.jpg"
-        // },
+        {
+            title: "Auspiciador Oficial",
+            content: "Por cada 9 lucas!",
+            imageUrl: "/images/powerade.svg"
+        },
         // {
         //     title: "Player Rankings",
         //     content: "Don't forget to update your ranking after each match.",

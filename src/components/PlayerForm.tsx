@@ -192,10 +192,10 @@ const PlayerForm: React.FC = () => {
 
                     {/* Buttons */}
                     <div className="col s12" style={{marginTop: '20px'}}>
-                        <button type="submit" className="btn green darken-4" disabled={generateLoading}>
+                        <button type="submit" className="btn blue darken-4" disabled={generateLoading}>
                             {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Crear Jugador
                         </button>
-                        <a href="/" className="btn grey darken-1" style={{marginLeft: '15px'}}>
+                        <a href="/" className="btn blue darken-1" style={{marginLeft: '15px'}}>
                             Cancelar
                         </a>
                     </div>
