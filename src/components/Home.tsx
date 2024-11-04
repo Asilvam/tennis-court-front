@@ -15,25 +15,30 @@ const Home: React.FC = () => {
     }, []);
     const infoItems = [
         {
-            title: "Contact Information",
-            content: "Phone: +56912345678, Address: Tennis Club, Main Street 123",
+            title: "informacion de contacto",
+            content: "Telefono: +56912345678, Direccion: Tennis Club, Main Street 123",
             imageUrl: "/images/contact-info.jpg"
         },
+        // {
+        //     title: "Court Schedulers",
+        //     content: "Use our app to schedule your court times!",
+        //     imageUrl: "/images/court-scheduler.jpg"
+        // },
+        // {
+        //     title: "Player Rankings",
+        //     content: "Don't forget to update your ranking after each match.",
+        //     imageUrl: "/images/player-rankings.jpg"
+        // } ,
         {
-            title: "Court Schedulers",
-            content: "Use our app to schedule your court times!",
-            imageUrl: "/images/court-scheduler.jpg"
-        },
-        {
-            title: "Player Rankings",
-            content: "Don't forget to update your ranking after each match.",
-            imageUrl: "/images/player-rankings.jpg"
+            title: "Copa Davis",
+            content: "Gracias a todos los que participaron",
+            imageUrl: "/images/tennis-club.jpeg"
         }
     ];
 
     return (
         <div>
-            <h4 style={{textAlign: 'center', margin: '20px 0'}}>Welcome to Tennis Club</h4>
+            <h4 style={{textAlign: 'center', margin: '20px 0'}}>Club de tenis Quintero</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>
                 {infoItems.map((item, index) => (
                     <div key={index} style={{

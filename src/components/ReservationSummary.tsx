@@ -50,35 +50,35 @@ const ReservationSummary: React.FC = () => {
         <div className="container mt-5">
             <div className="card-body">
                 <h5 className="card-title mb-4">
-                    Court Reservation summary
+                    Resumen de Reserva de Cancha
                 </h5>
 
                 <p>
-                    {' '}You have a reservation to play <br/>
+                    {' '}Tienes una reserva para jugar <br/>
                     {isDouble ? (
                         <>
-                            <strong>{player1} with {player2 || visitName}</strong> <br/>
-                            <strong>against {player3} and {player4}</strong>
+                            <strong>{player1} con {player2 || visitName}</strong> <br/>
+                            <strong>contra {player3} y {player4}</strong>
                         </>
                     ) : (
-                        <strong>{player1} against {player2 || visitName}</strong>
+                        <strong>{player1} contra {player2 || visitName}</strong>
                     )}
                 </p>
                 <p>
-                    Date to play is <br/>
+                    La fecha para jugar es <br/>
                     <FontAwesomeIcon icon={faCalendar} className="me-2"/>
 
                     {' '}<strong>{dateToPlay}</strong>
                 </p>
 
                 <p>
-                    Turn is <br/>
+                    El turno es <br/>
                     <FontAwesomeIcon icon={faClock} className="me-2"/>
                     {' '}<strong>{turn}</strong>
                 </p>
 
                 <p>
-                    Court to play <br/>
+                    La cancha asignada es <br/>
                     <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
                     {' '}<strong>{court}</strong>
                 </p>
@@ -86,7 +86,7 @@ const ReservationSummary: React.FC = () => {
                 {isPaidNight && (
                     <div className="alert alert-info">
                         <FontAwesomeIcon icon={faTriangleExclamation}/>
-                        {' '}<strong>Note:</strong> This time slot is paid.
+                        {' '}<strong>Nota:</strong> Este turno es de pago.
                     </div>
                 )}
 
@@ -94,20 +94,21 @@ const ReservationSummary: React.FC = () => {
                     <>
                         <p>
                             <FontAwesomeIcon icon={faClock} className="me-2"/>
-                            {' '}Don't forget to update your ranking after the match.
+                            {' '}No olvides actualizar tu ranking después del partido.
                         </p>
                         <p>
-                            Your court reservation ID and your reservation pass. <br/> it was send it for email
+                            Tu ID de reserva de cancha y tu pase de reserva <br/> fueron enviados por correo
+                            electrónico.
                         </p>
                     </>
                 )}
 
                 <div className="mt-4">
-                    <p>We look forward to seeing you on the court!</p>
-                    <p>Best regards,</p>
-                    <p>Your Tennis Club</p>
+                    <p>¡Esperamos verte en la cancha!</p>
+                    <p>Saludos cordiales,</p>
+                    <p>Tu Club de Tenis</p>
                 </div>
-                {/* Button to go back to dashboard */}
+                {/* Botón para regresar al panel */}
                 <div className="mt-4">
                     <button className="btn btn-primary" onClick={handleBackToDashboard}>
                         Back to Dashboard
@@ -115,6 +116,7 @@ const ReservationSummary: React.FC = () => {
                 </div>
             </div>
         </div>
+
     )
         ;
 };
