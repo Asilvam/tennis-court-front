@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <h4 style={{textAlign: 'center', margin: '20px 0', color:' #1621cc '}}>Club de tenis Quintero</h4>
+            <h4 style={{textAlign: 'center', margin: '20px 0', color:' #1621cc '}}>Club de Tenis Quintero</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>
                 {infoItems.map((item, index) => (
                     <div key={index} style={{
