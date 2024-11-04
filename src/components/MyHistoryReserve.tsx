@@ -133,7 +133,7 @@ const MyHistoryReserve: React.FC = () => {
 
     return loading ? (
         <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-green-only">
+            <div className="spinner-layer spinner-blue-only">
                 <div className="circle-clipper left">
                     <div className="circle"></div>
                 </div>

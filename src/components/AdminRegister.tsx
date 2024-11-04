@@ -128,7 +128,7 @@ const AdminRegister: React.FC = () => {
 
     return loading ? (
         <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-green-only">
+            <div className="spinner-layer spinner-blue-only">
                 <div className="circle-clipper left">
                     <div className="circle"></div>
                 </div>
@@ -168,7 +168,7 @@ const AdminRegister: React.FC = () => {
                         <td>{user.namePlayer}</td>
                         <td>{user.email}</td>
                         <td>
-                            <button className="btn green" onClick={() => handleEdit(user)}>
+                            <button className="btn blue darken-4" onClick={() => handleEdit(user)}>
                                 Editar
                             </button>
                         </td>
@@ -321,10 +321,10 @@ const AdminRegister: React.FC = () => {
                 </div>
                 <div className="modal-footer"
                      style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 30px'}}>
-                    <button className="modal-close btn red" style={{marginRight: '15px'}}>
-                        Cancel
+                    <button className="modal-close btn blue darken-1" style={{marginRight: '15px'}}>
+                        Cancelar
                     </button>
-                    <button className="btn green" onClick={handleSave}>Save</button>
+                    <button className="btn blue darken-4" onClick={handleSave}>Actualizar</button>
                 </div>
 
             </div>
