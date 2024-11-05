@@ -33,9 +33,9 @@ const Login: React.FC = () => {
             setToken(accessToken);
             setUserInfo({name: namePlayer, email: username, role});
             await Swal.fire({
+                title: 'Login OK',
+                text: `Bienvenido(a) ${namePlayer}!`,
                 icon: 'success',
-                title: 'Login Successful',
-                text: `Welcome ${namePlayer}!`,
             });
             navigate('/');
         } catch (error: unknown) {

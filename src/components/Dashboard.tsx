@@ -16,6 +16,7 @@ interface CourtReserve {
     isDouble: boolean;            // Indicates if the reservation is for doubles
     isVisit: boolean;             // Indicates if the reservation involves a visitor
     visitName?: string;           // Optional visitor name
+    dateToPlay: string;            // Date of the reservation in ISO format
 }
 
 interface TimeSlotType {
@@ -82,26 +83,31 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = useCallback((courtId: string, time: string, isPayed: boolean, available: boolean, data: string) => {
-        if (!available) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Informacion Partido',
-                html: `Reservado Jugadores</br><strong>${data}</strong>`,
-            });
-            return; // Stop further execution
-        }
-        if (activeReserve){
-            Swal.fire({
-                icon: 'error',
-                title: 'Informacion',
-                text: 'Ya tienes una reserva activa',
-            });
-            return; // Stop further execution
-        }
-        setSelectedTimeSlot({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
-        handleOpenModal({courtId, time, date: selectedDate, player1: namePlayer, isPayed});
-    }, [selectedDate, namePlayer]);
+    const handleTimeSlotClick = useCallback(
+        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string) => {
+            if (!available) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Detalle del Partido',
+                    html: `Reservado Jugadores<br><strong>${data}</strong>`,
+                });
+                return; // Stop further execution if the slot is unavailable
+            }
+            if (activeReserve) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Información',
+                    text: 'Ya tienes una reserva activa.',
+                });
+                return; // Stop further execution if an active reservation exists
+            }
+            const timeSlot = { courtId, time, date: selectedDate, player1: namePlayer, isPayed };
+            setSelectedTimeSlot(timeSlot);
+            handleOpenModal(timeSlot);
+        },
+        [selectedDate, namePlayer, activeReserve]
+    );
+
 
     const getPlayersNames = async () => {
         const playersNames = await axios.get(`${apiUrl}/register/names`, {
@@ -116,15 +122,18 @@ const Dashboard: React.FC = () => {
     }
 
     const getActiveReserves = async () => {
+
+        const url = `${apiUrl}/court-reserve/active/${namePlayer}`;
+        const headers = { Authorization: `Bearer ${token}` };
+
         try {
-            const reserves = await axios.get(`${apiUrl}/court-reserve/active/${namePlayer}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setActiveReserve(reserves.data);
-        } catch (error){
-            console.log(error);
+            const { data } = await axios.get(url, { headers });
+            // console.log("Player:", namePlayer);
+            // console.log("Active Reserves Data:", data);
+            setActiveReserve(data);
+        } catch (error) {
+            console.error("Error fetching active reserves:", error);
+            setActiveReserve(null);
         }
     };
 
@@ -143,12 +152,12 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         getPlayersNames();
-        getActiveReserves()
     }, []);
 
     useEffect(() => {
         // console.log('modal changed:', isModalOpen);
         fetchData();
+        getActiveReserves();
     }, [selectedDate]);
 
     return loading ? (

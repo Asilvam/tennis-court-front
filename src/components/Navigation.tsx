@@ -16,6 +16,7 @@ const Navigation: React.FC = () => {
     const tokenExists = existTokenInLocalStorage();
     const userInfo = getUserInfoFromLocalStorage();
     const isUserRoleAdmin = userInfo?.role === 'admin';
+    const namePlayer = userInfo?.name || '';
 
 
     useEffect(() => {
@@ -39,7 +40,8 @@ const Navigation: React.FC = () => {
             removeUserInfoFromLocalStorage();
             Swal.fire({
                 icon: 'success',
-                title: 'Logged out successfully!',
+                title: 'Logged out OK!',
+                text: `Hasta luego ${namePlayer}!`,
                 showConfirmButton: false,
                 timer: 1500,
             });
@@ -80,12 +82,12 @@ const Navigation: React.FC = () => {
             </nav>
 
             {/* Dropdown Structure */}
-            <ul id="dropdown1" className="dropdown-content">
+            <ul id="dropdown1" className="dropdown-content blue darken-4">
                 {navItems.map(
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to}>{item.label}</Link>
+                                <Link to={item.to} className="white-text">{item.label}</Link>
                             </li>
                         )
                 )}
@@ -93,7 +95,7 @@ const Navigation: React.FC = () => {
                     <>
                         <li className="divider"></li>
                         <li>
-                            <a href="#!" onClick={handleLogout}>
+                            <a href="#!" onClick={handleLogout} className="white-text">
                                 Logout
                             </a>
                         </li>
@@ -101,20 +103,23 @@ const Navigation: React.FC = () => {
                 )}
             </ul>
 
+
             {/* Mobile Navigation (sidenav) */}
             <ul
                 className="sidenav light-blue darken-4"
                 id="mobile-nav"
                 ref={sidenavRef}
                 style={{
-                    width: '180px',   // Adjust the width as needed
-                    height: '25%',  // Full viewport height
-                    paddingTop: '10px' // Optional padding for spacing
+                    width: '180px',
+                    maxHeight: '25vh',  // Max height based on viewport height for dynamic sizing
+                    overflowY: 'auto',  // Enable scrolling if content overflows
+                    paddingTop: '10px'
                 }}
             >
                 {!tokenExists && (
                     <li>
-                        <Link to="/login" className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
+                        <Link to="/login" className="white-text"
+                              onClick={() => sidenavRef.current?.classList.remove('open')}>
                             Login
                         </Link>
                     </li>
@@ -123,7 +128,8 @@ const Navigation: React.FC = () => {
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="white-text" onClick={() => sidenavRef.current?.classList.remove('open')}>
+                                <Link to={item.to} className="white-text"
+                                      onClick={() => sidenavRef.current?.classList.remove('open')}>
                                     {item.label}
                                 </Link>
                             </li>
@@ -137,6 +143,7 @@ const Navigation: React.FC = () => {
                     </li>
                 )}
             </ul>
+
 
         </>
     );
