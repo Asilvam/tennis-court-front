@@ -126,7 +126,7 @@ const ImageUploadForm: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="input col s12">
                         <label>Select image:</label>
-                        <input type="file" className="grey darken-1" style={{ width: '100%', color: 'whitesmoke' }}
+                        <input type="file" className="blue darken-1" style={{ width: '100%', color: 'whitesmoke' }}
                                onChange={handleImageChange} />
                     </div>
                     <div>
