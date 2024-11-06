@@ -15,12 +15,14 @@ import NotFound from "./components/NotFound.tsx";
 import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
+import InactivityLogout from "./components/InactivityLogout.tsx";
 
 const App: React.FC = () => {
     return (
         <UserProvider> {/* Wrap the whole app in UserProvider */}
             <AuthProvider>
                 <Router>
+                    <InactivityLogout /> {/* Auto logout component */}
                     <div>
                         <Navigation/>
                         <div className="container">
