@@ -174,7 +174,7 @@ const ImageUploadForm: React.FC = () => {
                             </td>
                             <td>
                                 <button onClick={() => handleDelete(item._id)} className="btn btn-danger blue darken-1">
-                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                    <FontAwesomeIcon icon={faTrash} />
                                 </button>
                             </td>
                         </tr>
