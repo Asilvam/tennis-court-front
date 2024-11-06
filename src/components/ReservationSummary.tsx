@@ -97,7 +97,7 @@ const ReservationSummary: React.FC = () => {
                             {' '}No olvides actualizar tu ranking después del partido.
                         </p>
                         <p>
-                            Tu ID de reserva de cancha y tu pase de reserva <br/> fueron enviados por correo
+                            Tu ID de reserva de cancha y tu clave de reserva <br/> fueron enviados por correo
                             electrónico.
                         </p>
                     </>
@@ -106,12 +106,12 @@ const ReservationSummary: React.FC = () => {
                 <div className="mt-4">
                     <p>¡Esperamos verte en la cancha!</p>
                     <p>Saludos cordiales,</p>
-                    <p>Tu Club de Tenis</p>
+                    <p>Club de tenis Quintero</p>
                 </div>
                 {/* Botón para regresar al panel */}
-                <div className="mt-4">
-                    <button className="btn btn-primary" onClick={handleBackToDashboard}>
-                        Back to Dashboard
+                <div className="mt-4 ">
+                    <button className="btn btn-primary blue darken-4" onClick={handleBackToDashboard}>
+                        Cerrar
                     </button>
                 </div>
             </div>

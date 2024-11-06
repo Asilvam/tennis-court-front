@@ -1,10 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Carousel styles
 import {Carousel} from 'react-responsive-carousel';
+import axios from "axios";
+
+interface InfoItem {
+    title: string;
+    content: string;
+    imageUrl: string;
+}
 
 const Home: React.FC = () => {
 
+    const infoItemsInnit = [
+        {
+            title: "informacion de contacto",
+            content: "Miguel Vega administrador Telefono: +56912345678, Direccion: Avenida Normandie S/N",
+            imageUrl: "/images/logo-club.jpg"
+        },
+        {
+            title: "Copa Davis 2024",
+            content: "Gracias a todos los que participaron",
+            imageUrl: "/images/tennis-club.jpeg"
+        }
+    ];
+
     const [showInfo, setShowInfo] = useState(true);
+    const [infoItems, setInfoItems] = useState(infoItemsInnit);
+    const [loading, setLoading] = useState<boolean>(true);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -13,30 +36,38 @@ const Home: React.FC = () => {
 
         return () => clearTimeout(timer);
     }, []);
-    const infoItems = [
-        {
-            title: "informacion de contacto",
-            content: "Telefono: +56912345678, Direccion: Avenida Normandie S/N",
-            imageUrl: "/images/logo-club.jpg"
-        },
-        {
-            title: "Auspiciador Oficial",
-            content: "Por cada 9 lucas!",
-            imageUrl: "/images/powerade.svg"
-        },
-        {
-            title: "Los Mejores Premios del año",
-            content: "Paga 9 por cada una, y puede que sean tuyas...",
-            imageUrl: "/images/power.jpeg"
-        } ,
-        {
-            title: "Copa Davis 2024",
-            content: "Gracias a todos los que participaron",
-            imageUrl: "/images/tennis-club.jpeg"
-        }
-    ];
 
-    return (
+    // Fetch reserves data from the API
+    const fetchItems = async () => {
+        try {
+            const response = await axios.get<InfoItem[]>(`${apiUrl}/info-items`); // Replace with actual endpoint
+            setInfoItems(response.data);
+        } catch (error) {
+            console.error('Error fetching reserves:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+    return loading ? (
+        <div className="preloader-wrapper active">
+            <div className="spinner-layer spinner-blue-only">
+                <div className="circle-clipper left">
+                    <div className="circle"></div>
+                </div>
+                <div className="gap-patch">
+                    <div className="circle"></div>
+                </div>
+                <div className="circle-clipper right">
+                    <div className="circle"></div>
+                </div>
+            </div>
+        </div>
+    ) :(
         <div>
             <h4 style={{textAlign: 'center', margin: '20px 0', color:' #1621cc '}}>Bienvenidos(as)</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>

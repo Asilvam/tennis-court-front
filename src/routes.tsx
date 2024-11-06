@@ -8,6 +8,8 @@ import PlayerForm from "./components/PlayerForm.tsx";
 import AdminRegister from "./components/AdminRegister.tsx";
 import ReservationSummary from "./components/ReservationSummary.tsx";
 import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
+import ImageUploadForm from "./components/ImageUploadForm.tsx";
+import AdminReserves from "./components/AdminReserves.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -17,6 +19,8 @@ const Router: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/register" element={<PlayerForm/>}/>
             <Route path="/adminregister" element={<AdminRegister/>}/>
+            <Route path="/items" element={<ImageUploadForm/>}/>
+            <Route path="/adminreserves" element={<AdminReserves/>}/>
             <Route path="/summary" element={<ReservationSummary/>}/>
             <Route path="/myhistory" element={<MyHistoryReserve/>}/>
             <Route path="*" element={<NotFound/>}/>

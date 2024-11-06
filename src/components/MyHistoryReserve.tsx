@@ -70,12 +70,12 @@ const MyHistoryReserve: React.FC = () => {
     const handleDelete = async (id: string) => {
         try {
             const result = await Swal.fire({
-                title: 'Are you sure?',
-                text: 'Do you really want to annulled this reservation?',
+                title: 'Estas seguro?',
+                text: 'Deseas eliminar tu reserva?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
+                confirmButtonText: 'SI',
+                cancelButtonText: 'NO',
             });
             if (result.isConfirmed) {
                 const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
@@ -87,8 +87,8 @@ const MyHistoryReserve: React.FC = () => {
                     // Show a success message if deletion is successful
                     Swal.fire({
                         icon: 'success',
-                        title: 'Annulled!',
-                        text: 'The reservation has been successfully annulled.',
+                        title: 'Eliminada!',
+                        text: 'Tu reserva ha sido eliminada',
                         confirmButtonText: 'OK',
                     });
                 }
@@ -164,11 +164,11 @@ const MyHistoryReserve: React.FC = () => {
                         <td className="center-align">{extractNumber(reserve.court)}</td>
                         <td>{reserve.turn}</td>
                         <td>
-                            <button className="btn blue darken-4" onClick={() => openModal(reserve)}>
+                            <button className="btn blue darken-1" onClick={() => openModal(reserve)}>
                                 <FontAwesomeIcon icon={faEye}/>
                             </button>
                             {isOkToDelete(reserve)  && (
-                                <button className="btn red darken-2" onClick={() => handleDelete(reserve.idCourtReserve)}>
+                                <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
                                     <FontAwesomeIcon icon={faTrash}/>
                                 </button>
                             )}
@@ -199,7 +199,7 @@ const MyHistoryReserve: React.FC = () => {
                     )}
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close btn blue darken-4" onClick={closeModal}>Cerrar</button>
+                    <button className="modal-close btn blue darken-1" onClick={closeModal}>Cerrar</button>
                 </div>
             </div>
         </div>

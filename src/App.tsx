@@ -13,6 +13,8 @@ import ReservationSummary from "./components/ReservationSummary.tsx";
 import Unauthorized from "./components/Unauthorized.tsx";
 import NotFound from "./components/NotFound.tsx";
 import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
+import ImageUploadForm from "./components/ImageUploadForm.tsx";
+import AdminReserves from "./components/AdminReserves.tsx";
 
 const App: React.FC = () => {
     return (
@@ -37,6 +39,10 @@ const App: React.FC = () => {
                                        element={<ProtectedRoute><MyHistoryReserve/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
                                        element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
+                                <Route path="/items"
+                                       element={<ProtectedRoute adminOnly={true}><ImageUploadForm /></ProtectedRoute>} />
+                                <Route path="/adminreserves"
+                                       element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
                                 {/* Unauthorized access page */}
                                 <Route path="/unauthorized" element={<Unauthorized />} />
                                 <Route path="*" element={<NotFound/>}/>
