@@ -229,7 +229,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.showLoading(); // Display the default spinner from SweetAlert2
                 },
             });
-            console.log(formData);
+            // console.log(formData);
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
