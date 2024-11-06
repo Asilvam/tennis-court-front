@@ -119,9 +119,12 @@ const Home: React.FC = () => {
                     position: 'relative',
                     zIndex: 1
                 }}>
-                    Importante: Sino te gusta la wea LL se los pitea!
+                    Informaciones: <br />
+                    <a href="tel:+56974024351" style={{ color: '#1621cc', textDecoration: 'none' }}>Miguel Vega: +56 9 7402 4351</a> <br />
+                    <a href="tel:+56989622137" style={{ color: '#1621cc', textDecoration: 'none' }}>Ricardo Said: +56 9 8962 2137</a>
                 </div>
             )}
+
         </div>
     );
 };
