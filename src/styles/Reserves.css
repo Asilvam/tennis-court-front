@@ -2,8 +2,8 @@
 .time-slot-container {
     display: flex;
     align-items: center;
-    margin-top: 0.5rem;
-    border: 1px solid #94b2fc;
+    margin-top: 0.1rem;
+    border: 1px solid #becfff;
     padding: 0.5rem;
     border-radius: 8px;
     background-color: #eef6fd;
@@ -38,6 +38,7 @@
     border-radius: 4px;
     text-align: center;
     font-size: 0.9rem;
+    margin-right: 0.5rem;
 }
 
 /* Availability colors */

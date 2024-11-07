@@ -176,17 +176,23 @@ const Dashboard: React.FC = () => {
         </div>
     ) : (
         <div className="container">
-            <div className="app">
+            <div>
                 <h6><strong>Hola, {namePlayer} </strong></h6>
                 {activeReserve && <p className="red-text">Recuerda, tienes reservas activas.</p>}
-                <div className="date-picker">
-                    <label>Selecciona una fecha: </label>
+                <div style={{display: 'flex', maxWidth:'400px'}}>
+                    {/*<label style={{marginRight: '10px'}}>Selecciona una fecha:</label>*/}
                     <input
                         type="date"
                         value={selectedDate}
                         onChange={handleDateChange}
                         min={minDate}
-                        max={maxDate}// Minimum date set to today
+                        max={maxDate}
+                        style={{
+                            padding: '8px',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                            flex: '1',
+                        }}
                     />
                 </div>
                 <div className="flex flex-col items-center">
