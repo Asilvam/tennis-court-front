@@ -68,7 +68,7 @@ const Home: React.FC = () => {
             </div>
         </div>
     ) :(
-        <div>
+        <div className="container">
             <h4 style={{textAlign: 'center', margin: '20px 0', color:' #1621cc '}}>Bienvenidos(as)</h4>
             <Carousel autoPlay infiniteLoop showThumbs={false}>
                 {infoItems.map((item, index) => (
