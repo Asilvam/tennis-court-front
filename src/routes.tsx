@@ -10,6 +10,7 @@ import ReservationSummary from "./components/ReservationSummary.tsx";
 import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
+import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -23,6 +24,7 @@ const Router: React.FC = () => {
             <Route path="/adminreserves" element={<AdminReserves/>}/>
             <Route path="/summary" element={<ReservationSummary/>}/>
             <Route path="/myhistory" element={<MyHistoryReserve/>}/>
+            <Route path="/updatematch" element={<MatchResultUpdate/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     );

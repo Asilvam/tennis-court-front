@@ -16,6 +16,7 @@ import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
 import InactivityLogout from "./components/InactivityLogout.tsx";
+import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 
 const App: React.FC = () => {
     return (
@@ -39,6 +40,8 @@ const App: React.FC = () => {
                                        element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                                 <Route path="/myhistory"
                                        element={<ProtectedRoute><MyHistoryReserve/></ProtectedRoute>}/>
+                                <Route path="/updatematch"
+                                       element={<ProtectedRoute><MatchResultUpdate/></ProtectedRoute>}/>
                                 <Route path="/adminregister"
                                        element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
                                 <Route path="/items"

@@ -52,6 +52,7 @@ const Navigation: React.FC = () => {
     const navItems = [
         { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
         { to: '/myhistory', label: 'Mi historial', show: tokenExists },
+        { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
         { to: '/items', label: 'Admin carrusel', show: tokenExists && isUserRoleAdmin },
         { to: '/adminreserves', label: 'Admin reservas', show: tokenExists && isUserRoleAdmin },
@@ -112,8 +113,8 @@ const Navigation: React.FC = () => {
                 id="mobile-nav"
                 ref={sidenavRef}
                 style={{
-                    width: '180px',
-                    maxHeight: '25vh',  // Max height based on viewport height for dynamic sizing
+                    width: '200px',
+                    maxHeight: '200px',  // Max height based on viewport height for dynamic sizing
                     overflowY: 'auto',  // Enable scrolling if content overflows
                     paddingTop: '10px'
                 }}
