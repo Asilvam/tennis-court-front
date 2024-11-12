@@ -3,6 +3,7 @@ import axios from 'axios';
 import M from 'materialize-css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import Swal from 'sweetalert2';
 
 const MatchResultUpdate: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -13,11 +14,11 @@ const MatchResultUpdate: React.FC = () => {
     const [isDoubles, setIsDoubles] = useState(false);
     const [result, setResult] = useState('');
     const [winner, setWinner] = useState('');
-    const [generateLoading, setGenerateLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const validateMatch = async () => {
-        setGenerateLoading(true);
         try {
+            setLoading(true);
             const { data } = await axios.post(`${apiUrl}/match-ranking/validate-match`, {
                 id: matchId,
                 pass: matchPass,
@@ -26,7 +27,7 @@ const MatchResultUpdate: React.FC = () => {
             setIsDoubles(data.isDouble);
             setIsValid(data.isValid);
 
-            if (isValid) {
+            if (data.isValid) {
                 const modal = document.getElementById('resultModal');
                 if (modal) {
                     const instance = M.Modal.getInstance(modal);
@@ -42,33 +43,43 @@ const MatchResultUpdate: React.FC = () => {
         } catch (error) {
             console.error('Error al validar el partido:', error);
         } finally {
-            setGenerateLoading(false); // Stop loading spinner
+            setLoading(false); // Stop loading spinner
         }
     };
+
+
 
     const handleSave = () => {
         if (result && winner) {
             // Here, you'd call a function to save the result
             console.log('Resultado guardado:', result, winner);
+
             const modal = document.getElementById('resultModal');
             if (modal) {
-                const instance = M.Modal.getInstance(modal);
-                if (instance) {
-                    instance.close();
-                } else {
-                    // If the instance is not initialized, initialize it here
-                    const newInstance = M.Modal.init(modal);
-                    newInstance.close();
-                }
+                const instance = M.Modal.getInstance(modal) || M.Modal.init(modal);
+                instance.close();
             }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Resultado guardado',
+                text: `El resultado fue guardado con éxito para: ${winner}`,
+                timer: 2000,
+                showConfirmButton: false,
+            });
         } else {
-            alert('Por favor, ingresa el resultado y selecciona un ganador.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Faltan Datos!',
+                text: 'Por favor, ingresa el resultado y selecciona un ganador.',
+            });
         }
     };
 
+
     return (
         <div className="container">
-            <h6 className="mt-3">Actualizar Resultado</h6>
+            <h6 className="mt-3">Agregar Resultado Match</h6>
             <div className="mb-3">
                 <label className="form-label">ID match</label>
                 <input
@@ -90,10 +101,10 @@ const MatchResultUpdate: React.FC = () => {
                 />
             </div>
             <button className="btn btn-primary blue darken-4"
-                    disabled={generateLoading}
+                    disabled={loading}
                     style={{marginTop: '20px'}}
                     onClick={validateMatch}>
-                {generateLoading ? (
+                {loading ? (
                     <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>
                 ) : (
                 'Validar'  )}
