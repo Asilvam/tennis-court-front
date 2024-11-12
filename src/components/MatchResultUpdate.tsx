@@ -105,7 +105,7 @@ const MatchResultUpdate: React.FC = () => {
                     <h6><strong>Resultado</strong></h6>
                     {isDoubles
                         ? <p>{`${players[0]} & ${players[1]} vs ${players[2]} & ${players[3]}`}</p>
-                        : <p>{`${players[0]} & ${players[1]}`} </p> }
+                        : <p>{`${players[0]} vs ${players[1]}`} </p> }
                         <div className="mb-3">
                         <label className="form-label" style={{color:'Black'}}>Ingresa marcadores de Set</label>
                         <input
