@@ -107,7 +107,7 @@ const MatchResultUpdate: React.FC = () => {
                         ? <p>{`${players[0]} & ${players[1]} vs ${players[2]} & ${players[3]}`}</p>
                         : <p>{`${players[0]} & ${players[1]}`} </p> }
                         <div className="mb-3">
-                        <label className="form-label">Ingresa marcadores de Set</label>
+                        <label className="form-label" style={{color:'Black'}}>Ingresa marcadores de Set</label>
                         <input
                             type="text"
                             className="form-control"
@@ -116,13 +116,13 @@ const MatchResultUpdate: React.FC = () => {
                             placeholder="Ejemplo: 6:4, 3:6, 7:6(3)"
                         />
                     </div>
-                    <label className="form-label">Seleccionar Ganador</label>
+                    <label className="form-label" style={{color:'Black'}}>Seleccionar Ganador</label>
                     <div>
                         {isDoubles ? (
                             <>
-                                <div className="form-check">
+                                <div className="form-check" style={{marginTop:'10px'}}>
                                     {players[0] && players[1] &&(
-                                        <label>
+                                        <label style={{color:'Black'}}>
                                     <input
                                         type="checkbox"
                                         className="filled-in"
@@ -135,7 +135,7 @@ const MatchResultUpdate: React.FC = () => {
                                         </label>
                                     )}
                                     {players[2] && players[3] &&(
-                                        <label>
+                                        <label style={{color:'Black'}}>
                                     <input
                                         type="checkbox"
                                         className="filled-in"
@@ -154,7 +154,7 @@ const MatchResultUpdate: React.FC = () => {
                                 <div className="form-check" style={{marginTop:'10px'}}>
                                     {/* Checkbox for Player 1 */}
                                     {players[0] && (
-                                        <label>
+                                        <label style={{color:'Black'}}>
                                             <input
                                                 type="checkbox"
                                                 className="filled-in"
@@ -167,7 +167,7 @@ const MatchResultUpdate: React.FC = () => {
 
                                     {/* Checkbox for Player 2 */}
                                     {players[1] && (
-                                        <label style={{marginLeft: '20px'}}>
+                                        <label style={{marginLeft: '20px', color:'Black'}}>
                                             <input
                                                 type="checkbox"
                                                 className="filled-in"
