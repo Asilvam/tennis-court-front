@@ -1,0 +1,32 @@
+.player-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.player-square {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #10b3d3;
+    border-radius: 8px;
+    background-color: #80e8fc;
+}
+
+.player-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.player-serie, .player-points {
+    font-size: 1rem;
+}
+
+.vs {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #10b3d3;
+}

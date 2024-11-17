@@ -4,9 +4,18 @@ import M from 'materialize-css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
+import '../styles/Player.css';
+
+interface PlayerData {
+    email: string;
+    points: string;
+    category: string;
+    cellular: string;
+}
 
 const MatchResultUpdate: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const phoneAdmin = import.meta.env.VITE_PHONE_ADMIN;
     const [matchId, setMatchId] = useState('');
     const [matchPass, setMatchPass] = useState('');
     const [isValid, setIsValid] = useState(false);
@@ -15,6 +24,12 @@ const MatchResultUpdate: React.FC = () => {
     const [result, setResult] = useState('');
     const [winner, setWinner] = useState('');
     const [loading, setLoading] = useState(false);
+    const [dataUpdateRanking, setDataUpdateRanking] = useState(null);
+    const [player1Data, setPlayer1Data] = useState<PlayerData|null>(null);
+    const [player2Data, setPlayer2Data] = useState<PlayerData|null>(null);
+    const [player3Data, setPlayer3Data] = useState<PlayerData|null>(null);
+    const [player4Data, setPlayer4Data] = useState<PlayerData|null>(null);
+
 
     const validateMatch = async () => {
         try {
@@ -26,7 +41,18 @@ const MatchResultUpdate: React.FC = () => {
             setPlayers(data.players);
             setIsDoubles(data.isDouble);
             setIsValid(data.isValid);
-
+            console.log(data);
+            setPlayer1Data(data.dataPlayers[0]);
+            setPlayer2Data(data.dataPlayers[1]);
+            if (isDoubles){
+                setPlayer3Data(data.dataPlayers[2]);
+                setPlayer4Data(data.dataPlayers[3]);
+            }
+            setDataUpdateRanking(() => data.players.map((player: string, index: number) => ({
+                    player,
+                    ...data.dataPlayers[index],
+                }))
+            );
             if (data.isValid) {
                 const modal = document.getElementById('resultModal');
                 if (modal) {
@@ -47,12 +73,17 @@ const MatchResultUpdate: React.FC = () => {
         }
     };
 
-
-
-    const handleSave = () => {
+    const handleSave = async () => {
+        console.log(dataUpdateRanking);
         if (result && winner) {
+
+            // await axios.post(`${apiUrl}/whatsapp/send`, {
+            //     to: phoneAdmin,
+            //     message: `Resultado guardado: ${result}, ${winner}, ${matchId}`
+            // });
+
             // Here, you'd call a function to save the result
-            console.log('Resultado guardado:', result, winner);
+            console.log('Resultado guardado:', result, winner, matchId);
 
             const modal = document.getElementById('resultModal');
             if (modal) {
@@ -75,7 +106,6 @@ const MatchResultUpdate: React.FC = () => {
             });
         }
     };
-
 
     return (
         <div className="container">
@@ -113,12 +143,26 @@ const MatchResultUpdate: React.FC = () => {
             {/* Materialize modal for saving match result */}
             <div id="resultModal" className="modal">
                 <div className="modal-content">
-                    <h6><strong>Resultado</strong></h6>
+                    <h6><strong>Ingresar Resultados de Match</strong></h6>
                     {isDoubles
                         ? <p>{`${players[0]} & ${players[1]} vs ${players[2]} & ${players[3]}`}</p>
-                        : <p>{`${players[0]} vs ${players[1]}`} </p> }
-                        <div className="mb-3">
-                        <label className="form-label" style={{color:'Black'}}>Ingresa marcadores de Set</label>
+                        : <div className="player-container">
+                            <div className="player-square">
+                                <p className="player-name">{players[0]}</p>
+                                <p className="player-serie">Serie: {player1Data?.category}</p>
+                                <p className="player-points">Puntos: {player1Data?.points}</p>
+                            </div>
+                            <div className="vs">VS</div>
+                            <div className="player-square">
+                                <p className="player-name">{players[1]}</p>
+                                <p className="player-serie">Serie: {player2Data?.category}</p>
+                                <p className="player-points">Puntos: {player2Data?.points}</p>
+                            </div>
+                        </div>
+
+                    }
+                    <div className="mb-3">
+                        <label className="form-label" style={{color: 'Black'}}>Ingresa marcadores de Set</label>
                         <input
                             type="text"
                             className="form-control"
