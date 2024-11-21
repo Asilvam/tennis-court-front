@@ -15,7 +15,7 @@ interface PlayerData {
 
 const MatchResultUpdate: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const phoneAdmin = import.meta.env.VITE_PHONE_ADMIN;
+    // const phoneAdmin = import.meta.env.VITE_PHONE_ADMIN;
     const [matchId, setMatchId] = useState('');
     const [matchPass, setMatchPass] = useState('');
     const [isValid, setIsValid] = useState(false);
@@ -30,6 +30,49 @@ const MatchResultUpdate: React.FC = () => {
     const [player3Data, setPlayer3Data] = useState<PlayerData|null>(null);
     const [player4Data, setPlayer4Data] = useState<PlayerData|null>(null);
 
+    const handleError = (error: any) => {
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                // Detecta un error BadRequest (400)
+                if (error.response.status === 400) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Solicitud inválida',
+                        text: error.response.data.message || 'La solicitud enviada no es válida. Verifica los datos e inténtalo nuevamente.',
+                    });
+                } else {
+                    // Otros errores en la respuesta del servidor
+                    Swal.fire({
+                        icon: 'error',
+                        title: `Error ${error.response.status}`,
+                        text: error.response.data.message || 'Ocurrió un problema en la solicitud.',
+                    });
+                }
+            } else if (error.request) {
+                // No hubo respuesta del servidor
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin respuesta del servidor',
+                    text: 'El servidor no respondió. Por favor, inténtalo más tarde.',
+                });
+            } else {
+                // Error en la configuración de la solicitud
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error en la solicitud',
+                    text: error.message || 'Hubo un problema al enviar la solicitud.',
+                });
+            }
+        } else {
+            // Error genérico
+            Swal.fire({
+                icon: 'error',
+                title: 'Error inesperado',
+                text: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
+            });
+        }
+    };
+
 
     const validateMatch = async () => {
         try {
@@ -41,7 +84,7 @@ const MatchResultUpdate: React.FC = () => {
             setPlayers(data.players);
             setIsDoubles(data.isDouble);
             setIsValid(data.isValid);
-            console.log(data);
+            // console.log(data);
             setPlayer1Data(data.dataPlayers[0]);
             setPlayer2Data(data.dataPlayers[1]);
             if (isDoubles){
@@ -66,8 +109,9 @@ const MatchResultUpdate: React.FC = () => {
                     }
                 }
             }
-        } catch (error) {
-            console.error('Error al validar el partido:', error);
+        } catch (error:any) {
+            console.error('Error in Validate Match component:', error);
+            handleError(error);
         } finally {
             setLoading(false); // Stop loading spinner
         }
@@ -141,7 +185,7 @@ const MatchResultUpdate: React.FC = () => {
             </button>
 
             {/* Materialize modal for saving match result */}
-            <div id="resultModal" className="modal">
+            <div id="resultModal" className="modal" style={{maxWidth: '450px'}}>
                 <div className="modal-content">
                     <h6><strong>Ingresar Resultados de Match</strong></h6>
                     {isDoubles

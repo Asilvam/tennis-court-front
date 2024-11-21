@@ -23,6 +23,7 @@ interface TimeSlotType {
     court: string;
     available: boolean;
     isPayed: boolean;
+    isBlockedByAdmin: boolean;
     data: string;
 }
 
@@ -84,14 +85,22 @@ const Dashboard: React.FC = () => {
     };
 
     const handleTimeSlotClick = useCallback(
-        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string) => {
+        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
+            if(isBlockedByAdmin) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Horario Bloqueado',
+                    html: `Motivo<br><strong>${data}</strong>`,
+                });
+                return;
+            }
             if (!available) {
                 Swal.fire({
                     icon: 'info',
                     title: 'Detalle del Partido',
                     html: `Reservado Jugadores<br><strong>${data}</strong>`,
                 });
-                return; // Stop further execution if the slot is unavailable
+                return;
             }
             if (activeReserve) {
                 Swal.fire({
@@ -99,7 +108,7 @@ const Dashboard: React.FC = () => {
                     title: 'Información',
                     text: 'Ya tienes una reserva activa.',
                 });
-                return; // Stop further execution if an active reservation exists
+                return;
             }
             const timeSlot = { courtId, time, date: selectedDate, player1: namePlayer, isPayed };
             setSelectedTimeSlot(timeSlot);
@@ -206,7 +215,7 @@ const Dashboard: React.FC = () => {
                                         className={`time-slot ${slot.available ? 'available' : 'unavailable'} ${slot.isPayed ? 'paid' : ''}`}
                                     >
                                         <div className="time-slot-court"
-                                             onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data)}
+                                             onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
                                         >{slot.court}</div>
                                     </div>
                                 ))}
