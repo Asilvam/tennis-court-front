@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowInfo(false);
-        }, 10000); // Show for 10 seconds
+        }, 30000); // Show for 10 seconds
 
         return () => clearTimeout(timer);
     }, []);

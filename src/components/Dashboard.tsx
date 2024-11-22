@@ -152,6 +152,7 @@ const Dashboard: React.FC = () => {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
             if (!response.data) throw new Error('No data received');
             setTimeSlots(response.data);
+            // console.log('response.data-->', response.data )
         } catch (error) {
             console.error(error);
         } finally {

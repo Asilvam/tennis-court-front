@@ -153,7 +153,7 @@ const MatchResultUpdate: React.FC = () => {
 
     return (
         <div className="container">
-            <h6 className="mt-3">Agregar Resultado Match</h6>
+            <h6 className="mt-3">Ingresar Resultado Match</h6>
             <div className="mb-3">
                 <label className="form-label">ID match</label>
                 <input
