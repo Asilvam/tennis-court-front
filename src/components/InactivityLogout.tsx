@@ -24,7 +24,7 @@ const InactivityLogout: React.FC = () => {
 
         const resetTimer = () => {
             if (timer) clearTimeout(timer);
-            timer = setTimeout(handleLogout, 60000); // 1 minute inactivity
+            timer = setTimeout(handleLogout, 3000000); // 5 minute inactivity
         };
 
         // Reset timer on user interaction
