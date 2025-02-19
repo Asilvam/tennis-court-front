@@ -18,5 +18,13 @@
 }
 
 .time-slot.night {
-    background-color: #838383; /* Rojo para horarios no disponibles */
+    background-color: #838383; /* Gris para horarios nocturnos */
+}
+
+.time-slot.championship {
+    background-color: #0033A0; /* Azul rey */
+}
+
+.time-slot.maintenance {
+    background-color: #FF6600; /* Naranjo intenso */
 }
