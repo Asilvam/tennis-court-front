@@ -189,7 +189,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
             <h5>Tennis Scoreboard</h5>
 
             {/* Tie Break Checkbox */}
-            <div className="left-align" style={{marginBottom: "20px"}}>
+            <div className="left-align" style={{marginBottom: "10px"}}>
                 <div className="col s12 left-align">
                     <label>
                         <input
@@ -265,7 +265,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
             </table>
 
             <div className="row center-align"
-                 style={{marginTop: "30px", display: "flex", justifyContent: "center", gap: "20px"}}>
+                 style={{marginTop: "20px", display: "flex", justifyContent: "center", gap: "20px"}}>
                 {["p1", "p2"].map((key) => (
                     <div key={key}
                          style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"}}>
@@ -288,7 +288,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
             </div>
 
             <div className="center-align" style={{
-                marginTop: "60px",
+                marginTop: "40px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
