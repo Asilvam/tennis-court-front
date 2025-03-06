@@ -288,7 +288,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
             </div>
 
             <div className="center-align" style={{
-                marginTop: "120px",
+                marginTop: "60px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
