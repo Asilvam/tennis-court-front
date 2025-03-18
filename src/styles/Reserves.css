@@ -7,8 +7,7 @@
     padding: 0.5rem;
     border-radius: 8px;
     background-color: #eef6fd;
-    max-width: 400px;
-    width: 100%;
+    width: 105%;
 }
 
 /* Time displayed vertically on the left */
@@ -60,15 +59,38 @@
     font-weight: bold;
 }
 
-/* Player names (displayed if unavailable) */
-.time-slot-name {
-    font-size: 0.8rem;
-    color: inherit;
-    white-space: nowrap;
-}
 
 /* Paid status for specific slots */
 .time-slot.paid {
     background-color: #dfdede; /* Soft yellow if paid */
     border-color: #000000;
 }
+
+/* Campeonato */
+.time-slot.campeonato {
+    background-color: #ede7f6;
+    color: #6a1b9a;
+    border: 1px solid #8e24aa;
+}
+
+/* Mantención */
+.time-slot.mantencion {
+    background-color: #efebe9;
+    color: #4e342e;
+    border: 1px solid #6d4c41;
+}
+
+/* Clases */
+.time-slot.clases {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #43a047;
+}
+
+/* Clima */
+.time-slot.clima {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #fb8c00;
+}
+

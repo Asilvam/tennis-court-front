@@ -213,7 +213,15 @@ const Dashboard: React.FC = () => {
                                 {timeSlot.slots.map((slot, idx) => (
                                     <div
                                         key={idx}
-                                        className={`time-slot ${slot.available ? 'available' : 'unavailable'} ${slot.isPayed ? 'paid' : ''}`}
+                                        className={[
+                                            'time-slot',
+                                            slot.available ? 'available' : 'unavailable',
+                                            slot.isPayed && 'paid',
+                                            slot.data === 'Campeonato' && 'campeonato',
+                                            slot.data === 'Mantencion' && 'mantencion',
+                                            slot.data === 'Clases' && 'clases',
+                                            slot.data === 'Clima' && 'clima'
+                                        ].filter(Boolean).join(' ')}
                                     >
                                         <div className="time-slot-court"
                                              onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}

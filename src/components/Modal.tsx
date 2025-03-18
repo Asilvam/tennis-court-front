@@ -6,6 +6,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
 import {customStyles} from "../utils/customStyles.ts";
+import logger from '../utils/logger';
 
 interface ModalProps {
     id: string;
@@ -230,6 +231,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 },
             });
             // console.log(formData);
+            logger.info(formData);
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
@@ -243,6 +245,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             }
         } catch (error) {
             // console.log(error);
+            logger.error(error);
             Swal.close(); // Ensure the previous Swal is closed before opening a new one
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.message) {

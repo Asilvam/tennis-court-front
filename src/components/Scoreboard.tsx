@@ -279,7 +279,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
                         <button
                             onClick={() => pointLostBy(key as "p1" | "p2")}
                             className={`btn ${lastPressed === key ? "red darken-3" : "red lighten-3"}`}
-                            style={{width: "125px", height: "125px", fontSize: "14px"}}
+                            style={{width: "100px", height: "100px", fontSize: "14px"}}
                         >
                             {players[key as "p1" | "p2"].name} -
                         </button>

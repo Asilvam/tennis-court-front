@@ -23,7 +23,7 @@ const App: React.FC = () => {
     return (
         <UserProvider> {/* Wrap the whole app in UserProvider */}
             <AuthProvider>
-                <Router>
+                <Router future={{ v7_startTransition: true,  v7_relativeSplatPath: true  }}>
                     <InactivityLogout /> {/* Auto logout component */}
                     <div>
                         <Navigation/>
