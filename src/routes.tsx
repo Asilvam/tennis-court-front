@@ -12,6 +12,7 @@ import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
 import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 import Scoreboard from "./components/Scoreboard.tsx";
+import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -27,6 +28,7 @@ const Router: React.FC = () => {
             <Route path="/summary" element={<ReservationSummary/>}/>
             <Route path="/myhistory" element={<MyHistoryReserve/>}/>
             <Route path="/updatematch" element={<MatchResultUpdate/>}/>
+            <Route path="/multibooking" element={<MultipleBookingForm/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     );

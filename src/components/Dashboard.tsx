@@ -220,7 +220,8 @@ const Dashboard: React.FC = () => {
                                             slot.data === 'Campeonato' && 'campeonato',
                                             slot.data === 'Mantencion' && 'mantencion',
                                             slot.data === 'Clases' && 'clases',
-                                            slot.data === 'Clima' && 'clima'
+                                            slot.data === 'Clima' && 'clima',
+                                            slot.data === 'Reserva' && 'reserva',
                                         ].filter(Boolean).join(' ')}
                                     >
                                         <div className="time-slot-court"

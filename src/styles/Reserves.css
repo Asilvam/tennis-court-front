@@ -94,3 +94,10 @@
     border: 1px solid #fb8c00;
 }
 
+/* Reserva */
+.time-slot.reserva {
+    background-color: #fce4ec;  /* Rosa pastel claro */
+    color: #ad1457;             /* Rosa fuerte para texto */
+    border: 1px solid #ec407a;  /* Rosa medio para el borde */
+}
+
