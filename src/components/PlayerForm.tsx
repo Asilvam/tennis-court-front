@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import logger from "../utils/logger.ts";
 
 interface FormData {
     namePlayer: string;
@@ -28,6 +29,8 @@ const PlayerForm: React.FC = () => {
     const [generateLoading, setGenerateLoading] = useState(false);
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [cellularError, setCellularError] = useState<string | null>(null);
+
 
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -72,49 +75,68 @@ const PlayerForm: React.FC = () => {
         e.preventDefault();
         setGenerateLoading(true);
 
+        // Validaciones previas
         if (!validateEmail(formData.email)) {
             setEmailError('Invalid email');
             emailInputRef.current?.focus();
-            setGenerateLoading(false);
-            return;
+            return setGenerateLoading(false);
         }
 
         if (!validatePassword()) {
-            setGenerateLoading(false);
-            return;
+            return setGenerateLoading(false);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { retypePwd, ...formDataToSend } = formData;
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formDataToSend);
-            if (response.data.status === 400) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: response.data.message,
-                });
-                setGenerateLoading(false);
-                return;
-            }
-
+            logger.info(response);
             await Swal.fire({
                 icon: 'success',
                 title: 'Player created successfully!',
             });
 
             clearForm();
-        } catch (error) {
-            await Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-            });
-            console.error('Failed to submit form:', error);
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                const status = error.response?.status;
+                const message = error.response?.data?.message || '';
+
+                if (status === 400) {
+                    if (message.includes('email')) {
+                        setEmailError('Este correo ya está registrado.');
+                        emailInputRef.current?.focus();
+                    } else if (message.includes('cellular')) {
+                        setCellularError('Este número ya está registrado.');
+                    } else {
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message || 'Datos inválidos.',
+                        });
+                    }
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Algo salió mal, por favor intenta nuevamente.',
+                    });
+                }
+            } else {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error desconocido.',
+                });
+            }
+
+            logger.error('Failed to submit form:', error);
         }
-        setGenerateLoading(false);
+        finally {
+            setGenerateLoading(false);
+        }
     };
+
 
     return (
         <Fragment>
@@ -144,8 +166,10 @@ const PlayerForm: React.FC = () => {
                             onChange={handleChange}
                             required
                         />
-                        <label htmlFor="cellular">Nª Celular</label>
+                        <label htmlFor="cellular">Nº Celular</label>
+                        {cellularError && <span className="red-text">{cellularError}</span>}
                     </div>
+
 
                     {/* Email */}
                     <div className="input-field col s12">
@@ -161,6 +185,7 @@ const PlayerForm: React.FC = () => {
                         <label htmlFor="email">Email</label>
                         {emailError && <span className="red-text">{emailError}</span>}
                     </div>
+
 
                     {/* Password */}
                     <div className="input-field col s12">
@@ -202,8 +227,7 @@ const PlayerForm: React.FC = () => {
                 </form>
             </div>
         </Fragment>
-    )
-        ;
+    );
 };
 
 export default PlayerForm;

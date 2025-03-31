@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DateTime } from 'luxon';
 import { forwardRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
     <div
         onClick={onClick}
@@ -27,7 +28,6 @@ const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
             backgroundColor: '#fff',
             boxSizing: 'border-box',
         }}
-
     >
     <span style={{ flex: 1, fontSize: '16px', color: '#333' }}>
       Seleccionar fecha
@@ -46,7 +46,7 @@ const MultipleBookingForm: React.FC = () => {
     const [courts, setCourts] = useState<string[]>([]);
     const [dates, setDates] = useState<string[]>([]);
     const [turns, setTurns] = useState<string[]>([]);
-    const [motive, setMotive] = useState<string>('');
+    const [motive, setMotive] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const availableCourts = ['Cancha 1', 'Cancha 2', 'Cancha 3'];
@@ -88,7 +88,7 @@ const MultipleBookingForm: React.FC = () => {
         const payload = { courts, dates, turns, motive };
 
         try {
-            logger.log(payload);
+            logger.debug(payload);
             await axios.post(`${apiUrl}/booking/multiple`, payload);
 
             await Swal.fire({
@@ -101,7 +101,8 @@ const MultipleBookingForm: React.FC = () => {
             setCourts([]);
             setDates([]);
             setTurns([]);
-            setMotive('');
+            setMotive([]);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
             Swal.fire({
                 icon: 'error',
@@ -130,7 +131,7 @@ const MultipleBookingForm: React.FC = () => {
         }
 
         const formatted = selected.toISODate();
-        if (dates.includes(formatted)) return;
+        if (dates.includes(formatted as string)) return;
 
         if (dates.length >= 10) {
             Swal.fire({
@@ -143,10 +144,10 @@ const MultipleBookingForm: React.FC = () => {
 
         const updatedDates = [...dates, formatted];
         const sorted = updatedDates.sort((a, b) =>
-            DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis()
+            DateTime.fromISO(a as string).toMillis() - DateTime.fromISO(b as string).toMillis()
         );
 
-        setDates(sorted);
+        setDates(sorted as string[]);
     };
 
 

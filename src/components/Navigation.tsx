@@ -107,8 +107,6 @@ const Navigation: React.FC = () => {
                     </>
                 )}
             </ul>
-
-
             {/* Mobile Navigation (sidenav) */}
             <ul
                 className="sidenav light-blue darken-4"
@@ -148,8 +146,6 @@ const Navigation: React.FC = () => {
                     </li>
                 )}
             </ul>
-
-
         </>
     );
 };

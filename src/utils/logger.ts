@@ -1,10 +1,37 @@
-import log from 'loglevel';
+// utils/logger.ts
+import { LogLevel } from './logLevel';
 
-// Configurar nivel según el ambiente
-if (process.env.NODE_ENV === 'production') {
-    log.setLevel('warn'); // Solo warnings y errores en producción
-} else {
-    log.setLevel('debug'); // Verbose en desarrollo
-}
+const currentLogLevel: LogLevel = import.meta.env.VITE_LOG_LEVEL || LogLevel.DEBUG;
 
-export default log;
+const logOrder = {
+    [LogLevel.DEBUG]: 0,
+    [LogLevel.INFO]: 1,
+    [LogLevel.WARN]: 2,
+    [LogLevel.ERROR]: 3,
+    [LogLevel.NONE]: 4,
+};
+
+const logger = {
+    debug: (...args: any[]) => {
+        if (logOrder[currentLogLevel] <= logOrder[LogLevel.DEBUG]) {
+            console.debug('[DEBUG]:', ...args);
+        }
+    },
+    info: (...args: any[]) => {
+        if (logOrder[currentLogLevel] <= logOrder[LogLevel.INFO]) {
+            console.info('[INFO]:', ...args);
+        }
+    },
+    warn: (...args: any[]) => {
+        if (logOrder[currentLogLevel] <= logOrder[LogLevel.WARN]) {
+            console.warn('[WARN]:', ...args);
+        }
+    },
+    error: (...args: any[]) => {
+        if (logOrder[currentLogLevel] <= logOrder[LogLevel.ERROR]) {
+            console.error('[ERROR]:', ...args);
+        }
+    },
+};
+
+export default logger;
