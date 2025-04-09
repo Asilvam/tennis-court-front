@@ -56,15 +56,37 @@ const AdminRegister: React.FC = () => {
     const fetchRegisters = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${apiUrl}/register`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            setUsers(data); // Assuming data is an array of users
+            const response = await axios.get(`${apiUrl}/register`);
+            setUsers(response.data); // Axios automatically parses the JSON response
         } catch (error) {
             console.error('Error fetching registers:', error);
-            Swal.fire('Error', 'Failed to fetch registers', 'error');
+            let errorMessage;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                errorMessage = `Server responded with error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            } else { // @ts-expect-error
+                if (error.request) {
+                                // The request was made but no response was received
+                                errorMessage = 'No response received from the server';
+                            } else {
+                                // Something happened in setting up the request that triggered an Error
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-expect-error
+                    errorMessage = error.message;
+                            }
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to fetch registers!',
+                footer: `<p>${errorMessage}</p>`,
+            });
         } finally {
             setLoading(false);
         }
@@ -108,7 +130,7 @@ const AdminRegister: React.FC = () => {
                 if (response.status !== 200) {
                     throw new Error('Failed to update user.');
                 }
-                Swal.fire('Success', `${editUser.namePlayer} information actualizada.`, 'success');
+                Swal.fire('Success', `${editUser.namePlayer} informacion actualizada.`, 'success');
                 const modal = document.getElementById('editModal');
                 if (modal) {
                     const instance = M.Modal.getInstance(modal);
@@ -154,33 +176,45 @@ const AdminRegister: React.FC = () => {
                 <label></label>
             </div>
             {/* User List Table */}
-            <table className="striped">
-                <thead>
-                <tr>
-                    <th>Name Player</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {filteredUsers.map(user => (
-                    <tr key={user.email}>
-                        <td>{user.namePlayer}</td>
-                        <td>{user.email}</td>
-                        <td>
-                            <button className="btn blue darken-4" onClick={() => handleEdit(user)}>
-                                Editar
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-                {filteredUsers.length === 0 && (
+            <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                <table className="striped" style={{ width: '100%', tableLayout: 'fixed' }}>
+                    <thead>
                     <tr>
-                        <td colSpan={5} className="center-align">No users found</td>
+                        <th style={{ width: '30%', minWidth: '80px', textAlign: 'left' }}>Name</th>
+                        <th style={{ width: '50%', minWidth: '120px', textAlign: 'left' }}>Email</th>
+                        <th style={{ width: '20%', minWidth: '60px', textAlign: 'center' }}>Actions</th>
                     </tr>
-                )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {filteredUsers.map((user) => (
+                        <tr key={user.email}>{/* No newline here */}
+                            <td style={{ width: '25%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'left' }}>
+                                {user.namePlayer}
+                            </td>
+                            <td style={{ width: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'left' }}>
+                                {user.email}
+                            </td>
+                            <td style={{ width: '25%', whiteSpace: 'nowrap', textAlign: 'center' }}>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <button
+                                        className="btn blue darken-4"
+                                        style={{ fontSize: '0.7rem', padding: '2px 5px', width: '80px' }}
+                                        onClick={() => handleEdit(user)}
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
+                    {filteredUsers.length === 0 && (
+                        <tr>{/* No newline here */}
+                            <td colSpan={3} className="center-align">No users found</td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+            </div>
             {/* Edit Modal */}
             <div id="editModal" className="modal" style={{ width: '400px' }}>
                 <div className="modal-content">
