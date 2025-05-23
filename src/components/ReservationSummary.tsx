@@ -50,35 +50,35 @@ const ReservationSummary: React.FC = () => {
         <div className="container mt-5">
             <div className="card-body">
                 <h5 className="card-title mb-4">
-                    Resumen de Reserva de Cancha
+                    Resumen de Reserva
                 </h5>
 
                 <p>
-                    {' '}Tienes una reserva para jugar <br/>
+                    {' '}Tu reserva ya esta lista. <br/>
                     {isDouble ? (
                         <>
                             <strong>{player1} con {player2 || visitName}</strong> <br/>
-                            <strong>contra {player3} y {player4}</strong>
+                            <strong>vs {player3} y {player4}</strong>
                         </>
                     ) : (
-                        <strong>{player1} contra {player2 || visitName}</strong>
+                        <strong>{player1} vs {player2 || visitName}</strong>
                     )}
                 </p>
                 <p>
-                    La fecha para jugar es <br/>
+                    Fecha <br/>
                     <FontAwesomeIcon icon={faCalendar} className="me-2"/>
 
                     {' '}<strong>{dateToPlay}</strong>
                 </p>
 
                 <p>
-                    El turno es <br/>
+                    Turno<br/>
                     <FontAwesomeIcon icon={faClock} className="me-2"/>
                     {' '}<strong>{turn}</strong>
                 </p>
 
                 <p>
-                    La cancha asignada es <br/>
+                    Cancha <br/>
                     <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
                     {' '}<strong>{court}</strong>
                 </p>

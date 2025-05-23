@@ -164,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.fire({
                         icon: 'error',
                         title: 'Error Players',
-                        text: 'Player 2, Player 3, y Player 4 no debe en blanco.',
+                        text: 'Player 2, Player 3, y Player 4 no pueden ser blanco.',
                     });
                 } else if (new Set([player2, player3, player4]).size !== 3) {
                     isValid = false;
@@ -221,7 +221,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         }
         try {
             Swal.fire({
-                title: 'Processing Reservation',
+                title: 'Processing ...',
                 text: 'Procesando Reserva...',
                 showConfirmButton: false,
                 allowOutsideClick: false,
