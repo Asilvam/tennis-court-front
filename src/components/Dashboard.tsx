@@ -48,8 +48,12 @@ const Dashboard: React.FC = () => {
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [activeReserve, setActiveReserve] = useState<CourtReserve | null>(null);
-    const minDate = DateTime.now().toISODate();
-    const maxDate = DateTime.now().plus({days: 2}).toISODate();
+    let minDate = DateTime.now().toISODate();
+    let maxDate = DateTime.now().plus({days: 2}).toISODate();
+    if (userInfo?.role==='admin') {
+         minDate = DateTime.now().minus({ months: 2 }).toISODate();
+         maxDate = DateTime.now().plus({month: 2}).toISODate();
+    }
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = getTokenFromLocalStorage();
