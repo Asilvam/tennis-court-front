@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 interface Reserve {
     idCourtReserve: string;
+    court: string;
     player1: string;
     dateToPlay: string;
     turn: string;
@@ -83,6 +86,7 @@ const AdminReserves: React.FC = () => {
                         <th>Player 1</th>
                         <th>Date</th>
                         <th>Turn</th>
+                        <th>Court</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -90,14 +94,12 @@ const AdminReserves: React.FC = () => {
                     {reserves.map((reserve) => (
                         <tr key={reserve.idCourtReserve}>
                             <td>{reserve.player1}</td>
-                            <td>{reserve.dateToPlay}</td>
-                            <td>{reserve.turn}</td>
+                            <td>{reserve.dateToPlay.slice(8, 10)}-{reserve.dateToPlay.slice(5, 7)}</td>
+                            <td>{reserve.turn.split('-')[0]}</td>
+                            <td>{reserve.court.split(' ')[1]}</td>
                             <td>
-                                <button
-                                    onClick={() => handleDelete(reserve.idCourtReserve)}
-                                    className="btn btn-danger blue darken-1"
-                                >
-                                    Delete
+                                <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
+                                    <FontAwesomeIcon icon={faTrash}/>
                                 </button>
                             </td>
                         </tr>
