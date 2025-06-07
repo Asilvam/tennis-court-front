@@ -160,9 +160,11 @@ const MyHistoryReserve: React.FC = () => {
                 <tbody>
                 {reserves.map((reserve) => (
                     <tr key={reserve.idCourtReserve}>
-                        <td>{reserve.dateToPlay}</td>
+                        <td>
+                            {`${reserve.dateToPlay.slice(8, 10)}-${reserve.dateToPlay.slice(5, 7)}-${reserve.dateToPlay.slice(2, 4)}`}
+                        </td>
                         <td className="center-align">{extractNumber(reserve.court)}</td>
-                        <td>{reserve.turn}</td>
+                        <td>{reserve.turn.split('-')[0]}</td>
                         <td>
                             <button className="btn blue darken-1" onClick={() => openModal(reserve)}>
                                 <FontAwesomeIcon icon={faEye}/>
@@ -188,9 +190,9 @@ const MyHistoryReserve: React.FC = () => {
                             <p><strong>Player 2:</strong> {selectedReserve.player2}</p>
                             {selectedReserve.player3 && <p><strong>Player 3:</strong> {selectedReserve.player3}</p>}
                             {selectedReserve.player4 && <p><strong>Player 4:</strong> {selectedReserve.player4}</p>}
-                            <p><strong>Fecha:</strong> {selectedReserve.dateToPlay}</p>
-                            <p><strong>Cancha:</strong> {selectedReserve.court}</p>
-                            <p><strong>Turno:</strong> {selectedReserve.turn}</p>
+                            <p><strong>Fecha:</strong> {`${selectedReserve.dateToPlay.slice(8, 10)}-${selectedReserve.dateToPlay.slice(5, 7)}-${selectedReserve.dateToPlay.slice(2, 4)}`}</p>
+                            <p><strong>Cancha:</strong> {selectedReserve.court.replace(/\D/g, '')}</p>
+                            <p><strong>Turno:</strong> {selectedReserve.turn.split('-')[0]}</p>
                             {selectedReserve.visitName &&
                                 <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
                             {!selectedReserve.state &&
