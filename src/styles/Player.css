@@ -1,32 +1,66 @@
+/* /Users/alejandrosilvamonsalve/Documents/Developer/tennis-court-front/src/styles/Player.css */
+
 .player-container {
     display: flex;
-    align-items: center;
-    gap: 2rem;
+    align-items: center; /* Centra verticalmente los squares y el VS */
+    justify-content: space-around; /* Distribuye el espacio */
+    gap: 0.5rem; /* Espacio reducido entre elementos si es necesario, space-around lo manejará */
+    padding: 10px 0; /* Añade un poco de padding vertical al contenedor */
 }
 
 .player-square {
-    width: 150px;
-    height: 150px;
+    width: 180px; /* Aumentado */
+    height: 180px; /* Aumentado */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #10b3d3;
-    border-radius: 8px;
-    background-color: #80e8fc;
+    border: 1px solid #2979ff; /* Un azul más vibrante para el borde */
+    border-radius: 12px; /* Bordes más redondeados */
+    background: linear-gradient(145deg, #e3f2fd, #bbdefb); /* Degradado azul claro */
+    box-shadow: 5px 5px 10px #a7c0cd, /* Sombra inferior derecha */
+    -5px -5px 10px #ffffff; /* Sombra superior izquierda (efecto neumorfismo suave) */
+    color: #1c3a5e; /* Un azul oscuro para el texto para buen contraste */
+    text-align: center; /* Asegura que el texto dentro esté centrado */
+    padding: 10px; /* Padding interno */
+    box-sizing: border-box; /* Asegura que el padding no aumente el tamaño total */
 }
 
 .player-name {
-    font-size: 1.2rem;
+    font-size: 1.6rem; /* Ligeramente aumentado para el nuevo tamaño del square */
     font-weight: bold;
+    margin-bottom: 8px; /* Aumentado para más espacio debajo del nombre */
+    line-height: 1.2; /* Ajusta el interlineado */
+    max-height: calc(1.2em * 1); /* 1.2em (line-height) * 1 (línea) */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Número de líneas a mostrar */
+    -webkit-box-orient: vertical;
+    word-break: break-word; /* Ayuda a romper palabras largas si es necesario */
+    white-space: nowrap; /* Evita que el texto salte a la siguiente línea antes del ellipsis */
+    width: 100%; /* Asegura que el ellipsis funcione correctamente si el texto es largo */
 }
 
+
 .player-serie, .player-points {
-    font-size: 1rem;
+    font-size: 0.95rem; /* Ligeramente aumentado */
+    margin-bottom: 8px; /* Ajustado para un espaciado consistente */
+    line-height: 1.3; /* Un poco más de interlineado para serie y puntos */
+    width: 100%; /* Asegura que el ellipsis funcione correctamente */
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+    overflow: hidden; /* Oculta el texto que excede el contenedor */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos para el texto oculto */
+}
+
+/* Quitar el margen inferior del último elemento para un mejor centrado vertical */
+.player-points {
+    margin-bottom: 0;
 }
 
 .vs {
-    font-size: 2rem;
+    font-size: 2.5rem; /* Se mantiene, es un buen tamaño */
     font-weight: bold;
-    color: #10b3d3;
+    color: #1565c0; /* Un azul principal más oscuro y sólido */
+    margin: 0 5px; /* Reducido ligeramente el margen horizontal si es necesario */
 }
