@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import M from 'materialize-css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -34,10 +34,10 @@ const MatchResultUpdate: React.FC = () => {
     const [winner, setWinner] = useState('');
     const [loading, setLoading] = useState(false);
     const [dataUpdateRanking, setDataUpdateRanking] = useState(null);
-    const [player1Data, setPlayer1Data] = useState<PlayerData|null>(null);
-    const [player2Data, setPlayer2Data] = useState<PlayerData|null>(null);
-    const [player3Data, setPlayer3Data] = useState<PlayerData|null>(null);
-    const [player4Data, setPlayer4Data] = useState<PlayerData|null>(null);
+    const [player1Data, setPlayer1Data] = useState<PlayerData | null>(null);
+    const [player2Data, setPlayer2Data] = useState<PlayerData | null>(null);
+    const [player3Data, setPlayer3Data] = useState<PlayerData | null>(null);
+    const [player4Data, setPlayer4Data] = useState<PlayerData | null>(null);
 
     const getPlayerInitials = (fullName?: string): string => {
         if (!fullName) return '';
@@ -103,7 +103,7 @@ const MatchResultUpdate: React.FC = () => {
     const validateMatch = async () => {
         try {
             setLoading(true);
-            const { data }: { data: ValidateMatchResponse } = await axios.post(`${apiUrl}/match-ranking/validate-match`, {
+            const {data}: { data: ValidateMatchResponse } = await axios.post(`${apiUrl}/match-ranking/validate-match`, {
                 id: matchId,
                 pass: matchPass,
             });
@@ -114,7 +114,7 @@ const MatchResultUpdate: React.FC = () => {
             setPlayer1Data(data.dataPlayers[0] || null); // Asegurar null si no existe
             setPlayer2Data(data.dataPlayers[1] || null);
 
-            if (data.isDouble){ // Usar data.isDouble de la respuesta
+            if (data.isDouble) { // Usar data.isDouble de la respuesta
                 setPlayer3Data(data.dataPlayers[2] || null);
                 setPlayer4Data(data.dataPlayers[3] || null);
             } else {
@@ -135,7 +135,7 @@ const MatchResultUpdate: React.FC = () => {
                     instance.open();
                 }
             }
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('Error in Validate Match component:', error);
             handleError(error);
         } finally {
@@ -144,24 +144,17 @@ const MatchResultUpdate: React.FC = () => {
     };
 
     const handleSave = async () => {
-        // console.log(dataUpdateRanking); // Para depuración
-        if (result && winner) {
+        if (
+            result && winner) {
             setLoading(true);
             try {
-                // Aquí iría la lógica para guardar el resultado, por ejemplo:
-                // await axios.post(`${apiUrl}/match-ranking/save-result`, {
-                //     matchId,
-                //     result,
-                //     winner, // Podrías necesitar enviar el ID o email del ganador
-                //     // playersData: dataUpdateRanking, // Si necesitas enviar todos los datos
-                // });
+                await axios.post(`${apiUrl}/match-ranking`, {
+                    matchId,
+                    result,
+                    winner,
+                });
 
-                // await axios.post(`${apiUrl}/whatsapp/send`, {
-                //     to: phoneAdmin,
-                //     message: `Resultado guardado: ${result}, ganador: ${winner}, ID Match: ${matchId}`
-                // });
-
-                console.log('Resultado guardado (simulado):', result, winner, matchId, dataUpdateRanking);
+                console.log('Resultado guardado (simulado):', result, winner, matchId);
 
                 const modal = document.getElementById('resultModal');
                 if (modal) {
@@ -234,7 +227,7 @@ const MatchResultUpdate: React.FC = () => {
                 {loading ? (
                     <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>
                 ) : (
-                    'Validar'  )}
+                    'Validar')}
             </button>
 
             {/* Materialize modal for saving match result */}
@@ -242,11 +235,13 @@ const MatchResultUpdate: React.FC = () => {
                 <div className="modal-content">
                     {/*<h6><strong>Ingresar Resultados de Match</strong></h6>*/}
                     {isDoubles
-                        ? <p>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])} vs ${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</p>
+                        ?
+                        <p>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])} vs ${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</p>
                         : <div className="player-container">
                             <div className="player-square">
                                 <div className="player-info-header"> {/* Nuevo contenedor para foto y nombre */}
-                                    <div className="player-photo-mock"></div> {/* Círculo para la foto */}
+                                    <div className="player-photo-mock"></div>
+                                    {/* Círculo para la foto */}
                                     <p className="player-name">{getPlayerInitials(players[0])}</p>
                                 </div>
                                 <p className="player-serie">Serie: {player1Data?.category}</p>
@@ -255,7 +250,8 @@ const MatchResultUpdate: React.FC = () => {
                             <div className="vs">VS</div>
                             <div className="player-square">
                                 <div className="player-info-header"> {/* Nuevo contenedor para foto y nombre */}
-                                    <div className="player-photo-mock"></div> {/* Círculo para la foto */}
+                                    <div className="player-photo-mock"></div>
+                                    {/* Círculo para la foto */}
                                     <p className="player-name">{getPlayerInitials(players[1])}</p>
                                 </div>
                                 <p className="player-serie">Serie: {player2Data?.category}</p>
@@ -274,13 +270,13 @@ const MatchResultUpdate: React.FC = () => {
                             placeholder="Ejemplo: 6:4, 3:6, 7:6(3)"
                         />
                     </div>
-                    <label className="form-label" style={{color:'Black'}}>Seleccionar Ganador</label>
+                    <label className="form-label" style={{color: 'Black'}}>Seleccionar Ganador</label>
                     <div>
                         {isDoubles ? (
                             <>
-                                <div className="form-check" style={{marginTop:'10px'}}>
-                                    {players[0] && players[1] &&(
-                                        <label style={{color:'Black', marginRight: '15px'}}>
+                                <div className="form-check" style={{marginTop: '10px'}}>
+                                    {players[0] && players[1] && (
+                                        <label style={{color: 'Black', marginRight: '15px'}}>
                                             <input
                                                 type="radio" // Cambiado a radio
                                                 name="winnerSelection" // Nombre común para el grupo
@@ -293,8 +289,8 @@ const MatchResultUpdate: React.FC = () => {
                                             <span>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`}</span>
                                         </label>
                                     )}
-                                    {players[2] && players[3] &&(
-                                        <label style={{color:'Black'}}>
+                                    {players[2] && players[3] && (
+                                        <label style={{color: 'Black'}}>
                                             <input
                                                 type="radio" // Cambiado a radio
                                                 name="winnerSelection" // Nombre común para el grupo
@@ -311,9 +307,9 @@ const MatchResultUpdate: React.FC = () => {
                             </>
                         ) : (
                             <>
-                                <div className="form-check" style={{marginTop:'10px'}}>
+                                <div className="form-check" style={{marginTop: '10px'}}>
                                     {players[0] && (
-                                        <label style={{color:'Black', marginRight: '15px'}}>
+                                        <label style={{color: 'Black', marginRight: '15px'}}>
                                             <input
                                                 type="radio" // Cambiado a radio
                                                 name="winnerSelection" // Nombre común para el grupo
@@ -325,7 +321,7 @@ const MatchResultUpdate: React.FC = () => {
                                         </label>
                                     )}
                                     {players[1] && (
-                                        <label style={{color:'Black'}}>
+                                        <label style={{color: 'Black'}}>
                                             <input
                                                 type="radio" // Cambiado a radio
                                                 name="winnerSelection" // Nombre común para el grupo
@@ -344,11 +340,11 @@ const MatchResultUpdate: React.FC = () => {
                 </div>
                 <div className="modal-footer">
                     <button className="btn btn-primary blue darken-1" onClick={handleSave} disabled={loading}>
-                        {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Guardar'}
+                        {loading ? <FontAwesomeIcon icon={faSpinner} spin/> : 'Guardar'}
                     </button>
                     <button
                         className="btn btn-secondary modal-close blue darken-4"
-                        style={{ marginLeft: "10px" }}
+                        style={{marginLeft: "10px"}}
                         disabled={loading}
                     >
                         Cancelar

@@ -413,7 +413,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         onChange={handleChange}
                                         disabled={formData.isVisit} // Disable when isVisit is true
                                     />
-                                    <span>Es por Ranking</span>
+                                    <span>Valido Ranking</span>
                                 </label>
                             </p>
                         </div>
