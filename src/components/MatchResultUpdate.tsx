@@ -166,7 +166,7 @@ const MatchResultUpdate: React.FC = () => {
                     icon: 'success',
                     title: 'Resultado guardado',
                     text: `El resultado fue guardado con éxito para: ${winner}`,
-                    timer: 2000,
+                    timer: 3000,
                     showConfirmButton: false,
                 });
                 // Resetear campos
