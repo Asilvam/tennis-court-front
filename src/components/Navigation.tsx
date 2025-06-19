@@ -114,9 +114,11 @@ const Navigation: React.FC = () => {
                 ref={sidenavRef}
                 style={{
                     width: '200px',
-                    maxHeight: '200px',  // Max height based on viewport height for dynamic sizing
+                    height: 'auto',
+                    maxHeight: '90vh',  // Max height based on viewport height for dynamic sizing
                     overflowY: 'auto',  // Enable scrolling if content overflows
-                    paddingTop: '10px'
+                    paddingTop: '10px',
+                    paddingBottom: '10px',
                 }}
             >
                 {!tokenExists && (
