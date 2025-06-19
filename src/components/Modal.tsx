@@ -275,7 +275,11 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     return (
-        <div id={id} className="modal" style={{ maxWidth: '400px' }}>
+        <div id={id} className="modal"   style={{
+            maxWidth: '400px',
+            backgroundColor: '#e0f2ff', // Un azul muy suave (puedes ajustarlo)
+            borderRadius: '15px'      // Esquinas redondeadas (puedes ajustarlo)
+        }}>
             <div className="modal-content">
                 <h6><strong> {title} </strong></h6>
                 {selectedTimeSlot ? (
@@ -284,7 +288,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         <div>
                             <p>
                                 <strong> {selectedTimeSlot.courtId} </strong> <br/>
-                                <strong>Fecha:</strong> {selectedTimeSlot.date} <br/>
+                                <strong>Fecha:</strong> {selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''} <br/>
                                 <strong>Turno:</strong> {selectedTimeSlot.time} <br/>
                                 <strong>Player 1:</strong> {selectedTimeSlot.player1}
                             </p>
@@ -422,7 +426,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     <p>No time slot selected</p>
                 )}
             </div>
-            <div className="modal-footer">
+            <div className="modal-footer" style={{
+                display: 'flex', // Añade display flex
+                justifyContent: 'center', // Centra los elementos horizontalmente
+                backgroundColor: '#e0f2ff', // Mantiene el color de fondo
+                borderBottomLeftRadius: '15px', // Mantiene las esquinas redondeadas
+                borderBottomRightRadius: '15px' // Mantiene las esquinas redondeadas
+            }}>
                 <button
                     className="modal-close btn waves-effect waves-light blue darken-4"
                     onClick={handleReserve}
@@ -432,7 +442,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 <button
                     className="modal-close btn waves-effect waves-light blue darken-1"
                     onClick={onClose}
-                    style={{marginLeft: '20px'}}
+                    style={{marginLeft: '20px'}} // Este margen seguirá aplicando espacio entre los botones
                 >
                     Cancelar
                 </button>

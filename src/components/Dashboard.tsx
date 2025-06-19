@@ -211,7 +211,9 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="flex flex-col items-center">
                     {timeSlots.map((timeSlot, index) => (
-                        <div key={index} className="time-slot-container">
+                        <div key={index} className="time-slot-container"
+                             style={{ maxWidth: '400px', width: '100%' }}
+                        >
                             <div className="time-slot-time">{timeSlot.time}</div>
                             <div className="time-slot-courts">
                                 {timeSlot.slots.map((slot, idx) => (
