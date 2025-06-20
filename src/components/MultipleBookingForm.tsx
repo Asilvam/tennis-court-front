@@ -54,7 +54,7 @@ const MultipleBookingForm: React.FC = () => {
         '08:15-10:00', '10:15-12:00', '12:15-14:00',
         '14:15-16:00', '16:15-18:00', '18:15-20:00', '20:15-22:00', '22:15-00:00'
     ];
-    const availableMotives = ['Campeonato', 'Clases', 'Mantenimiento', 'Clima', 'Reserva'];
+    const availableMotives = ['Campeonato', 'Clases', 'Mantencion', 'Clima', 'Reserva'];
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
