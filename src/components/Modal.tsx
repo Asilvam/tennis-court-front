@@ -280,7 +280,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             backgroundColor: '#e0f2ff', // Un azul muy suave (puedes ajustarlo)
             borderRadius: '15px'      // Esquinas redondeadas (puedes ajustarlo)
         }}>
-            <div className="modal-content">
+            <div className="modal-content" style={{paddingTop: '5px', paddingBottom: '5px'}}>
                 <h6><strong> {title} </strong></h6>
                 {selectedTimeSlot ? (
                     <div >
