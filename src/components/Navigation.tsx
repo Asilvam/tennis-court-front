@@ -58,6 +58,7 @@ const Navigation: React.FC = () => {
         { to: '/items', label: 'Admin carrusel', show: tokenExists && isUserRoleAdmin },
         { to: '/adminreserves', label: 'Admin reservas', show: tokenExists && isUserRoleAdmin },
         { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && isUserRoleAdmin },
+        { to:'/resetpassword', label: 'Restablecer Contraseña', show: tokenExists && isUserRoleAdmin},
     ];
 
     return (

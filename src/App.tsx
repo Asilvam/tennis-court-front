@@ -19,6 +19,7 @@ import InactivityLogout from "./components/InactivityLogout.tsx";
 import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 import Scoreboard from "./components/Scoreboard.tsx";
 import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
+import ResetPassword from "./components/ResetPassword.tsx";
 
 const App: React.FC = () => {
     return (
@@ -54,6 +55,8 @@ const App: React.FC = () => {
                                        element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
                                 <Route path="/multibooking"
                                        element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
+                                <Route path="/resetpassword"
+                                       element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />/
                                 {/* Unauthorized access page */}
                                 <Route path="/unauthorized" element={<Unauthorized />} />
                                 <Route path="*" element={<NotFound/>}/>

@@ -2,12 +2,12 @@ import React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
-    faCalendar,
-    faClock,
-    faMapMarkerAlt,
     faIdBadge,
-    faTriangleExclamation
+    faTriangleExclamation,
+    faTrophy
 } from '@fortawesome/free-solid-svg-icons';
+import '../styles/ReservationSummary.css';
+import {DateTime} from "luxon"; // Import new styles
 
 const ReservationSummary: React.FC = () => {
     const location = useLocation();
@@ -17,10 +17,11 @@ const ReservationSummary: React.FC = () => {
     // If formData doesn't exist, display a fallback message
     if (!formData) {
         return (
-            <div className="container mt-5">
-                <div className="alert alert-warning">
-                    <FontAwesomeIcon icon={faIdBadge} className="me-2"/>
+            <div className="summary-page-container">
+                <div className="summary-card">
+                    <p className="summary-alert info"><FontAwesomeIcon icon={faIdBadge} className="me-2"/>
                     No reservation details available.
+                    </p>
                 </div>
             </div>
         );
@@ -47,69 +48,66 @@ const ReservationSummary: React.FC = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <div className="card-body">
-                <h5 className="card-title mb-4">
-                    Resumen de Reserva
+        <div className="summary-page-container">
+            <div className="summary-card">
+                <h5 className="summary-title">
+                    ¡Reserva Confirmada!
                 </h5>
 
-                <p>
-                    {' '}Tu reserva ya esta lista. <br/>
-                    {isDouble ? (
-                        <>
-                            <strong>{player1} con {player2 || visitName}</strong> <br/>
-                            <strong>vs {player3} y {player4}</strong>
-                        </>
-                    ) : (
-                        <strong>{player1} vs {player2 || visitName}</strong>
-                    )}
-                </p>
-                <p>
-                    Fecha <br/>
-                    <FontAwesomeIcon icon={faCalendar} className="me-2"/>
+                <div className="matchup-summary">
+                    <div className="players">
+                        {isDouble ? (
+                            <>
+                                <span>{player1} & {player2 || visitName}</span>
+                                <div className="vs">VS</div>
+                                <span>{player3} & {player4}</span>
+                            </>
+                        ) : (
+                            <>
+                                <span>{player1}</span>
+                                <div className="vs">VS</div>
+                                <span>{player2 || visitName}</span>
+                            </>
+                        )}
+                    </div>
+                </div>
 
-                    {' '}<strong>{dateToPlay}</strong>
-                </p>
-
-                <p>
-                    Turno<br/>
-                    <FontAwesomeIcon icon={faClock} className="me-2"/>
-                    {' '}<strong>{turn}</strong>
-                </p>
-
-                <p>
-                    Cancha <br/>
-                    <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2"/>
-                    {' '}<strong>{court}</strong>
-                </p>
+                <div className="details-grid">
+                    <div className="detail-item">
+                        <div className="text">Fecha <strong>🗓️ {DateTime.fromISO(dateToPlay).toFormat('dd/MM/yyyy')}</strong></div>
+                    </div>
+                    <div className="detail-item">
+                        <div className="text">Turno <strong>⏰ {turn}</strong></div>
+                    </div>
+                    <div className="detail-item">
+                        <div className="text">Cancha <strong>📍 {court}</strong></div>
+                    </div>
+                </div>
 
                 {isPaidNight && (
-                    <div className="alert alert-info">
+                    <div className="summary-alert info">
                         <FontAwesomeIcon icon={faTriangleExclamation}/>
-                        {' '}<strong>Nota:</strong> Este turno es de pago.
+                        <span><strong>Recordatorio:</strong> Este turno es de pago. 💵</span>
                     </div>
                 )}
 
                 {!isVisit && (
-                    <>
-                        <p>
-                            <FontAwesomeIcon icon={faClock} className="me-2"/>
-                            {' '}No olvides actualizar tu ranking después del partido.
-                        </p>
-                        <p>
-                            Tu ID de reserva de cancha y tu clave de reserva <br/> fueron enviados por correo
-                            electrónico.
-                        </p>
-                    </>
+                    <div className="summary-alert ranking">
+                        <FontAwesomeIcon icon={faTrophy}/>
+                        <span>
+                            <strong>¡A Jugar por el Ranking!</strong> <br/>
+                            Tu ID y clave fueron enviados a tu correo para que puedas actualizar el resultado.
+                        </span>
+                    </div>
                 )}
 
-                <div className="mt-4">
+                <div className="closing-notes">
                     <p>¡Esperamos verte en la cancha!</p>
                     <p>Saludos cordiales,</p>
-                    <p>Club de tenis Quintero</p>
+                    <p><strong>Club de Tenis Quintero</strong> 🎾</p>
                 </div>
-                {/* Botón para regresar al panel */}
-                <div className="mt-4 ">
+
+                <div className="summary-button-container">
                     <button className="btn btn-primary blue darken-4" onClick={handleBackToDashboard}>
                         Cerrar
                     </button>

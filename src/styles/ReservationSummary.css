@@ -1,0 +1,133 @@
+/* Container for the entire summary page */
+.summary-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    background-color: #f5f8fa; /* Light gray background like matchup */
+}
+
+/* The main summary card */
+.summary-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    border-top: 5px solid #0d2c54; /* Primary color accent */
+}
+
+/* Card title */
+.summary-title {
+    color: #0d2c54; /* Primary Blue */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+/* Matchup section */
+.matchup-summary {
+    background-color: #f9fafb;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.matchup-summary .players {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.matchup-summary .vs {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #006fff; /* Accent Verde Tenis */
+    margin: 5px 0;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Details grid for date, time, court */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.detail-item {
+    background-color: #f9fafb;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #0d2c54; /* Primary color accent */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-item .icon {
+    color: #0d2c54; /* Primary Blue */
+    font-size: 1.4rem;
+}
+
+.detail-item .text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.detail-item .text strong {
+    color: #333;
+    display: block;
+}
+
+/* Alert boxes for notes */
+.summary-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.summary-alert.info {
+    background-color: #e3f2fd; /* Light blue */
+    color: #0d47a1;
+    border-left: 4px solid #1976d2;
+}
+
+.summary-alert.ranking {
+    background-color: #fffde7; /* Light yellow */
+    color: #f57f17;
+    border-left: 4px solid #fbc02d;
+}
+
+/* Closing message */
+.closing-notes {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+}
+
+.closing-notes p {
+    margin: 4px 0;
+}
+
+/* Button styling */
+.summary-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.summary-button-container .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
