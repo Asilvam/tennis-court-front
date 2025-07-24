@@ -31,7 +31,7 @@ const MatchResultUpdate: React.FC = () => {
     const [players, setPlayers] = useState<string[]>([]);
     const [isDoubles, setIsDoubles] = useState(false);
     const [result, setResult] = useState('');
-    const [winner, setWinner] = useState('');
+    const [dataWinner, setDataWinner] = useState<PlayerData[]>([]);
     const [loading, setLoading] = useState(false);
     const [dataUpdateRanking, setDataUpdateRanking] = useState(null);
     const [player1Data, setPlayer1Data] = useState<PlayerData | null>(null);
@@ -56,7 +56,7 @@ const MatchResultUpdate: React.FC = () => {
     };
 
 
-    const handleError = (error: any) => {
+    const handleError = (error) => {
         if (axios.isAxiosError(error)) {
             if (error.response) {
                 // Detecta un error BadRequest (400)
@@ -144,17 +144,18 @@ const MatchResultUpdate: React.FC = () => {
     };
 
     const handleSave = async () => {
+        console.log('emailWinner:', dataWinner)
         if (
-            result && winner) {
+            result && dataWinner) {
             setLoading(true);
             try {
                 await axios.post(`${apiUrl}/match-ranking`, {
                     matchId,
                     result,
-                    winner,
+                    winner: dataWinner,
                 });
 
-                console.log('Resultado guardado (simulado):', result, winner, matchId);
+                console.log('Resultado guardado (simulado):', result, dataWinner, matchId);
 
                 const modal = document.getElementById('resultModal');
                 if (modal) {
@@ -165,7 +166,7 @@ const MatchResultUpdate: React.FC = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Resultado guardado',
-                    text: `El resultado fue guardado con éxito para: ${winner}`,
+                    text: `El resultado fue guardado con éxito`,
                     timer: 3000,
                     showConfirmButton: false,
                 });
@@ -175,7 +176,7 @@ const MatchResultUpdate: React.FC = () => {
                 setIsValid(false);
                 setPlayers([]);
                 setResult('');
-                setWinner('');
+                setDataWinner([]);
                 setPlayer1Data(null);
                 setPlayer2Data(null);
                 setPlayer3Data(null);
@@ -231,32 +232,39 @@ const MatchResultUpdate: React.FC = () => {
             </button>
 
             {/* Materialize modal for saving match result */}
-            <div id="resultModal" className="modal" style={{maxWidth: '450px'}}>
+            <div id="resultModal" className="modal" style={{maxWidth: '550px'}}>
                 <div className="modal-content">
                     {/*<h6><strong>Ingresar Resultados de Match</strong></h6>*/}
                     {isDoubles
                         ?
                         <p>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])} vs ${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</p>
-                        : <div className="player-container">
-                            <div className="player-square">
-                                <div className="player-info-header"> {/* Nuevo contenedor para foto y nombre */}
-                                    <div className="player-photo-mock"></div>
-                                    {/* Círculo para la foto */}
-                                    <p className="player-name">{getPlayerInitials(players[0])}</p>
+                           : <div className="player-container">
+                                {/* Tarjeta del Jugador 1 */}
+                                <div className="player-square player-one">
+                                    <div className="player-info-header">
+                                        <div className="player-photo-mock"></div>
+                                        <p className="player-name">{getPlayerInitials(players[0])}</p>
+                                    </div>
+                                    <div className="player-details">
+                                        <p className="player-serie">Serie: {player1Data?.category}</p>
+                                        <p className="player-points">Puntos: {player1Data?.points}</p>
+                                    </div>
                                 </div>
-                                <p className="player-serie">Serie: {player1Data?.category}</p>
-                                <p className="player-points">Puntos: {player1Data?.points}</p>
-                            </div>
-                            <div className="vs">VS</div>
-                            <div className="player-square">
-                                <div className="player-info-header"> {/* Nuevo contenedor para foto y nombre */}
-                                    <div className="player-photo-mock"></div>
-                                    {/* Círculo para la foto */}
-                                    <p className="player-name">{getPlayerInitials(players[1])}</p>
+
+                                {/* "VS" como elemento central y de acento */}
+                                <div className="vs">VS</div>
+
+                                {/* Tarjeta del Jugador 2 */}
+                                <div className="player-square player-two">
+                                    <div className="player-info-header">
+                                        <div className="player-photo-mock"></div>
+                                        <p className="player-name">{getPlayerInitials(players[1])}</p>
+                                    </div>
+                                    <div className="player-details">
+                                        <p className="player-serie">Serie: {player2Data?.category}</p>
+                                        <p className="player-points">Puntos: {player2Data?.points}</p>
+                                    </div>
                                 </div>
-                                <p className="player-serie">Serie: {player2Data?.category}</p>
-                                <p className="player-points">Puntos: {player2Data?.points}</p>
-                            </div>
                         </div>
 
                     }
@@ -273,18 +281,23 @@ const MatchResultUpdate: React.FC = () => {
                     <label className="form-label" style={{color: 'Black'}}>Seleccionar Ganador</label>
                     <div>
                         {isDoubles ? (
+
                             <>
                                 <div className="form-check" style={{marginTop: '10px'}}>
                                     {players[0] && players[1] && (
                                         <label style={{color: 'Black', marginRight: '15px'}}>
                                             <input
-                                                type="radio" // Cambiado a radio
-                                                name="winnerSelection" // Nombre común para el grupo
+                                                type="radio"
+                                                name="winnerSelection"
                                                 className="with-gap"
-                                                checked={winner === `${players[0]} & ${players[1]}`}
-                                                onChange={() =>
-                                                    setWinner(`${players[0]} & ${players[1]}`)
-                                                }
+                                                // Comprueba si el primer ganador en el array es player1Data
+                                                checked={dataWinner[0]?.email === player1Data?.email}
+                                                onChange={() => {
+                                                    // Asigna un array con los dos jugadores si existen
+                                                    if (player1Data && player2Data) {
+                                                        setDataWinner([player1Data, player2Data]);
+                                                    }
+                                                }}
                                             />
                                             <span>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`}</span>
                                         </label>
@@ -292,18 +305,23 @@ const MatchResultUpdate: React.FC = () => {
                                     {players[2] && players[3] && (
                                         <label style={{color: 'Black'}}>
                                             <input
-                                                type="radio" // Cambiado a radio
-                                                name="winnerSelection" // Nombre común para el grupo
+                                                type="radio"
+                                                name="winnerSelection"
                                                 className="with-gap"
-                                                checked={winner === `${players[2]} & ${players[3]}`}
-                                                onChange={() =>
-                                                    setWinner(`${players[2]} & ${players[3]}`)
-                                                }
+                                                // Comprueba si el primer ganador en el array es player3Data
+                                                checked={dataWinner[0]?.email === player3Data?.email}
+                                                onChange={() => {
+                                                    // Asigna un array con los dos jugadores si existen
+                                                    if (player3Data && player4Data) {
+                                                        setDataWinner([player3Data, player4Data]);
+                                                    }
+                                                }}
                                             />
                                             <span>{`${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</span>
                                         </label>
                                     )}
                                 </div>
+
                             </>
                         ) : (
                             <>
@@ -311,11 +329,12 @@ const MatchResultUpdate: React.FC = () => {
                                     {players[0] && (
                                         <label style={{color: 'Black', marginRight: '15px'}}>
                                             <input
-                                                type="radio" // Cambiado a radio
-                                                name="winnerSelection" // Nombre común para el grupo
+                                                type="radio"
+                                                name="winnerSelection"
                                                 className="with-gap"
-                                                checked={winner === players[0]}
-                                                onChange={() => setWinner(players[0])}
+                                                checked={dataWinner[0]?.email === player1Data?.email}
+                                                // Asigna un array con el jugador si existe
+                                                onChange={() => player1Data && setDataWinner([player1Data])}
                                             />
                                             <span>{getPlayerInitials(players[0])}</span>
                                         </label>
@@ -323,16 +342,19 @@ const MatchResultUpdate: React.FC = () => {
                                     {players[1] && (
                                         <label style={{color: 'Black'}}>
                                             <input
-                                                type="radio" // Cambiado a radio
-                                                name="winnerSelection" // Nombre común para el grupo
+                                                type="radio"
+                                                name="winnerSelection"
                                                 className="with-gap"
-                                                checked={winner === players[1]}
-                                                onChange={() => setWinner(players[1])}
+                                                // La comprobación también debe ser sobre el primer elemento del array
+                                                checked={dataWinner[0]?.email === player2Data?.email}
+                                                // Asigna un array con el jugador si existe
+                                                onChange={() => player2Data && setDataWinner([player2Data])}
                                             />
                                             <span>{getPlayerInitials(players[1])}</span>
                                         </label>
                                     )}
                                 </div>
+
                             </>
 
                         )}
