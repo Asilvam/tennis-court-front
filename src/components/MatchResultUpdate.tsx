@@ -39,6 +39,10 @@ const MatchResultUpdate: React.FC = () => {
     const [player3Data, setPlayer3Data] = useState<PlayerData | null>(null);
     const [player4Data, setPlayer4Data] = useState<PlayerData | null>(null);
 
+    const isPlayerAmin = (fullName?: string): boolean | undefined => {
+        return fullName?.toLowerCase().includes('kafati');
+    };
+
     const getPlayerInitials = (fullName?: string): string => {
         if (!fullName) return '';
         const nameParts = fullName.trim().split(' ').filter(part => part.length > 0); // Filtra partes vacías
@@ -242,7 +246,7 @@ const MatchResultUpdate: React.FC = () => {
                                 {/* Tarjeta del Jugador 1 */}
                                 <div className="player-square player-one">
                                     <div className="player-info-header">
-                                        <div className="player-photo-mock"></div>
+                                        <div className={`player-photo-mock ${isPlayerAmin(players[0]) ? 'is-amin' : ''}`}></div>
                                         <p className="player-name">{getPlayerInitials(players[0])}</p>
                                     </div>
                                     <div className="player-details">
@@ -257,7 +261,7 @@ const MatchResultUpdate: React.FC = () => {
                                 {/* Tarjeta del Jugador 2 */}
                                 <div className="player-square player-two">
                                     <div className="player-info-header">
-                                        <div className="player-photo-mock"></div>
+                                        <div className={`player-photo-mock ${isPlayerAmin(players[1]) ? 'is-amin' : ''}`}></div>
                                         <p className="player-name">{getPlayerInitials(players[1])}</p>
                                     </div>
                                     <div className="player-details">

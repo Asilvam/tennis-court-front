@@ -55,6 +55,23 @@
     margin-bottom: 12px;
 }
 
+/* --- Estilo para el mock de amin (ratón) --- */
+.player-photo-mock.is-amin {
+    background: transparent; /* Oculta el círculo gris */
+    border: none;
+    box-shadow: none;
+    font-size: 50px; /* Tamaño del emoji */
+
+    /* Centra el emoji dentro del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-photo-mock.is-amin::before {
+    content: '🐭';
+}
+
 .player-photo-mock {
     width: 70px;
     height: 70px;

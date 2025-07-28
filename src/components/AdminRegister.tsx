@@ -7,7 +7,7 @@ import {customStyles} from "../utils/customStyles.ts";
 
 interface Register {
     namePlayer: string;
-    category: string;
+    category: PlayerCategory | '';
     email: string;
     cellular: string;
     pwd: string;
@@ -41,12 +41,23 @@ const AdminRegister: React.FC = () => {
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
     const [loading, setLoading] = useState(false);
 
-    const categoryOptions = [
-        {value: 'A', label: 'A'},
-        {value: 'B', label: 'B'},
-        {value: 'C', label: 'C'},
-        {value: 'D', label: 'D'},
-    ];
+    enum PlayerCategory {
+        PRIMERA = '1',
+        SEGUNDA = '2',
+        TERCERA = '3',
+        CUARTA = '4',
+        DAMAS = 'Damas',
+        MENORES = 'Menores',
+        MENORES_AMARILLA = 'Menores - Cancha Amarilla',
+        MENORES_VERDE = 'Menores - Cancha Verde',
+        MENORES_NARANJA = 'Menores - Cancha Naranja',
+        MENORES_ROJA = 'Menores - Cancha Roja',
+    }
+
+    const categoryOptions = Object.values(PlayerCategory).map(category => ({
+        value: category,
+        label: category,
+    }));
 
     const roleOptions = [
         {value: 'user', label: 'User'},
