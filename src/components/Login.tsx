@@ -5,7 +5,6 @@ import {Link, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
-import {useUser} from './UserContext';
 
 export interface LoginResponse {
     accessToken: string;
@@ -20,18 +19,16 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<never | null>(null);
     const [generateLoading, setGenerateLoading] = useState(false);
-    const {setToken} = useAuth();
-    const {setUserInfo} = useUser();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setGenerateLoading(true);
         try {
-            const response = await axios.post<LoginResponse>(apiUrl + '/auth/login', {username, password});
-            const {accessToken, namePlayer, role} = response.data;
-            setToken(accessToken);
-            setUserInfo({name: namePlayer, email: username, role});
+            const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, {username, password});
+            const { accessToken, namePlayer, role } = response.data;
+            login({ name: namePlayer, email: username, role }, accessToken);
             await Swal.fire({
                 title: 'Login OK',
                 text: `Bienvenido(a) ${namePlayer}!`,

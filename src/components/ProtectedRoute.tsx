@@ -2,7 +2,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { useUser } from './UserContext'; // Assuming UserContext provides user information
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -10,16 +9,15 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = false }) => {
-    const { token } = useAuth(); // Assuming token exists in useAuth
-    const { userInfo } = useUser(); // Assuming userInfo contains the role
+    const { isAuthenticated, user } = useAuth();
 
     // If user is not authenticated, redirect to login
-    if (!token) {
+    if (!isAuthenticated) {
         return <Navigate to="/login" />;
     }
 
     // If route is admin-only and user is not an admin, redirect to unauthorized page
-    if (adminOnly && userInfo.role !== 'admin') {
+    if (adminOnly && user?.role !== 'admin') {
         return <Navigate to="/unauthorized" />;
     }
 

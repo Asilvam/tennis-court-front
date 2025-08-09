@@ -1,0 +1,54 @@
+/*
+  La librería 'react-responsive-carousel' genera su propia estructura.
+  Para controlar la altura de forma fiable, necesitamos apuntar a sus clases generadas.
+*/
+.carousel .slider-wrapper {
+    height: 100%; /* <-- TAMAÑO REDUCIDO. Puedes ajustar este valor como necesites (ej. 500px, 70vh, etc.) */
+}
+
+/* Hacemos que los elementos internos del carrusel ocupen el 100% de la altura del contenedor que acabamos de definir. */
+.carousel .slider, .carousel .slide {
+    height: 100%;
+    width: 100%;
+
+}
+
+.carousel-slide {
+    position: relative;
+    height: 100%; /* Nuestro slide personalizado ahora ocupa el 100% de su contenedor padre. */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    /* Propiedades para la imagen de fondo */
+    background-size: contain; /* 'contain' para que la imagen se vea completa, 'cover' para que rellene */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #ffffff; /* Un color de fondo por si la imagen no carga o no rellena */
+}
+
+
+.carousel-content {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(22, 33, 204, 0.7); /* Dark blue overlay for text readability */
+    padding: 15px 30px; /* Padding reducido para un cuadro más pequeño */
+    border-radius: 8px;
+    max-width: 80%; /* Ancho máximo reducido para que ocupe menos espacio */
+}
+
+.carousel-content h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.8rem; /* Tamaño de fuente del título reducido */
+    font-weight: bold;
+}
+
+.carousel-content p {
+    margin: 0 0 20px 0;
+    font-size: 1rem; /* Tamaño de fuente del párrafo reducido */
+}
+
+.carousel-content .btn {
+    font-weight: bold;
+}
