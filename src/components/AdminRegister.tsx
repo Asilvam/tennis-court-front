@@ -4,6 +4,7 @@ import M from 'materialize-css';
 import axios from "axios";
 import Select from 'react-select';
 import {customStyles} from "../utils/customStyles.ts";
+import {PlayerCategory, categoryOptions, roleOptions} from "../constants/playerConstants.ts";
 
 interface Register {
     namePlayer: string;
@@ -40,29 +41,6 @@ const AdminRegister: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
     const [loading, setLoading] = useState(false);
-
-    enum PlayerCategory {
-        PRIMERA = '1',
-        SEGUNDA = '2',
-        TERCERA = '3',
-        CUARTA = '4',
-        DAMAS = 'Damas',
-        MENORES = 'Menores',
-        MENORES_AMARILLA = 'Menores - Cancha Amarilla',
-        MENORES_VERDE = 'Menores - Cancha Verde',
-        MENORES_NARANJA = 'Menores - Cancha Naranja',
-        MENORES_ROJA = 'Menores - Cancha Roja',
-    }
-
-    const categoryOptions = Object.values(PlayerCategory).map(category => ({
-        value: category,
-        label: category,
-    }));
-
-    const roleOptions = [
-        {value: 'user', label: 'User'},
-        {value: 'admin', label: 'Admin'},
-    ];
 
     const fetchRegisters = async () => {
         setLoading(true);
