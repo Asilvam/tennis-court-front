@@ -46,7 +46,6 @@ const Dashboard: React.FC = () => {
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
-    const [loading, setLoading] = useState(false);
     const [activeReserve, setActiveReserve] = useState<CourtReserve | null>(null);
     let minDate = DateTime.now().toISODate();
     let maxDate = DateTime.now().plus({days: 2}).toISODate();
@@ -151,7 +150,6 @@ const Dashboard: React.FC = () => {
     };
 
     const fetchData = async () => {
-        setLoading(true);
         try {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
             if (!response.data) throw new Error('No data received');
@@ -159,8 +157,6 @@ const Dashboard: React.FC = () => {
             // console.log('response.data-->', response.data )
         } catch (error) {
             console.error(error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -169,26 +165,25 @@ const Dashboard: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // console.log('modal changed:', isModalOpen);
-        fetchData();
-        getActiveReserves();
+        const loadDashboardData = async () => {
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Buscando horarios disponibles.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            await Promise.all([fetchData(), getActiveReserves()]);
+
+            Swal.close();
+        };
+
+        loadDashboardData();
     }, [selectedDate]);
 
-    return loading ? (
-        <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
-                <div className="circle-clipper left">
-                    <div className="circle"></div>
-                </div>
-                <div className="gap-patch">
-                    <div className="circle"></div>
-                </div>
-                <div className="circle-clipper right">
-                    <div className="circle"></div>
-                </div>
-            </div>
-        </div>
-    ) : (
+    return (
         <div className="container">
             <div>
                 <h6><strong>Hola, {namePlayer} </strong></h6>
@@ -253,8 +248,7 @@ const Dashboard: React.FC = () => {
                 )}
             </div>
         </div>
-    )
-        ;
+    );
 };
 
 export default Dashboard;
