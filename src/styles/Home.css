@@ -52,3 +52,28 @@
 .carousel-content .btn {
     font-weight: bold;
 }
+
+.mySwiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+/* Estilos para cada slide */
+.swiper-slide {
+    background-position: center;
+    background-size: contain; /* 'contain' asegura que la imagen completa sea visible */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-color: #ffffff; /* Color de fondo por si la imagen no rellena el espacio */
+    width: 400px; /* Ancho aumentado para un slide más grande */
+    height: 400px; /* Altura aumentada */
+    border-radius: 12px;
+}
+
+/* Opcional: para asegurar que la imagen dentro del slide se vea bien */
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

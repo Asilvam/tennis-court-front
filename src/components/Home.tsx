@@ -1,11 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Carousel styles
-import {Carousel} from 'react-responsive-carousel';
-import '../styles/Home.css'; // Import a dedicated CSS file for styling
 import axios from "axios";
 import Swal from "sweetalert2";
 
+// 1. Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
+
+// 2. Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import '../styles/Home.css'; // Your dedicated CSS file
+
 interface InfoItem {
+    _id?: string; // Optional for initial data, assuming API provides it
     title: string;
     content: string;
     imageUrl: string;
@@ -36,6 +45,7 @@ const Home: React.FC = () => {
             const response = await axios.get<InfoItem[]>(`${apiUrl}/info-items`);
             if (response.data && response.data.length > 0) {
                 setInfoItems(response.data);
+                // console.log('response', response.data);
             }
         } catch (error) {
             console.error('Error fetching carousel items:', error);
@@ -66,17 +76,32 @@ const Home: React.FC = () => {
         <div className="container">
             <h4 style={{textAlign: 'center', margin: '40px 0 20px 0', color:' #1621cc '}}>👋 Bienvenidos(as)</h4>
 
-            <Carousel autoPlay infiniteLoop showThumbs={false}>
+            <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                centeredSlides={true}
+                loop={infoItems.length > 2}
+                slidesPerView={'auto'}
+                coverflowEffect={{
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: false,
+                }}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
+                pagination={{ clickable: true }}
+                navigation={true}
+                modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+                className="mySwiper"
+            >
                 {infoItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className="carousel-slide"
-                        style={{ backgroundImage: `url(${item.imageUrl})` }}
-                    >
-                        {/* El contenido de texto (título, párrafo, botón) ha sido removido para mostrar solo la imagen. */}
-                    </div>
+                    <SwiperSlide key={item._id || index} style={{ backgroundImage: `url(${item.imageUrl})` }} />
                 ))}
-            </Carousel>
+            </Swiper>
 
             {/* Sección de Información de Contacto */}
             <div style={{
