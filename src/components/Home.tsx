@@ -106,9 +106,9 @@ const Home: React.FC = () => {
             {/* Sección de Información de Contacto */}
             <div style={{
                 textAlign: 'center',
-                padding: '20px',
+                padding: '10px',
                 marginTop: '20px',
-                marginBottom: '40px',
+                marginBottom: '20px',
                 border: '1px solid #e0e0e0',
                 borderRadius: '8px',
                 backgroundColor: '#f9f9f9'
