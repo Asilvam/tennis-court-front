@@ -12,6 +12,7 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '../styles/Home.css'; // Your dedicated CSS file
+import { FaWhatsapp } from 'react-icons/fa';
 
 interface InfoItem {
     _id?: string; // Optional for initial data, assuming API provides it
@@ -25,11 +26,6 @@ interface InfoItem {
 const Home: React.FC = () => {
 
     const infoItemsInnit = [
-        {
-            title: "informacion de contacto",
-            content: "Miguel Vega administrador Telefono: +56912345678, Direccion: Avenida Normandie S/N",
-            imageUrl: "/images/logo-club.jpg"
-        },
         {
             title: "Copa Davis 2024",
             content: "Gracias a todos los que participaron",
@@ -118,10 +114,10 @@ const Home: React.FC = () => {
                     Para consultas y reservas, contáctanos directamente por WhatsApp:
                 </p>
                 <p style={{ margin: '5px 0' }}>
-                    <b>Miguel Vega:</b> <a href="https://wa.me/56974024351" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}>+56 9 7402 4351</a>
+                    <b>Ricardo Said:</b> <a href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}><FaWhatsapp style={{ color: 'green' }} /> +56 9 8962 2137</a>
                 </p>
                 <p style={{ margin: '5px 0' }}>
-                    <b>Ricardo Said:</b> <a href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}>+56 9 8962 2137</a>
+                    <b>Administrador App:</b> <a href="https://wa.me/56981914285" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}><FaWhatsapp style={{ color: 'green' }} /> +56 9 8191 4285</a>
                 </p>
             </div>
         </div>
