@@ -1,5 +1,6 @@
 import React, {useState, ChangeEvent, FormEvent, Fragment, useRef} from 'react';
 import axios from 'axios';
+import Select, { SingleValue } from 'react-select';
 import Swal from "sweetalert2";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -12,6 +13,7 @@ interface FormData {
     pwd: string;
     retypePwd: string;
     urlEmail: string;
+    partnerType: 'Titular' | 'Familiar' | '';
 }
 
 const initialFormData: FormData = {
@@ -20,17 +22,32 @@ const initialFormData: FormData = {
     email: '',
     pwd: '',
     retypePwd: '',
-    urlEmail: `${import.meta.env.VITE_API_URL}/auth`
+    urlEmail: `${import.meta.env.VITE_API_URL}/auth`,
+    partnerType: 'Titular',
 };
+
+interface PartnerOption {
+    value: 'Titular' | 'Familiar';
+    label: string;
+}
+
+const partnerTypeOptions: readonly PartnerOption[] = [
+    { value: 'Titular', label: 'Socio Titular' },
+    { value: 'Familiar', label: 'Socio Familiar' }
+];
+
+interface FormErrors {
+    email?: string;
+    password?: string;
+    cellular?: string;
+    partnerType?: string;
+}
 
 const PlayerForm: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [generateLoading, setGenerateLoading] = useState(false);
-    const [emailError, setEmailError] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
-    const [cellularError, setCellularError] = useState<string | null>(null);
-
+    const [errors, setErrors] = useState<FormErrors>({});
 
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -41,9 +58,22 @@ const PlayerForm: React.FC = () => {
             ...prevState,
             [name]: value
         }));
-        setEmailError(null);
+        // Clear validation error when user starts typing
+        if (name in errors) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
         if (name === "pwd" || name === "retypePwd") {
-            setPasswordError(null);
+            setErrors(prev => ({ ...prev, password: undefined }));
+        }
+    };
+
+    const handlePartnerTypeChange = (selectedOption: SingleValue<PartnerOption>) => {
+        setFormData(prevState => ({
+            ...prevState,
+            partnerType: selectedOption ? selectedOption.value : ''
+        }));
+        if (errors.partnerType) {
+            setErrors(prev => ({ ...prev, partnerType: undefined }));
         }
     };
 
@@ -51,7 +81,7 @@ const PlayerForm: React.FC = () => {
 
     const validatePassword = (): boolean => {
         if (formData.pwd !== formData.retypePwd) {
-            setPasswordError('Passwords do not match!');
+            setErrors(prev => ({ ...prev, password: 'Las contraseñas no coinciden.' }));
             resetPasswordFields();
             return false;
         }
@@ -69,15 +99,25 @@ const PlayerForm: React.FC = () => {
         }
     };
 
-    const clearForm = () => setFormData(initialFormData);
+    const clearForm = () => {
+        setFormData(initialFormData);
+        setErrors({});
+    };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setGenerateLoading(true);
+        setErrors({}); // Reset errors on new submission
+
+        if (!formData.partnerType) {
+            setErrors(prev => ({ ...prev, partnerType: 'Debes seleccionar un tipo de socio.' }));
+            setGenerateLoading(false);
+            return;
+        }
 
         // Validaciones previas
         if (!validateEmail(formData.email)) {
-            setEmailError('Invalid email');
+            setErrors(prev => ({ ...prev, email: 'Email inválido.' }));
             emailInputRef.current?.focus();
             return setGenerateLoading(false);
         }
@@ -93,7 +133,8 @@ const PlayerForm: React.FC = () => {
             logger.info(response);
             await Swal.fire({
                 icon: 'success',
-                title: 'Player created successfully!',
+                title: '¡Jugador creado exitosamente!',
+                text: 'Revisa tu correo para activar tu cuenta.',
             });
 
             clearForm();
@@ -104,10 +145,10 @@ const PlayerForm: React.FC = () => {
 
                 if (status === 400) {
                     if (message.includes('email')) {
-                        setEmailError('Este correo ya está registrado.');
+                        setErrors(prev => ({ ...prev, email: 'Este correo ya está registrado.' }));
                         emailInputRef.current?.focus();
                     } else if (message.includes('cellular')) {
-                        setCellularError('Este número ya está registrado.');
+                        setErrors(prev => ({ ...prev, cellular: 'Este número ya está registrado.' }));
                     } else {
                         await Swal.fire({
                             icon: 'error',
@@ -156,6 +197,21 @@ const PlayerForm: React.FC = () => {
                         <label htmlFor="namePlayer">Nombre Jugador</label>
                     </div>
 
+                    {/* Partner Type */}
+                    {/*<div className="col s12" style={{ marginBottom: '1rem', zIndex: 100 }}>*/}
+                    {/*    <Select<PartnerOption>*/}
+                    {/*        inputId="partnerType"*/}
+                    {/*        name="partnerType"*/}
+                    {/*        options={partnerTypeOptions}*/}
+                    {/*        value={partnerTypeOptions.find(option => option.value === formData.partnerType) || null}*/}
+                    {/*        onChange={handlePartnerTypeChange}*/}
+                    {/*        placeholder="Selecciona un Tipo de Socio..."*/}
+                    {/*        noOptionsMessage={() => 'No hay opciones'}*/}
+                    {/*        styles={{ menu: base => ({ ...base, zIndex: 9999 }) }}*/}
+                    {/*    />*/}
+                    {/*    {errors.partnerType && <span className="red-text" style={{ fontSize: '12px' }}>{errors.partnerType}</span>}*/}
+                    {/*</div>*/}
+
                     {/* Cellular */}
                     <div className="input-field col s12">
                         <input
@@ -167,7 +223,7 @@ const PlayerForm: React.FC = () => {
                             required
                         />
                         <label htmlFor="cellular">Nº Celular</label>
-                        {cellularError && <span className="red-text">{cellularError}</span>}
+                        {errors.cellular && <span className="red-text">{errors.cellular}</span>}
                     </div>
 
 
@@ -183,7 +239,7 @@ const PlayerForm: React.FC = () => {
                             required
                         />
                         <label htmlFor="email">Email</label>
-                        {emailError && <span className="red-text">{emailError}</span>}
+                        {errors.email && <span className="red-text">{errors.email}</span>}
                     </div>
 
 
@@ -212,7 +268,7 @@ const PlayerForm: React.FC = () => {
                             required
                         />
                         <label htmlFor="retypePwd">Retype Password</label>
-                        {passwordError && <span className="red-text">{passwordError}</span>}
+                        {errors.password && <span className="red-text">{errors.password}</span>}
                     </div>
 
                     {/* Buttons */}
