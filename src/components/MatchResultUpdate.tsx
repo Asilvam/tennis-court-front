@@ -8,6 +8,7 @@ import '../styles/Player.css';
 
 interface PlayerData {
     email: string;
+    name: string;
     points: string;
     category: string;
     cellular: string;
