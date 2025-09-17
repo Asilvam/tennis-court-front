@@ -32,6 +32,7 @@ const MatchResultUpdate: React.FC = () => {
     const [isDoubles, setIsDoubles] = useState(false);
     const [result, setResult] = useState('');
     const [dataWinner, setDataWinner] = useState<PlayerData[]>([]);
+    const [dataLooser, setDataLooser] = useState<PlayerData[]>([]);
     const [loading, setLoading] = useState(false);
     const [dataUpdateRanking, setDataUpdateRanking] = useState(null);
     const [player1Data, setPlayer1Data] = useState<PlayerData | null>(null);
@@ -148,7 +149,8 @@ const MatchResultUpdate: React.FC = () => {
     };
 
     const handleSave = async () => {
-        console.log('emailWinner:', dataWinner)
+        console.log('emailWinner:', dataWinner);
+        console.log('emailLooser:', dataLooser);
         if (
             result && dataWinner) {
             setLoading(true);
@@ -157,9 +159,10 @@ const MatchResultUpdate: React.FC = () => {
                     matchId,
                     result,
                     winner: dataWinner,
+                    looser: dataLooser,
                 });
 
-                console.log('Resultado guardado (simulado):', result, dataWinner, matchId);
+                console.log('Resultado guardado (simulado):', matchId, result, dataWinner, dataLooser);
 
                 const modal = document.getElementById('resultModal');
                 if (modal) {
@@ -181,6 +184,7 @@ const MatchResultUpdate: React.FC = () => {
                 setPlayers([]);
                 setResult('');
                 setDataWinner([]);
+                setDataLooser([]);
                 setPlayer1Data(null);
                 setPlayer2Data(null);
                 setPlayer3Data(null);
@@ -297,10 +301,8 @@ const MatchResultUpdate: React.FC = () => {
                                                 // Comprueba si el primer ganador en el array es player1Data
                                                 checked={dataWinner[0]?.email === player1Data?.email}
                                                 onChange={() => {
-                                                    // Asigna un array con los dos jugadores si existen
-                                                    if (player1Data && player2Data) {
-                                                        setDataWinner([player1Data, player2Data]);
-                                                    }
+                                                    if (player1Data && player2Data) setDataWinner([player1Data, player2Data]);
+                                                    if (player3Data && player4Data) setDataLooser([player3Data, player4Data]);
                                                 }}
                                             />
                                             <span>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`}</span>
@@ -315,10 +317,8 @@ const MatchResultUpdate: React.FC = () => {
                                                 // Comprueba si el primer ganador en el array es player3Data
                                                 checked={dataWinner[0]?.email === player3Data?.email}
                                                 onChange={() => {
-                                                    // Asigna un array con los dos jugadores si existen
-                                                    if (player3Data && player4Data) {
-                                                        setDataWinner([player3Data, player4Data]);
-                                                    }
+                                                    if (player3Data && player4Data) setDataWinner([player3Data, player4Data]);
+                                                    if (player1Data && player2Data) setDataLooser([player1Data, player2Data]);
                                                 }}
                                             />
                                             <span>{`${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</span>
@@ -337,8 +337,10 @@ const MatchResultUpdate: React.FC = () => {
                                                 name="winnerSelection"
                                                 className="with-gap"
                                                 checked={dataWinner[0]?.email === player1Data?.email}
-                                                // Asigna un array con el jugador si existe
-                                                onChange={() => player1Data && setDataWinner([player1Data])}
+                                                onChange={() => {
+                                                    if (player1Data) setDataWinner([player1Data]);
+                                                    if (player2Data) setDataLooser([player2Data]);
+                                                }}
                                             />
                                             <span>{getPlayerInitials(players[0])}</span>
                                         </label>
@@ -351,8 +353,10 @@ const MatchResultUpdate: React.FC = () => {
                                                 className="with-gap"
                                                 // La comprobación también debe ser sobre el primer elemento del array
                                                 checked={dataWinner[0]?.email === player2Data?.email}
-                                                // Asigna un array con el jugador si existe
-                                                onChange={() => player2Data && setDataWinner([player2Data])}
+                                                onChange={() => {
+                                                    if (player2Data) setDataWinner([player2Data]);
+                                                    if (player1Data) setDataLooser([player1Data]);
+                                                }}
                                             />
                                             <span>{getPlayerInitials(players[1])}</span>
                                         </label>
