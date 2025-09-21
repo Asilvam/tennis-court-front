@@ -56,10 +56,42 @@ const MultipleBookingForm: React.FC = () => {
     ];
     const availableMotives = ['Campeonato', 'Clases', 'Mantencion', 'Clima', 'Reserva'];
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const ALL_COURTS_OPTION = { value: '__ALL__', label: 'Todas las canchas' };
 
     const formatOptions = (options: string[]) =>
         options.map(opt => ({ value: opt, label: opt }));
+
+    const courtOptions = [ALL_COURTS_OPTION, ...formatOptions(availableCourts)];
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    const ALL_TURNS_OPTION = { value: '__ALL__', label: 'Todos los turnos' };
+    const AM_TURNS_OPTION = { value: '__AM__', label: 'Turnos AM (08:15-14:00)' };
+    const PM_TURNS_OPTION = { value: '__PM__', label: 'Turnos PM (14:15-20:00)' };
+    const NIGHT_TURNS_OPTION = { value: '__NIGHT__', label: 'Turnos Noche (20:15-00:00)' };
+
+// Group turns
+    const amTurns = availableTurns.filter(t => {
+        const [start] = t.split('-');
+        return start >= '08:15' && start <= '14:00';
+    });
+    const pmTurns = availableTurns.filter(t => {
+        const [start] = t.split('-');
+        return start >= '14:15' && start <= '20:00';
+    });
+    const nightTurns = availableTurns.filter(t => {
+        const [start] = t.split('-');
+        return start >= '20:15';
+    });
+
+// Options for Select
+    const turnOptions = [
+        ALL_TURNS_OPTION,
+        AM_TURNS_OPTION,
+        PM_TURNS_OPTION,
+        NIGHT_TURNS_OPTION,
+        ...formatOptions(availableTurns)
+    ];
 
     const handleReserve = async () => {
         if (!courts.length) {
@@ -162,9 +194,20 @@ const MultipleBookingForm: React.FC = () => {
                     <Select
                         isMulti
                         components={animatedComponents}
-                        options={formatOptions(availableCourts)}
-                        value={formatOptions(courts)}
-                        onChange={(selected) => setCourts(selected.map(s => s.value))}
+                        options={courtOptions}
+                        value={
+                            courts.length === availableCourts.length
+                                ? [ALL_COURTS_OPTION, ...formatOptions(courts)]
+                                : formatOptions(courts)
+                        }
+                        onChange={(selected) => {
+                            const values = selected.map(s => s.value);
+                            if (values.includes('__ALL__')) {
+                                setCourts(availableCourts);
+                            } else {
+                                setCourts(values);
+                            }
+                        }}
                         menuPortalTarget={document.body}
                         styles={{
                             control: base => ({ ...base, minHeight: '44px' }),
@@ -226,9 +269,26 @@ const MultipleBookingForm: React.FC = () => {
                     <Select
                         isMulti
                         components={animatedComponents}
-                        options={formatOptions(availableTurns)}
-                        value={formatOptions(turns)}
-                        onChange={(selected) => setTurns(selected.map(s => s.value))}
+                        options={turnOptions}
+                        value={
+                            turns.length === availableTurns.length
+                                ? [ALL_TURNS_OPTION, ...formatOptions(turns)]
+                                : formatOptions(turns)
+                        }
+                        onChange={(selected) => {
+                            const values = selected.map(s => s.value);
+                            if (values.includes('__ALL__')) {
+                                setTurns(availableTurns);
+                            } else if (values.includes('__AM__')) {
+                                setTurns(amTurns);
+                            } else if (values.includes('__PM__')) {
+                                setTurns(pmTurns);
+                            } else if (values.includes('__NIGHT__')) {
+                                setTurns(nightTurns);
+                            } else {
+                                setTurns(values);
+                            }
+                        }}
                         menuPortalTarget={document.body}
                         styles={{
                             control: base => ({ ...base, minHeight: '44px' }),
