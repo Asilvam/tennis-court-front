@@ -187,9 +187,62 @@ const Dashboard: React.FC = () => {
         <div className="container">
             <div>
                 <h6><strong>Hola, {namePlayer} </strong></h6>
-                {activeReserve && <p className="red-text">Recuerda, tienes reservas activas.</p>}
+                {activeReserve && (
+                    <div className="active-reserve-alert" style={{
+                        backgroundColor: '#fff3cd',
+                        border: '2px solid #ffc107',
+                        borderRadius: '8px',
+                        padding: '15px',
+                        margin: '15px 0',
+                        boxShadow: '0 4px 8px rgba(255, 193, 7, 0.3)',
+                        position: 'relative'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '10px'
+                        }}>
+                            <div style={{
+                                backgroundColor: '#ffc107',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginRight: '10px',
+                                fontSize: '18px'
+                            }}>
+                                ⚠️
+                            </div>
+                            <h6 style={{
+                                margin: 0,
+                                color: '#856404',
+                                fontWeight: 'bold'
+                            }}>
+                                ¡Tienes una reserva activa!
+                            </h6>
+                        </div>
+                        <div style={{
+                            backgroundColor: '#ffffff',
+                            padding: '12px',
+                            borderRadius: '6px',
+                            border: '1px solid #ffeaa7'
+                        }}>
+                            <p style={{ margin: '5px 0', color: '#856404' }}>
+                                <strong>🏟️ Cancha:</strong> {activeReserve[0]?.court.replace('Cancha ', '')}
+                            </p>
+                            <p style={{ margin: '5px 0', color: '#856404' }}>
+                                <strong>📅 Fecha:</strong> {DateTime.fromISO(activeReserve[0]?.dateToPlay).toFormat('dd/MM/yyyy')}
+                            </p>
+                            <p style={{ margin: '5px 0', color: '#856404' }}>
+                                <strong>⏰ Turno:</strong> {activeReserve[0]?.turn}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 <div style={{display: 'flex', maxWidth:'400px'}}>
-                    {/*<label style={{marginRight: '10px'}}>Selecciona una fecha:</label>*/}
                     <input
                         type="date"
                         value={selectedDate}
