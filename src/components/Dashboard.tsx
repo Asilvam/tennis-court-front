@@ -47,6 +47,8 @@ const Dashboard: React.FC = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [activeReserve, setActiveReserve] = useState<CourtReserve | null>(null);
+    const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
+
     let minDate = DateTime.now().toISODate();
     let maxDate = DateTime.now().plus({days: 2}).toISODate();
     if (userInfo?.role==='admin') {
@@ -134,20 +136,28 @@ const Dashboard: React.FC = () => {
     }
 
     const getActiveReserves = async () => {
-
         const url = `${apiUrl}/court-reserve/active/${namePlayer}`;
         const headers = { Authorization: `Bearer ${token}` };
-
         try {
             const { data } = await axios.get(url, { headers });
-            // console.log("Player:", namePlayer);
-            // console.log("Active Reserves Data:", data);
             setActiveReserve(data);
         } catch (error) {
             console.error("Error fetching active reserves:", error);
             setActiveReserve(null);
         }
     };
+
+    const getActiveNigthsLigths = async () =>{
+        const url = `${apiUrl}/register/active/${namePlayer}`;
+        const headers = { Authorization: `Bearer ${token}` };
+        try {
+            const { data } = await axios.get(url, { headers });
+            setActiveNigthsLigths(data);
+        } catch (error) {
+            console.error("Error fetching active reserves:", error);
+            setActiveNigthsLigths(false);
+        }
+    }
 
     const fetchData = async () => {
         try {
@@ -174,9 +184,7 @@ const Dashboard: React.FC = () => {
                     Swal.showLoading();
                 },
             });
-
-            await Promise.all([fetchData(), getActiveReserves()]);
-
+            await Promise.all([fetchData(), getActiveReserves(), getActiveNigthsLigths()]);
             Swal.close();
         };
 
@@ -239,6 +247,19 @@ const Dashboard: React.FC = () => {
                                 <strong>⏰ Turno:</strong> {activeReserve[0]?.turn}
                             </p>
                         </div>
+                    </div>
+                )}
+                {activeNigthsLigths && (
+                    <div className="active-nights-lights-alert" style={{
+                        backgroundColor: '#ffebee',
+                        border: '2px solid #d32f2f',
+                        borderRadius: '8px',
+                        padding: '15px',
+                        margin: '15px 0',
+                        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',
+                        color: '#b71c1c'
+                    }}>
+                        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.
                     </div>
                 )}
 
