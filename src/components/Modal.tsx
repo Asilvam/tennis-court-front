@@ -51,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         isPaidNight: selectedTimeSlot?.isPayed,
         isVisit: false,
         visitName: '',
-        isForRanking: true,
+        isForRanking: false,
         isDouble: false,
     };
 
