@@ -15,6 +15,15 @@ interface PlayerProfileData {
     imageUrlProfile?: string;
 }
 
+interface RankingPlayer {
+    id: string;
+    nombre: string;
+    puntos: number;
+    categoria: string;
+    rank: number;
+    cellular: string;
+}
+
 const PlayerProfile: React.FC = () => {
     const userInfo = getUserInfoFromLocalStorage();
     const emailPlayer = userInfo?.email || '';
@@ -23,21 +32,32 @@ const PlayerProfile: React.FC = () => {
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>('/images/profile-avatar.png');
     const [uploading, setUploading] = useState(false);
+    const [myRank, setMyRank] = useState('S/R');
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    // const cloudinaryUrl = import.meta.env.VITE_CLOUDINARY_URL;
-    // const cloudinaryUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     useEffect(() => {
         const fetchPlayerData = async () => {
             try {
-                // Asumimos que tienes un endpoint protegido que devuelve los datos del usuario logueado
-                const response = await axios.get<PlayerProfileData>(`${apiUrl}/register/profile/${emailPlayer}`);
-                setPlayer(response.data);
-                console.log(response.data);
-                if (response.data.imageUrlProfile) {
-                    setImagePreview(response.data.imageUrlProfile);
+                const getProfile = await axios.get<PlayerProfileData>(`${apiUrl}/register/profile/${emailPlayer}`);
+                const getRanking = await axios.get<Record<string, RankingPlayer[]>>(`${apiUrl}/match-ranking/ranking`);
+
+                const profileData = getProfile.data;
+                const rankingsData = getRanking.data;
+
+                setPlayer(getProfile.data);
+                if (getProfile.data.imageUrlProfile) {
+                    setImagePreview(getProfile.data.imageUrlProfile);
                 }
+
+                const categoryPlayers = rankingsData[profileData.category];
+                if (categoryPlayers) {
+                    const rankedPlayer = categoryPlayers.find(p => p.id === profileData.email);
+                    if (rankedPlayer) {
+                        setMyRank(rankedPlayer.rank.toString());
+                    }
+                }
+
             } catch (error) {
                 logger.error("Error fetching player data:", error);
                 Swal.fire('Error', 'No se pudo cargar la información del perfil.', 'error');
@@ -47,7 +67,7 @@ const PlayerProfile: React.FC = () => {
         };
 
         fetchPlayerData();
-    }, [apiUrl]);
+    }, [apiUrl, emailPlayer]);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -66,11 +86,6 @@ const PlayerProfile: React.FC = () => {
             Swal.fire('Atención', 'Por favor, selecciona una imagen primero.', 'warning');
             return;
         }
-        // if (!cloudinaryUrl || !cloudinaryUploadPreset) {
-        //     logger.error("Cloudinary environment variables are not set.");
-        //     Swal.fire('Error de Configuración', 'La funcionalidad de subida de imágenes no está configurada.', 'error');
-        //     return;
-        // }
 
         setUploading(true);
 
@@ -79,11 +94,9 @@ const PlayerProfile: React.FC = () => {
         // formData.append('upload_preset', cloudinaryUploadPreset);
 
         try {
-            // 1. Subir a Cloudinary
             const cloudinaryResponse = await axios.post(`${apiUrl}/register/profile`, formData);
             const imageUrlProfile = cloudinaryResponse.data.imageUrl;
 
-            // 2. Actualizar el perfil en tu backend
             await axios.patch(`${apiUrl}/register/${emailPlayer}`, { imageUrlProfile });
 
             setPlayer(prev => prev ? { ...prev, profileImageUrl: imageUrlProfile } : null);
@@ -124,6 +137,10 @@ const PlayerProfile: React.FC = () => {
                     <div className="stat-item">
                         <span className="stat-label">Categoría</span>
                         <span className="stat-value">{player.category || 'N/A'}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Ranking</span>
+                        <span className="stat-value">{myRank}</span>
                     </div>
                     <div className="stat-item">
                         <span className="stat-label">Puntos</span>
