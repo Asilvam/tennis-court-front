@@ -75,7 +75,7 @@ const PlayerProfile: React.FC = () => {
         setUploading(true);
 
         const formData = new FormData();
-        formData.append('file', imageFile);
+        formData.append('image', imageFile);
         // formData.append('upload_preset', cloudinaryUploadPreset);
 
         try {
