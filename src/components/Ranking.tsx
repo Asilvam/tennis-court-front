@@ -12,7 +12,7 @@ interface RankingPlayer {
     puntos: number;
     categoria: string;
     rank: number;
-    profileImageUrl?: string;
+    imageUrlProfile?: string;
 }
 
 const Ranking: React.FC = () => {
@@ -96,7 +96,7 @@ const Ranking: React.FC = () => {
                                         <td className="center-align rank-cell">{player.rank}</td>
                                         <td className="avatar-cell">
                                             <img
-                                                src={player.profileImageUrl || '/images/avatar-fantasma.png'}
+                                                src={player.imageUrlProfile || '/images/avatar-fantasma.png'}
                                                 alt={player.nombre}
                                                 className="avatar-image"
                                             />
