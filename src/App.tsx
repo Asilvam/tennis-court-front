@@ -19,6 +19,7 @@ import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 // import Scoreboard from "./components/Scoreboard.tsx";
 import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
 import ResetPassword from "./components/ResetPassword.tsx";
+import Ranking from "./components/Ranking.tsx";
 import PlayerProfile from "./components/PlayerProfile.tsx";
 
 const App: React.FC = () => {
@@ -38,6 +39,8 @@ const App: React.FC = () => {
                                    element={<PlayerForm/>}/>
                             <Route path="/summary"
                                    element={<ReservationSummary/>}/>
+                            <Route path="/ranking"
+                                   element={<Ranking/>}/>
                             <Route path="/dashboard"
                                    element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                             <Route path="/profile"

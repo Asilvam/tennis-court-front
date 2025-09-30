@@ -1,0 +1,67 @@
+.ranking-container {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.ranking-container h4 {
+    color: #0d47a1; /* Azul oscuro de Materialize */
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+.ranking-container h4 .fa-trophy {
+    margin-right: 10px;
+    color: #ffab00; /* Color dorado para el trofeo */
+}
+
+.collapsible-header {
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.collapsible-body {
+    padding: 0; /* Quitamos el padding por defecto para que la tabla ocupe todo el espacio */
+}
+
+.ranking-table th {
+    font-weight: 600;
+    background-color: #f5f5f5;
+}
+
+.ranking-table .rank-cell {
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 15%;
+}
+
+.ranking-table .points-cell {
+    font-family: 'Roboto Mono', monospace; /* Para que los números se alineen bien */
+    font-weight: 500;
+    color: #0d47a1;
+    width: 25%;
+}
+
+.ranking-table .avatar-cell {
+    width: 60px; /* Ancho fijo para la celda del avatar */
+    padding: 8px 0 8px 12px !important; /* Ajuste de padding */
+}
+
+.ranking-table .avatar-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+    vertical-align: middle; /* Alinea la imagen verticalmente con el texto */
+    background-color: #f0f0f0; /* Color de fondo para imágenes transparentes */
+}
+
+.ranking-table .player-name-cell {
+    padding-left: 8px !important;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.top-player-row {
+    /* Azul pastel suave para los 8 mejores */
+    background-color: #adf38b !important;
+}

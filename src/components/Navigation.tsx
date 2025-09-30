@@ -51,7 +51,8 @@ const Navigation: React.FC = () => {
     const navItems = [
         { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
         // { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
-        { to: '/profile', label: 'Perfil', show: tokenExists },
+        { to: '/ranking', label: 'Ranking CTQ', show: tokenExists },
+        { to: '/profile', label: 'Mi Perfil', show: tokenExists },
         { to: '/myhistory', label: 'Mi historial', show: tokenExists },
         { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
