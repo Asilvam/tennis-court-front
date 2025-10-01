@@ -157,13 +157,7 @@ const AdminRegister: React.FC = () => {
     ) : (
         <div className="container admin-register-container">
             <div className="card admin-card">
-                <div className="admin-header">
-                    <FontAwesomeIcon icon={faUsers} />
-                    <h5>Administración de Usuarios</h5>
-                </div>
-
                 <div className="search-wrapper">
-                    <FontAwesomeIcon icon={faSearch} />
                     <input
                         type="text"
                         placeholder="Buscar por nombre de jugador..."
