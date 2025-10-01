@@ -1,7 +1,7 @@
 /* --- Main Container --- */
 .admin-register-container {
-    padding-top: 30px;
-    padding-bottom: 50px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: none; /* Anula el max-width del .container de Materialize */
 }
 
 .admin-card {
