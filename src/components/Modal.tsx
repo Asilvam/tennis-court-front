@@ -290,7 +290,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         <>
                             <div className="reservation-details">
                                 {formData.isPaidNight && <p className="red-text paid-turn-warning">Recuerda que este turno es pagado</p>}
-                                <p><FontAwesomeIcon icon={faTableTennisPaddleBall} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId}</p>
+                                <p><FontAwesomeIcon icon={faTableTennisPaddleBall} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId.replace('Cancha ', '')}</p>
                                 <p><FontAwesomeIcon icon={faCalendarCheck} className="fa-icon" /> <strong>Fecha:</strong> &nbsp;{selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''}</p>
                                 <p><FontAwesomeIcon icon={faClock} className="fa-icon" /> <strong>Turno:</strong> &nbsp;{selectedTimeSlot.time}</p>
                                 <p><FontAwesomeIcon icon={faUser} className="fa-icon" /> <strong>Player 1:</strong> &nbsp;{selectedTimeSlot.player1}</p>

@@ -86,6 +86,7 @@ const Ranking: React.FC = () => {
                                 <tr>
                                     <th className="center-align">Rank</th>
                                     <th className="center-align"></th>
+                                    <th className="center-align"></th>
                                     <th colSpan={2}>Jugador</th>
                                     <th className="center-align">Puntos</th>
                                 </tr>
@@ -101,7 +102,7 @@ const Ranking: React.FC = () => {
                                                 className="avatar-image"
                                             />
                                         </td>
-                                        <td className="player-name-cell">{player.nombre}</td>
+                                        <td className="player-name-cell" title={player.nombre}>{player.nombre}</td>
                                         <td className="center-align points-cell">{player.puntos.toLocaleString('es-CL')}</td>
                                     </tr>
                                 ))}

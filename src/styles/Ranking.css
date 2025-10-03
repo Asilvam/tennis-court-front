@@ -29,9 +29,10 @@
 }
 
 .ranking-table .rank-cell {
-    font-weight: bold;
-    font-size: 1.1rem;
+    font-weight: 700; /* Más grueso para resaltar */
+    font-size: 1.4rem; /* Un poco más grande */
     width: 15%;
+    color: #0d47a1;
 }
 
 .ranking-table .points-cell {
@@ -42,13 +43,13 @@
 }
 
 .ranking-table .avatar-cell {
-    width: 60px; /* Ancho fijo para la celda del avatar */
+    width: 100px; /* Ancho fijo para la celda del avatar */
     padding: 8px 0 8px 12px !important; /* Ajuste de padding */
 }
 
 .ranking-table .avatar-image {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%; /* Hace la imagen circular */
     object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
     vertical-align: middle; /* Alinea la imagen verticalmente con el texto */
@@ -59,6 +60,11 @@
     padding-left: 8px !important;
     vertical-align: middle;
     font-weight: 500;
+    /* Estilos para acortar nombres largos */
+    max-width: 120px; /* Ancho máximo antes de cortar el nombre */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .top-player-row {
