@@ -21,6 +21,7 @@ interface Register {
     verificationToken: string;
     points: string;
     role: string;
+    isLigthNigth: boolean;
 }
 
 const AdminRegister: React.FC = () => {
@@ -36,7 +37,8 @@ const AdminRegister: React.FC = () => {
         updatePayment: false,       // Default payment update status is false
         verificationToken: '',      // Empty string for verification token
         points: '0',                // Default points as a string (can be '0' or '0 points')
-        role: 'user'                // Default role is 'user'
+        role: 'user',                // Default role is 'user'
+        isLigthNigth: false,
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -258,6 +260,13 @@ const AdminRegister: React.FC = () => {
                                         <label>
                                             Pago al día
                                             <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={(e) => setEditUser({ ...editUser, updatePayment: e.target.checked })} />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
+                                    <div className="switch">
+                                        <label>
+                                            Debe Luz?
+                                            <input type="checkbox" name="isLigthNigth" checked={editUser.isLigthNigth} onChange={(e) => setEditUser({ ...editUser, isLigthNigth: e.target.checked })} />
                                             <span className="lever"></span>
                                         </label>
                                     </div>
