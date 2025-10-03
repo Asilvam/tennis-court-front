@@ -118,6 +118,21 @@
 .edit-modal .modal-content {
     max-height: 70vh;
     overflow-y: auto;
+    padding-bottom: 20px; /* Reduced space for dropdown and footer */
+}
+
+.edit-modal .modal-footer {
+    position: sticky;
+    bottom: 0;
+    background: #f1f3f4;
+    z-index: 2;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 0; /* Remove extra space */
+    display: flex;
+    justify-content: flex-end;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 
