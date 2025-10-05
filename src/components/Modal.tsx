@@ -35,6 +35,7 @@ interface ReserveFormData {
     dateToPlay: string | undefined;
     turn: string | undefined;
     isPaidNight: boolean | undefined;
+    wasPaidNight: boolean | undefined;
     isVisit: boolean;
     visitName: string;
     isDouble: boolean;
@@ -52,6 +53,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         dateToPlay: selectedTimeSlot?.date,
         turn: selectedTimeSlot?.time,
         isPaidNight: selectedTimeSlot?.isPayed,
+        wasPaidNight: !selectedTimeSlot?.isPayed,
         isVisit: false,
         visitName: '',
         isForRanking: false,
