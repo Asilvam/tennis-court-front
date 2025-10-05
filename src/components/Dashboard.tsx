@@ -249,19 +249,19 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                 )}
-                {activeNigthsLigths && (
-                    <div className="active-nights-lights-alert" style={{
-                        backgroundColor: '#ffebee',
-                        border: '2px solid #d32f2f',
-                        borderRadius: '8px',
-                        padding: '15px',
-                        margin: '15px 0',
-                        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',
-                        color: '#b71c1c'
-                    }}>
-                        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.
-                    </div>
-                )}
+                {/*{activeNigthsLigths && (*/}
+                {/*    <div className="active-nights-lights-alert" style={{*/}
+                {/*        backgroundColor: '#ffebee',*/}
+                {/*        border: '2px solid #d32f2f',*/}
+                {/*        borderRadius: '8px',*/}
+                {/*        padding: '15px',*/}
+                {/*        margin: '15px 0',*/}
+                {/*        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',*/}
+                {/*        color: '#b71c1c'*/}
+                {/*    }}>*/}
+                {/*        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.*/}
+                {/*    </div>*/}
+                {/*)}*/}
 
                 <div style={{display: 'flex', maxWidth:'400px'}}>
                     <input
