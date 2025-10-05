@@ -9,13 +9,8 @@ import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
 import '../styles/Reserves.css';
 
 interface CourtReserve {
-    player1: string;              // Primary player (required)
-    player2?: string;             // Optional second player
-    player3?: string;             // Optional third player for doubles
-    player4?: string;             // Optional fourth player for doubles
-    isDouble: boolean;            // Indicates if the reservation is for doubles
-    isVisit: boolean;             // Indicates if the reservation involves a visitor
-    visitName?: string;           // Optional visitor name
+    turn: string;              // Primary player (required)
+    court: string;             // Optional second player
     dateToPlay: string;            // Date of the reservation in ISO format
 }
 
@@ -46,7 +41,7 @@ const Dashboard: React.FC = () => {
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
-    const [activeReserve, setActiveReserve] = useState<CourtReserve | null>(null);
+    const [activeReserve, setActiveReserve] = useState<CourtReserve[] | null>(null);
     const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
 
     let minDate = DateTime.now().toISODate();
@@ -249,19 +244,19 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                 )}
-                {/*{activeNigthsLigths && (*/}
-                {/*    <div className="active-nights-lights-alert" style={{*/}
-                {/*        backgroundColor: '#ffebee',*/}
-                {/*        border: '2px solid #d32f2f',*/}
-                {/*        borderRadius: '8px',*/}
-                {/*        padding: '15px',*/}
-                {/*        margin: '15px 0',*/}
-                {/*        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',*/}
-                {/*        color: '#b71c1c'*/}
-                {/*    }}>*/}
-                {/*        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                {activeNigthsLigths && (
+                    <div className="active-nights-lights-alert" style={{
+                        backgroundColor: '#ffebee',
+                        border: '2px solid #d32f2f',
+                        borderRadius: '8px',
+                        padding: '15px',
+                        margin: '15px 0',
+                        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',
+                        color: '#b71c1c'
+                    }}>
+                        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.
+                    </div>
+                )}
 
                 <div style={{display: 'flex', maxWidth:'400px'}}>
                     <input
