@@ -1,0 +1,85 @@
+/* General Modal Styling */
+.modal.custom-modal {
+    max-width: 450px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal.custom-modal .modal-content {
+    padding: 0;
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: #1a237e; /* Indigo darken-4 */
+    color: white;
+    padding: 16px 24px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.modal-header h6 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.modal-header .fa-calendar-check {
+    margin-right: 12px;
+    font-size: 1.5rem;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 24px;
+}
+
+.reservation-details {
+    background-color: #e8eaf6; /* Indigo lighten-5 */
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.reservation-details p {
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.reservation-details .fa-icon {
+    margin-right: 10px;
+    color: #3f51b5; /* Indigo */
+    width: 20px;
+    text-align: center;
+}
+
+.paid-turn-warning {
+    font-weight: 500;
+    margin-bottom: 12px !important;
+}
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* Modal Footer */
+.modal.custom-modal .modal-footer {
+    background-color: #f1f3f4;
+    padding: 12px 24px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal.custom-modal .modal-footer .btn-flat {
+    margin-right: 10px;
+}

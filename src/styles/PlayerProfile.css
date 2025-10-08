@@ -1,0 +1,112 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    background-color: #f4f7f6;
+    min-height: 80vh;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.profile-header {
+    background: #0d47a1;
+    color: white;
+    padding: 30px 20px;
+    position: relative;
+}
+
+.profile-image-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 15px;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgb(177, 177, 177);
+    /* Un fondo degradado sutil para imágenes con transparencia */
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #fff;
+    color: #0d47a1;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.edit-icon:hover {
+    transform: scale(1.1);
+    background-color: #f0f0f0;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.player-email {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 25px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.upload-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.upload-section .btn {
+    width: 100%;
+}

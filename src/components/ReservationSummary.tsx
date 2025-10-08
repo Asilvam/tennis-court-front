@@ -40,6 +40,7 @@ const ReservationSummary: React.FC = () => {
         isPaidNight,
         isVisit,
         visitName,
+        isForRanking,
     } = formData;
 
     // Function to navigate back to dashboard
@@ -91,7 +92,7 @@ const ReservationSummary: React.FC = () => {
                     </div>
                 )}
 
-                {!isVisit && (
+                {!isVisit && isForRanking && (
                     <div className="summary-alert ranking">
                         <FontAwesomeIcon icon={faTrophy}/>
                         <span>

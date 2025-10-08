@@ -6,6 +6,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
 import {customStyles} from "../utils/customStyles.ts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarCheck, faClock, faUser, faUsers, faTableTennisPaddleBall } from '@fortawesome/free-solid-svg-icons';
+import '../styles/Modal.css';
 import logger from '../utils/logger';
 
 interface ModalProps {
@@ -32,6 +35,7 @@ interface ReserveFormData {
     dateToPlay: string | undefined;
     turn: string | undefined;
     isPaidNight: boolean | undefined;
+    wasPaidNight: boolean | undefined;
     isVisit: boolean;
     visitName: string;
     isDouble: boolean;
@@ -49,9 +53,10 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         dateToPlay: selectedTimeSlot?.date,
         turn: selectedTimeSlot?.time,
         isPaidNight: selectedTimeSlot?.isPayed,
+        wasPaidNight: !selectedTimeSlot?.isPayed,
         isVisit: false,
         visitName: '',
-        isForRanking: true,
+        isForRanking: false,
         isDouble: false,
     };
 
@@ -275,52 +280,47 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     };
 
     return (
-        <div id={id} className="modal"   style={{
-            maxWidth: '400px',
-            backgroundColor: '#e0f2ff', // Un azul muy suave (puedes ajustarlo)
-            borderRadius: '15px'      // Esquinas redondeadas (puedes ajustarlo)
-        }}>
-            <div className="modal-content" style={{paddingTop: '5px', paddingBottom: '5px'}}>
-                <h6><strong> {title} </strong></h6>
-                {selectedTimeSlot ? (
-                    <div >
-                        {formData.isPaidNight && <p className="red-text">Recuerda que este turno es pagado</p>}
-                        <div>
-                            <p>
-                                <strong> {selectedTimeSlot.courtId} </strong> <br/>
-                                <strong>Fecha:</strong> {selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''} <br/>
-                                <strong>Turno:</strong> {selectedTimeSlot.time} <br/>
-                                <strong>Player 1:</strong> {selectedTimeSlot.player1}
-                            </p>
-                        </div>
-                        <div className="input-field col s12">
-                            <Select
-                                value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
-                                onChange={(selectedOption) => {
-                                    if (selectedOption && 'value' in selectedOption) {
-                                        setFormData((prevState) => ({
-                                            ...prevState,
-                                            player2: selectedOption.value  // Store the selected value if it exists
-                                        }));
-                                    } else {
-                                        setFormData((prevState) => ({
-                                            ...prevState,
-                                            player2: ''  // Reset to empty if no option is selected
-                                        }));
-                                    }
-                                }}
-                                options={formattedPlayers}
-                                placeholder="Selecciona un player 2"
-                                isSearchable
-                                isDisabled={formData.isVisit} // Disable if 'isVisit' is true
-                                menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
-                                menuPlacement="bottom"              // Auto placement to decide whether to drop up or down
-                                styles={customStyles} // Apply custom styles here
-                            />
-                        </div>
-                        <div className="input-field-checked col s12">
-                            <p>
+        <div id={id} className="modal custom-modal">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <FontAwesomeIcon icon={faCalendarCheck} />
+                    <h6>{title}</h6>
+                </div>
+
+                <div className="modal-body">
+                    {selectedTimeSlot ? (
+                        <>
+                            <div className="reservation-details">
+                                {formData.isPaidNight && <p className="red-text paid-turn-warning">Recuerda que este turno es pagado</p>}
+                                <p><FontAwesomeIcon icon={faTableTennisPaddleBall} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId.replace('Cancha ', '')}</p>
+                                <p><FontAwesomeIcon icon={faCalendarCheck} className="fa-icon" /> <strong>Fecha:</strong> &nbsp;{selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''}</p>
+                                <p><FontAwesomeIcon icon={faClock} className="fa-icon" /> <strong>Turno:</strong> &nbsp;{selectedTimeSlot.time}</p>
+                                <p><FontAwesomeIcon icon={faUser} className="fa-icon" /> <strong>Player 1:</strong> &nbsp;{selectedTimeSlot.player1}</p>
+                            </div>
+
+                            <div className="input-field col s12">
+                                <Select
+                                    value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
+                                    onChange={(selectedOption) => {
+                                        if (selectedOption && 'value' in selectedOption) {
+                                            setFormData((prevState) => ({ ...prevState, player2: selectedOption.value }));
+                                        } else {
+                                            setFormData((prevState) => ({ ...prevState, player2: '' }));
+                                        }
+                                    }}
+                                    options={formattedPlayers}
+                                    placeholder={formData.isDouble ? "Selecciona Player 2" : "Selecciona un oponente"}
+                                    isSearchable
+                                    isDisabled={formData.isVisit}
+                                    menuPortalTarget={document.body}
+                                    maxMenuHeight={160}
+                                    menuPlacement="auto"
+                                    styles={customStyles}
+                                />
+                            </div>
+
+                            {/* Checkboxes */}
+                            <div className="checkbox-group">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -328,9 +328,29 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         checked={formData.isVisit}
                                         onChange={handleChange}
                                     />
-                                    <span>Visita</span>
+                                    <span><FontAwesomeIcon icon={faUser} /> Visita</span>
                                 </label>
-                            </p>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="isDouble"
+                                        checked={formData.isDouble}
+                                        onChange={handleChange}
+                                    />
+                                    <span><FontAwesomeIcon icon={faUsers} /> Dobles</span>
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="isForRanking"
+                                        checked={formData.isForRanking}
+                                        onChange={handleChange}
+                                        disabled={formData.isVisit}
+                                    />
+                                    <span>Valido Ranking</span>
+                                </label>
+                            </div>
+
                             {formData.isVisit && (
                                 <div className="input-field">
                                     <input
@@ -342,18 +362,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     />
                                 </div>
                             )}
-                            <p>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="isDouble"
-                                        checked={formData.isDouble}
-                                        onChange={handleChange}
-                                    />
-                                    <span>Dobles</span>
-                                </label>
-                            </p>
-                            {/* Mostrar campos para Player 3 y Player 4 si se selecciona "Play Double" */}
+
                             {formData.isDouble && (
                                 <>
                                     <div className="input-field col s12">
@@ -361,15 +370,9 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             value={formattedPlayers.find(option => option.value === formData.player3)}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
-                                                    setFormData((prevState) => ({
-                                                        ...prevState,
-                                                        player3: selectedOption.value  // Store the selected value if it exists
-                                                    }));
+                                                    setFormData((prevState) => ({ ...prevState, player3: selectedOption.value }));
                                                 } else {
-                                                    setFormData((prevState) => ({
-                                                        ...prevState,
-                                                        player3: ''  // Reset to empty if no option is selected
-                                                    }));
+                                                    setFormData((prevState) => ({ ...prevState, player3: '' }));
                                                 }
                                             }}
                                             options={formattedPlayers}
@@ -386,15 +389,9 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                             value={formattedPlayers.find(option => option.value === formData.player4)}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
-                                                    setFormData((prevState) => ({
-                                                        ...prevState,
-                                                        player4: selectedOption.value  // Store the selected value if it exists
-                                                    }));
+                                                    setFormData((prevState) => ({ ...prevState, player4: selectedOption.value }));
                                                 } else {
-                                                    setFormData((prevState) => ({
-                                                        ...prevState,
-                                                        player4: ''  // Reset to empty if no option is selected
-                                                    }));
+                                                    setFormData((prevState) => ({ ...prevState, player4: '' }));
                                                 }
                                             }}
                                             options={formattedPlayers}
@@ -408,43 +405,24 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     </div>
                                 </>
                             )}
-                            <p>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="isForRanking"
-                                        checked={formData.isForRanking}
-                                        onChange={handleChange}
-                                        disabled={formData.isVisit} // Disable when isVisit is true
-                                    />
-                                    <span>Valido Ranking</span>
-                                </label>
-                            </p>
-                        </div>
-                    </div>
-                ) : (
-                    <p>No time slot selected</p>
-                )}
+                        </>
+                    ) : (
+                        <p>No time slot selected</p>
+                    )}
+                </div>
             </div>
-            <div className="modal-footer" style={{
-                display: 'flex', // Añade display flex
-                justifyContent: 'center', // Centra los elementos horizontalmente
-                backgroundColor: '#e0f2ff', // Mantiene el color de fondo
-                borderBottomLeftRadius: '15px', // Mantiene las esquinas redondeadas
-                borderBottomRightRadius: '15px' // Mantiene las esquinas redondeadas
-            }}>
+            <div className="modal-footer">
+                <button
+                    className="modal-close btn-flat waves-effect waves-green"
+                    onClick={onClose}
+                >
+                    Cancelar
+                </button>
                 <button
                     className="modal-close btn waves-effect waves-light blue darken-4"
                     onClick={handleReserve}
                 >
                     Reservar
-                </button>
-                <button
-                    className="modal-close btn waves-effect waves-light blue darken-1"
-                    onClick={onClose}
-                    style={{marginLeft: '20px'}} // Este margen seguirá aplicando espacio entre los botones
-                >
-                    Cancelar
                 </button>
             </div>
 

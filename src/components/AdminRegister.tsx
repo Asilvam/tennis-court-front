@@ -3,8 +3,11 @@ import Swal from 'sweetalert2';
 import M from 'materialize-css';
 import axios from "axios";
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {PlayerCategory, categoryOptions, roleOptions} from "../constants/playerConstants.ts";
+import '../styles/AdminRegister.css';
 
 interface Register {
     namePlayer: string;
@@ -18,6 +21,7 @@ interface Register {
     verificationToken: string;
     points: string;
     role: string;
+    isLigthNigth: boolean;
 }
 
 const AdminRegister: React.FC = () => {
@@ -33,7 +37,8 @@ const AdminRegister: React.FC = () => {
         updatePayment: false,       // Default payment update status is false
         verificationToken: '',      // Empty string for verification token
         points: '0',                // Default points as a string (can be '0' or '0 points')
-        role: 'user'                // Default role is 'user'
+        role: 'user',                // Default role is 'user'
+        isLigthNigth: false,
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -152,204 +157,130 @@ const AdminRegister: React.FC = () => {
             </div>
         </div>
     ) : (
-        <div className="container">
-            {/*<h6 className="left-align">Register List</h6>*/}
-            {/* Search Input */}
-            <div className="input-field">
-                <input
-                    type="text"
-                    placeholder="Search by name player"
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)} // Update search term
-                />
-                <label></label>
-            </div>
-            {/* User List Table */}
-            <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
-                <table className="striped" style={{ width: '100%', tableLayout: 'fixed' }}>
-                    <thead>
-                    <tr>
-                        <th style={{ width: '30%', minWidth: '80px', textAlign: 'left' }}>Name</th>
-                        <th style={{ width: '50%', minWidth: '120px', textAlign: 'left' }}>Email</th>
-                        <th style={{ width: '20%', minWidth: '60px', textAlign: 'center' }}>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {filteredUsers.map((user) => (
-                        <tr key={user.email}>{/* No newline here */}
-                            <td style={{ width: '25%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'left' }}>
-                                {user.namePlayer}
-                            </td>
-                            <td style={{ width: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'left' }}>
-                                {user.email}
-                            </td>
-                            <td style={{ width: '25%', whiteSpace: 'nowrap', textAlign: 'center' }}>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <button
-                                        className="btn blue darken-4"
-                                        style={{ fontSize: '0.7rem', padding: '2px 5px', width: '80px' }}
-                                        onClick={() => handleEdit(user)}
-                                    >
-                                        Edit
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                    {filteredUsers.length === 0 && (
-                        <tr>{/* No newline here */}
-                            <td colSpan={3} className="center-align">No users found</td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
-            {/* Edit Modal */}
-            <div id="editModal" className="modal" style={{ width: '400px' }}>
-                <div className="modal-content">
-                    {/*<h5>Edit User</h5>*/}
-                    {editUser && (
-                        <form>
-                            {/* Name Player */}
-                            <div className="input-field">
-                                <input
-                                    type="text"
-                                    name="namePlayer"
-                                    value={editUser.namePlayer}
-                                    onChange={handleInputChange}
-                                />
-                                <label className="active">Name Player</label>
-                            </div>
-                            {/* Email */}
-                            {/*<div className="input-field">*/}
-                            {/*    <input*/}
-                            {/*        type="email"*/}
-                            {/*        name="email"*/}
-                            {/*        value={editUser.email}*/}
-                            {/*        onChange={handleInputChange}*/}
-                            {/*        disabled={true}*/}
-                            {/*    />*/}
-                            {/*    <label className="active">Email</label>*/}
-                            {/*</div>*/}
-                            {/* Cellular */}
-                            <div className="input-field">
-                                <input
-                                    type="text"
-                                    name="cellular"
-                                    value={editUser.cellular}
-                                    onChange={handleInputChange}
-                                />
-                                <label className="active">Cellular</label>
-                            </div>
-                            {/* Role */}
-                            <div className="input-field" style={{paddingTop: '5px'}}>
-                                <Select
-                                    name="role"
-                                    value={roleOptions.find(option => option.value === editUser.role)}
-                                    onChange={(selectedOption) => {
-                                        if (selectedOption && 'value' in selectedOption) {
-                                            setEditUser((prevState) => ({
-                                                ...prevState,
-                                                role: selectedOption.value // Use the selected value if valid
-                                            }));
-                                        } else {
-                                            setEditUser((prevState) => ({
-                                                ...prevState,
-                                                role: 'user'  // Reset to empty if no option is selected
-                                            }));
-                                        }
-                                    }}
-                                    options={roleOptions}
-                                    placeholder="Choose role"
-                                    isSearchable
-                                    className="react-select-container"
-                                    classNamePrefix="react-select"
-                                    styles={customStyles} // Apply custom styles here
-                                />
-                                <label className="active">Role</label>
-                            </div>
-                            {/* Category */}
-                            <div className="input-field" style={{paddingTop: '5px'}}>
-                                <Select
-                                    name="category"
-                                    value={categoryOptions.find(option => option.value === editUser.category)}
-                                    onChange={(selectedOption) => {
-                                        if (selectedOption && 'value' in selectedOption) {
-                                            setEditUser((prevState) => ({
-                                                ...prevState,
-                                                category: selectedOption.value // Use the selected value if valid
-                                            }));
-                                        } else {
-                                            setEditUser((prevState) => ({
-                                                ...prevState,
-                                                category: 'C'  // Reset to empty if no option is selected
-                                            }));
-                                        }
-                                    }}
-                                    options={categoryOptions}
-                                    placeholder="Choose category"
-                                    isSearchable
-                                    className="react-select-container"
-                                    classNamePrefix="react-select"
-                                    styles={customStyles}
-                                />
-                                <label className="active">Category</label>
-                            </div>
-                            {/* Points */}
-                            <div className="input-field">
-                                <input
-                                    type="number"
-                                    name="points"
-                                    value={editUser.points}
-                                    onChange={handleInputChange}
-                                />
-                                <label className="active">Points</label>
-                            </div>
-                            {/* State Player */}
-                            <div className="input-field">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="statePlayer"
-                                        checked={editUser.statePlayer}
-                                        onChange={(e) =>
-                                            setEditUser({
-                                                ...editUser,
-                                                statePlayer: e.target.checked,
-                                            })
-                                        }
-                                    />
-                                    <span style={{marginLeft: '10px'}}>State Player</span>
-                                </label>
-                            </div>
-                            {/* Update Payment */}
-                            <div className="input-field" style={{marginLeft: '130px', marginBottom: '30px'}}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="updatePayment"
-                                        checked={editUser.updatePayment}
-                                        onChange={(e) =>
-                                            setEditUser({
-                                                ...editUser,
-                                                updatePayment: e.target.checked,
-                                            })
-                                        }
-                                    />
-                                    <span style={{marginLeft: '10px'}}>Update Payment</span>
-                                </label>
-                            </div>
-                        </form>
-                    )}
-                </div>
-                <div className="modal-footer"
-                     style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 30px'}}>
-                    <button className="modal-close btn blue darken-1" style={{marginRight: '15px'}}>
-                        Cancelar
-                    </button>
-                    <button className="btn blue darken-4" onClick={handleSave}>Actualizar</button>
+        <div className="container admin-register-container">
+            <div className="card admin-card">
+                <div className="search-wrapper">
+                    <input
+                        type="text"
+                        placeholder="Buscar por nombre de jugador..."
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
                 </div>
 
+                <div className="table-wrapper">
+                    <table className="highlight user-table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th className="center-align">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {filteredUsers.map((user) => (
+                            <tr key={user.email}>
+                                <td className="name-cell">{user.namePlayer}</td>
+                                <td className="action-cell">
+                                    <button
+                                        className="btn-floating btn-small waves-effect waves-light blue darken-4"
+                                        onClick={() => handleEdit(user)}
+                                    >
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        {filteredUsers.length === 0 && (
+                            <tr>
+                                <td colSpan={2} className="center-align">No se encontraron usuarios.</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Edit Modal */}
+            <div id="editModal" className="modal edit-modal">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <FontAwesomeIcon icon={faEdit} />
+                        <h5>Editar Usuario</h5>
+                    </div>
+                    <div className="modal-body">
+                        {editUser && (
+                            <form>
+                                <div className="modal-form-section">
+                                    <div className="input-field">
+                                        <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} />
+                                        <label htmlFor="namePlayer" className="active">Nombre</label>
+                                    </div>
+                                    <div className="input-field">
+                                        <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} />
+                                        <label htmlFor="cellular" className="active">Celular</label>
+                                    </div>
+                                </div>
+
+                                <div className="modal-form-section">
+                                    <div className="input-field">
+                                        <input id="points" type="number" name="points" value={editUser.points} onChange={handleInputChange} />
+                                        <label htmlFor="points" className="active">Puntos</label>
+                                    </div>
+                                    <div className="input-field">
+                                        <p className="select-label">Rol</p>
+                                        <Select
+                                            name="role"
+                                            value={roleOptions.find(option => option.value === editUser.role)}
+                                            onChange={(selectedOption) => setEditUser(prev => ({ ...prev, role: selectedOption?.value || 'user' }))}
+                                            options={roleOptions}
+                                            styles={customStyles}
+                                        />
+                                    </div>
+                                    <div className="input-field">
+                                        <p className="select-label">Categoría</p>
+                                        <Select
+                                            name="category"
+                                            value={categoryOptions.find(option => option.value === editUser.category)}
+                                            onChange={(selectedOption) => setEditUser(prev => ({ ...prev, category: selectedOption?.value || '' }))}
+                                            options={categoryOptions}
+                                            styles={customStyles}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="modal-form-section switch-group">
+                                    <div className="switch">
+                                        <label>
+                                            Activo
+                                            <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={(e) => setEditUser({ ...editUser, statePlayer: e.target.checked })} />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
+                                    <div className="switch">
+                                        <label>
+                                            Pago al día
+                                            <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={(e) => setEditUser({ ...editUser, updatePayment: e.target.checked })} />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
+                                    <div className="switch">
+                                        <label>
+                                            Debe Luz?
+                                            <input type="checkbox" name="isLigthNigth" checked={editUser.isLigthNigth} onChange={(e) => setEditUser({ ...editUser, isLigthNigth: e.target.checked })} />
+                                            <span className="lever"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+                </div>
+                <div className="modal-footer">
+                    <button className="modal-close btn-flat waves-effect waves-green">
+                        Cancelar
+                    </button>
+                    <button className="btn waves-effect waves-light blue darken-4" onClick={handleSave}>Actualizar</button>
+                </div>
             </div>
         </div>
     );

@@ -18,7 +18,6 @@ const Navigation: React.FC = () => {
     const isUserRoleAdmin = userInfo?.role === 'admin';
     const namePlayer = userInfo?.name || '';
 
-
     useEffect(() => {
         const dropdownElems = document.querySelectorAll('.dropdown-trigger');
         M.Dropdown.init(dropdownElems, { alignment: 'right' });
@@ -51,7 +50,9 @@ const Navigation: React.FC = () => {
 
     const navItems = [
         { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
-        { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
+        // { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
+        { to: '/ranking', label: 'Ranking CTQ', show: tokenExists },
+        { to: '/profile', label: 'Mi Perfil', show: tokenExists },
         { to: '/myhistory', label: 'Mi historial', show: tokenExists },
         { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },

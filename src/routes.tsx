@@ -11,8 +11,9 @@ import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
 import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
-import Scoreboard from "./components/Scoreboard.tsx";
+// import Scoreboard from "./components/Scoreboard.tsx";
 import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
+import PlayerProfile from "./components/PlayerProfile.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -20,7 +21,8 @@ const Router: React.FC = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/scoreboard" element={<Scoreboard player1={"Player 1"} player2={"Player 2"}/>}/>
+            <Route path="/profile" element={<PlayerProfile/>}/>
+            {/*<Route path="/scoreboard" element={<Scoreboard player1={"Player 1"} player2={"Player 2"}/>}/>*/}
             <Route path="/register" element={<PlayerForm/>}/>
             <Route path="/adminregister" element={<AdminRegister/>}/>
             <Route path="/items" element={<ImageUploadForm/>}/>
