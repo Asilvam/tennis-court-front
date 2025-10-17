@@ -1,14 +1,38 @@
-.time-slots {
+.time-slot {
+  flex: 1 1 10%; /* Slots take up equal space and adjust with container size */
+  background: #f5f7fa;
+  border-radius: 2px;
+  min-width: 33%;
+  min-height: 80px;
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping for time slots */
-  justify-content: space-between; /* Distributes space between slots */
-  gap: 10px; /* Space between time slots */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(60,60,60,0.07);
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 2px solid transparent;
 }
 
-.time-slot {
-  flex: 1 1 12%; /* Slots take up equal space and adjust with container size */
-  min-width: 100px; /* Minimum width for the slot */
-  max-width: 150px; /* Maximum width for the slot */
+.time-slot:hover {
+  box-shadow: 0 2px 8px rgba(60,60,60,0.13);
+}
+
+.time-slot.available:hover {
+  border-color: #1621cc;
+}
+
+.time-slot.unavailable {
+  background: #f8d7da;
+  color: #b71c1c;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.time-slot.paid {
+  border: 2px solid #009EE3;
+  background: #e3f6fd;
 }
 
 .time-slot button {
@@ -29,16 +53,4 @@
 .time-slot button:disabled {
   background-color: #f14f4f;
   cursor: not-allowed;
-}
-
-@media (max-width: 600px) {
-  .time-slot {
-    flex: 1 1 48%; /* Adjust to 2 slots per row on smaller screens */
-  }
-}
-
-@media (min-width: 1200px) {
-  .time-slot {
-    flex: 1 1 8%; /* More slots per row on larger screens */
-  }
 }
