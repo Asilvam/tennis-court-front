@@ -17,9 +17,7 @@
     font-size: 12px;
     font-weight: 600;
     color: #333;
-    margin-right: 0.1rem;
-    width: 10px; /* Fixed width for alignment */
-    text-align: center;
+    width: 5%; /* Fixed width for alignment */
 }
 
 /* Flex container for each court's information */

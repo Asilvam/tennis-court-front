@@ -258,7 +258,7 @@ const Dashboard: React.FC = () => {
                     </div>
                 )}
 
-                <div style={{display: 'flex', maxWidth:'400px'}}>
+                <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
                     <input
                         type="date"
                         value={selectedDate}
@@ -276,7 +276,7 @@ const Dashboard: React.FC = () => {
                 <div className="flex flex-col items-center">
                     {timeSlots.map((timeSlot, index) => (
                         <div key={index} className="time-slot-container"
-                             style={{ maxWidth: '400px', width: '100%' }}
+                             style={{  width: '100%' }}
                         >
                             <div className="time-slot-time">{timeSlot.time}</div>
                             <div className="time-slot-courts">
