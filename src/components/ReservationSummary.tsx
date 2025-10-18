@@ -12,10 +12,10 @@ import {DateTime} from "luxon"; // Import new styles
 const ReservationSummary: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate(); // Add useNavigate hook
-    const {formData} = location.state || {}; // Destructure formData from location.state
+    const {responseData} = location.state || {}; // Destructure formData from location.state
 
     // If formData doesn't exist, display a fallback message
-    if (!formData) {
+    if (!responseData) {
         return (
             <div className="summary-page-container">
                 <div className="summary-card">
@@ -27,7 +27,6 @@ const ReservationSummary: React.FC = () => {
         );
     }
 
-    // Destructure formData fields to simplify JSX usage
     const {
         isDouble,
         player1,
@@ -41,7 +40,9 @@ const ReservationSummary: React.FC = () => {
         isVisit,
         visitName,
         isForRanking,
-    } = formData;
+        idCourtReserve,
+        passCourtReserve
+    } = responseData;
 
     // Function to navigate back to dashboard
     const handleBackToDashboard = () => {
@@ -94,11 +95,23 @@ const ReservationSummary: React.FC = () => {
 
                 {!isVisit && isForRanking && (
                     <div className="summary-alert ranking">
-                        <FontAwesomeIcon icon={faTrophy}/>
-                        <span>
-                            <strong>¡A Jugar por el Ranking!</strong> <br/>
-                            Tu ID y clave fueron enviados a tu correo para que puedas actualizar el resultado.
-                        </span>
+                        <FontAwesomeIcon icon={faTrophy} className="summary-alert-icon" />
+                        <div className="summary-alert-content">
+                            <h6>¡Actualiza tu Ranking!</h6>
+                            {idCourtReserve && passCourtReserve ? (
+                                <div className="ranking-details">
+                                    <p>Usa estos datos :</p>
+                                    <p className="ranking-credential">
+                                        ID: <strong><span className="ranking-data">{idCourtReserve}</span></strong>
+                                    </p>
+                                    <p className="ranking-credential">
+                                        Password: <strong><span className="ranking-data">{passCourtReserve}</span></strong>
+                                    </p>
+                                </div>
+                            ) : (
+                                <p>Tu ID y clave fueron enviados a tu correo para que puedas actualizar el resultado.</p>
+                            )}
+                        </div>
                     </div>
                 )}
 

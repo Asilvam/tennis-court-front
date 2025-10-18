@@ -235,16 +235,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Swal.showLoading(); // Display the default spinner from SweetAlert2
                 },
             });
-            // console.log(formData);
-            logger.info(formData);
+            // logger.info('request-->',formData);
             const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+            // logger.info('response-->',response.data);
+            const responseData = response.data;
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
                     icon: 'success',
                     title: 'Reserva Lista',
                     text: 'Tu reserva esta lista!',
                 });
-                navigate('/summary', { state: { formData } });
+                navigate('/summary', { state: { responseData } });
             } else {
                 throw new Error('Unexpected response status');
             }

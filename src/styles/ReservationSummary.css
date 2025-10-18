@@ -131,3 +131,7 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+
+.ranking-data {
+    color: #007bff; /* O el color que prefieras, ej: 'orange', '#FFC107' */
+}
