@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTrash, faEye} from '@fortawesome/free-solid-svg-icons';
+// import {faTrash, faEye, faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import {DateTime} from 'luxon';
 import {getUserInfoFromLocalStorage} from '../utils/userUtils';
 import {getTokenFromLocalStorage} from '../utils/tokenUtils';
 import M from 'materialize-css';
 import Swal from 'sweetalert2';
+// import logger from "../utils/logger.ts";
 
 interface Reservation {
     court: string;
@@ -18,11 +20,11 @@ interface Reservation {
     state: boolean;
     visitName?: string;
     idCourtReserve: string;
+    passCourtReserve?: string;
 }
 
 const MyHistoryReserve: React.FC = () => {
     const [reserves, setReserves] = useState<Reservation[]>([]);
-    const [selectedReserve, setSelectedReserve] = useState<Reservation | null>(null);
     const userInfo = getUserInfoFromLocalStorage();
     const token = getTokenFromLocalStorage();
     const [loading, setLoading] = useState(false);
@@ -67,6 +69,46 @@ const MyHistoryReserve: React.FC = () => {
         }
     };
 
+    const handleView = (reserve: Reservation) => {
+        const courtNumber = reserve.court.replace(/\D/g, '');
+        const isCanceled = !reserve.state;
+
+        const details = `
+    <div class="left-align swal-details">
+      <p>👤 <strong>Player 1:</strong> ${namePlayer}</p>
+      <p>👤 <strong>Player 2:</strong> ${reserve.player2}</p>
+      ${reserve.player3 ? `<p>👤 <strong>Player 3:</strong> ${reserve.player3}</p>` : ''}
+      ${reserve.player4 ? `<p>👤 <strong>Player 4:</strong> ${reserve.player4}</p>` : ''}
+      <hr>
+      <p>📅 <strong>Fecha:</strong> ${DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</p>
+      <p>🏟️ <strong>Cancha:</strong> ${courtNumber}</p>
+      <p>⏰ <strong>Turno:</strong> ${reserve.turn.split('-')[0]}</p>
+      ${isCanceled ? `<p class="red-text">🚫 <strong>Estado:</strong> Reserva cancelada.</p>` : ''}
+      ${reserve.visitName ? `<p>🚶‍♂️ <strong>Visita:</strong> ${reserve.visitName}</p>` : ''}
+      ${reserve.idCourtReserve ? `<hr><p>🔑 <strong>ID Partido:</strong> ${reserve.idCourtReserve}</p>` : ''}
+      ${reserve.passCourtReserve ? `<p>🔒 <strong>Password:</strong> ${reserve.passCourtReserve}</p>` : ''}
+    </div>
+  `;
+
+        Swal.fire({
+            icon: 'info',
+            title: 'Detalle Reserva',
+            html: details,
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: '#1a237e', // Azul rey para el botón
+        });
+    };
+
+
+    // const handleEdit = () => {
+    //     Swal.fire({
+    //         icon: 'info',
+    //         title: 'En Desarrollo',
+    //         text: 'La funcionalidad para editar la reserva aún no está implementada.',
+    //         confirmButtonText: 'Entendido',
+    //     });
+    // };
+
     const handleDelete = async (id: string) => {
         try {
             const result = await Swal.fire({
@@ -104,26 +146,6 @@ const MyHistoryReserve: React.FC = () => {
         } finally {
             fetchReserves();
         }
-    };
-
-    const openModal = (reserve: Reservation) => {
-        setSelectedReserve(reserve);
-        const modal = document.getElementById('reserveModal');
-        if (modal) {
-            const instance = M.Modal.getInstance(modal);
-            if (instance) {
-                instance.open();
-            } else {
-                // If the instance is not initialized, initialize it here
-                const newInstance = M.Modal.init(modal);
-                newInstance.open();
-            }
-        }
-    };
-
-
-    const closeModal = () => {
-        setSelectedReserve(null);
     };
 
     const extractNumber = (text: string): number | null => {
@@ -166,12 +188,29 @@ const MyHistoryReserve: React.FC = () => {
                         <td className="center-align">{extractNumber(reserve.court)}</td>
                         <td>{reserve.turn.split('-')[0]}</td>
                         <td>
-                            <button className="btn blue darken-1" onClick={() => openModal(reserve)}>
+                            <button className="btn blue darken-1"
+                                    onClick={() => handleView(reserve)}>
                                 <FontAwesomeIcon icon={faEye}/>
                             </button>
-                            {isOkToDelete(reserve)  && (
-                                <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
-                                    <FontAwesomeIcon icon={faTrash}/>
+                            {/*<button className="btn yellow darken-3"*/}
+                            {/*        onClick={handleEdit}>*/}
+                            {/*    <FontAwesomeIcon icon={faPencilAlt}/>*/}
+                            {/*</button>*/}
+                            {isOkToDelete(reserve) ? (
+                                <button
+                                    className="btn red darken-4"
+                                    onClick={() => handleDelete(reserve.idCourtReserve)}
+                                    title="Eliminar reserva"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            ) : (
+                                <button
+                                    className="btn red darken-4"
+                                    disabled
+                                    title="No se puede eliminar esta reserva"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} />
                                 </button>
                             )}
                         </td>
@@ -179,31 +218,6 @@ const MyHistoryReserve: React.FC = () => {
                 ))}
                 </tbody>
             </table>
-
-            {/* Materialize modal for viewing details */}
-            <div id="reserveModal" className="modal">
-                <div className="modal-content">
-                    <h6><strong>Detalle Reserva</strong></h6>
-                    {selectedReserve && (
-                        <>
-                            <p><strong>Player 1:</strong> {namePlayer}</p>
-                            <p><strong>Player 2:</strong> {selectedReserve.player2}</p>
-                            {selectedReserve.player3 && <p><strong>Player 3:</strong> {selectedReserve.player3}</p>}
-                            {selectedReserve.player4 && <p><strong>Player 4:</strong> {selectedReserve.player4}</p>}
-                            <p><strong>Fecha:</strong> {`${selectedReserve.dateToPlay.slice(8, 10)}-${selectedReserve.dateToPlay.slice(5, 7)}-${selectedReserve.dateToPlay.slice(2, 4)}`}</p>
-                            <p><strong>Cancha:</strong> {selectedReserve.court.replace(/\D/g, '')}</p>
-                            <p><strong>Turno:</strong> {selectedReserve.turn.split('-')[0]}</p>
-                            {selectedReserve.visitName &&
-                                <p><strong>Visitor Name:</strong> {selectedReserve.visitName}</p>}
-                            {!selectedReserve.state &&
-                                <p><strong>Estado reserva:</strong> Esta reserva fue cancelada.</p>}
-                        </>
-                    )}
-                </div>
-                <div className="modal-footer">
-                    <button className="modal-close btn blue darken-1" onClick={closeModal}>Cerrar</button>
-                </div>
-            </div>
         </div>
     );
 };
