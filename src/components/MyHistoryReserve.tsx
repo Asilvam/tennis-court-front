@@ -21,6 +21,7 @@ interface Reservation {
     visitName?: string;
     idCourtReserve: string;
     passCourtReserve?: string;
+    isForRanking: boolean;
 }
 
 const MyHistoryReserve: React.FC = () => {
@@ -85,8 +86,8 @@ const MyHistoryReserve: React.FC = () => {
       <p>⏰ <strong>Turno:</strong> ${reserve.turn.split('-')[0]}</p>
       ${isCanceled ? `<p class="red-text">🚫 <strong>Estado:</strong> Reserva cancelada.</p>` : ''}
       ${reserve.visitName ? `<p>🚶‍♂️ <strong>Visita:</strong> ${reserve.visitName}</p>` : ''}
-      ${reserve.idCourtReserve ? `<hr><p>🔑 <strong>ID Partido:</strong> ${reserve.idCourtReserve}</p>` : ''}
-      ${reserve.passCourtReserve ? `<p>🔒 <strong>Password:</strong> ${reserve.passCourtReserve}</p>` : ''}
+      ${reserve.isForRanking && reserve.idCourtReserve ? `<hr><p>🔑 <strong>ID Partido:</strong> ${reserve.idCourtReserve}</p>` : ''}
+      ${reserve.isForRanking && reserve.passCourtReserve ? `<p>🔒 <strong>Password:</strong> ${reserve.passCourtReserve}</p>` : ''}
     </div>
   `;
 
@@ -98,7 +99,6 @@ const MyHistoryReserve: React.FC = () => {
             confirmButtonColor: '#1a237e', // Azul rey para el botón
         });
     };
-
 
     // const handleEdit = () => {
     //     Swal.fire({
