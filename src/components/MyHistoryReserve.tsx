@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 
 interface Reservation {
     court: string;
+    player1: string;
     player2: string;
     player3?: string;
     player4?: string;
@@ -76,7 +77,7 @@ const MyHistoryReserve: React.FC = () => {
 
         const details = `
     <div class="left-align swal-details">
-      <p>👤 <strong>Player 1:</strong> ${namePlayer}</p>
+      <p>👤 <strong>Player 1:</strong> ${reserve.player1}</p>
       <p>👤 <strong>Player 2:</strong> ${reserve.player2}</p>
       ${reserve.player3 ? `<p>👤 <strong>Player 3:</strong> ${reserve.player3}</p>` : ''}
       ${reserve.player4 ? `<p>👤 <strong>Player 4:</strong> ${reserve.player4}</p>` : ''}
