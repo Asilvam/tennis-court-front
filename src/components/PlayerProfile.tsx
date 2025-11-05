@@ -87,6 +87,11 @@ const PlayerProfile: React.FC = () => {
             return;
         }
 
+        if(imageFile.size > 1048576){
+            Swal.fire('Ohhh','Archivo muy grande, maximo 10 mb', 'error');
+            return;
+        }
+
         setUploading(true);
 
         const formData = new FormData();
