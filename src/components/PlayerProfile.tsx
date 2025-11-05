@@ -87,7 +87,7 @@ const PlayerProfile: React.FC = () => {
             return;
         }
 
-        if(imageFile.size > 1048576){
+        if(imageFile.size >  10 * 1024 * 1024){
             Swal.fire('Ohhh','Archivo muy grande, maximo 10 mb', 'error');
             return;
         }
