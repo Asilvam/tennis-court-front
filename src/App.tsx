@@ -21,6 +21,9 @@ import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
 import ResetPassword from "./components/ResetPassword.tsx";
 import Ranking from "./components/Ranking.tsx";
 import PlayerProfile from "./components/PlayerProfile.tsx";
+import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
+import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
+import PaymentPending from "./pages/payment/PaymentPending.tsx";
 
 const App: React.FC = () => {
     return (
@@ -61,6 +64,9 @@ const App: React.FC = () => {
                                    element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
                             <Route path="/resetpassword"
                                    element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />/
+                            <Route path="/payment/success" element={<PaymentSuccess/>}/>
+                            <Route path="/payment/failure" element={<PaymentFailure/>}/>
+                            <Route path="/payment/pending" element={<PaymentPending/>}/>
                             {/* Unauthorized access page */}
                             <Route path="/unauthorized" element={<Unauthorized />} />
                             <Route path="*" element={<NotFound/>}/>

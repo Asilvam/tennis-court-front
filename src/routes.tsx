@@ -14,6 +14,9 @@ import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
 // import Scoreboard from "./components/Scoreboard.tsx";
 import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
 import PlayerProfile from "./components/PlayerProfile.tsx";
+import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
+import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
+import PaymentPending from "./pages/payment/PaymentPending.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -31,6 +34,11 @@ const Router: React.FC = () => {
             <Route path="/myhistory" element={<MyHistoryReserve/>}/>
             <Route path="/updatematch" element={<MatchResultUpdate/>}/>
             <Route path="/multibooking" element={<MultipleBookingForm/>}/>
+            {/* Rutas de callbacks de pago */}
+            <Route path="/payment/success" element={<PaymentSuccess/>}/>
+            <Route path="/payment/failure" element={<PaymentFailure/>}/>
+            <Route path="/payment/pending" element={<PaymentPending/>}/>
+
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     );
