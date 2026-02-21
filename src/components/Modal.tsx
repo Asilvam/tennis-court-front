@@ -7,7 +7,13 @@ import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
 import {customStyles} from "../utils/customStyles.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faClock, faUser, faUsers, faTableTennisPaddleBall } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCalendarCheck,
+    faClock,
+    faUser,
+    faUsers,
+    faMapMarkerAlt
+} from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
 
@@ -66,6 +72,28 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const timezone = 'America/Santiago'; // Chile timezone
     const currentTime = DateTime.now().setZone(timezone);
     const today = currentTime.startOf('day');
+    // const [idCourtReserve, setIdCourtReserve] = useState('');
+
+    // Actualizar el formulario cuando cambia el slot seleccionado
+    useEffect(() => {
+        if (selectedTimeSlot) {
+            setFormData({
+                court: '' + selectedTimeSlot.courtId,
+                player1: selectedTimeSlot.player1,
+                player2: '',
+                player3: '',
+                player4: '',
+                dateToPlay: selectedTimeSlot.date,
+                turn: selectedTimeSlot.time,
+                isPaidNight: selectedTimeSlot.isPayed,
+                wasPaidNight: !selectedTimeSlot.isPayed,
+                isVisit: false,
+                visitName: '',
+                isForRanking: false,
+                isDouble: false,
+            });
+        }
+    }, [selectedTimeSlot]);
 
     useEffect(() => {
         const modalElement = document.getElementById(id);
@@ -87,16 +115,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         label: player
     }));
 
-    const validateText = (input: string): string | Error => {
-        const hasInvalidChars = /[^a-zA-Z\s]/.test(input);
-        if (hasInvalidChars) {
-            throw new Error('The text contains numbers or special characters.');
-        }
-        let trimmedText = input.trim();
-        trimmedText = trimmedText.replace(/\s+/g, ' ');
-        return trimmedText;
-    }
-
     const validateForm = () => {
         let isValid = true;
         if (formData.turn) {
@@ -116,32 +134,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                             text: 'Este horario, ya no esta disponible.',
                         });
                     }
-                }
-            }
-        }
-        if (formData.isVisit) {
-            if (!formData.visitName) {
-                isValid = false;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'nombre de la visita no puede ser en blanco!',
-                });
-            } else {
-                try {
-                    const visitNameTrimmed = validateText(formData.visitName);
-                    setFormData((prevState) => ({
-                        ...prevState,
-                        visitName: visitNameTrimmed.toString(),
-                    }));
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                } catch (error:any) {
-                    isValid = false;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Validation Error',
-                        text: 'Error with visit name validation: ' + error.message,
-                    });
                 }
             }
         }
@@ -204,8 +196,8 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     return {
                         ...updatedState,
                         player2: checked ? '' : updatedState.player2,
-                        isForRanking: checked ? false : true,
-                        visitName: checked ? updatedState.visitName : '', // Reset visitName when unchecked
+                        // isForRanking: checked ? false : true,
+                        visitName: checked ? 'Visita' : '', // Reset visitName when unchecked
                     };
                 }
                 if (name === 'isDouble' && !checked) {
@@ -220,37 +212,105 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         });
     };
 
+    const handlePay = async (reserveId: string, amountToPay: number) => {
+        try {
+            Swal.fire({
+                title: 'Procesando pago...',
+                text: 'Redirigiendo a Mercado Pago...',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+            });
+
+            const response = await axios.post(`${apiUrl}/mp/init-point`, {
+                courtId: formData.court,
+                date: formData.dateToPlay,
+                time: formData.turn,
+                player1: formData.player1,
+                amount: amountToPay,
+                idCourtReserve: reserveId,
+            });
+            logger.debug(response);
+            window.location.href = response.data.initPoint;
+        } catch (error) {
+            logger.error('Error creating payment:', error);
+            throw error; // Propagar el error para manejarlo en handleReserve
+        }
+    };
+
+    const createReservation = async () => {
+        Swal.fire({
+            title: 'Procesando...',
+            text: 'Creando tu reserva...',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading(),
+        });
+
+        const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+
+        if (response.status === 200 || response.status === 201) {
+            await Swal.fire({
+                icon: 'success',
+                title: 'Reserva Lista',
+                text: 'Tu reserva está lista!',
+            });
+            navigate('/summary', { state: { responseData: response.data } });
+        }
+    };
+
+    const createTemporalReserve= async ()=>{
+        const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+        // setIdCourtReserve(response.data.idCourtReserve)
+        return response.data.idCourtReserve;
+    }
+
     const handleReserve = async () => {
         if (!validateForm()) {
             return;
         }
         try {
-            Swal.fire({
-                title: 'Processing ...',
-                text: 'Procesando Reserva...',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading(); // Display the default spinner from SweetAlert2
-                },
-            });
-            // logger.info('request-->',formData);
-            const response = await axios.post(`${apiUrl}/court-reserve`, formData);
-            // logger.info('response-->',response.data);
-            const responseData = response.data;
-            if (response.status === 200 || response.status === 201) {
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'Reserva Lista',
-                    text: 'Tu reserva esta lista!',
-                });
-                navigate('/summary', { state: { responseData } });
-            } else {
-                throw new Error('Unexpected response status');
+            let amountToPay = 0;
+            let title = '';
+            let text = '';
+
+            // Determinar el tipo de pago y monto con if/else if para evitar cascadas
+            if (formData.isPaidNight && formData.isVisit) {
+                amountToPay = 11000;
+                title = 'Visita y Reserva nocturna Pagada';
+                text = "Este turno requiere pago de $11000. ¿Deseas continuar?";
+            } else if (formData.isPaidNight) {
+                amountToPay = 4000;
+                title = 'Turno Pagado';
+                text = "Este turno requiere pago de $4000. ¿Deseas continuar?";
+            } else if (formData.isVisit) {
+                amountToPay = 7000;
+                title = 'Visita Pagada';
+                text = "Este turno requiere pago de $7000. ¿Deseas continuar?";
             }
+
+            // Si hay pago involucrado
+            if (amountToPay > 0) {
+                const result = await Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, pagar ahora',
+                    cancelButtonText: 'Cancelar'
+                });
+                if (result.isConfirmed) {
+                    const reserveId = await createTemporalReserve();
+                    await handlePay(reserveId, amountToPay);
+                    return;
+                }
+                // Si cancela, simplemente retornamos y no creamos reserva
+                    return;
+                }
+
+            // Flujo normal sin pago
+            await createReservation();
         } catch (error) {
-            // console.log(error);
             logger.error(error);
             Swal.close(); // Ensure the previous Swal is closed before opening a new one
             if (axios.isAxiosError(error)) {
@@ -275,8 +335,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     text: 'Un error inesperado ha ocurrido. Intente mas tarde.',
                 });
             }
-        } finally {
-            onClose(); // Trigger any modal close functionality
         }
     };
 
@@ -287,18 +345,16 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     <FontAwesomeIcon icon={faCalendarCheck} />
                     <h6>{title}</h6>
                 </div>
-
                 <div className="modal-body">
                     {selectedTimeSlot ? (
                         <>
                             <div className="reservation-details">
-                                {formData.isPaidNight && <p className="red-text paid-turn-warning">Recuerda que este turno es pagado</p>}
-                                <p><FontAwesomeIcon icon={faTableTennisPaddleBall} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId.replace('Cancha ', '')}</p>
+                                {/*{formData.isPaidNight && <p className="red-text paid-turn-warning">Recuerda que este turno es pagado</p>}*/}
+                                <p><FontAwesomeIcon icon={faMapMarkerAlt} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId.replace('Cancha ', '')}</p>
                                 <p><FontAwesomeIcon icon={faCalendarCheck} className="fa-icon" /> <strong>Fecha:</strong> &nbsp;{selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''}</p>
                                 <p><FontAwesomeIcon icon={faClock} className="fa-icon" /> <strong>Turno:</strong> &nbsp;{selectedTimeSlot.time}</p>
                                 <p><FontAwesomeIcon icon={faUser} className="fa-icon" /> <strong>Player 1:</strong> &nbsp;{selectedTimeSlot.player1}</p>
                             </div>
-
                             <div className="input-field col s12">
                                 <Select
                                     value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
@@ -352,17 +408,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                 </label>
                             </div>
 
-                            {formData.isVisit && (
-                                <div className="input-field">
-                                    <input
-                                        type="text"
-                                        name="visitName"
-                                        value={formData.visitName}
-                                        onChange={handleChange}
-                                        placeholder="Ingrese nombre de la visita"
-                                    />
-                                </div>
-                            )}
+                            {/*{formData.isVisit && (*/}
+                            {/*    <div className="input-field">*/}
+                            {/*        <input*/}
+                            {/*            type="text"*/}
+                            {/*            name="visitName"*/}
+                            {/*            value={formData.visitName}*/}
+                            {/*            onChange={handleChange}*/}
+                            {/*            placeholder="Ingrese nombre de la visita"*/}
+                            {/*        />*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
 
                             {formData.isDouble && (
                                 <>
@@ -420,13 +476,12 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     Cancelar
                 </button>
                 <button
-                    className="modal-close btn waves-effect waves-light blue darken-4"
+                    className={`btn waves-effect waves-light ${formData.isPaidNight || formData.isVisit ? 'red darken-4' : 'blue darken-4'}`}
                     onClick={handleReserve}
                 >
-                    Reservar
+                    {formData.isPaidNight || formData.isVisit ? 'Pagar' : 'Reservar'}
                 </button>
             </div>
-
         </div>
     );
 };
