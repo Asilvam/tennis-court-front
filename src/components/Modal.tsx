@@ -300,6 +300,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     cancelButtonText: 'Cancelar'
                 });
                 if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Creando reserva...',
+                        text: 'Preparando tu pago...',
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading(),
+                    });
                     const reserveId = await createTemporalReserve();
                     await handlePay(reserveId, amountToPay);
                     return;
