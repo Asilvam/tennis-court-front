@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import M from 'materialize-css';
 import Swal from 'sweetalert2';
 import Select from "react-select";
 import axios from "axios";
@@ -12,7 +11,10 @@ import {
     faClock,
     faUser,
     faUsers,
-    faMapMarkerAlt
+    faMapMarkerAlt,
+    faTimes,
+    faMoneyBillWave,
+    faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
@@ -72,7 +74,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const timezone = 'America/Santiago'; // Chile timezone
     const currentTime = DateTime.now().setZone(timezone);
     const today = currentTime.startOf('day');
-    // const [idCourtReserve, setIdCourtReserve] = useState('');
 
     // Actualizar el formulario cuando cambia el slot seleccionado
     useEffect(() => {
@@ -95,20 +96,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         }
     }, [selectedTimeSlot]);
 
-    useEffect(() => {
-        const modalElement = document.getElementById(id);
-        if (modalElement) {
-            const instance = M.Modal.init(modalElement, {
-                onCloseEnd: onClose,
-            });
-            if (isOpen) {
-                instance.open();
-            } else {
-                instance.close();
-            }
-            return () => instance.destroy();
-        }
-    }, [id, isOpen, onClose]);
+    // Removed Materialize Modal init logic as we are controlling visibility via CSS/React state
 
     const formattedPlayers = playersNames.map(player => ({
         value: player,
@@ -196,15 +184,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     return {
                         ...updatedState,
                         player2: checked ? '' : updatedState.player2,
-                        // isForRanking: checked ? false : true,
-                        visitName: checked ? 'Visita' : '', // Reset visitName when unchecked
+                        visitName: checked ? 'Visita' : '',
                     };
                 }
                 if (name === 'isDouble' && !checked) {
                     return {
                         ...updatedState,
-                        player3: '', // Reset player3 if isDouble is unchecked
-                        player4: '', // Reset player4 if isDouble is unchecked
+                        player3: '',
+                        player4: '',
                     };
                 }
             }
@@ -234,7 +221,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             window.location.href = response.data.initPoint;
         } catch (error) {
             logger.error('Error creating payment:', error);
-            throw error; // Propagar el error para manejarlo en handleReserve
+            throw error;
         }
     };
 
@@ -261,7 +248,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
 
     const createTemporalReserve= async ()=>{
         const response = await axios.post(`${apiUrl}/court-reserve`, formData);
-        // setIdCourtReserve(response.data.idCourtReserve)
         return response.data.idCourtReserve;
     }
 
@@ -274,7 +260,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
             let title = '';
             let text = '';
 
-            // Determinar el tipo de pago y monto con if/else if para evitar cascadas
             if (formData.isPaidNight && formData.isVisit) {
                 amountToPay = 11000;
                 title = 'Visita y Reserva nocturna Pagada';
@@ -289,7 +274,6 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 text = "Este turno requiere pago de $7000. ¿Deseas continuar?";
             }
 
-            // Si hay pago involucrado
             if (amountToPay > 0) {
                 const result = await Swal.fire({
                     title: title,
@@ -311,15 +295,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     await handlePay(reserveId, amountToPay);
                     return;
                 }
-                // Si cancela, simplemente retornamos y no creamos reserva
-                    return;
-                }
+                return;
+            }
 
-            // Flujo normal sin pago
             await createReservation();
         } catch (error) {
             logger.error(error);
-            Swal.close(); // Ensure the previous Swal is closed before opening a new one
+            Swal.close();
             if (axios.isAxiosError(error)) {
                 if (error.response && error.response.data && error.response.data.message) {
                     const { message } = error.response.data;
@@ -345,24 +327,50 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         }
     };
 
+    if (!isOpen) return null;
+
     return (
-        <div id={id} className="modal custom-modal">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <FontAwesomeIcon icon={faCalendarCheck} />
-                    <h6>{title}</h6>
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header-modern">
+                    <div className="header-title">
+                        <FontAwesomeIcon icon={faCalendarCheck} className="header-icon" />
+                        <h3>{title}</h3>
+                    </div>
+                    <button className="close-button" onClick={onClose}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
                 </div>
-                <div className="modal-body">
+                
+                <div className="modal-body-modern">
                     {selectedTimeSlot ? (
                         <>
-                            <div className="reservation-details">
-                                {/*{formData.isPaidNight && <p className="red-text paid-turn-warning">Recuerda que este turno es pagado</p>}*/}
-                                <p><FontAwesomeIcon icon={faMapMarkerAlt} className="fa-icon" /> <strong>Cancha:</strong> &nbsp;{selectedTimeSlot.courtId.replace('Cancha ', '')}</p>
-                                <p><FontAwesomeIcon icon={faCalendarCheck} className="fa-icon" /> <strong>Fecha:</strong> &nbsp;{selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd-MM-yyyy') : ''}</p>
-                                <p><FontAwesomeIcon icon={faClock} className="fa-icon" /> <strong>Turno:</strong> &nbsp;{selectedTimeSlot.time}</p>
-                                <p><FontAwesomeIcon icon={faUser} className="fa-icon" /> <strong>Player 1:</strong> &nbsp;{selectedTimeSlot.player1}</p>
+                            <div className="reservation-summary-card">
+                                <div className="summary-item">
+                                    <FontAwesomeIcon icon={faMapMarkerAlt} className="summary-icon" />
+                                    <div>
+                                        <span className="label">Cancha</span>
+                                        <span className="value">{selectedTimeSlot.courtId.replace('Cancha ', '')}</span>
+                                    </div>
+                                </div>
+                                <div className="summary-item">
+                                    <FontAwesomeIcon icon={faCalendarCheck} className="summary-icon" />
+                                    <div>
+                                        <span className="label">Fecha</span>
+                                        <span className="value">{selectedTimeSlot.date ? DateTime.fromISO(selectedTimeSlot.date).toFormat('dd/MM') : ''}</span>
+                                    </div>
+                                </div>
+                                <div className="summary-item">
+                                    <FontAwesomeIcon icon={faClock} className="summary-icon" />
+                                    <div>
+                                        <span className="label">Hora</span>
+                                        <span className="value">{selectedTimeSlot.time}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="input-field col s12">
+
+                            <div className="form-section">
+                                <label className="input-label">Oponente (Player 2)</label>
                                 <Select
                                     value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
                                     onChange={(selectedOption) => {
@@ -380,30 +388,39 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                     maxMenuHeight={160}
                                     menuPlacement="auto"
                                     styles={customStyles}
+                                    className="react-select-container"
+                                    classNamePrefix="react-select"
                                 />
                             </div>
 
-                            {/* Checkboxes */}
-                            <div className="checkbox-group">
-                                <label>
+                            <div className="options-grid">
+                                <label className={`option-card ${formData.isVisit ? 'active' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isVisit"
                                         checked={formData.isVisit}
                                         onChange={handleChange}
                                     />
-                                    <span><FontAwesomeIcon icon={faUser} /> Visita</span>
+                                    <div className="option-content">
+                                        <FontAwesomeIcon icon={faUser} className="option-icon" />
+                                        <span>Visita</span>
+                                    </div>
                                 </label>
-                                <label>
+                                
+                                <label className={`option-card ${formData.isDouble ? 'active' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isDouble"
                                         checked={formData.isDouble}
                                         onChange={handleChange}
                                     />
-                                    <span><FontAwesomeIcon icon={faUsers} /> Dobles</span>
+                                    <div className="option-content">
+                                        <FontAwesomeIcon icon={faUsers} className="option-icon" />
+                                        <span>Dobles</span>
+                                    </div>
                                 </label>
-                                <label>
+                                
+                                <label className={`option-card ${formData.isForRanking ? 'active' : ''} ${formData.isVisit ? 'disabled' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isForRanking"
@@ -411,25 +428,17 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         onChange={handleChange}
                                         disabled={formData.isVisit}
                                     />
-                                    <span>Valido Ranking</span>
+                                    <div className="option-content">
+                                        <FontAwesomeIcon icon={faTrophy} className="option-icon" />
+                                        <span>Ranking</span>
+                                    </div>
                                 </label>
                             </div>
 
-                            {/*{formData.isVisit && (*/}
-                            {/*    <div className="input-field">*/}
-                            {/*        <input*/}
-                            {/*            type="text"*/}
-                            {/*            name="visitName"*/}
-                            {/*            value={formData.visitName}*/}
-                            {/*            onChange={handleChange}*/}
-                            {/*            placeholder="Ingrese nombre de la visita"*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*)}*/}
-
                             {formData.isDouble && (
-                                <>
-                                    <div className="input-field col s12">
+                                <div className="doubles-section">
+                                    <div className="form-section">
+                                        <label className="input-label">Player 3</label>
                                         <Select
                                             value={formattedPlayers.find(option => option.value === formData.player3)}
                                             onChange={(selectedOption) => {
@@ -440,15 +449,16 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                                 }
                                             }}
                                             options={formattedPlayers}
-                                            placeholder="Selecciona un player 3"
+                                            placeholder="Selecciona Player 3"
                                             isSearchable
-                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={160}               // Set max height (adjust for 5 players, typically around 200px)
-                                            menuPlacement="bottom"              // Auto placement to decide whether to drop up or down
-                                            styles={customStyles} // Apply custom styles here
+                                            menuPortalTarget={document.body}
+                                            maxMenuHeight={160}
+                                            menuPlacement="top"
+                                            styles={customStyles}
                                         />
                                     </div>
-                                    <div className="input-field col s12">
+                                    <div className="form-section">
+                                        <label className="input-label">Player 4</label>
                                         <Select
                                             value={formattedPlayers.find(option => option.value === formData.player4)}
                                             onChange={(selectedOption) => {
@@ -459,35 +469,39 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                                 }
                                             }}
                                             options={formattedPlayers}
-                                            placeholder="Selecciona un player 4"
+                                            placeholder="Selecciona Player 4"
                                             isSearchable
-                                            menuPortalTarget={document.body}  // Attach the dropdown to the body to avoid modal overlap
-                                            maxMenuHeight={160}               // Set max height for 5 players
-                                            menuPlacement="bottom"              // Auto placement to adjust dropdown direction
-                                            styles={customStyles} // Apply custom styles here
+                                            menuPortalTarget={document.body}
+                                            maxMenuHeight={160}
+                                            menuPlacement="top"
+                                            styles={customStyles}
                                         />
                                     </div>
-                                </>
+                                </div>
                             )}
                         </>
                     ) : (
                         <p>No time slot selected</p>
                     )}
                 </div>
-            </div>
-            <div className="modal-footer">
-                <button
-                    className="modal-close btn-flat waves-effect waves-green"
-                    onClick={onClose}
-                >
-                    Cancelar
-                </button>
-                <button
-                    className={`btn waves-effect waves-light ${formData.isPaidNight || formData.isVisit ? 'red darken-4' : 'blue darken-4'}`}
-                    onClick={handleReserve}
-                >
-                    {formData.isPaidNight || formData.isVisit ? 'Pagar' : 'Reservar'}
-                </button>
+                
+                <div className="modal-footer-modern">
+                    <button className="btn-cancel" onClick={onClose}>
+                        Cancelar
+                    </button>
+                    <button
+                        className={`btn-confirm ${formData.isPaidNight || formData.isVisit ? 'btn-pay' : 'btn-reserve'}`}
+                        onClick={handleReserve}
+                    >
+                        {formData.isPaidNight || formData.isVisit ? (
+                            <>
+                                <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2" /> Pagar
+                            </>
+                        ) : (
+                            'Confirmar Reserva'
+                        )}
+                    </button>
+                </div>
             </div>
         </div>
     );

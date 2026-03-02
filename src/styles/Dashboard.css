@@ -1,56 +1,335 @@
-.time-slot {
-  flex: 1 1 10%; /* Slots take up equal space and adjust with container size */
-  background: #f5f7fa;
-  border-radius: 2px;
-  min-width: 33%;
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 4px rgba(60,60,60,0.07);
-  transition: box-shadow 0.2s;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  border: 2px solid transparent;
+/* Dashboard Container */
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
 }
 
-.time-slot:hover {
-  box-shadow: 0 2px 8px rgba(60,60,60,0.13);
+/* Header Section */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.time-slot.available:hover {
-  border-color: #1621cc;
+.welcome-card h5 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.5rem;
 }
 
-.time-slot.unavailable {
-  background: #f8d7da;
-  color: #b71c1c;
-  cursor: not-allowed;
-  opacity: 0.7;
+.welcome-card strong {
+    font-weight: 700;
 }
 
-.time-slot.paid {
-  border: 2px solid #009EE3;
-  background: #e3f6fd;
+.date-display {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 
-.time-slot button {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  background-color: green;
-  color: white;
-  font-size: calc(8px + 1vw); /* Adjust font size based on viewport width */
-  border: none;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* Date Navigation */
+.date-navigation {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px;
+    border-radius: 8px;
 }
 
-.time-slot button:disabled {
-  background-color: #f14f4f;
-  cursor: not-allowed;
+.nav-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 10px;
+    transition: transform 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+    transform: scale(1.2);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.date-input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+}
+
+/* Alerts Section */
+.alerts-section {
+    margin-bottom: 20px;
+}
+
+.alert-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.alert-card.warning {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffc107;
+    color: #856404;
+}
+
+.alert-card.danger {
+    background-color: #f8d7da;
+    border-left: 5px solid #dc3545;
+    color: #721c24;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.alert-content h6 {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.reserve-details span {
+    display: block;
+    font-size: 0.9rem;
+}
+
+/* Legend Bar */
+.legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.dot.available { background-color: #e3f2fd; border: 1px solid #2196f3; }
+.dot.reserved { background-color: #ffebee; border: 1px solid #ef5350; }
+.dot.maintenance { background-color: #efebe9; border: 1px solid #8d6e63; }
+.dot.championship { background-color: #f3e5f5; border: 1px solid #ab47bc; }
+.dot.class { background-color: #e8f5e9; border: 1px solid #66bb6a; }
+
+/* Slots Grid */
+.slots-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.time-row {
+    display: flex;
+    align-items: stretch;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.time-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.time-label {
+    background: #f1f3f5;
+    color: #495057;
+    font-weight: bold;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    border-right: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.courts-container {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.court-card {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+}
+
+.court-name {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.status-text {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Court States */
+.court-card.available {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-color: #bbdefb;
+}
+
+.court-card.available:hover {
+    background-color: #bbdefb;
+    border-color: #1976d2;
+}
+
+.court-card.unavailable {
+    background-color: #ffebee;
+    color: #c62828;
+    border-color: #ffcdd2;
+    cursor: not-allowed;
+}
+
+.court-card.paid {
+    background-color: #fff8e1;
+    border-color: #ffecb3;
+    color: #f57f17;
+}
+
+.court-card.championship {
+    background-color: #f3e5f5;
+    color: #6a1b9a;
+    border-color: #e1bee7;
+}
+
+.court-card.maintenance {
+    background-color: #efebe9;
+    color: #4e342e;
+    border-color: #d7ccc8;
+}
+
+.court-card.class {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+
+.court-card.weather {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border-color: #ffe0b2;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .date-navigation {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .time-row {
+        flex-direction: column;
+    }
+
+    .time-label {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding: 10px;
+        background-color: #f5f5f5;
+        justify-content: flex-start;
+    }
+
+    .courts-container {
+        flex-direction: column; /* Default: Stack courts vertically */
+        width: 100%;
+        gap: 8px; /* Adjust gap for column layout */
+    }
+
+    .courts-container.all-available {
+        flex-direction: row; /* If all available, show in a row */
+        flex-wrap: wrap; /* Allow wrapping if many courts */
+        justify-content: space-around; /* Distribute space */
+    }
+
+    .court-card {
+        width: 100%; /* Default: Full width for column layout */
+        margin-bottom: 0; /* Reset margin for column layout */
+        flex-direction: row; /* Horizontal layout for better mobile list view */
+        justify-content: space-between;
+        padding: 15px;
+        min-height: 50px;
+    }
+
+    .courts-container.all-available .court-card {
+        width: calc(33% - 10px); /* Approx 3 per row, considering gap */
+        min-width: unset; /* Allow shrinking */
+        flex-direction: column; /* Back to column for compact display in row */
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .court-card:last-child {
+        margin-bottom: 0;
+    }
+
+    .court-name {
+        margin-bottom: 0;
+        font-size: 1rem;
+    }
+
+    .courts-container.all-available .court-name {
+        margin-bottom: 2px; /* Restore margin for column layout in row */
+    }
 }

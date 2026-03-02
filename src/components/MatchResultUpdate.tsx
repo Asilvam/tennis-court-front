@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import M from 'materialize-css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {faSpinner, faTrophy, faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
-import '../styles/Player.css';
+import '../styles/MatchResult.css';
 
 interface PlayerData {
     email: string;
@@ -14,7 +13,6 @@ interface PlayerData {
     cellular: string;
 }
 
-// Interfaz para la respuesta de validateMatch (opcional pero recomendado)
 interface ValidateMatchResponse {
     players: string[];
     isDouble: boolean;
@@ -22,10 +20,8 @@ interface ValidateMatchResponse {
     dataPlayers: PlayerData[];
 }
 
-
 const MatchResultUpdate: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    // const phoneAdmin = import.meta.env.VITE_PHONE_ADMIN;
     const [matchId, setMatchId] = useState('');
     const [matchPass, setMatchPass] = useState('');
     const [isValid, setIsValid] = useState(false);
@@ -40,40 +36,34 @@ const MatchResultUpdate: React.FC = () => {
     const [player2Data, setPlayer2Data] = useState<PlayerData | null>(null);
     const [player3Data, setPlayer3Data] = useState<PlayerData | null>(null);
     const [player4Data, setPlayer4Data] = useState<PlayerData | null>(null);
-
-    const isPlayerAmin = (fullName?: string): boolean | undefined => {
-        return fullName?.toLowerCase().includes('kafati');
-    };
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const getPlayerInitials = (fullName?: string): string => {
         if (!fullName) return '';
-        const nameParts = fullName.trim().split(' ').filter(part => part.length > 0); // Filtra partes vacías
+        const nameParts = fullName.trim().split(' ').filter(part => part.length > 0);
         if (nameParts.length === 0) return '';
 
         const firstInitial = nameParts[0][0].toUpperCase() + '.';
         if (nameParts.length > 1) {
             const lastName = nameParts[nameParts.length - 1];
-            if (lastName && lastName[0]) { // Asegura que el apellido no esté vacío
+            if (lastName && lastName[0]) {
                 const lastInitial = lastName[0].toUpperCase() + '.';
                 return `${firstInitial} ${lastInitial}`;
             }
         }
-        return firstInitial; // Solo la primera inicial si no hay apellido o es un solo nombre
+        return firstInitial;
     };
 
-
-    const handleError = (error) => {
+    const handleError = (error: any) => {
         if (axios.isAxiosError(error)) {
             if (error.response) {
-                // Detecta un error BadRequest (400)
                 if (error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Solicitud inválida',
-                        text: error.response.data.message || 'La solicitud enviada no es válida. Verifica los datos e inténtalo nuevamente.',
+                        text: error.response.data.message || 'La solicitud enviada no es válida.',
                     });
                 } else {
-                    // Otros errores en la respuesta del servidor
                     Swal.fire({
                         icon: 'error',
                         title: `Error ${error.response.status}`,
@@ -81,14 +71,12 @@ const MatchResultUpdate: React.FC = () => {
                     });
                 }
             } else if (error.request) {
-                // No hubo respuesta del servidor
                 Swal.fire({
                     icon: 'warning',
                     title: 'Sin respuesta del servidor',
                     text: 'El servidor no respondió. Por favor, inténtalo más tarde.',
                 });
             } else {
-                // Error en la configuración de la solicitud
                 Swal.fire({
                     icon: 'error',
                     title: 'Error en la solicitud',
@@ -96,7 +84,6 @@ const MatchResultUpdate: React.FC = () => {
                 });
             }
         } else {
-            // Error genérico
             Swal.fire({
                 icon: 'error',
                 title: 'Error inesperado',
@@ -105,55 +92,57 @@ const MatchResultUpdate: React.FC = () => {
         }
     };
 
-
     const validateMatch = async () => {
+        if (!matchId || !matchPass) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Datos incompletos',
+                text: 'Por favor ingresa el ID y la clave del partido.',
+            });
+            return;
+        }
+
         try {
             setLoading(true);
             const {data}: { data: ValidateMatchResponse } = await axios.post(`${apiUrl}/match-ranking/validate-match`, {
                 id: matchId,
                 pass: matchPass,
             });
+            
             setPlayers(data.players);
-            setIsDoubles(data.isDouble); // Usar data.isDouble de la respuesta
+            setIsDoubles(data.isDouble);
             setIsValid(data.isValid);
 
-            setPlayer1Data(data.dataPlayers[0] || null); // Asegurar null si no existe
+            setPlayer1Data(data.dataPlayers[0] || null);
             setPlayer2Data(data.dataPlayers[1] || null);
 
-            if (data.isDouble) { // Usar data.isDouble de la respuesta
+            if (data.isDouble) {
                 setPlayer3Data(data.dataPlayers[2] || null);
                 setPlayer4Data(data.dataPlayers[3] || null);
             } else {
-                setPlayer3Data(null); // Limpiar si no es dobles
+                setPlayer3Data(null);
                 setPlayer4Data(null);
             }
 
             setDataUpdateRanking(() => data.players.map((player: string, index: number) => ({
                     player,
-                    ...(data.dataPlayers[index] || {}), // Asegurar objeto vacío si no hay datos
+                    ...(data.dataPlayers[index] || {}),
                 }))
             );
 
             if (data.isValid) {
-                const modal = document.getElementById('resultModal');
-                if (modal) {
-                    const instance = M.Modal.getInstance(modal) || M.Modal.init(modal);
-                    instance.open();
-                }
+                setIsModalOpen(true);
             }
         } catch (error: any) {
             console.error('Error in Validate Match component:', error);
             handleError(error);
         } finally {
-            setLoading(false); // Stop loading spinner
+            setLoading(false);
         }
     };
 
     const handleSave = async () => {
-        console.log('emailWinner:', dataWinner);
-        console.log('emailLooser:', dataLooser);
-        if (
-            result && dataWinner) {
+        if (result && dataWinner.length > 0) {
             setLoading(true);
             try {
                 await axios.post(`${apiUrl}/match-ranking`, {
@@ -163,13 +152,7 @@ const MatchResultUpdate: React.FC = () => {
                     looser: dataLooser,
                 });
 
-                console.log('Resultado guardado (simulado):', matchId, result, dataWinner, dataLooser);
-
-                const modal = document.getElementById('resultModal');
-                if (modal) {
-                    const instance = M.Modal.getInstance(modal) || M.Modal.init(modal);
-                    instance.close();
-                }
+                setIsModalOpen(false);
 
                 Swal.fire({
                     icon: 'success',
@@ -178,7 +161,8 @@ const MatchResultUpdate: React.FC = () => {
                     timer: 3000,
                     showConfirmButton: false,
                 });
-                // Resetear campos
+                
+                // Reset fields
                 setMatchId('');
                 setMatchPass('');
                 setIsValid(false);
@@ -207,181 +191,180 @@ const MatchResultUpdate: React.FC = () => {
         }
     };
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        // Optional: Reset result/winner selection if cancelled?
+        // setResult('');
+        // setDataWinner([]);
+    };
+
     return (
-        <div className="container">
-            <h6 className="mt-3">Ingresar Resultado Match</h6>
-            <div className="mb-3">
-                <label className="form-label">ID match</label>
+        <div className="match-result-container">
+            <h5 className="match-result-title">Ingresar Resultado Match</h5>
+            
+            <div className="form-group">
+                <label className="form-label">ID del Partido</label>
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-input"
                     value={matchId}
                     onChange={(e) => setMatchId(e.target.value)}
-                    placeholder="Ingrese ID del partido"
+                    placeholder="Ej: 12345"
                 />
             </div>
-            <div className="mb-3">
-                <label className="form-label">Password</label>
+            
+            <div className="form-group">
+                <label className="form-label">Clave del Partido</label>
                 <input
                     type="password"
-                    className="form-control"
+                    className="form-input"
                     value={matchPass}
                     onChange={(e) => setMatchPass(e.target.value)}
-                    placeholder="Ingrese clave del partido"
+                    placeholder="••••••"
                 />
             </div>
-            <button className="btn btn-primary blue darken-4"
-                    disabled={loading}
-                    style={{marginTop: '20px'}}
-                    onClick={validateMatch}>
+            
+            <button 
+                className="btn-validate"
+                disabled={loading}
+                onClick={validateMatch}
+            >
                 {loading ? (
-                    <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>
+                    <>
+                        <FontAwesomeIcon icon={faSpinner} spin className="mr-2" style={{marginRight: '8px'}} />
+                        Validando...
+                    </>
                 ) : (
-                    'Validar')}
+                    'Validar Partido'
+                )}
             </button>
 
-            {/* Materialize modal for saving match result */}
-            <div id="resultModal" className="modal" style={{maxWidth: '550px'}}>
-                <div className="modal-content">
-                    {/*<h6><strong>Ingresar Resultados de Match</strong></h6>*/}
-                    {isDoubles
-                        ?
-                        <p>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])} vs ${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</p>
-                           : <div className="player-container">
-                                {/* Tarjeta del Jugador 1 */}
-                                <div className="player-square player-one">
-                                    <div className="player-info-header">
-                                        <div className={`player-photo-mock ${isPlayerAmin(players[0]) ? 'is-amin' : ''}`}></div>
-                                        <p className="player-name">{getPlayerInitials(players[0])}</p>
-                                    </div>
-                                    <div className="player-details">
-                                        <p className="player-serie">Serie: {player1Data?.category}</p>
-                                        <p className="player-points">Puntos: {player1Data?.points}</p>
-                                    </div>
-                                </div>
-
-                                {/* "VS" como elemento central y de acento */}
-                                <div className="vs">VS</div>
-
-                                {/* Tarjeta del Jugador 2 */}
-                                <div className="player-square player-two">
-                                    <div className="player-info-header">
-                                        <div className={`player-photo-mock ${isPlayerAmin(players[1]) ? 'is-amin' : ''}`}></div>
-                                        <p className="player-name">{getPlayerInitials(players[1])}</p>
-                                    </div>
-                                    <div className="player-details">
-                                        <p className="player-serie">Serie: {player2Data?.category}</p>
-                                        <p className="player-points">Puntos: {player2Data?.points}</p>
-                                    </div>
-                                </div>
+            {/* Custom Modal for Result Entry */}
+            {isModalOpen && (
+                <div className="match-modal-overlay" onClick={handleCloseModal}>
+                    <div className="match-modal-container" onClick={(e) => e.stopPropagation()}>
+                        <div className="match-modal-header">
+                            <h5>Confirmar Resultado</h5>
                         </div>
+                        
+                        <div className="match-modal-body">
+                            {/* Players VS Display */}
+                            <div className="players-vs-container">
+                                <div className="player-card-mini">
+                                    <div className="player-avatar">
+                                        {isDoubles ? <FontAwesomeIcon icon={faTrophy} /> : getPlayerInitials(players[0]).charAt(0)}
+                                    </div>
+                                    <div className="player-name">
+                                        {isDoubles 
+                                            ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
+                                            : getPlayerInitials(players[0])
+                                        }
+                                    </div>
+                                    <div className="player-stats">
+                                        {player1Data?.category} | {player1Data?.points} pts
+                                    </div>
+                                </div>
 
-                    }
-                    <div className="mb-3">
-                        <label className="form-label" style={{color: 'Black'}}>Ingresa marcadores de Set</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={result}
-                            onChange={(e) => setResult(e.target.value)}
-                            placeholder="Ejemplo: 6:4, 3:6, 7:6(3)"
-                        />
-                    </div>
-                    <label className="form-label" style={{color: 'Black'}}>Seleccionar Ganador</label>
-                    <div>
-                        {isDoubles ? (
+                                <div className="vs-badge">VS</div>
 
-                            <>
-                                <div className="form-check" style={{marginTop: '10px'}}>
-                                    {players[0] && players[1] && (
-                                        <label style={{color: 'Black', marginRight: '15px'}}>
-                                            <input
-                                                type="radio"
-                                                name="winnerSelection"
-                                                className="with-gap"
-                                                // Comprueba si el primer ganador en el array es player1Data
-                                                checked={dataWinner[0]?.email === player1Data?.email}
-                                                onChange={() => {
+                                <div className="player-card-mini">
+                                    <div className="player-avatar">
+                                        {isDoubles ? <FontAwesomeIcon icon={faTrophy} /> : (isDoubles ? getPlayerInitials(players[2]).charAt(0) : getPlayerInitials(players[1]).charAt(0))}
+                                    </div>
+                                    <div className="player-name">
+                                        {isDoubles 
+                                            ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
+                                            : getPlayerInitials(players[1])
+                                        }
+                                    </div>
+                                    <div className="player-stats">
+                                        {isDoubles ? player3Data?.category : player2Data?.category} | {isDoubles ? player3Data?.points : player2Data?.points} pts
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Result Input */}
+                            <div className="form-group">
+                                <label className="form-label">Marcador del Set</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={result}
+                                    onChange={(e) => setResult(e.target.value)}
+                                    placeholder="Ej: 6-4, 3-6, 7-6"
+                                />
+                            </div>
+
+                            {/* Winner Selection */}
+                            <div className="form-group">
+                                <label className="form-label">Seleccionar Ganador</label>
+                                <div className="winner-selection-group">
+                                    {/* Option 1 */}
+                                    <label className="winner-option">
+                                        <input
+                                            type="radio"
+                                            name="winnerSelection"
+                                            checked={dataWinner[0]?.email === (isDoubles ? player1Data?.email : player1Data?.email)}
+                                            onChange={() => {
+                                                if (isDoubles) {
                                                     if (player1Data && player2Data) setDataWinner([player1Data, player2Data]);
                                                     if (player3Data && player4Data) setDataLooser([player3Data, player4Data]);
-                                                }}
-                                            />
-                                            <span>{`${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`}</span>
-                                        </label>
-                                    )}
-                                    {players[2] && players[3] && (
-                                        <label style={{color: 'Black'}}>
-                                            <input
-                                                type="radio"
-                                                name="winnerSelection"
-                                                className="with-gap"
-                                                // Comprueba si el primer ganador en el array es player3Data
-                                                checked={dataWinner[0]?.email === player3Data?.email}
-                                                onChange={() => {
-                                                    if (player3Data && player4Data) setDataWinner([player3Data, player4Data]);
-                                                    if (player1Data && player2Data) setDataLooser([player1Data, player2Data]);
-                                                }}
-                                            />
-                                            <span>{`${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`}</span>
-                                        </label>
-                                    )}
-                                </div>
-
-                            </>
-                        ) : (
-                            <>
-                                <div className="form-check" style={{marginTop: '10px'}}>
-                                    {players[0] && (
-                                        <label style={{color: 'Black', marginRight: '15px'}}>
-                                            <input
-                                                type="radio"
-                                                name="winnerSelection"
-                                                className="with-gap"
-                                                checked={dataWinner[0]?.email === player1Data?.email}
-                                                onChange={() => {
+                                                } else {
                                                     if (player1Data) setDataWinner([player1Data]);
                                                     if (player2Data) setDataLooser([player2Data]);
-                                                }}
-                                            />
-                                            <span>{getPlayerInitials(players[0])}</span>
-                                        </label>
-                                    )}
-                                    {players[1] && (
-                                        <label style={{color: 'Black'}}>
-                                            <input
-                                                type="radio"
-                                                name="winnerSelection"
-                                                className="with-gap"
-                                                // La comprobación también debe ser sobre el primer elemento del array
-                                                checked={dataWinner[0]?.email === player2Data?.email}
-                                                onChange={() => {
+                                                }
+                                            }}
+                                        />
+                                        <div className="winner-card">
+                                            <span>
+                                                {isDoubles 
+                                                    ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
+                                                    : getPlayerInitials(players[0])
+                                                }
+                                            </span>
+                                        </div>
+                                    </label>
+
+                                    {/* Option 2 */}
+                                    <label className="winner-option">
+                                        <input
+                                            type="radio"
+                                            name="winnerSelection"
+                                            checked={dataWinner[0]?.email === (isDoubles ? player3Data?.email : player2Data?.email)}
+                                            onChange={() => {
+                                                if (isDoubles) {
+                                                    if (player3Data && player4Data) setDataWinner([player3Data, player4Data]);
+                                                    if (player1Data && player2Data) setDataLooser([player1Data, player2Data]);
+                                                } else {
                                                     if (player2Data) setDataWinner([player2Data]);
                                                     if (player1Data) setDataLooser([player1Data]);
-                                                }}
-                                            />
-                                            <span>{getPlayerInitials(players[1])}</span>
-                                        </label>
-                                    )}
+                                                }
+                                            }}
+                                        />
+                                        <div className="winner-card">
+                                            <span>
+                                                {isDoubles 
+                                                    ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
+                                                    : getPlayerInitials(players[1])
+                                                }
+                                            </span>
+                                        </div>
+                                    </label>
                                 </div>
-
-                            </>
-
-                        )}
+                            </div>
+                        </div>
+                        
+                        <div className="match-modal-footer">
+                            <button className="btn-cancel" onClick={handleCloseModal} disabled={loading}>
+                                Cancelar
+                            </button>
+                            <button className="btn-save" onClick={handleSave} disabled={loading}>
+                                {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : <><FontAwesomeIcon icon={faCheckCircle} /> Guardar Resultado</>}
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div className="modal-footer">
-                    <button className="btn btn-primary blue darken-1" onClick={handleSave} disabled={loading}>
-                        {loading ? <FontAwesomeIcon icon={faSpinner} spin/> : 'Guardar'}
-                    </button>
-                    <button
-                        className="btn btn-secondary modal-close blue darken-4"
-                        style={{marginLeft: "10px"}}
-                        disabled={loading}
-                    >
-                        Cancelar
-                    </button>
-                </div>
-            </div>
+            )}
         </div>
     );
 };
