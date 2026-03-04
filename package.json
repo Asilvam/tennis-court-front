@@ -35,7 +35,7 @@
     "react-select": "^5.8.1",
     "serve": "^14.2.4",
     "sweetalert2": "^11.14.3",
-    "swiper": "^11.2.10"
+    "swiper": "^12.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -52,6 +52,6 @@
     "globals": "^15.9.0",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.9"
+    "vite": "^7.3.1"
   }
 }

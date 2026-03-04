@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import Select from "react-select";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {DateTime} from "luxon";
-import {customStyles} from "../utils/customStyles.ts";
+import { useNavigate } from "react-router-dom";
+import { DateTime } from "luxon";
+import { customStyles } from "../utils/customStyles.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCalendarCheck,
@@ -13,8 +13,8 @@ import {
     faUsers,
     faMapMarkerAlt,
     faTimes,
-    faMoneyBillWave,
-    faTrophy
+    faTrophy,
+    faLightbulb
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
@@ -50,7 +50,7 @@ interface ReserveFormData {
     isForRanking: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playersNames, onClose}) => {
+const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
 
     const initialFormData: ReserveFormData = {
         court: '' + selectedTimeSlot?.courtId,
@@ -107,7 +107,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
         let isValid = true;
         if (formData.turn) {
             if (formData.dateToPlay != null) {
-                const reservationDate = DateTime.fromISO(formData.dateToPlay, {zone: timezone});
+                const reservationDate = DateTime.fromISO(formData.dateToPlay, { zone: timezone });
                 const isToday = reservationDate.hasSame(today, 'day');
                 if (isToday) {
                     const [start, end] = formData.turn.split('-');
@@ -120,12 +120,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                             icon: 'error',
                             title: 'Error',
                             text: 'Este horario, ya no esta disponible.',
+                            confirmButtonColor: '#1e88e5',
                         });
                     }
                 }
             }
         }
-        const {player2, player3, player4} = formData;
+        const { player2, player3, player4 } = formData;
         if (formData.isDouble) {
             if (formData.isVisit) {
                 if (!player3 || !player4) {
@@ -134,6 +135,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         icon: 'error',
                         title: 'Error Players',
                         text: 'Player 3 y player 4 no pueden ser en blanco',
+                        confirmButtonColor: '#1e88e5',
                     });
                 } else if (new Set([player3, player4]).size !== 2) {
                     isValid = false;
@@ -141,6 +143,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         icon: 'error',
                         title: 'Error Players',
                         text: 'Player 3 y Player 4 deben ser distintos.',
+                        confirmButtonColor: '#1e88e5',
                     });
                 }
             } else {
@@ -150,6 +153,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         icon: 'error',
                         title: 'Error Players',
                         text: 'Player 2, Player 3, y Player 4 no pueden ser blanco.',
+                        confirmButtonColor: '#1e88e5',
                     });
                 } else if (new Set([player2, player3, player4]).size !== 3) {
                     isValid = false;
@@ -157,6 +161,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         icon: 'error',
                         title: 'Error Players',
                         text: 'Player 2, Player 3, y Player 4 deben ser distintos.',
+                        confirmButtonColor: '#1e88e5',
                     });
                 }
             }
@@ -166,6 +171,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 icon: 'error',
                 title: 'Error Player',
                 text: 'Player 2 no puede ser en blanco.',
+                confirmButtonColor: '#1e88e5',
             });
         }
 
@@ -175,7 +181,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
-        const {checked} = e.target as HTMLInputElement;
+        const { checked } = e.target as HTMLInputElement;
         const { name, value, type } = e.target;
         setFormData((prevState) => {
             const updatedState = { ...prevState, [name]: type === 'checkbox' ? checked : value };
@@ -241,12 +247,13 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                 icon: 'success',
                 title: 'Reserva Lista',
                 text: 'Tu reserva está lista!',
+                confirmButtonColor: '#1e88e5',
             });
             navigate('/summary', { state: { responseData: response.data } });
         }
     };
 
-    const createTemporalReserve= async ()=>{
+    const createTemporalReserve = async () => {
         const response = await axios.post(`${apiUrl}/court-reserve`, formData);
         return response.data.idCourtReserve;
     }
@@ -281,7 +288,8 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Sí, pagar ahora',
-                    cancelButtonText: 'Cancelar'
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#1e88e5',
                 });
                 if (result.isConfirmed) {
                     Swal.fire({
@@ -309,12 +317,14 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         icon: 'error',
                         title: 'Reservation Error',
                         text: message || 'There was an issue with your reservation. Please try again.',
+                        confirmButtonColor: '#1e88e5',
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Network Error',
                         text: 'Error de Red',
+                        confirmButtonColor: '#1e88e5',
                     });
                 }
             } else {
@@ -322,6 +332,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     icon: 'error',
                     title: 'Unexpected Error',
                     text: 'Un error inesperado ha ocurrido. Intente mas tarde.',
+                    confirmButtonColor: '#1e88e5',
                 });
             }
         }
@@ -341,7 +352,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </div>
-                
+
                 <div className="modal-body-modern">
                     {selectedTimeSlot ? (
                         <>
@@ -406,7 +417,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         <span>Visita</span>
                                     </div>
                                 </label>
-                                
+
                                 <label className={`option-card ${formData.isDouble ? 'active' : ''}`}>
                                     <input
                                         type="checkbox"
@@ -419,7 +430,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                                         <span>Dobles</span>
                                     </div>
                                 </label>
-                                
+
                                 <label className={`option-card ${formData.isForRanking ? 'active' : ''} ${formData.isVisit ? 'disabled' : ''}`}>
                                     <input
                                         type="checkbox"
@@ -484,7 +495,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                         <p>No time slot selected</p>
                     )}
                 </div>
-                
+
                 <div className="modal-footer-modern">
                     <button className="btn-cancel" onClick={onClose}>
                         Cancelar
@@ -495,7 +506,7 @@ const Modal: React.FC<ModalProps> = ({id, title, isOpen, selectedTimeSlot, playe
                     >
                         {formData.isPaidNight || formData.isVisit ? (
                             <>
-                                <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2" /> Pagar
+                                Pagar
                             </>
                         ) : (
                             'Confirmar Reserva'

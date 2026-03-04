@@ -12,11 +12,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
-    padding: 20px;
-    border-radius: 12px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    padding: 30px;
+    border-radius: 24px;
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.3);
 }
 
 .welcome-card h5 {
@@ -45,7 +45,7 @@
 }
 
 .nav-btn {
-    background: none;
+    background: transparent !important;
     border: none;
     color: white;
     font-size: 1.2rem;
@@ -84,7 +84,7 @@
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .alert-card.warning {
@@ -116,15 +116,18 @@
 
 /* Legend Bar */
 .legend-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px 20px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
     font-size: 0.85rem;
-    color: #666;
+    color: #4a5568;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .legend-item {
@@ -140,11 +143,60 @@
     display: inline-block;
 }
 
-.dot.available { background-color: #e3f2fd; border: 1px solid #2196f3; }
-.dot.reserved { background-color: #ffebee; border: 1px solid #ef5350; }
-.dot.maintenance { background-color: #efebe9; border: 1px solid #8d6e63; }
-.dot.championship { background-color: #f3e5f5; border: 1px solid #ab47bc; }
-.dot.class { background-color: #e8f5e9; border: 1px solid #66bb6a; }
+.dot.available {
+    background-color: #e3f2fd;
+    border: 1px solid #2196f3;
+}
+
+.dot.reserved {
+    background-color: #ffebee;
+    border: 1px solid #ef5350;
+}
+
+.dot.maintenance {
+    background-color: #efebe9;
+    border: 1px solid #8d6e63;
+}
+
+.dot.championship {
+    background-color: #f3e5f5;
+    border: 1px solid #ab47bc;
+}
+
+.dot.class {
+    background-color: #e8f5e9;
+    border: 1px solid #66bb6a;
+}
+
+.dot.weather {
+    background-color: #f1f5f9;
+    border: 1px solid #64748b;
+}
+
+/* Legend Text Colors */
+.legend-item.available {
+    color: #1565c0;
+}
+
+.legend-item.reserved {
+    color: #c62828;
+}
+
+.legend-item.maintenance {
+    color: #4e342e;
+}
+
+.legend-item.championship {
+    color: #6a1b9a;
+}
+
+.legend-item.class {
+    color: #2e7d32;
+}
+
+.legend-item.weather {
+    color: #475569;
+}
 
 /* Slots Grid */
 .slots-grid {
@@ -159,13 +211,13 @@
     background: white;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
 }
 
 .time-row:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .time-label {
@@ -192,17 +244,24 @@
 .court-card {
     flex: 1;
     min-width: 100px;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 15px 10px;
+    border-radius: 16px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 1px solid transparent;
     font-size: 0.9rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.court-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
 }
 
 .court-name {
@@ -235,9 +294,33 @@
 }
 
 .court-card.paid {
-    background-color: #fff8e1;
-    border-color: #ffecb3;
-    color: #f57f17;
+    background-color: #f3f4f6;
+    /* Light gray when available */
+    border-color: #d1d5db;
+    color: #374151;
+    /* Charcoal text */
+}
+
+/* Specific state for paid + occupied/unavailable */
+.court-card.paid.unavailable {
+    background-color: #2d2d2d72;
+    /* Pastel black / Dark charcoal */
+    border-color: #1a1a1a;
+    color: #e2e8f0;
+    /* Light text for contrast */
+}
+
+.court-card.paid.available:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.time-paid-icon {
+    font-size: 0.8rem;
+    margin-left: 6px;
+    color: #ffd700;
+    /* Golden icon for visibility against night blue/gray */
+    opacity: 0.9;
 }
 
 .court-card.championship {
@@ -259,9 +342,13 @@
 }
 
 .court-card.weather {
-    background-color: #fff3e0;
-    color: #ef6c00;
-    border-color: #ffe0b2;
+    background-color: #94a3b8;
+    background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px),
+        linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+    color: #f8fafc;
+    border-color: #475569;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Adjustments */
@@ -275,6 +362,12 @@
     .date-navigation {
         width: 100%;
         justify-content: space-between;
+    }
+
+    .legend-bar {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px;
     }
 
     .time-row {
@@ -291,30 +384,41 @@
     }
 
     .courts-container {
-        flex-direction: column; /* Default: Stack courts vertically */
+        flex-direction: column;
+        /* Default: Stack courts vertically */
         width: 100%;
-        gap: 8px; /* Adjust gap for column layout */
+        gap: 8px;
+        /* Adjust gap for column layout */
     }
 
     .courts-container.all-available {
-        flex-direction: row; /* If all available, show in a row */
-        flex-wrap: wrap; /* Allow wrapping if many courts */
-        justify-content: space-around; /* Distribute space */
+        flex-direction: row;
+        /* If all available, show in a row */
+        flex-wrap: wrap;
+        /* Allow wrapping if many courts */
+        justify-content: space-around;
+        /* Distribute space */
     }
 
     .court-card {
-        width: 100%; /* Default: Full width for column layout */
-        margin-bottom: 0; /* Reset margin for column layout */
-        flex-direction: row; /* Horizontal layout for better mobile list view */
+        width: 100%;
+        /* Default: Full width for column layout */
+        margin-bottom: 0;
+        /* Reset margin for column layout */
+        flex-direction: row;
+        /* Horizontal layout for better mobile list view */
         justify-content: space-between;
         padding: 15px;
         min-height: 50px;
     }
 
     .courts-container.all-available .court-card {
-        width: calc(33% - 10px); /* Approx 3 per row, considering gap */
-        min-width: unset; /* Allow shrinking */
-        flex-direction: column; /* Back to column for compact display in row */
+        width: calc(33% - 10px);
+        /* Approx 3 per row, considering gap */
+        min-width: unset;
+        /* Allow shrinking */
+        flex-direction: column;
+        /* Back to column for compact display in row */
         justify-content: center;
         align-items: center;
         padding: 10px;
@@ -330,6 +434,7 @@
     }
 
     .courts-container.all-available .court-name {
-        margin-bottom: 2px; /* Restore margin for column layout in row */
+        margin-bottom: 2px;
+        /* Restore margin for column layout in row */
     }
 }

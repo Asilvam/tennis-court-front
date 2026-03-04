@@ -1,13 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {DateTime} from 'luxon';
+import React, { useCallback, useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
 import Modal from './Modal';
 import Swal from "sweetalert2";
-import {getTokenFromLocalStorage} from "../utils/tokenUtils.ts";
-import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
+import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
+import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 interface CourtReserve {
     turn: string;
@@ -46,10 +46,10 @@ const Dashboard: React.FC = () => {
     const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
 
     let minDate = DateTime.now().toISODate();
-    let maxDate = DateTime.now().plus({days: 2}).toISODate();
-    if (userInfo?.role==='admin') {
-         minDate = DateTime.now().minus({ months: 2 }).toISODate();
-         maxDate = DateTime.now().plus({month: 2}).toISODate();
+    let maxDate = DateTime.now().plus({ days: 2 }).toISODate();
+    if (userInfo?.role === 'admin') {
+        minDate = DateTime.now().minus({ months: 2 }).toISODate();
+        maxDate = DateTime.now().plus({ month: 2 }).toISODate();
     }
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -62,6 +62,7 @@ const Dashboard: React.FC = () => {
                 icon: 'error',
                 title: 'Fecha Inválida',
                 text: `Por favor seleccione fecha entre ${minDate} y ${maxDate}.`,
+                confirmButtonColor: '#1e88e5',
             });
             return;
         }
@@ -95,13 +96,13 @@ const Dashboard: React.FC = () => {
 
     const handleTimeSlotClick = useCallback(
         (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
-            if(isBlockedByAdmin) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Horario Bloqueado',
-                    html: `Motivo<br><strong>${data}</strong>`,
-                    confirmButtonColor: '#3085d6',
-                });
+            if (isBlockedByAdmin) {
+                /*                 Swal.fire({
+                                    icon: 'info',
+                                    title: 'Horario Bloqueado',
+                                    html: `Motivo<br><strong>${data}</strong>`,
+                                    confirmButtonColor: '#1e88e5',
+                                }); */
                 return;
             }
             // If the slot is not available, do nothing. The user can already see the details.
@@ -113,7 +114,7 @@ const Dashboard: React.FC = () => {
                     icon: 'error',
                     title: 'Información',
                     text: 'Ya tienes una reserva activa.',
-                    confirmButtonColor: '#d33',
+                    confirmButtonColor: '#1e88e5',
                 });
                 return;
             }
@@ -149,7 +150,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    const getActiveNigthsLigths = async () =>{
+    const getActiveNigthsLigths = async () => {
         const url = `${apiUrl}/register/active/${namePlayer}`;
         const headers = { Authorization: `Bearer ${token}` };
         try {
@@ -203,8 +204,8 @@ const Dashboard: React.FC = () => {
 
                 {/* Date Navigation */}
                 <div className="date-navigation">
-                    <button 
-                        className="nav-btn" 
+                    <button
+                        className="nav-btn"
                         onClick={() => changeDateByDays(-1)}
                         disabled={selectedDate <= minDate}
                     >
@@ -220,8 +221,8 @@ const Dashboard: React.FC = () => {
                             className="date-input"
                         />
                     </div>
-                    <button 
-                        className="nav-btn" 
+                    <button
+                        className="nav-btn"
                         onClick={() => changeDateByDays(1)}
                         disabled={selectedDate >= maxDate}
                     >
@@ -247,7 +248,7 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                 )}
-                
+
                 {activeNigthsLigths && (
                     <div className="alert-card danger">
                         <div className="alert-icon">
@@ -263,11 +264,12 @@ const Dashboard: React.FC = () => {
 
             {/* Legend Section */}
             <div className="legend-bar">
-                <div className="legend-item"><span className="dot available"></span>Disponible</div>
-                <div className="legend-item"><span className="dot reserved"></span>Reservado</div>
-                <div className="legend-item"><span className="dot maintenance"></span>Mantención</div>
-                <div className="legend-item"><span className="dot championship"></span>Campeonato</div>
-                <div className="legend-item"><span className="dot class"></span>Clases</div>
+                <div className="legend-item available"><span className="dot available"></span>Disponible</div>
+                <div className="legend-item reserved"><span className="dot reserved"></span>Reservado</div>
+                <div className="legend-item maintenance"><span className="dot maintenance"></span>Mantención</div>
+                <div className="legend-item championship"><span className="dot championship"></span>Campeonato</div>
+                <div className="legend-item class"><span className="dot class"></span>Clases</div>
+                <div className="legend-item weather"><span className="dot weather"></span>Clima</div>
             </div>
 
             {/* Time Slots Grid */}
@@ -279,6 +281,9 @@ const Dashboard: React.FC = () => {
                             <div className="time-label">
                                 <FontAwesomeIcon icon={faClock} className="mr-1" />
                                 {timeSlot.time}
+                                {timeSlot.slots.some(slot => slot.isPayed) && (
+                                    <FontAwesomeIcon icon={faLightbulb} className="time-paid-icon" title="Turno con luz nocturna" />
+                                )}
                             </div>
                             <div className={`courts-container ${allAvailable ? 'all-available' : ''}`}>
                                 {timeSlot.slots.map((slot, idx) => (
@@ -293,7 +298,9 @@ const Dashboard: React.FC = () => {
                                                     ${slot.data === 'Reserva' ? 'reserved' : ''}`}
                                         onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
                                     >
-                                        <span className="court-name">{slot.court.replace('Cancha ', 'C')}</span>
+                                        <span className="court-name">
+                                            {slot.court.replace('Cancha ', 'C')}
+                                        </span>
                                         {!slot.available && <span className="status-text">{slot.data}</span>}
                                     </div>
                                 ))}
