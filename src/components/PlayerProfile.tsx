@@ -2,10 +2,10 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faPenToSquare, faTrophy, faRankingStar, faStar } from '@fortawesome/free-solid-svg-icons';
 import '../styles/PlayerProfile.css';
 import logger from "../utils/logger.ts";
-import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
+import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 
 interface PlayerProfileData {
     namePlayer: string;
@@ -87,8 +87,8 @@ const PlayerProfile: React.FC = () => {
             return;
         }
 
-        if(imageFile.size >  10 * 1024 * 1024){
-            Swal.fire('Ohhh','Archivo muy grande, maximo 10 mb', 'error');
+        if (imageFile.size > 10 * 1024 * 1024) {
+            Swal.fire('Ohhh', 'Archivo muy grande, maximo 10 mb', 'error');
             return;
         }
 
@@ -116,11 +116,11 @@ const PlayerProfile: React.FC = () => {
     };
 
     if (loading) {
-        return <div className="container center-align" style={{padding: "50px"}}><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>;
+        return <div className="container center-align" style={{ padding: "50px" }}><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>;
     }
 
     if (!player) {
-        return <div className="container center-align" style={{padding: "50px"}}>No se encontró información del jugador.</div>;
+        return <div className="container center-align" style={{ padding: "50px" }}>No se encontró información del jugador.</div>;
     }
 
     return (
@@ -140,22 +140,37 @@ const PlayerProfile: React.FC = () => {
 
                 <div className="profile-stats">
                     <div className="stat-item">
-                        <span className="stat-label">Categoría</span>
-                        <span className="stat-value">{player.category || 'N/A'}</span>
+                        <div className="stat-icon-wrapper category">
+                            <FontAwesomeIcon icon={faTrophy} />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Categoría</span>
+                            <span className="stat-value">{player.category || 'N/A'}</span>
+                        </div>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Ranking</span>
-                        <span className="stat-value">{myRank}</span>
+                        <div className="stat-icon-wrapper ranking">
+                            <FontAwesomeIcon icon={faRankingStar} />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Ranking</span>
+                            <span className="stat-value">{myRank}</span>
+                        </div>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Puntos</span>
-                        <span className="stat-value">{player.points}</span>
+                        <div className="stat-icon-wrapper points">
+                            <FontAwesomeIcon icon={faStar} />
+                        </div>
+                        <div className="stat-info">
+                            <span className="stat-label">Puntos</span>
+                            <span className="stat-value">{player.points}</span>
+                        </div>
                     </div>
                 </div>
 
                 {imageFile && (
                     <div className="upload-section">
-                        <button onClick={handleImageUpload} disabled={uploading} className="btn blue darken-4">
+                        <button onClick={handleImageUpload} disabled={uploading} className="save-btn">
                             {uploading ? <><FontAwesomeIcon icon={faSpinner} spin /> Subiendo...</> : 'Guardar Foto'}
                         </button>
                     </div>

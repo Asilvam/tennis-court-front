@@ -194,12 +194,12 @@ const Dashboard: React.FC = () => {
     }, [selectedDate]);
 
     return (
-        <div className="dashboard-container container">
+        <div className="dashboard-container">
             {/* Header Section */}
             <div className="dashboard-header">
                 <p className="date-display">
                     <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-                    {DateTime.now().toFormat('EEEE, d MMMM yyyy')}
+                    {DateTime.fromISO(selectedDate).setLocale('es').toFormat('EEEE, d MMMM yyyy').replace(/^./, (str) => str.toUpperCase())}
                 </p>
 
                 {/* Date Navigation */}

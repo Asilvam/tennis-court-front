@@ -9,6 +9,11 @@ body {
   /* Soft background to make glass pop */
 }
 
+.app-content-wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
 /* Glassmorphism Utilities */
 .glass-card {
   background: rgba(255, 255, 255, 0.7);
