@@ -1,0 +1,26 @@
+/* Admin Reserves Table Refinements */
+
+.reserves-table-custom {
+    width: 100%;
+}
+
+.col-player1 {
+    width: 15%;
+    /* Acorta aún más el ancho */
+    min-width: 120px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Evita que la fecha se vea en dos líneas */
+.reserves-table-custom td:nth-child(2) {
+    white-space: nowrap;
+}
+
+/* Ensure other columns take the remaining space naturally */
+.reserves-table-custom th,
+.reserves-table-custom td {
+    padding: 12px 5px;
+}
