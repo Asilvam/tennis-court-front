@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faTrash, faEye} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 // import {faTrash, faEye, faPencilAlt} from '@fortawesome/free-solid-svg-icons';
-import {DateTime} from 'luxon';
-import {getUserInfoFromLocalStorage} from '../utils/userUtils';
-import {getTokenFromLocalStorage} from '../utils/tokenUtils';
+import { DateTime } from 'luxon';
+import { getUserInfoFromLocalStorage } from '../utils/userUtils';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import M from 'materialize-css';
 import Swal from 'sweetalert2';
 // import logger from "../utils/logger.ts";
@@ -44,8 +44,8 @@ const MyHistoryReserve: React.FC = () => {
         M.Modal.init(elems);
     }, []);
 
-    const isOkToDelete = (reserve: Reservation) : boolean => {
-        if (!reserve.state){
+    const isOkToDelete = (reserve: Reservation): boolean => {
+        if (!reserve.state) {
             return false;
         }
         const [start] = reserve.turn.split('-');
@@ -178,31 +178,31 @@ const MyHistoryReserve: React.FC = () => {
         <div className="history-page">
             <div className="history-card">
                 <div className="history-card-content">
-                        <div className="history-header">
-                            <div>
-                                <h5 className="history-title">Mi Historial de Reservas</h5>
-                                <p className="history-subtitle">Revisa y gestiona tus partidos pasados y futuros.</p>
-                            </div>
+                    <div className="history-header">
+                        <div>
+                            <h5 className="history-title">Mi Historial de Reservas</h5>
+                            <p className="history-subtitle">Revisa y gestiona tus partidos pasados y futuros.</p>
                         </div>
+                    </div>
 
-                        <div className="history-kpis">
-                            <div className="history-kpi">Total Reservas: <strong>{reserves.length}</strong></div>
-                            <div className="history-kpi">Próximas: <strong>{upcomingReserves}</strong></div>
-                            <div className="history-kpi">Canceladas: <strong>{canceledReserves}</strong></div>
-                        </div>
+                    <div className="history-kpis">
+                        <div className="history-kpi">Total Reservas: <strong>{reserves.length}</strong></div>
+                        <div className="history-kpi">Próximas: <strong>{upcomingReserves}</strong></div>
+                        <div className="history-kpi">Canceladas: <strong>{canceledReserves}</strong></div>
+                    </div>
 
-                        {reserves.length > 0 ? (
-                            <div className="history-table-wrap">
-                                <table className="history-table striped">
-                                    <thead>
+                    {reserves.length > 0 ? (
+                        <div className="history-table-wrap">
+                            <table className="history-table striped">
+                                <thead>
                                     <tr>
                                         <th>Fecha</th>
                                         <th>Cancha</th>
                                         <th>Turno</th>
                                         <th className="center-align">Acciones</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
+                                </thead>
+                                <tbody>
                                     {reserves.map((reserve) => (
                                         <tr key={reserve.idCourtReserve} className={!reserve.state ? 'history-row-canceled' : ''}>
                                             <td>{DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</td>
@@ -211,8 +211,8 @@ const MyHistoryReserve: React.FC = () => {
 
                                             <td className="center-align">
                                                 <button className="btn-floating btn-small waves-effect waves-light blue history-btn"
-                                                        onClick={() => handleView(reserve)} title="Ver detalle">
-                                                    <FontAwesomeIcon icon={faEye}/>
+                                                    onClick={() => handleView(reserve)} title="Ver detalle">
+                                                    <FontAwesomeIcon icon={faEye} />
                                                 </button>
                                                 {isOkToDelete(reserve) ? (
                                                     <button
@@ -231,18 +231,18 @@ const MyHistoryReserve: React.FC = () => {
                                             </td>
                                         </tr>
                                     ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <div className="history-empty">
-                                <h6>No tienes reservas</h6>
-                                <p>Cuando realices una reserva, aparecerá aquí.</p>
-                            </div>
-                        )}
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="history-empty">
+                            <h6>No tienes reservas</h6>
+                            <p>Cuando realices una reserva, aparecerá aquí.</p>
+                        </div>
+                    )}
                 </div>
             </div>
+        </div>
     );
 };
 

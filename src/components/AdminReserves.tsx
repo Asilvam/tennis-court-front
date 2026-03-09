@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import '../styles/AdminReserves.css';
 
 interface Reserve {
     idCourtReserve: string;
@@ -75,35 +76,35 @@ const AdminReserves: React.FC = () => {
             </div>
         </div>
     ) : (
-        <div className="container">
+        <div className="container admin-table-container">
             <h6>Admin actives Reservations</h6>
             {reserves.length === 0 ? (
                 <p>No reservations available.</p>
             ) : (
-                <table>
+                <table className="reserves-table-custom">
                     <thead>
-                    <tr>
-                        <th>Player 1</th>
-                        <th>Date</th>
-                        <th>Turn</th>
-                        <th>Court</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th className="col-player1">Player 1</th>
+                            <th>Date</th>
+                            <th>Turn</th>
+                            <th>Court</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {reserves.map((reserve) => (
-                        <tr key={reserve.idCourtReserve}>
-                            <td>{reserve.player1}</td>
-                            <td>{reserve.dateToPlay.slice(8, 10)}-{reserve.dateToPlay.slice(5, 7)}</td>
-                            <td>{reserve.turn.split('-')[0]}</td>
-                            <td>{reserve.court.split(' ')[1]}</td>
-                            <td>
-                                <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
-                                    <FontAwesomeIcon icon={faTrash}/>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                        {reserves.map((reserve) => (
+                            <tr key={reserve.idCourtReserve}>
+                                <td className="col-player1">{reserve.player1}</td>
+                                <td>{reserve.dateToPlay.slice(8, 10)}-{reserve.dateToPlay.slice(5, 7)}</td>
+                                <td>{reserve.turn.split('-')[0]}</td>
+                                <td>{reserve.court.split(' ')[1]}</td>
+                                <td>
+                                    <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             )}
