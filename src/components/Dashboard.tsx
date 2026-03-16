@@ -8,6 +8,7 @@ import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
 import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 interface CourtReserve {
     turn: string;
@@ -29,6 +30,7 @@ interface CourtType {
 }
 
 const Dashboard: React.FC = () => {
+    const navigate = useNavigate();
     const userInfo = getUserInfoFromLocalStorage();
     const namePlayer = userInfo?.name || '';
     const [timeSlots, setTimeSlots] = useState<CourtType[]>([]);
@@ -44,6 +46,37 @@ const Dashboard: React.FC = () => {
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [activeReserve, setActiveReserve] = useState<CourtReserve[] | null>(null);
     const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
+
+    const decodeJwtPayload = (token: string): { exp?: number } | null => {
+        try {
+            const parts = token.split('.');
+            if (parts.length !== 3) return null;
+            const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(base64));
+            return payload;
+        } catch {
+            return null;
+        }
+    };
+
+    const isTokenExpired = (token: string): boolean => {
+        const payload = decodeJwtPayload(token);
+        if (!payload?.exp) return true;
+        const nowInSeconds = Math.floor(Date.now() / 1000);
+        return payload.exp <= nowInSeconds;
+    };
+
+    const forceLogoutToLogin = async () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Sesión expirada',
+            text: 'Debes iniciar sesión nuevamente.',
+            confirmButtonColor: '#1e88e5',
+        });
+        navigate('/login', { replace: true });
+    };
 
     let minDate = DateTime.now().toISODate();
     let maxDate = DateTime.now().plus({ days: 2 }).toISODate();
@@ -71,7 +104,7 @@ const Dashboard: React.FC = () => {
     };
 
     const changeDateByDays = (days: number) => {
-        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate();
+        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate() ;
         if (newDate >= minDate && newDate <= maxDate) {
             setSelectedDate(newDate);
             setSelectedTimeSlot(null);
@@ -177,20 +210,33 @@ const Dashboard: React.FC = () => {
     }, []);
 
     useEffect(() => {
+    const currentToken = getTokenFromLocalStorage();
+    if (!currentToken || isTokenExpired(currentToken)) {
+        void forceLogoutToLogin();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
+    useEffect(() => {
+        const currentToken = getTokenFromLocalStorage();
+        if (!currentToken || isTokenExpired(currentToken)) {
+            void forceLogoutToLogin();
+            return;
+        }
+
         const loadDashboardData = async () => {
             Swal.fire({
                 title: 'Cargando...',
                 text: 'Buscando horarios disponibles.',
                 allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
+                didOpen: () => Swal.showLoading(),
             });
+
             await Promise.all([fetchData(), getActiveReserves(), getActiveNigthsLigths()]);
             Swal.close();
         };
 
-        loadDashboardData();
+        void loadDashboardData();
     }, [selectedDate]);
 
     return (
