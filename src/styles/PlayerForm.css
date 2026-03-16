@@ -1,0 +1,119 @@
+/* --- Player Form Container --- */
+.player-form-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 95%;
+    max-width: 900px;
+}
+
+/* --- Card Styles --- */
+.player-form-card {
+    border-radius: 12px;
+    position: relative;
+    margin-top: 30px;
+}
+
+.player-form-header-icon {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background-color: #1565c0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    color: white;
+    font-size: 36px;
+}
+
+.player-form-card-content {
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+}
+
+.player-form-title {
+    font-weight: 600;
+    color: #1565c0;
+    margin-bottom: 2rem;
+}
+
+/* --- Actions Container --- */
+.player-form-actions-row {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.player-form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- Buttons --- */
+.player-form-btn-cancel,
+.player-form-btn-submit {
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100%;
+    height: 50px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: none;
+    /* Modern look */
+}
+
+.player-form-btn-cancel {
+    color: #1565c0;
+    text-align: center;
+    background-color: #f5f8fa;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.player-form-btn-cancel:hover {
+    background-color: #e3f2fd;
+    border-color: #1565c0;
+}
+
+.player-form-btn-submit {
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
+}
+
+.player-form-btn-submit:hover {
+    box-shadow: 0 6px 16px rgba(21, 101, 192, 0.4);
+}
+
+.player-form-spinner {
+    margin-right: 8px;
+}
+
+/* --- Desktop Layout Adjustments --- */
+@media (min-width: 768px) {
+    .player-form-container {
+        max-width: 600px;
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    .player-form-card-content {
+        padding: 3rem;
+    }
+
+    .player-form-actions {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .player-form-btn-cancel,
+    .player-form-btn-submit {
+        flex: 1;
+        width: auto;
+    }
+}

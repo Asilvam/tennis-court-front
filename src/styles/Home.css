@@ -3,50 +3,47 @@
   Para controlar la altura de forma fiable, necesitamos apuntar a sus clases generadas.
 */
 .carousel .slider-wrapper {
-    height: 100%; /* <-- TAMAÑO REDUCIDO. Puedes ajustar este valor como necesites (ej. 500px, 70vh, etc.) */
+    height: 100%;
 }
 
 /* Hacemos que los elementos internos del carrusel ocupen el 100% de la altura del contenedor que acabamos de definir. */
 .carousel .slider, .carousel .slide {
     height: 100%;
     width: 100%;
-
 }
 
 .carousel-slide {
     position: relative;
-    height: 100%; /* Nuestro slide personalizado ahora ocupa el 100% de su contenedor padre. */
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     text-align: center;
-    /* Propiedades para la imagen de fondo */
-    background-size: contain; /* 'contain' para que la imagen se vea completa, 'cover' para que rellene */
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #ffffff; /* Un color de fondo por si la imagen no carga o no rellena */
+    background-color: #ffffff;
 }
-
 
 .carousel-content {
     position: relative;
     z-index: 2;
-    background-color: rgba(22, 33, 204, 0.7); /* Dark blue overlay for text readability */
-    padding: 15px 30px; /* Padding reducido para un cuadro más pequeño */
+    background-color: rgba(22, 33, 204, 0.7);
+    padding: 15px 30px;
     border-radius: 8px;
-    max-width: 80%; /* Ancho máximo reducido para que ocupe menos espacio */
+    max-width: 80%;
 }
 
 .carousel-content h2 {
     margin: 0 0 10px 0;
-    font-size: 1.8rem; /* Tamaño de fuente del título reducido */
+    font-size: 1.8rem;
     font-weight: bold;
 }
 
 .carousel-content p {
     margin: 0 0 20px 0;
-    font-size: 1rem; /* Tamaño de fuente del párrafo reducido */
+    font-size: 1rem;
 }
 
 .carousel-content .btn {
@@ -62,18 +59,65 @@
 /* Estilos para cada slide */
 .swiper-slide {
     background-position: center;
-    background-size: contain; /* 'contain' asegura que la imagen completa sea visible */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    background-color: #ffffff; /* Color de fondo por si la imagen no rellena el espacio */
-    width: 400px; /* Ancho aumentado para un slide más grande */
-    height: 350px; /* Altura aumentada */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    width: 400px;
+    height: 350px;
     border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Added shadow for depth */
 }
 
-/* Opcional: para asegurar que la imagen dentro del slide se vea bien */
 .swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* New Styles for Home Component */
+.home-title {
+    text-align: center;
+    margin: 40px 0 20px 0;
+    color: #1e88e5; /* Dashboard Blue */
+    font-weight: 600;
+}
+
+.contact-card-home {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px; /* More rounded */
+    background-color: #f8f9fa; /* Lighter background */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.contact-title {
+    margin-top: 0;
+    color: #1565c0; /* Darker Blue for title */
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.contact-card-home p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #444;
+}
+
+.contact-card-home a {
+    color: #1e88e5;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-card-home a:hover {
+    text-decoration: underline;
+    color: #1565c0;
 }

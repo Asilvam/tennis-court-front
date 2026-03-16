@@ -41,17 +41,14 @@ const Home: React.FC = () => {
             const response = await axios.get<InfoItem[]>(`${apiUrl}/info-items`);
             if (response.data && response.data.length > 0) {
                 setInfoItems(response.data);
-                // console.log('response', response.data);
             }
         } catch (error) {
             console.error('Error fetching carousel items:', error);
-            // Fallback to initial items if API fails
         }
     };
 
     useEffect(() => {
         const loadDataAndShowInfo = async () => {
-            // 1. Show a loading indicator while fetching data
             await Swal.fire({
                 title: 'Cargando...',
                 allowOutsideClick: false,
@@ -62,7 +59,6 @@ const Home: React.FC = () => {
                     });
                 }
             });
-
         };
 
         loadDataAndShowInfo();
@@ -70,7 +66,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="container">
-            <h4 style={{textAlign: 'center', margin: '40px 0 20px 0', color:' #1621cc '}}>👋 Bienvenidos(as)</h4>
+            <h4 className="home-title">👋 Bienvenidos(as)</h4>
 
             <Swiper
                 effect={'coverflow'}
@@ -100,24 +96,16 @@ const Home: React.FC = () => {
             </Swiper>
 
             {/* Sección de Información de Contacto */}
-            <div style={{
-                textAlign: 'center',
-                padding: '10px',
-                marginTop: '20px',
-                marginBottom: '20px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                backgroundColor: '#f9f9f9'
-            }}>
-                <h5 style={{ marginTop: 0, color: '#1621cc' }}>📱 Información de Contacto</h5>
-                <p style={{ margin: '10px 0' }}>
+            <div className="contact-card-home">
+                <h5 className="contact-title">📱 Información de Contacto</h5>
+                <p>
                     Para consultas y reservas, contáctanos directamente por WhatsApp:
                 </p>
-                <p style={{ margin: '5px 0' }}>
-                    <b>Ricardo Said:</b> <a href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}><FaWhatsapp style={{ color: 'green' }} /> +56 9 8962 2137</a>
+                <p>
+                    <b>Ricardo Said:</b> <a href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer"><FaWhatsapp style={{ color: 'green' }} /> +56 9 8962 2137</a>
                 </p>
-                <p style={{ margin: '5px 0' }}>
-                    <b>Administrador App:</b> <a href="https://wa.me/56981914285" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px' }}><FaWhatsapp style={{ color: 'green' }} /> +56 9 8191 4285</a>
+                <p>
+                    <b>Administrador App:</b> <a href="https://wa.me/56981914285" target="_blank" rel="noopener noreferrer"><FaWhatsapp style={{ color: 'green' }} /> +56 9 8191 4285</a>
                 </p>
             </div>
         </div>

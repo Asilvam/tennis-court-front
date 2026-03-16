@@ -1,10 +1,11 @@
-import React, {useState, ChangeEvent, FormEvent, Fragment, useRef} from 'react';
+import React, { useState, ChangeEvent, FormEvent, Fragment, useRef } from 'react';
 import axios from 'axios';
 import Select, { SingleValue } from 'react-select';
-import Swal from "sweetalert2";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdPerson, MdPersonAdd, MdArrowBack } from "react-icons/md";
 import logger from "../utils/logger.ts";
+import '../styles/PlayerForm.css';
 
 interface FormData {
     namePlayer: string;
@@ -53,7 +54,7 @@ const PlayerForm: React.FC = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -180,109 +181,125 @@ const PlayerForm: React.FC = () => {
 
 
     return (
-        <Fragment>
-            <div className="container">
-                <form onSubmit={handleSubmit} className="row">
-                    {/* Name Player */}
-                    <div className="input-field col s12">
-                        <input
-                            id="namePlayer"
-                            type="text"
-                            name="namePlayer"
-                            value={formData.namePlayer}
-                            onChange={handleChange}
-                            autoFocus
-                            required
-                        />
-                        <label htmlFor="namePlayer">Nombre Jugador</label>
+        <div className="container player-form-container">
+            <div className="row">
+                <div className="col s12 m12 l12">
+                    <div className="card z-depth-3 player-form-card">
+                        <div className="player-form-header-icon">
+                            <MdPerson />
+                        </div>
+                        <div className="card-content player-form-card-content">
+                            <form onSubmit={handleSubmit}>
+                                <div className="row">
+                                    {/* Name Player */}
+                                    <div className="input-field col s12">
+                                        <input
+                                            id="namePlayer"
+                                            type="text"
+                                            name="namePlayer"
+                                            value={formData.namePlayer}
+                                            onChange={handleChange}
+                                            autoFocus
+                                            required
+                                            className="validate"
+                                        />
+                                        <label htmlFor="namePlayer">Nombre y Apellido</label>
+                                    </div>
+
+                                    {/* Cellular */}
+                                    <div className="input-field col s12">
+                                        <input
+                                            id="cellular"
+                                            type="tel"
+                                            name="cellular"
+                                            value={formData.cellular}
+                                            onChange={handleChange}
+                                            required
+                                            className="validate"
+                                        />
+                                        <label htmlFor="cellular">Nº Celular</label>
+                                        {errors.cellular && <span className="helper-text red-text">{errors.cellular}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    {/* Email */}
+                                    <div className="input-field col s12">
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            ref={emailInputRef}
+                                            required
+                                            className="validate"
+                                        />
+                                        <label htmlFor="email">Correo Electrónico</label>
+                                        {errors.email && <span className="helper-text red-text">{errors.email}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    {/* Password */}
+                                    <div className="input-field col s12">
+                                        <input
+                                            id="pwd"
+                                            type="password"
+                                            name="pwd"
+                                            value={formData.pwd}
+                                            onChange={handleChange}
+                                            ref={passwordInputRef}
+                                            required
+                                            className="validate"
+                                        />
+                                        <label htmlFor="pwd">Contraseña</label>
+                                    </div>
+
+                                    {/* Retype Password */}
+                                    <div className="input-field col s12">
+                                        <input
+                                            id="retypePwd"
+                                            type="password"
+                                            name="retypePwd"
+                                            value={formData.retypePwd}
+                                            onChange={handleChange}
+                                            required
+                                            className="validate"
+                                        />
+                                        <label htmlFor="retypePwd">Confirmar Contraseña</label>
+                                        {errors.password && <span className="helper-text red-text">{errors.password}</span>}
+                                    </div>
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="row player-form-actions-row">
+                                    <div className="col s12 player-form-actions">
+                                        <a
+                                            href="/"
+                                            className="btn-flat waves-effect waves-blue player-form-btn-cancel"
+                                        >
+                                            <MdArrowBack style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Cancelar
+                                        </a>
+                                        <button
+                                            type="submit"
+                                            className="btn waves-effect waves-light blue darken-3 player-form-btn-submit"
+                                            disabled={generateLoading}
+                                        >
+                                            {generateLoading ? (
+                                                <Fragment><FontAwesomeIcon icon={faSpinner} spin fixedWidth className="player-form-spinner" /> Creando...</Fragment>
+                                            ) : (
+                                                <Fragment><MdPersonAdd style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Crear Jugador</Fragment>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
-                    {/* Partner Type */}
-                    {/*<div className="col s12" style={{ marginBottom: '1rem', zIndex: 100 }}>*/}
-                    {/*    <Select<PartnerOption>*/}
-                    {/*        inputId="partnerType"*/}
-                    {/*        name="partnerType"*/}
-                    {/*        options={partnerTypeOptions}*/}
-                    {/*        value={partnerTypeOptions.find(option => option.value === formData.partnerType) || null}*/}
-                    {/*        onChange={handlePartnerTypeChange}*/}
-                    {/*        placeholder="Selecciona un Tipo de Socio..."*/}
-                    {/*        noOptionsMessage={() => 'No hay opciones'}*/}
-                    {/*        styles={{ menu: base => ({ ...base, zIndex: 9999 }) }}*/}
-                    {/*    />*/}
-                    {/*    {errors.partnerType && <span className="red-text" style={{ fontSize: '12px' }}>{errors.partnerType}</span>}*/}
-                    {/*</div>*/}
-
-                    {/* Cellular */}
-                    <div className="input-field col s12">
-                        <input
-                            id="cellular"
-                            type="text"
-                            name="cellular"
-                            value={formData.cellular}
-                            onChange={handleChange}
-                            required
-                        />
-                        <label htmlFor="cellular">Nº Celular</label>
-                        {errors.cellular && <span className="red-text">{errors.cellular}</span>}
-                    </div>
-
-
-                    {/* Email */}
-                    <div className="input-field col s12">
-                        <input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            ref={emailInputRef}
-                            required
-                        />
-                        <label htmlFor="email">Email</label>
-                        {errors.email && <span className="red-text">{errors.email}</span>}
-                    </div>
-
-
-                    {/* Password */}
-                    <div className="input-field col s12">
-                        <input
-                            id="pwd"
-                            type="password"
-                            name="pwd"
-                            value={formData.pwd}
-                            onChange={handleChange}
-                            ref={passwordInputRef}
-                            required
-                        />
-                        <label htmlFor="pwd">Password</label>
-                    </div>
-
-                    {/* Retype Password */}
-                    <div className="input-field col s12">
-                        <input
-                            id="retypePwd"
-                            type="password"
-                            name="retypePwd"
-                            value={formData.retypePwd}
-                            onChange={handleChange}
-                            required
-                        />
-                        <label htmlFor="retypePwd">Retype Password</label>
-                        {errors.password && <span className="red-text">{errors.password}</span>}
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="col s12" style={{marginTop: '20px'}}>
-                        <button type="submit" className="btn blue darken-4" disabled={generateLoading}>
-                            {generateLoading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth/>} Crear Jugador
-                        </button>
-                        <a href="/" className="btn blue darken-1" style={{marginLeft: '15px'}}>
-                            Cancelar
-                        </a>
-                    </div>
-                </form>
+                </div>
             </div>
-        </Fragment>
+        </div>
     );
 };
 

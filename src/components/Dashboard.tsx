@@ -1,17 +1,19 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {DateTime} from 'luxon';
+import React, { useCallback, useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
 import Modal from './Modal';
 import Swal from "sweetalert2";
-import {getTokenFromLocalStorage} from "../utils/tokenUtils.ts";
-import {getUserInfoFromLocalStorage} from "../utils/userUtils.ts";
-import '../styles/Reserves.css';
+import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
+import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 interface CourtReserve {
-    turn: string;              // Primary player (required)
-    court: string;             // Optional second player
-    dateToPlay: string;            // Date of the reservation in ISO format
+    turn: string;
+    court: string;
+    dateToPlay: string;
 }
 
 interface TimeSlotType {
@@ -28,6 +30,7 @@ interface CourtType {
 }
 
 const Dashboard: React.FC = () => {
+    const navigate = useNavigate();
     const userInfo = getUserInfoFromLocalStorage();
     const namePlayer = userInfo?.name || '';
     const [timeSlots, setTimeSlots] = useState<CourtType[]>([]);
@@ -44,28 +47,68 @@ const Dashboard: React.FC = () => {
     const [activeReserve, setActiveReserve] = useState<CourtReserve[] | null>(null);
     const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
 
+    const decodeJwtPayload = (token: string): { exp?: number } | null => {
+        try {
+            const parts = token.split('.');
+            if (parts.length !== 3) return null;
+            const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(base64));
+            return payload;
+        } catch {
+            return null;
+        }
+    };
+
+    const isTokenExpired = (token: string): boolean => {
+        const payload = decodeJwtPayload(token);
+        if (!payload?.exp) return true;
+        const nowInSeconds = Math.floor(Date.now() / 1000);
+        return payload.exp <= nowInSeconds;
+    };
+
+    const forceLogoutToLogin = async () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Sesión expirada',
+            text: 'Debes iniciar sesión nuevamente.',
+            confirmButtonColor: '#1e88e5',
+        });
+        navigate('/login', { replace: true });
+    };
+
     let minDate = DateTime.now().toISODate();
-    let maxDate = DateTime.now().plus({days: 2}).toISODate();
-    if (userInfo?.role==='admin') {
-         minDate = DateTime.now().minus({ months: 2 }).toISODate();
-         maxDate = DateTime.now().plus({month: 2}).toISODate();
+    let maxDate = DateTime.now().plus({ days: 2 }).toISODate();
+    if (userInfo?.role === 'admin') {
+        minDate = DateTime.now().minus({ months: 2 }).toISODate();
+        maxDate = DateTime.now().plus({ month: 2 }).toISODate();
     }
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = getTokenFromLocalStorage();
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = event.target.value;
-        if (selectedDate < minDate || selectedDate > maxDate) {
+        const newDate = event.target.value;
+        if (newDate < minDate || newDate > maxDate) {
             Swal.fire({
                 icon: 'error',
-                title: 'Invalid Date',
+                title: 'Fecha Inválida',
                 text: `Por favor seleccione fecha entre ${minDate} y ${maxDate}.`,
+                confirmButtonColor: '#1e88e5',
             });
-            return; // Stop further execution
+            return;
         }
-        setSelectedDate(selectedDate); // Update the selected date
-        setSelectedTimeSlot(null); // Clear selected time slot when switching dates
+        setSelectedDate(newDate);
+        setSelectedTimeSlot(null);
+    };
+
+    const changeDateByDays = (days: number) => {
+        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate() ;
+        if (newDate >= minDate && newDate <= maxDate) {
+            setSelectedDate(newDate);
+            setSelectedTimeSlot(null);
+        }
     };
 
     const handleOpenModal = (timeSlot: React.SetStateAction<{
@@ -86,20 +129,17 @@ const Dashboard: React.FC = () => {
 
     const handleTimeSlotClick = useCallback(
         (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
-            if(isBlockedByAdmin) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Horario Bloqueado',
-                    html: `Motivo<br><strong>${data}</strong>`,
-                });
+            if (isBlockedByAdmin) {
+                /*                 Swal.fire({
+                                    icon: 'info',
+                                    title: 'Horario Bloqueado',
+                                    html: `Motivo<br><strong>${data}</strong>`,
+                                    confirmButtonColor: '#1e88e5',
+                                }); */
                 return;
             }
+            // If the slot is not available, do nothing. The user can already see the details.
             if (!available) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Detalle del Partido',
-                    html: `Reservado Jugadores<br><strong>${data}</strong>`,
-                });
                 return;
             }
             if (activeReserve) {
@@ -107,6 +147,7 @@ const Dashboard: React.FC = () => {
                     icon: 'error',
                     title: 'Información',
                     text: 'Ya tienes una reserva activa.',
+                    confirmButtonColor: '#1e88e5',
                 });
                 return;
             }
@@ -142,7 +183,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    const getActiveNigthsLigths = async () =>{
+    const getActiveNigthsLigths = async () => {
         const url = `${apiUrl}/register/active/${namePlayer}`;
         const headers = { Authorization: `Bearer ${token}` };
         try {
@@ -159,7 +200,6 @@ const Dashboard: React.FC = () => {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
             if (!response.data) throw new Error('No data received');
             setTimeSlots(response.data);
-            // console.log('response.data-->', response.data )
         } catch (error) {
             console.error(error);
         }
@@ -170,152 +210,162 @@ const Dashboard: React.FC = () => {
     }, []);
 
     useEffect(() => {
+    const currentToken = getTokenFromLocalStorage();
+    if (!currentToken || isTokenExpired(currentToken)) {
+        void forceLogoutToLogin();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
+    useEffect(() => {
+        const currentToken = getTokenFromLocalStorage();
+        if (!currentToken || isTokenExpired(currentToken)) {
+            void forceLogoutToLogin();
+            return;
+        }
+
         const loadDashboardData = async () => {
             Swal.fire({
                 title: 'Cargando...',
                 text: 'Buscando horarios disponibles.',
                 allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
+                didOpen: () => Swal.showLoading(),
             });
+
             await Promise.all([fetchData(), getActiveReserves(), getActiveNigthsLigths()]);
             Swal.close();
         };
 
-        loadDashboardData();
+        void loadDashboardData();
     }, [selectedDate]);
 
     return (
-        <div className="container">
-            <div>
-                <h6><strong>Hola, {namePlayer} </strong></h6>
-                {activeReserve && (
-                    <div className="active-reserve-alert" style={{
-                        backgroundColor: '#fff3cd',
-                        border: '2px solid #ffc107',
-                        borderRadius: '8px',
-                        padding: '15px',
-                        margin: '15px 0',
-                        boxShadow: '0 4px 8px rgba(255, 193, 7, 0.3)',
-                        position: 'relative'
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            marginBottom: '10px'
-                        }}>
-                            <div style={{
-                                backgroundColor: '#ffc107',
-                                borderRadius: '50%',
-                                width: '30px',
-                                height: '30px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginRight: '10px',
-                                fontSize: '18px'
-                            }}>
-                                ⚠️
-                            </div>
-                            <h6 style={{
-                                margin: 0,
-                                color: '#856404',
-                                fontWeight: 'bold'
-                            }}>
-                                ¡Tienes una reserva activa!
-                            </h6>
-                        </div>
-                        <div style={{
-                            backgroundColor: '#ffffff',
-                            padding: '12px',
-                            borderRadius: '6px',
-                            border: '1px solid #ffeaa7'
-                        }}>
-                            <p style={{ margin: '5px 0', color: '#856404' }}>
-                                <strong>🏟️ Cancha:</strong> {activeReserve[0]?.court.replace('Cancha ', '')}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#856404' }}>
-                                <strong>📅 Fecha:</strong> {DateTime.fromISO(activeReserve[0]?.dateToPlay).toFormat('dd/MM/yyyy')}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#856404' }}>
-                                <strong>⏰ Turno:</strong> {activeReserve[0]?.turn}
-                            </p>
-                        </div>
+        <div className="dashboard-container">
+            {/* Header Section */}
+            <div className="dashboard-header">
+                <p className="date-display">
+                    <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
+                    {DateTime.fromISO(selectedDate).setLocale('es').toFormat('EEEE, d MMMM yyyy').replace(/^./, (str) => str.toUpperCase())}
+                </p>
+
+                {/* Date Navigation */}
+                <div className="date-navigation">
+                    <button
+                        className="nav-btn"
+                        onClick={() => changeDateByDays(-1)}
+                        disabled={selectedDate <= minDate}
+                    >
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                    </button>
+                    <div className="date-picker-wrapper">
+                        <input
+                            type="date"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            min={minDate}
+                            max={maxDate}
+                            className="date-input"
+                        />
                     </div>
-                )}
-                {activeNigthsLigths && (
-                    <div className="active-nights-lights-alert" style={{
-                        backgroundColor: '#ffebee',
-                        border: '2px solid #d32f2f',
-                        borderRadius: '8px',
-                        padding: '15px',
-                        margin: '15px 0',
-                        boxShadow: '0 4px 8px rgba(211, 47, 47, 0.2)',
-                        color: '#b71c1c'
-                    }}>
-                        <strong>⚡ Aviso de deuda de luz nocturna</strong> <br /> En nuestros registros apareces con una deuda pendiente por uso de luz en horario nocturno. Por favor, comunícate con nuestra tesorera para regularizar tu situación.
+                    <button
+                        className="nav-btn"
+                        onClick={() => changeDateByDays(1)}
+                        disabled={selectedDate >= maxDate}
+                    >
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
+                </div>
+            </div>
+
+            {/* Alerts Section */}
+            <div className="alerts-section">
+                {activeReserve && (
+                    <div className="alert-card warning">
+                        <div className="alert-icon">
+                            <FontAwesomeIcon icon={faExclamationTriangle} />
+                        </div>
+                        <div className="alert-content">
+                            <h6>¡Tienes una reserva activa!</h6>
+                            <div className="reserve-details">
+                                <span><strong>🏟️ Cancha:</strong> {activeReserve[0]?.court.replace('Cancha ', '')}</span>
+                                <span><strong>📅 Fecha:</strong> {DateTime.fromISO(activeReserve[0]?.dateToPlay).toFormat('dd/MM')}</span>
+                                <span><strong>⏰ Turno:</strong> {activeReserve[0]?.turn}</span>
+                            </div>
+                        </div>
                     </div>
                 )}
 
-                <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        min={minDate}
-                        max={maxDate}
-                        style={{
-                            padding: '8px',
-                            borderRadius: '4px',
-                            border: '1px solid #ccc',
-                            flex: '1',
-                        }}
-                    />
-                </div>
-                <div className="flex flex-col items-center">
-                    {timeSlots.map((timeSlot, index) => (
-                        <div key={index} className="time-slot-container"
-                             style={{  width: '100%' }}
-                        >
-                            <div className="time-slot-time">{timeSlot.time}</div>
-                            <div className="time-slot-courts">
+                {activeNigthsLigths && (
+                    <div className="alert-card danger">
+                        <div className="alert-icon">
+                            <FontAwesomeIcon icon={faBolt} />
+                        </div>
+                        <div className="alert-content">
+                            <h6>Deuda de Luz Nocturna</h6>
+                            <p>Tienes una deuda pendiente. Por favor contacta a tesorería.</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Legend Section */}
+            <div className="legend-bar">
+                <div className="legend-item available"><span className="dot available"></span>Disponible</div>
+                <div className="legend-item reserved"><span className="dot reserved"></span>Reservado</div>
+                <div className="legend-item maintenance"><span className="dot maintenance"></span>Mantención</div>
+                <div className="legend-item championship"><span className="dot championship"></span>Campeonato</div>
+                <div className="legend-item class"><span className="dot class"></span>Clases</div>
+                <div className="legend-item weather"><span className="dot weather"></span>Clima</div>
+            </div>
+
+            {/* Time Slots Grid */}
+            <div className="slots-grid">
+                {timeSlots.map((timeSlot, index) => {
+                    const allAvailable = timeSlot.slots.every(slot => slot.available);
+                    return (
+                        <div key={index} className="time-row">
+                            <div className="time-label">
+                                <FontAwesomeIcon icon={faClock} className="mr-1" />
+                                {timeSlot.time}
+                                {timeSlot.slots.some(slot => slot.isPayed) && (
+                                    <FontAwesomeIcon icon={faLightbulb} className="time-paid-icon" title="Turno con luz nocturna" />
+                                )}
+                            </div>
+                            <div className={`courts-container ${allAvailable ? 'all-available' : ''}`}>
                                 {timeSlot.slots.map((slot, idx) => (
                                     <div
                                         key={idx}
-                                        className={[
-                                            'time-slot',
-                                            slot.available ? 'available' : 'unavailable',
-                                            slot.isPayed && 'paid',
-                                            slot.data === 'Campeonato' && 'campeonato',
-                                            slot.data === 'Mantencion' && 'mantencion',
-                                            slot.data === 'Clases' && 'clases',
-                                            slot.data === 'Clima' && 'clima',
-                                            slot.data === 'Reserva' && 'reserva',
-                                        ].filter(Boolean).join(' ')}
+                                        className={`court-card ${slot.available ? 'available' : 'unavailable'} 
+                                                    ${slot.isPayed ? 'paid' : ''} 
+                                                    ${slot.data === 'Campeonato' ? 'championship' : ''}
+                                                    ${slot.data === 'Mantencion' ? 'maintenance' : ''}
+                                                    ${slot.data === 'Clases' ? 'class' : ''}
+                                                    ${slot.data === 'Clima' ? 'weather' : ''}
+                                                    ${slot.data === 'Reserva' ? 'reserved' : ''}`}
+                                        onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
                                     >
-                                        <div className="time-slot-court"
-                                             onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
-                                        >{slot.court}</div>
+                                        <span className="court-name">
+                                            {slot.court.replace('Cancha ', 'C')}
+                                        </span>
+                                        {!slot.available && <span className="status-text">{slot.data}</span>}
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    ))}
-                </div>
-                {isModalOpen && (
-                    <div>
-                        <Modal
-                            id="timeSlotModal"
-                            title="Reserva de Cancha"
-                            isOpen={isModalOpen}
-                            selectedTimeSlot={selectedTimeSlot}
-                            playersNames={playersNames}
-                            onClose={handleCloseModal}
-                        />
-                    </div>
-                )}
+                    )
+                })}
             </div>
+
+            {isModalOpen && (
+                <Modal
+                    id="timeSlotModal"
+                    title="Reserva de Cancha"
+                    isOpen={isModalOpen}
+                    selectedTimeSlot={selectedTimeSlot}
+                    playersNames={playersNames}
+                    onClose={handleCloseModal}
+                />
+            )}
         </div>
     );
 };

@@ -15,6 +15,7 @@ const InactivityLogout: React.FC = () => {
                 icon: 'warning',
                 title: 'Sesión cerrada por inactividad',
                 text: '¡Hasta pronto!',
+                confirmButtonColor: '#1e88e5',
             }).then(() => {
                 navigate('/');
             });
