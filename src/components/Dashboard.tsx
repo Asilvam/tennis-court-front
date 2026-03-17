@@ -205,6 +205,26 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    const getStateUser = async (email: string): Promise<boolean> => {
+        try {
+            const { data } = await axios.post(
+                `${apiUrl}/auth/checkBlocked`,
+                { email },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            return typeof data === 'boolean' ? data : Boolean(data?.blocked);
+        } catch (error) {
+            console.error('Error validando estado del usuario:', error);
+            return false;
+        }
+    };
+
+
     useEffect(() => {
         getPlayersNames();
     }, []);
@@ -225,6 +245,27 @@ const Dashboard: React.FC = () => {
         }
 
         const loadDashboardData = async () => {
+            if (!userInfo?.email) {
+                return;
+            }
+
+            const isBlocked = await getStateUser(userInfo.email);
+
+            if (isBlocked) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userInfo');
+
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'Usuario bloqueado',
+                    text: 'Tu cuenta fue bloqueada. Debes iniciar sesión nuevamente.',
+                    confirmButtonColor: '#1e88e5',
+                });
+
+                navigate('/login', { replace: true });
+                return;
+            }
+
             Swal.fire({
                 title: 'Cargando...',
                 text: 'Buscando horarios disponibles.',
@@ -232,12 +273,18 @@ const Dashboard: React.FC = () => {
                 didOpen: () => Swal.showLoading(),
             });
 
-            await Promise.all([fetchData(), getActiveReserves(), getActiveNigthsLigths()]);
+            await Promise.all([
+                fetchData(),
+                getActiveReserves(),
+                getActiveNigthsLigths(),
+            ]);
+
             Swal.close();
         };
 
         void loadDashboardData();
     }, [selectedDate]);
+
 
     return (
         <div className="dashboard-container">
