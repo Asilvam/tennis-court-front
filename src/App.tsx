@@ -24,6 +24,7 @@ import PlayerProfile from "./components/PlayerProfile.tsx";
 import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
 import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
 import PaymentPending from "./pages/payment/PaymentPending.tsx";
+import AdminCategoriesPlayer from "./components/AdminCategoriesPlayer.tsx";
 
 const App: React.FC = () => {
        return (
@@ -63,7 +64,11 @@ const App: React.FC = () => {
                                                  <Route path="/multibooking"
                                                         element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
                                                  <Route path="/resetpassword"
-                                                        element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />/
+                                                        element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
+                                                 <Route
+                                                     path="/admincategories"
+                                                     element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}
+                                                 />
                                                  <Route path="/payment/success" element={<PaymentSuccess />} />
                                                  <Route path="/payment/failure" element={<PaymentFailure />} />
                                                  <Route path="/payment/pending" element={<PaymentPending />} />

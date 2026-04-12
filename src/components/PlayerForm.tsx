@@ -1,11 +1,13 @@
+
 import React, { useState, ChangeEvent, FormEvent, Fragment, useRef } from 'react';
 import axios from 'axios';
-import Select, { SingleValue } from 'react-select';
+import { SingleValue } from 'react-select';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MdPerson, MdPersonAdd, MdArrowBack } from "react-icons/md";
 import logger from "../utils/logger.ts";
 import '../styles/PlayerForm.css';
+import Swal from "sweetalert2";
 
 interface FormData {
     namePlayer: string;
@@ -32,10 +34,10 @@ interface PartnerOption {
     label: string;
 }
 
-const partnerTypeOptions: readonly PartnerOption[] = [
-    { value: 'Titular', label: 'Socio Titular' },
-    { value: 'Familiar', label: 'Socio Familiar' }
-];
+// const partnerTypeOptions: readonly PartnerOption[] = [
+//     { value: 'Titular', label: 'Socio Titular' },
+//     { value: 'Familiar', label: 'Socio Familiar' }
+// ];
 
 interface FormErrors {
     email?: string;

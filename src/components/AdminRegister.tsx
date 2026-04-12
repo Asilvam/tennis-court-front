@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import M from 'materialize-css';
 import axios from "axios";
-import Select from 'react-select';
+import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
-import {PlayerCategory, categoryOptions, roleOptions} from "../constants/playerConstants.ts";
+import {roleOptions} from "../constants/playerConstants.ts";
 import '../styles/AdminRegister.css';
 
 interface Register {
     namePlayer: string;
-    category: PlayerCategory | '';
+    // category: PlayerCategory | '';
     email: string;
     cellular: string;
     pwd: string;
@@ -19,16 +19,22 @@ interface Register {
     emailVerified: boolean;
     updatePayment: boolean;
     verificationToken: string;
-    points: string;
+    // points: string;
     role: string;
-    isLigthNigth: boolean;
+}
+
+interface SelectOption {
+    value: string;
+    label: string;
 }
 
 const AdminRegister: React.FC = () => {
 
+    const navigate = useNavigate();
+
     const initialEditUser: Register = {
         namePlayer: '',             // Empty string for player's name
-        category: '',               // Empty string for category
+        // category: '',               // Empty string for category
         email: '',                  // Empty string for email
         cellular: '',               // Empty string for cellular number
         pwd: '',                    // Empty string for password
@@ -36,9 +42,8 @@ const AdminRegister: React.FC = () => {
         emailVerified: false,       // Default email verification status is false
         updatePayment: false,       // Default payment update status is false
         verificationToken: '',      // Empty string for verification token
-        points: '0',                // Default points as a string (can be '0' or '0 points')
+        // points: '0',                // Default points as a string (can be '0' or '0 points')
         role: 'user',                // Default role is 'user'
-        isLigthNigth: false,
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -46,34 +51,36 @@ const AdminRegister: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
     const [loading, setLoading] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-    const fetchRegisters = async () => {
+    const modalSelectStyles: StylesConfig<SelectOption, false> = {
+        ...customStyles,
+        menuPortal: (base) => ({
+            ...base,
+            zIndex: 1200,
+        }),
+        menu: (base) => ({
+            ...base,
+            zIndex: 1200,
+        }),
+    };
+
+    const fetchRegisters = useCallback(async () => {
         setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/register`);
-            setUsers(response.data); // Axios automatically parses the JSON response
+            setUsers(response.data);
         } catch (error) {
             console.error('Error fetching registers:', error);
             let errorMessage;
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 errorMessage = `Server responded with error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            } else { // @ts-expect-error
+            } else {
                 if (error.request) {
-                                // The request was made but no response was received
-                                errorMessage = 'No response received from the server';
-                            } else {
-                                // Something happened in setting up the request that triggered an Error
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                // @ts-expect-error
+                    errorMessage = 'No response received from the server';
+                } else {
                     errorMessage = error.message;
-                            }
+                }
             }
             Swal.fire({
                 icon: 'error',
@@ -84,26 +91,26 @@ const AdminRegister: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [apiUrl]);
 
     useEffect(() => {
         fetchRegisters();
-        // Initialize Materialize Modal
-        const modalElems = document.querySelectorAll('.modal');
-        M.Modal.init(modalElems);
-    }, []);
+    }, [fetchRegisters]);
 
     const handleEdit = (user: Register) => {
         setEditUser({ ...user });
-        const modal = document.getElementById('editModal');
-        if (modal) {
-            const instance = M.Modal.getInstance(modal) || M.Modal.init(modal);
-            instance.open();
-        }
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (editUser) {
+            if (e.target.name === 'email') {
+                return;
+            }
             setEditUser({...editUser, [e.target.name]: e.target.value});
         }
     };
@@ -111,33 +118,66 @@ const AdminRegister: React.FC = () => {
     const handleSave = async () => {
         if (editUser) {
             try {
-                // console.log(editUser);
                 const response = await axios.patch(
-                    `${apiUrl}/register/${editUser.email}`, // Using email to identify the user
-                    editUser, // The updated user data
+                    `${apiUrl}/register/${editUser.email}`,
+                    editUser,
                     {
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     }
                 );
+
                 if (response.status !== 200) {
-                    throw new Error('Failed to update user.');
+                    Swal.fire('Error', 'No se pudo actualizar el usuario.', 'error');
+                    return;
                 }
+
                 Swal.fire('Success', `${editUser.namePlayer} informacion actualizada.`, 'success');
-                const modal = document.getElementById('editModal');
-                if (modal) {
-                    const instance = M.Modal.getInstance(modal);
-                    if (instance) instance.close();
-                }
+                setSearchTerm('');
+                handleCloseEditModal();
             } catch (error) {
                 console.error('Error updating user:', error);
                 Swal.fire('Error', 'Failed to update user.', 'error');
             } finally {
-                fetchRegisters()
+                fetchRegisters();
             }
         }
     };
+    const handleResetPassword = async (user: Register) => {
+        const result = await Swal.fire({
+            title: '¿Resetear contraseña?',
+            html: `Se enviará un correo de restablecimiento a <strong>${user.email}</strong>.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d97706',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Sí, resetear',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (!result.isConfirmed) return;
+
+        Swal.fire({
+            title: 'Enviando...',
+            text: 'Procesando solicitud de restablecimiento.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+
+        try {
+            await axios.post(`${apiUrl}/register/resetpass`, { email: user.email });
+            setSearchTerm('');
+            Swal.fire('Enviado ✓', `Se envió el correo de restablecimiento a ${user.email}.`, 'success');
+        } catch (error) {
+            console.error('Error resetting password:', error);
+            Swal.fire('Error', 'No se pudo enviar el correo de restablecimiento.', 'error');
+        }
+    };
+
     const filteredUsers = users.filter(user =>
         user.namePlayer.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -158,13 +198,30 @@ const AdminRegister: React.FC = () => {
         </div>
     ) : (
         <div className="container admin-register-container">
+            <div className="admin-register-hero">
+                <div>
+                    <h4>Administracion de Usuarios</h4>
+                    <p>Gestiona datos, estado y categoria de cada jugador.</p>
+                </div>
+                <div className="admin-register-badge">
+                    <FontAwesomeIcon icon={faUsersGear} />
+                    <span>{filteredUsers.length} usuarios</span>
+                </div>
+            </div>
+
             <div className="card admin-card">
                 <div className="search-wrapper">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                     <input
                         type="text"
                         placeholder="Buscar por nombre de jugador..."
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                            }
+                        }}
                     />
                 </div>
 
@@ -182,10 +239,28 @@ const AdminRegister: React.FC = () => {
                                 <td className="name-cell">{user.namePlayer}</td>
                                 <td className="action-cell">
                                     <button
-                                        className="btn-floating btn-small waves-effect waves-light blue darken-4"
+                                        type="button"
+                                        className="btn-floating btn-small waves-effect waves-light blue darken-4 action-edit-btn"
                                         onClick={() => handleEdit(user)}
+                                        title="Editar usuario"
                                     >
                                         <FontAwesomeIcon icon={faEdit} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-floating btn-small waves-effect waves-light action-categories-btn"
+                                        onClick={() => navigate(`/admincategories?email=${encodeURIComponent(user.email)}`)}
+                                        title="Administrar categorías"
+                                    >
+                                        <FontAwesomeIcon icon={faLayerGroup} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-floating btn-small waves-effect waves-light action-reset-btn"
+                                        onClick={() => handleResetPassword(user)}
+                                        title="Resetear contraseña"
+                                    >
+                                        <FontAwesomeIcon icon={faKey} />
                                     </button>
                                 </td>
                             </tr>
@@ -201,87 +276,103 @@ const AdminRegister: React.FC = () => {
             </div>
 
             {/* Edit Modal */}
-            <div id="editModal" className="modal edit-modal">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <FontAwesomeIcon icon={faEdit} />
-                        <h5>Editar Usuario</h5>
-                    </div>
-                    <div className="modal-body">
-                        {editUser && (
-                            <form>
-                                <div className="modal-form-section">
-                                    <div className="input-field">
-                                        <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} />
-                                        <label htmlFor="namePlayer" className="active">Nombre</label>
-                                    </div>
-                                    <div className="input-field">
-                                        <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} />
-                                        <label htmlFor="cellular" className="active">Celular</label>
-                                    </div>
-                                </div>
+            {isEditModalOpen && (
+                <div className="edit-modal-backdrop" onClick={handleCloseEditModal}>
+                    <div id="editModal" className="modal edit-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <FontAwesomeIcon icon={faEdit} />
+                                <h5>Editar Usuario</h5>
+                            </div>
+                            <div className="modal-body">
+                                {editUser && (
+                                    <form>
+                                        <div className="modal-form-section">
+                                            <div className="input-field">
+                                                <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} />
+                                                <label htmlFor="namePlayer" className="active">Nombre</label>
+                                            </div>
+                                            <div className="input-field">
+                                                <input id="email" type="email" name="email" value={editUser.email} readOnly className="readonly-input" />
+                                                <label htmlFor="email" className="active">Correo</label>
+                                            </div>
+                                            <div className="input-field">
+                                                <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} />
+                                                <label htmlFor="cellular" className="active">Celular</label>
+                                            </div>
+                                        </div>
 
-                                <div className="modal-form-section">
-                                    <div className="input-field">
-                                        <input id="points" type="number" name="points" value={editUser.points} onChange={handleInputChange} />
-                                        <label htmlFor="points" className="active">Puntos</label>
-                                    </div>
-                                    <div className="input-field">
-                                        <p className="select-label">Rol</p>
-                                        <Select
-                                            name="role"
-                                            value={roleOptions.find(option => option.value === editUser.role)}
-                                            onChange={(selectedOption) => setEditUser(prev => ({ ...prev, role: selectedOption?.value || 'user' }))}
-                                            options={roleOptions}
-                                            styles={customStyles}
-                                        />
-                                    </div>
-                                    <div className="input-field">
-                                        <p className="select-label">Categoría</p>
-                                        <Select
-                                            name="category"
-                                            value={categoryOptions.find(option => option.value === editUser.category)}
-                                            onChange={(selectedOption) => setEditUser(prev => ({ ...prev, category: selectedOption?.value || '' }))}
-                                            options={categoryOptions}
-                                            styles={customStyles}
-                                        />
-                                    </div>
-                                </div>
+                                        <div className="modal-form-section">
+                                            {/*<div className="input-field">*/}
+                                            {/*    <input id="points" type="number" name="points" value={editUser.points} onChange={handleInputChange} />*/}
+                                            {/*    <label htmlFor="points" className="active">Puntos</label>*/}
+                                            {/*</div>*/}
+                                            <div className="input-field">
+                                                <p className="select-label">Rol</p>
+                                                <Select<SelectOption, false>
+                                                    name="role"
+                                                    value={roleOptions.find(option => option.value === editUser.role)}
+                                                    onChange={(selectedOption: SingleValue<SelectOption>) =>
+                                                        setEditUser(prev => ({ ...prev, role: selectedOption?.value || 'user' }))
+                                                    }
+                                                    options={roleOptions}
+                                                    styles={modalSelectStyles}
+                                                    menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
+                                                    menuPosition="fixed"
+                                                    menuPlacement="top"
+                                                    maxMenuHeight={180}
+                                                />
+                                            </div>
+                                            {/*<div className="input-field">*/}
+                                            {/*    <p className="select-label">Categoría</p>*/}
+                                            {/*    <Select<SelectOption, false>*/}
+                                            {/*        name="category"*/}
+                                            {/*        value={categoryOptions.find(option => option.value === editUser.category)}*/}
+                                            {/*        onChange={(selectedOption: SingleValue<SelectOption>) =>*/}
+                                            {/*            setEditUser(prev => ({ ...prev, category: (selectedOption?.value as PlayerCategory) || '' }))*/}
+                                            {/*        }*/}
+                                            {/*        options={categoryOptions}*/}
+                                            {/*        styles={modalSelectStyles}*/}
+                                            {/*        menuPortalTarget={typeof document !== 'undefined' ? document.body : null}*/}
+                                            {/*        menuPosition="fixed"*/}
+                                            {/*        menuPlacement="top"*/}
+                                            {/*        maxMenuHeight={180}*/}
+                                            {/*    />*/}
+                                            {/*</div>*/}
+                                        </div>
 
-                                <div className="modal-form-section switch-group">
-                                    <div className="switch">
-                                        <label>
-                                            Activo
-                                            <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={(e) => setEditUser({ ...editUser, statePlayer: e.target.checked })} />
-                                            <span className="lever"></span>
-                                        </label>
-                                    </div>
-                                    <div className="switch">
-                                        <label>
-                                            Pago al día
-                                            <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={(e) => setEditUser({ ...editUser, updatePayment: e.target.checked })} />
-                                            <span className="lever"></span>
-                                        </label>
-                                    </div>
-                                    <div className="switch">
-                                        <label>
-                                            Debe Luz?
-                                            <input type="checkbox" name="isLigthNigth" checked={editUser.isLigthNigth} onChange={(e) => setEditUser({ ...editUser, isLigthNigth: e.target.checked })} />
-                                            <span className="lever"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        )}
+                                        <div className="modal-form-section switch-group">
+                                            <div className="switch status-switch">
+                                                <label>
+                                                    Activo
+                                                    <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={(e) => setEditUser({ ...editUser, statePlayer: e.target.checked })} />
+                                                    <span className="lever"></span>
+                                                </label>
+                                            </div>
+                                            <div className="switch status-switch">
+                                                <label>
+                                                    Pago al día
+                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={(e) => setEditUser({ ...editUser, updatePayment: e.target.checked })} />
+                                                    <span className="lever"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div className="admin-modal-actions">
+                                            <button className="btn-flat waves-effect waves-light cancel-btn admin-modal-btn-cancel" type="button" onClick={handleCloseEditModal}>
+                                                Cancelar
+                                            </button>
+                                            <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave}>
+                                                Actualizar
+                                            </button>
+                                        </div>
+                                    </form>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="modal-footer">
-                    <button className="modal-close btn-flat waves-effect waves-green">
-                        Cancelar
-                    </button>
-                    <button className="btn waves-effect waves-light blue darken-4" onClick={handleSave}>Actualizar</button>
-                </div>
-            </div>
+            )}
         </div>
     );
 };
