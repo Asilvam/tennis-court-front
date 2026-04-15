@@ -36,16 +36,19 @@
 
 /* Categories Grid */
 .categories-grid {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 20px;
+    width: 100%;
 }
 
 .category-card {
     border-radius: 20px;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    width: 100%;
+    float: none !important;
 }
 
 .category-card:hover {
@@ -93,6 +96,7 @@
 .category-content {
     background: rgba(255, 255, 255, 0.5);
     padding: 10px 20px 25px 20px;
+    border-radius: 0 0 20px 20px;
 }
 
 .ranking-list {
