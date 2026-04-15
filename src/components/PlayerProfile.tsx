@@ -345,17 +345,21 @@ const PlayerProfile: React.FC = () => {
                         <div className="categories-grid">
                             {activeCategories.map(cat => (
                                 <div key={cat.category} className={`category-card ${cat.isActive ? 'active' : 'inactive'}`}>
-                                    <div className="category-badge">
-                                        {cat.isActive ? 'Activa' : 'Inactiva'}
+                                    <div className="category-name-wrapper">
+                                        <span className="category-label-text">Categoría</span>
+                                        <div className="category-name">{cat.category}</div>
                                     </div>
-                                    <div className="category-name">{cat.category}</div>
-                                    <div className="category-rank">
-                                        <FontAwesomeIcon icon={faRankingStar} />
-                                        #{cat.rank}
-                                    </div>
-                                    <div className="category-points">
-                                        <FontAwesomeIcon icon={faStar} />
-                                        {cat.points.toLocaleString('es-CL')} pts
+                                    <div className="category-stats">
+                                        <div className="category-rank">
+                                            <FontAwesomeIcon icon={faRankingStar} />
+                                            <span className="stat-detail-label">Ranking</span>
+                                            <span className="stat-detail-value">#{cat.rank}</span>
+                                        </div>
+                                        <div className="category-points">
+                                            <FontAwesomeIcon icon={faStar} />
+                                            <span className="stat-detail-label">Puntos</span>
+                                            <span className="stat-detail-value">{cat.points.toLocaleString('es-CL')}</span>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

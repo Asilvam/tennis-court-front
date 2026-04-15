@@ -329,18 +329,18 @@
 /* ─── Categories grid ────────────────────────────────────────────────────── */
 
 .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .category-card {
     border-radius: 14px;
-    padding: 16px 14px;
+    padding: 16px 20px;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     border: 1px solid transparent;
     transition: all 0.2s ease;
 }
@@ -362,51 +362,79 @@
 }
 
 .category-badge {
+    display: none;
+}
+
+.category-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.category-label-text {
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 99px;
-    align-self: flex-start;
-}
-
-.category-card.active .category-badge {
-    background: #c8e6c9;
-    color: #1b5e20;
-}
-
-.category-card.inactive .category-badge {
-    background: #e0e0e0;
-    color: #757575;
+    letter-spacing: 0.8px;
+    color: #999;
 }
 
 .category-name {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     font-weight: 800;
     color: #1a237e;
-    line-height: 1.1;
+    line-height: 1;
+    min-width: 40px;
 }
 
 .category-card.inactive .category-name {
     color: #757575;
 }
 
-.category-rank {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #333;
+.category-stats {
     display: flex;
+    gap: 24px;
     align-items: center;
-    gap: 5px;
 }
 
+.category-rank,
 .category-points {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
     font-size: 0.8rem;
     color: #555;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+}
+
+.category-rank svg,
+.category-points svg {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 2px;
+}
+
+.stat-detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+}
+
+.stat-detail-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1a237e;
+    line-height: 1;
+}
+
+.category-card.active .category-rank svg {
+    color: #43a047;
+}
+
+.category-card.active .category-points svg {
+    color: #f9a825;
 }
 
 /* ─── Match history list ─────────────────────────────────────────────────── */
