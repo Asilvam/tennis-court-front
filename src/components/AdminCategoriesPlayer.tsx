@@ -108,7 +108,7 @@ const AdminCategoriesPlayer: React.FC = () => {
     const toggleCategoryState = (category: string, isActive: boolean) => {
         setCategories((prev) =>
             prev.map((row) =>
-                row.category === category 
+                row.category === category
                     ? { ...row, isActive } : row
             )
         );
@@ -118,7 +118,6 @@ const AdminCategoriesPlayer: React.FC = () => {
         if (!opt || !selectedPlayer) return;
         try {
             setSaving(true);
-            // Si el backend aún requiere matchType por esquema de DB, envía 'singles' por defecto
             await axios.post(`${apiUrl}/player-category-points/${selectedPlayer.value}/add-category`, {
                 category: opt.value
             });
@@ -146,8 +145,6 @@ const AdminCategoriesPlayer: React.FC = () => {
         if (result.isConfirmed) {
             try {
                 setSaving(true);
-                // IMPORTANTE: Asegúrate que el backend tenga esta ruta sin el parámetro matchType.
-                // Si el backend no ha cambiado, fallará.
                 await axios.delete(`${apiUrl}/player-category-points/${selectedPlayer.value}/${category}`);
                 await loadCategories();
                 Swal.fire('Removida', 'Categoría eliminada.', 'success');
@@ -164,7 +161,6 @@ const AdminCategoriesPlayer: React.FC = () => {
         if (!selectedPlayer) return;
         setSaving(true);
         try {
-            // Limpiamos el objeto para asegurar que el backend reciba lo que espera
             const payload = categories.map(c => ({
                 category: c.category,
                 points: c.points,
@@ -185,7 +181,8 @@ const AdminCategoriesPlayer: React.FC = () => {
     };
 
     return (
-        <div className="container admin-register-container" style={{ paddingBottom: '120px', minHeight: '100vh' }}>
+        <div className="container admin-register-container">
+            {/* ── Hero ──────────────────────────────────────────────────── */}
             <div className="admin-register-hero">
                 <div>
                     <h4>Administrar Categorías y Puntos</h4>
@@ -197,25 +194,24 @@ const AdminCategoriesPlayer: React.FC = () => {
                 </div>
             </div>
 
-            {/* Información del Jugador */}
-            <div className="categories-card" style={{ marginBottom: '24px', padding: '20px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                    <div className="modal-header" style={{ width: '56px', height: '56px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, backgroundColor: '#eff6ff' }}>
-                        <FontAwesomeIcon icon={faUser} style={{ fontSize: '1.5rem', color: '#3b82f6' }} />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                        <h6 className="player-name" style={{ margin: 0, fontWeight: 700, color: '#1e3a8a', textAlign: 'left' }}>
-                            {selectedPlayer ? selectedPlayer.label : 'Cargando...'}
-                        </h6>
-                        {selectedPlayer && (
-                            <span className="player-email" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500, wordBreak: 'break-all' }}>{selectedPlayer.value}</span>
-                        )}
-                    </div>
+            {/* ── Jugador seleccionado ───────────────────────────────────── */}
+            <div className="player-info-card">
+                <div className="player-info-avatar">
+                    <FontAwesomeIcon icon={faUser} />
+                </div>
+                <div className="player-info-details">
+                    <span className="player-info-name">
+                        {selectedPlayer ? selectedPlayer.label : 'Cargando...'}
+                    </span>
+                    {selectedPlayer && (
+                        <span className="player-info-email">{selectedPlayer.value}</span>
+                    )}
                 </div>
             </div>
 
+            {/* ── Contenido ─────────────────────────────────────────────── */}
             {loadingCategories ? (
-                <div className="center-align" style={{ padding: '40px' }}>
+                <div className="center-align categories-loader">
                     <div className="preloader-wrapper active">
                         <div className="spinner-layer spinner-blue-only">
                             <div className="circle-clipper left"><div className="circle"></div></div>
@@ -226,12 +222,12 @@ const AdminCategoriesPlayer: React.FC = () => {
                 </div>
             ) : selectedPlayer ? (
                 <div className="animate-fade-in">
-                    
-                    {/* VISTA DESKTOP/TABLET */}
+
+                    {/* VISTA DESKTOP */}
                     <div className="hide-on-small-only">
-                        <div className="card admin-card" style={{ padding: '0', overflow: 'hidden', marginBottom: '24px', borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}>
+                        <div className="card admin-card categories-table-card">
                             <div className="table-wrapper">
-                                <table className="highlight user-table" style={{ margin: 0 }}>
+                                <table className="highlight user-table">
                                     <thead>
                                         <tr>
                                             <th className="category-th">Categoría</th>
@@ -251,49 +247,39 @@ const AdminCategoriesPlayer: React.FC = () => {
                                                 </td>
                                                 <td className="points-td right-align">
                                                     <input
-                                                        type="number"
-                                                        className="browser-default points-input"
+                                                        type="text"
+                                                        inputMode="numeric"
+                                                        pattern="[0-9]*"
+                                                        className={`browser-default points-input${!row.isActive ? ' points-input--disabled' : ''}`}
                                                         value={row.points}
                                                         disabled={!row.isActive}
-                                                        onFocus={(e) => e.target.select()}
                                                         onChange={(e) => updatePoints(row.category, e.target.value)}
-                                                        style={{ 
-                                                            opacity: row.isActive ? 1 : 0.5, 
-                                                            cursor: row.isActive ? 'text' : 'not-allowed',
-                                                            width: '100px',
-                                                            textAlign: 'center',
-                                                            borderRadius: '6px',
-                                                            border: '1px solid #cbd5e1',
-                                                            padding: '4px',
-                                                            fontWeight: 'bold'
-                                                        }}
                                                     />
                                                 </td>
                                                 <td className="center-align state-td">
-                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                                                    <div className="state-switch-cell">
                                                         <div className="switch">
                                                             <label>
-                                                                <input 
-                                                                    type="checkbox" 
+                                                                <input
+                                                                    type="checkbox"
                                                                     checked={row.isActive}
                                                                     onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
                                                                 />
                                                                 <span className="lever"></span>
                                                             </label>
                                                         </div>
-                                                        <span style={{ 
-                                                            fontSize: '0.65rem', 
-                                                            fontWeight: 800, 
-                                                            color: row.isActive ? '#2e7d32' : '#9e9e9e',
-                                                            textTransform: 'uppercase'
-                                                        }}>
+                                                        <span className={`state-label${row.isActive ? ' state-label--active' : ''}`}>
                                                             {row.isActive ? 'Activa' : 'Inactiva'}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="center-align actions-td">
-                                                    <button className="btn-floating btn-small waves-effect waves-light red darken-2 btn-delete-compact" onClick={() => handleRemoveCategory(row.category)} title="Eliminar">
-                                                        <FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '0.9rem' }} />
+                                                    <button
+                                                        className="btn-floating btn-small waves-effect waves-light red darken-2 btn-delete-compact"
+                                                        onClick={() => handleRemoveCategory(row.category)}
+                                                        title="Eliminar"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrashAlt} />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -307,55 +293,47 @@ const AdminCategoriesPlayer: React.FC = () => {
                     {/* VISTA MOBILE */}
                     <div className="show-on-small hide-on-med-and-up">
                         {categories.map((row) => (
-                            <div key={row.category} className="card admin-card" style={{ marginBottom: '16px', padding: '16px' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ background: '#e0e7ff', color: '#1e3a8a', padding: '4px 10px', borderRadius: '20px', fontSize: '0.65rem', fontWeight: 800 }}>CAT</span>
-                                        <h6 style={{ margin: 0, fontWeight: 700, color: '#1e3a8a' }}>{row.category}</h6>
+                            <div key={row.category} className="category-mobile-card">
+                                <div className="category-mobile-header">
+                                    <div className="category-label-group">
+                                        <span className="category-badge">CAT</span>
+                                        <span className="category-name">{row.category}</span>
                                     </div>
-                                    <button 
-                                        className="btn-floating btn-small waves-effect waves-light red darken-2"
+                                    <button
+                                        className="btn-delete-mobile"
                                         onClick={() => handleRemoveCategory(row.category)}
-                                        style={{ width: '32px', height: '32px', minWidth: '32px' }}
                                     >
-                                        <FontAwesomeIcon icon={faTrashAlt} style={{ fontSize: '0.8rem' }} />
+                                        <FontAwesomeIcon icon={faTrashAlt} />
                                     </button>
                                 </div>
-                                <div className="row" style={{ marginBottom: '0' }}>
-                                    <div className="col s12" style={{ marginBottom: '15px' }}>
-                                        <label style={{ display: 'block', color: '#64748b', fontWeight: 800, fontSize: '0.75rem', marginBottom: '8px' }}>PUNTOS DE RANKING</label>
-                                        <input
-                                            type="number"
-                                            className="browser-default"
-                                            value={row.points}
-                                            disabled={!row.isActive}
-                                            onFocus={(e) => e.target.select()}
-                                            onChange={(e) => updatePoints(row.category, e.target.value)}
-                                            style={{ width: '100%', height: '45px', borderRadius: '8px', border: '1px solid #cbd5e1', padding: '0 12px', fontWeight: 700, fontSize: '1rem', background: row.isActive ? '#f8fafc' : '#e2e8f0', cursor: row.isActive ? 'text' : 'not-allowed', opacity: row.isActive ? 1 : 0.7, boxSizing: 'border-box' }}
-                                        />
-                                    </div>
+
+                                <div className="category-mobile-points">
+                                    <label className="category-mobile-points-label">Puntos de Ranking</label>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        className={`browser-default category-mobile-points-input${!row.isActive ? ' points-input--disabled' : ''}`}
+                                        value={row.points}
+                                        disabled={!row.isActive}
+                                        onChange={(e) => updatePoints(row.category, e.target.value)}
+                                    />
                                 </div>
-                                <div className="status-switch" style={{ 
-                                    marginTop: '10px',
-                                    padding: '12px',
-                                    background: row.isActive ? '#f1f8e9' : '#f5f5f5',
-                                    borderRadius: '8px',
-                                    border: `1px solid ${row.isActive ? '#c5e1a5' : '#e0e0e0'}`,
-                                    transition: 'all 0.2s ease'
-                                }}>
-                                    <label style={{ 
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        justifyContent: 'space-between', 
-                                        width: '100%', 
-                                        color: row.isActive ? '#2e7d32' : '#757575',
-                                        fontWeight: 700, 
-                                        fontSize: '0.85rem' 
-                                    }}>
-                                        <span>{row.isActive ? 'Categoría Activa' : 'Categoría Inactiva'}</span>
-                                        <div className="switch" style={{ display: 'flex', alignItems: 'center' }}>
-                                            <input type="checkbox" checked={row.isActive} onChange={(e) => toggleCategoryState(row.category, e.target.checked)} />
-                                            <span className="lever" style={{ margin: 0 }}></span>
+
+                                <div className={`category-mobile-status${row.isActive ? ' category-mobile-status--active' : ''}`}>
+                                    <label className="status-switch">
+                                        <span className={row.isActive ? 'status-label--active' : 'status-label--inactive'}>
+                                            {row.isActive ? 'Categoría Activa' : 'Categoría Inactiva'}
+                                        </span>
+                                        <div className="switch">
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={row.isActive}
+                                                    onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
+                                                />
+                                                <span className="lever"></span>
+                                            </label>
                                         </div>
                                     </label>
                                 </div>
@@ -363,49 +341,45 @@ const AdminCategoriesPlayer: React.FC = () => {
                         ))}
                     </div>
 
-                    {/* Agregar Nueva Categoría */}
-                    <div className="card admin-card" style={{ background: '#f8fafc', border: '2px dashed #cbd5e1', marginTop: '24px', borderRadius: '12px', boxShadow: 'none' }}>
-                        <div className="modal-form-section" style={{ margin: 0, padding: '24px' }}>
-                            <p className="select-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, marginBottom: '16px', color: '#334155', fontSize: '0.9rem' }}>
-                                <FontAwesomeIcon icon={faPlusCircle} />
-                                Añadir una nueva categoría al jugador
-                            </p>
-                            <Select<CategoryOption, false> 
-                                options={categoryOptions}
-                                onChange={handleAddCategory}
-                                styles={modalSelectStyles}
-                                menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
-                                menuPosition="fixed"
-                                menuPlacement="top"
-                                maxMenuHeight={180}
-                                placeholder="Agregar categoría..."
-                            />
-                        </div>
+                    {/* ── Agregar categoría ──────────────────────────────── */}
+                    <div className="add-category-section">
+                        <p className="add-category-label">
+                            <FontAwesomeIcon icon={faPlusCircle} />
+                            Añadir una nueva categoría al jugador
+                        </p>
+                        <Select<CategoryOption, false>
+                            options={categoryOptions}
+                            onChange={handleAddCategory}
+                            styles={modalSelectStyles}
+                            menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
+                            menuPosition="fixed"
+                            menuPlacement="top"
+                            maxMenuHeight={180}
+                            placeholder="Agregar categoría..."
+                        />
                     </div>
 
-                    {/* Acciones */}
-                    <div className="admin-modal-actions" style={{ marginTop: '40px', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <button className="admin-modal-btn-cancel" type="button" onClick={() => navigate(-1)} style={{ margin: 0, minWidth: '140px', flex: '1 1 auto' }}>
-                            <FontAwesomeIcon icon={faArrowLeft} style={{ marginRight: '8px' }} />
+                    {/* ── Acciones ───────────────────────────────────────── */}
+                    <div className="profile-actions">
+                        <button
+                            className="admin-modal-btn-cancel"
+                            type="button"
+                            onClick={() => navigate(-1)}
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} />
                             Volver
                         </button>
                         <button
-                            className="admin-modal-btn-submit"
+                            className={`admin-modal-btn-submit${!hasChanges ? ' admin-modal-btn-submit--disabled' : ''}`}
                             type="button"
                             onClick={handleSavePoints}
                             disabled={!hasChanges || saving}
-                            style={{ 
-                                background: hasChanges ? '#1565c0' : '#94a3b8', 
-                                borderColor: hasChanges ? '#1565c0' : '#94a3b8',
-                                margin: 0,
-                                minWidth: '140px',
-                                flex: '1 1 auto'
-                            }}
                         >
-                            <FontAwesomeIcon icon={faSave} style={{ marginRight: '8px' }} />
+                            <FontAwesomeIcon icon={faSave} />
                             {saving ? 'Guardando...' : 'Actualizar'}
                         </button>
                     </div>
+
                 </div>
             ) : null}
         </div>

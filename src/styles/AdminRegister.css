@@ -390,6 +390,284 @@
     margin: 0 auto;
 }
 
+.btn-delete-mobile {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background: #ef5350;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    box-shadow: 0 2px 6px rgba(239, 83, 80, 0.4);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-delete-mobile:hover {
+    background: #c62828;
+    box-shadow: 0 4px 10px rgba(198, 40, 40, 0.45);
+}
+
+.category-mobile-header .btn-delete-compact {
+    position: relative;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* ─── Player info card ───────────────────────────────────────────────────── */
+
+.player-info-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding: 18px 20px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+}
+
+.player-info-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #3b82f6;
+    flex-shrink: 0;
+}
+
+.player-info-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.player-info-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #1e3a8a;
+    line-height: 1.2;
+}
+
+.player-info-email {
+    font-size: 0.88rem;
+    color: #64748b;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+/* ─── Loader ─────────────────────────────────────────────────────────────── */
+
+.categories-loader {
+    padding: 40px;
+}
+
+/* ─── Table card ─────────────────────────────────────────────────────────── */
+
+.categories-table-card {
+    padding: 0 !important;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07) !important;
+}
+
+/* ─── Points input ───────────────────────────────────────────────────────── */
+
+.points-input {
+    width: 100px;
+    height: 36px;
+    border-radius: 8px !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 0 10px !important;
+    font-weight: 600;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.points-input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12) !important;
+    outline: none;
+}
+
+.points-input--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f1f5f9;
+}
+
+/* ─── State switch cell (desktop) ────────────────────────────────────────── */
+
+.state-switch-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.state-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #9e9e9e;
+}
+
+.state-label--active {
+    color: #2e7d32;
+}
+
+/* ─── Category mobile cards ──────────────────────────────────────────────── */
+
+.category-mobile-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.category-mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.category-mobile-points {
+    margin-bottom: 14px;
+}
+
+.category-mobile-points-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.category-mobile-points-input {
+    width: 100% !important;
+    height: 44px;
+    border-radius: 8px !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 0 12px !important;
+    font-weight: 700;
+    font-size: 1rem;
+    background: #f8fafc;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.category-mobile-points-input:focus {
+    border-color: #3b82f6 !important;
+    outline: none;
+}
+
+.category-mobile-status {
+    padding: 12px 14px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.category-mobile-status--active {
+    background: #f1f8e9;
+    border-color: #c5e1a5;
+}
+
+.category-mobile-status .status-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.status-label--active {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.status-label--inactive {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #757575;
+}
+
+/* ─── Add category section ───────────────────────────────────────────────── */
+
+.add-category-section {
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-top: 24px;
+    transition: border-color 0.2s;
+}
+
+.add-category-section:focus-within {
+    border-color: #3b82f6;
+}
+
+.add-category-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #334155;
+    margin: 0 0 14px;
+}
+
+/* ─── Profile actions ────────────────────────────────────────────────────── */
+
+.profile-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 36px;
+    padding-bottom: 60px;
+}
+
+.profile-actions .admin-modal-btn-cancel,
+.profile-actions .admin-modal-btn-submit {
+    flex: 1 1 auto;
+    min-width: 140px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.admin-modal-btn-submit--disabled {
+    background-color: #94a3b8 !important;
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
     .admin-register-container {
         padding-top: 8px;
