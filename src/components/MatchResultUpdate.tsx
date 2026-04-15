@@ -71,8 +71,7 @@ const MatchResultUpdate: React.FC = () => {
         if (nameParts.length > 1) {
             const lastName = nameParts[nameParts.length - 1];
             if (lastName && lastName[0]) {
-                const lastInitial = lastName[0].toUpperCase() + '.';
-                return `${firstInitial} ${lastInitial}`;
+                return `${firstInitial} ${lastName}`;
             }
         }
         return firstInitial;
@@ -361,9 +360,6 @@ const MatchResultUpdate: React.FC = () => {
                             {/* Players VS Display */}
                             <div className="players-vs-container">
                                 <div className="player-card-mini">
-                                    <div className="player-avatar">
-                                        {isDoubles ? <FontAwesomeIcon icon={faTrophy} /> : getPlayerInitials(players[0]).charAt(0)}
-                                    </div>
                                     <div className="player-name">
                                         {isDoubles 
                                             ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
@@ -378,9 +374,6 @@ const MatchResultUpdate: React.FC = () => {
                                 <div className="vs-badge">VS</div>
 
                                 <div className="player-card-mini">
-                                    <div className="player-avatar">
-                                        {isDoubles ? <FontAwesomeIcon icon={faTrophy} /> : (isDoubles ? getPlayerInitials(players[2]).charAt(0) : getPlayerInitials(players[1]).charAt(0))}
-                                    </div>
                                     <div className="player-name">
                                         {isDoubles 
                                             ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
