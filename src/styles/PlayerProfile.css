@@ -328,13 +328,13 @@
 
 /* ─── Categories grid ────────────────────────────────────────────────────── */
 
-.categories-grid {
+.pp-categories-grid {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.category-card {
+.pp-category-card {
     border-radius: 14px;
     padding: 16px 20px;
     display: flex;
@@ -345,33 +345,29 @@
     transition: all 0.2s ease;
 }
 
-.category-card.active {
+.pp-category-card.active {
     background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
     border-color: #a5d6a7;
 }
 
-.category-card.inactive {
+.pp-category-card.inactive {
     background: #f5f5f5;
     border-color: #e0e0e0;
     opacity: 0.7;
 }
 
-.category-card:hover {
+.pp-category-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
 }
 
-.category-badge {
-    display: none;
-}
-
-.category-name-wrapper {
+.pp-category-name-wrapper {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.category-label-text {
+.pp-category-label-text {
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -379,7 +375,7 @@
     color: #999;
 }
 
-.category-name {
+.pp-category-name {
     font-size: 1.8rem;
     font-weight: 800;
     color: #1a237e;
@@ -387,34 +383,39 @@
     min-width: 40px;
 }
 
-.category-card.inactive .category-name {
+.pp-category-card.inactive .pp-category-name {
     color: #757575;
 }
 
-.category-stats {
+.pp-category-stats {
     display: flex;
     gap: 24px;
     align-items: center;
 }
 
-.category-rank,
-.category-points {
+.pp-category-rank,
+.pp-category-points {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    font-size: 0.8rem;
-    color: #555;
 }
 
-.category-rank svg,
-.category-points svg {
+.pp-category-rank svg,
+.pp-category-points svg {
     font-size: 1rem;
-    color: #888;
     margin-bottom: 2px;
 }
 
-.stat-detail-label {
+.pp-category-card.active .pp-category-rank svg {
+    color: #43a047;
+}
+
+.pp-category-card.active .pp-category-points svg {
+    color: #f9a825;
+}
+
+.pp-stat-detail-label {
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -422,19 +423,11 @@
     color: #999;
 }
 
-.stat-detail-value {
+.pp-stat-detail-value {
     font-size: 1rem;
     font-weight: 800;
     color: #1a237e;
     line-height: 1;
-}
-
-.category-card.active .category-rank svg {
-    color: #43a047;
-}
-
-.category-card.active .category-points svg {
-    color: #f9a825;
 }
 
 /* ─── Match history list ─────────────────────────────────────────────────── */

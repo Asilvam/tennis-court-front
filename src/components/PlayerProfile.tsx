@@ -342,23 +342,23 @@ const PlayerProfile: React.FC = () => {
                     {activeCategories.length === 0 ? (
                         <p className="empty-state">Sin categorías en este modo.</p>
                     ) : (
-                        <div className="categories-grid">
+                        <div className="pp-categories-grid">
                             {activeCategories.map(cat => (
-                                <div key={cat.category} className={`category-card ${cat.isActive ? 'active' : 'inactive'}`}>
-                                    <div className="category-name-wrapper">
-                                        <span className="category-label-text">Categoría</span>
-                                        <div className="category-name">{cat.category}</div>
+                                <div key={cat.category} className={`pp-category-card ${cat.isActive ? 'active' : 'inactive'}`}>
+                                    <div className="pp-category-name-wrapper">
+                                        <span className="pp-category-label-text">Categoría</span>
+                                        <div className="pp-category-name">{cat.category}</div>
                                     </div>
-                                    <div className="category-stats">
-                                        <div className="category-rank">
+                                    <div className="pp-category-stats">
+                                        <div className="pp-category-rank">
                                             <FontAwesomeIcon icon={faRankingStar} />
-                                            <span className="stat-detail-label">Ranking</span>
-                                            <span className="stat-detail-value">#{cat.rank}</span>
+                                            <span className="pp-stat-detail-label">Ranking</span>
+                                            <span className="pp-stat-detail-value">#{cat.rank}</span>
                                         </div>
-                                        <div className="category-points">
+                                        <div className="pp-category-points">
                                             <FontAwesomeIcon icon={faStar} />
-                                            <span className="stat-detail-label">Puntos</span>
-                                            <span className="stat-detail-value">{cat.points.toLocaleString('es-CL')}</span>
+                                            <span className="pp-stat-detail-label">Puntos</span>
+                                            <span className="pp-stat-detail-value">{cat.points.toLocaleString('es-CL')}</span>
                                         </div>
                                     </div>
                                 </div>
