@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTrophy, faMedal, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import logger from '../utils/logger';
 import '../styles/Ranking.css';
 
@@ -57,13 +57,6 @@ const Ranking: React.FC = () => {
         fetchRankings();
     }, [apiUrl]);
 
-    const getMedalColor = (rank: number): string | undefined => {
-        if (rank === 1) return '#FFD700'; // Gold
-        if (rank === 2) return '#C0C0C0'; // Silver
-        if (rank === 3) return '#CD7F32'; // Bronze
-        return undefined;
-    };
-
     if (loading) {
         return (
             <div className="center-loader">
@@ -108,38 +101,33 @@ const Ranking: React.FC = () => {
                         {activeCategory === category && (
                             <div className="category-content animate-in">
                                 <div className="ranking-list">
-                                    {rankings[category].map((player) => {
-                                        const medalColor = getMedalColor(player.rank);
-                                        return (
-                                            <div key={player.id} className={`player-row ${player.rank <= 3 ? 'top-three' : ''}`}>
-                                                <div className="rank-indicator">
-                                                    {medalColor ? (
-                                                        <FontAwesomeIcon icon={faMedal} style={{ color: medalColor }} className="medal-icon" />
-                                                    ) : (
-                                                        <span className="rank-number">{player.rank}</span>
-                                                    )}
-                                                </div>
-
-                                                <div className="player-avatar-wrapper">
-                                                    <img
-                                                        src={player.imageUrlProfile || '/images/avatar-fantasma.png'}
-                                                        alt={player.nombre}
-                                                        className="player-avatar"
-                                                    />
-                                                    {player.rank <= 3 && <div className="rank-badge" style={{ backgroundColor: medalColor }}>{player.rank}</div>}
-                                                </div>
-
-                                                <div className="player-info">
-                                                    <span className="player-name">{player.nombre}</span>
-                                                </div>
-
-                                                <div className="player-score">
-                                                    <span className="points-value">{player.puntos.toLocaleString('es-CL')}</span>
-                                                    <span className="points-label">PTS</span>
-                                                </div>
+                                    {rankings[category].map((player) => (
+                                        <div key={player.id} className={`player-row ${player.rank <= 8 ? 'master-zone' : ''}`}>
+                                            <div className="rank-indicator">
+                                                <span className="rank-number">{player.rank}</span>
                                             </div>
-                                        );
-                                    })}
+
+                                            <div className="player-avatar-wrapper">
+                                                <img
+                                                    src={player.imageUrlProfile || '/images/avatar-fantasma.png'}
+                                                    alt={player.nombre}
+                                                    className="player-avatar"
+                                                />
+                                                {player.rank <= 8 && (
+                                                    <div className="master-badge">M</div>
+                                                )}
+                                            </div>
+
+                                            <div className="player-info">
+                                                <span className="player-name">{player.nombre}</span>
+                                            </div>
+
+                                            <div className="player-score">
+                                                <span className="points-value">{player.puntos.toLocaleString('es-CL')}</span>
+                                                <span className="points-label">PTS</span>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}
