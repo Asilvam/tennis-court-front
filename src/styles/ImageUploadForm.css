@@ -186,21 +186,24 @@
 
 .iuf-btn-submit {
     flex: 1;
-    height: 48px;
+    height: 48px !important;
+    min-height: 48px !important;
+    line-height: 1 !important;
     border-radius: 10px;
     background-color: #1565c0 !important;
     border: 1px solid #1565c0;
     color: #ffffff !important;
     font-weight: 700;
     font-size: 0.95rem;
-    text-transform: none;
+    text-transform: none !important;
     box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 0 1.5rem !important;
 }
 
 .iuf-btn-submit:hover:not(:disabled) {
@@ -217,20 +220,23 @@
 
 .iuf-btn-cancel {
     flex: 1;
-    height: 48px;
+    height: 48px !important;
+    min-height: 48px !important;
+    line-height: 1 !important;
     border-radius: 10px;
     background-color: #f1f5f9 !important;
     border: 1px solid transparent;
     color: #1565c0 !important;
     font-weight: 700;
     font-size: 0.95rem;
-    text-transform: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    text-transform: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    padding: 0 1.5rem !important;
 }
 
 .iuf-btn-cancel:hover {
