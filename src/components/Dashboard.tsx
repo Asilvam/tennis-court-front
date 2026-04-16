@@ -9,6 +9,7 @@ import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import ResultsTicker from './ResultsTicker';
 
 interface CourtReserve {
     turn: string;
@@ -323,6 +324,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Alerts Section */}
+            <ResultsTicker />
             <div className="alerts-section">
                 {activeReserve && (
                     <div className="alert-card warning">
