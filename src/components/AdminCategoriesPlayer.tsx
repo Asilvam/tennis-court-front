@@ -242,7 +242,7 @@ const AdminCategoriesPlayer: React.FC = () => {
                                                 <td className="category-td">
                                                     <div className="category-label-group">
                                                         <span className="category-badge">CAT</span>
-                                                        <span className="category-name">{row.category}</span>
+                                                        <span className="ar-category-name">{row.category}</span>
                                                     </div>
                                                 </td>
                                                 <td className="points-td right-align">
@@ -297,7 +297,7 @@ const AdminCategoriesPlayer: React.FC = () => {
                                 <div className="category-mobile-header">
                                     <div className="category-label-group">
                                         <span className="category-badge">CAT</span>
-                                        <span className="category-name">{row.category}</span>
+                                        <span className="ar-category-name">{row.category}</span>
                                     </div>
                                     <button
                                         className="btn-delete-mobile"

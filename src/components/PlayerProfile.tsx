@@ -17,6 +17,7 @@ import {
 import '../styles/PlayerProfile.css';
 import logger from '../utils/logger.ts';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils.ts';
+import AppLoader from './AppLoader';
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -216,19 +217,11 @@ const PlayerProfile: React.FC = () => {
     // ─── Render ──────────────────────────────────────────────────────────────
 
     if (loading) {
-        return (
-            <div className="profile-loader">
-                <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-            </div>
-        );
+        return <AppLoader text="Cargando perfil..." />;
     }
 
     if (!player) {
-        return (
-            <div className="profile-loader">
-                No se encontró información del jugador.
-            </div>
-        );
+        return <AppLoader text="No se encontró información del jugador." />;
     }
 
     return (

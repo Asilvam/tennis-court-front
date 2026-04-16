@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
+import AppLoader from './AppLoader';
 import '../styles/AdminRegister.css';
 
 interface Register {
@@ -183,19 +184,7 @@ const AdminRegister: React.FC = () => {
     );
 
     return loading ? (
-        <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
-                <div className="circle-clipper left">
-                    <div className="circle"></div>
-                </div>
-                <div className="gap-patch">
-                    <div className="circle"></div>
-                </div>
-                <div className="circle-clipper right">
-                    <div className="circle"></div>
-                </div>
-            </div>
-        </div>
+        <AppLoader text="Cargando usuarios..." />
     ) : (
         <div className="container admin-register-container">
             <div className="admin-register-hero">

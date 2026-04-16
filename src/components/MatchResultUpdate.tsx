@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faTrophy, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 import { DateTime } from 'luxon';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import AppLoader from './AppLoader';
 import '../styles/MatchResult.css';
 
 interface PlayerData {
@@ -293,10 +294,7 @@ const MatchResultUpdate: React.FC = () => {
             </p>
 
             {loadingReserves ? (
-                <div className="match-result-loading">
-                    <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-                    <p>Cargando tus partidos de ranking...</p>
-                </div>
+                <AppLoader text="Cargando tus partidos de ranking..." size="2x" />
             ) : reserves.length === 0 ? (
                 <div className="match-result-empty">
                     <h6>No tienes partidos de ranking pendientes</h6>
@@ -360,7 +358,7 @@ const MatchResultUpdate: React.FC = () => {
                             {/* Players VS Display */}
                             <div className="players-vs-container">
                                 <div className="player-card-mini">
-                                    <div className="player-name">
+                                    <div className="mr-player-name">
                                         {isDoubles 
                                             ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
                                             : getPlayerInitials(players[0])
@@ -374,7 +372,7 @@ const MatchResultUpdate: React.FC = () => {
                                 <div className="vs-badge">VS</div>
 
                                 <div className="player-card-mini">
-                                    <div className="player-name">
+                                    <div className="mr-player-name">
                                         {isDoubles 
                                             ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
                                             : getPlayerInitials(players[1])
@@ -387,11 +385,11 @@ const MatchResultUpdate: React.FC = () => {
                             </div>
 
                             {/* Result Input */}
-                            <div className="form-group">
+                            <div className="mr-form-group">
                                 <label className="form-label">Marcador final</label>
                                 <input
                                     type="text"
-                                    className="form-input"
+                                    className="mr-form-input"
                                     value={result}
                                     onChange={(e) => setResult(e.target.value)}
                                     placeholder="Ej: 6-4, 3-6, 7-6"
@@ -399,7 +397,7 @@ const MatchResultUpdate: React.FC = () => {
                             </div>
 
                             {/* Winner Selection */}
-                            <div className="form-group">
+                            <div className="mr-form-group">
                                 <label className="form-label">Seleccionar Ganador</label>
                                 <div className="winner-selection-group">
                                     {/* Option 1 */}
@@ -458,7 +456,7 @@ const MatchResultUpdate: React.FC = () => {
                         </div>
                         
                         <div className="match-modal-footer">
-                            <button className="btn-cancel" onClick={handleCloseModal} disabled={loading}>
+                            <button className="mr-btn-cancel" onClick={handleCloseModal} disabled={loading}>
                                 Cancelar
                             </button>
                             <button className="btn-save" onClick={handleSave} disabled={loading}>

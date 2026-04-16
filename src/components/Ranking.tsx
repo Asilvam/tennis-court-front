@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import logger from '../utils/logger';
+import AppLoader from './AppLoader';
 import '../styles/Ranking.css';
 
 interface RankingPlayer {
@@ -58,12 +59,7 @@ const Ranking: React.FC = () => {
     }, [apiUrl]);
 
     if (loading) {
-        return (
-            <div className="center-loader">
-                <FontAwesomeIcon icon={faSpinner} spin size="3x" className="blue-text" />
-                <p>Cargando Escalerilla...</p>
-            </div>
-        );
+        return <AppLoader text="Cargando Escalerilla..." />;
     }
 
     if (error) {

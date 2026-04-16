@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import AppLoader from './AppLoader';
 import '../styles/AdminReserves.css';
 
 interface Reserve {
@@ -62,19 +63,7 @@ const AdminReserves: React.FC = () => {
     // if (loading) return <p>Loading reservations...</p>;
 
     return loading ? (
-        <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
-                <div className="circle-clipper left">
-                    <div className="circle"></div>
-                </div>
-                <div className="gap-patch">
-                    <div className="circle"></div>
-                </div>
-                <div className="circle-clipper right">
-                    <div className="circle"></div>
-                </div>
-            </div>
-        </div>
+        <AppLoader text="Cargando reservas..." />
     ) : (
         <div className="container admin-table-container">
             <h6>Admin actives Reservations</h6>

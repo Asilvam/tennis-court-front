@@ -9,6 +9,7 @@ import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import M from 'materialize-css';
 import Swal from 'sweetalert2';
 // import logger from "../utils/logger.ts";
+import AppLoader from './AppLoader';
 
 import '../styles/MyHistoryReserve.css';
 
@@ -158,18 +159,7 @@ const MyHistoryReserve: React.FC = () => {
     const canceledReserves = reserves.filter(r => !r.state).length;
 
     if (loading) {
-        return (
-            <div className="history-loading">
-                <div className="preloader-wrapper active">
-                    <div className="spinner-layer spinner-blue-only">
-                        <div className="circle-clipper left"><div className="circle"></div></div>
-                        <div className="gap-patch"><div className="circle"></div></div>
-                        <div className="circle-clipper right"><div className="circle"></div></div>
-                    </div>
-                </div>
-                <p className="history-loading-text">Cargando tu historial...</p>
-            </div>
-        );
+        return <AppLoader text="Cargando tu historial..." />;
     }
 
     return (

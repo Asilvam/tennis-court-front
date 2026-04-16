@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import AppLoader from '../../components/AppLoader';
 
 const PaymentSuccess: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -42,11 +43,7 @@ const PaymentSuccess: React.FC = () => {
     return (
         <div className="container center-align" style={{ marginTop: '100px' }}>
             {isProcessing ? (
-                <>
-                    <FontAwesomeIcon icon={faSpinner} spin size="4x" color="#00bcd4" />
-                    <h4>Validando pago...</h4>
-                    <p>Por favor espera mientras confirmamos tu pago</p>
-                </>
+                <AppLoader text="Validando pago..." size="4x" />
             ) : (
                 <>
                     <FontAwesomeIcon icon={faCheckCircle} size="4x" color="#4caf50" />
