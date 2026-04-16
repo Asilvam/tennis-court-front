@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Select from 'react-select';
+import Select, { StylesConfig } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import logger from '../utils/logger.ts';
 import Swal from 'sweetalert2';
@@ -9,36 +9,62 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { DateTime } from 'luxon';
 import { forwardRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import '../styles/MultipleBookingForm.css';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
-    <div
-        onClick={onClick}
-        ref={ref}
-        style={{
-            display: 'flex',
-            alignItems: 'center',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            padding: '0 12px',
-            width: '350px',
-            minHeight: '44px', // 👈 igual que el Select
-            fontSize: '16px',
-            cursor: 'pointer',
-            backgroundColor: '#fff',
-            boxSizing: 'border-box',
-        }}
-    >
-    <span style={{ flex: 1, fontSize: '16px', color: '#333' }}>
-      Seleccionar fecha
-    </span>
-        <i className="material-icons" style={{ marginLeft: '2rem', color: '#555' }}>
-            calendar_today
-        </i>
+    <div className="mbf-date-input" onClick={onClick} ref={ref}>
+        <span className="mbf-date-input-text">Seleccionar fecha</span>
+        <FontAwesomeIcon icon={faCalendarAlt} className="mbf-date-input-icon" />
     </div>
 ));
 
 const animatedComponents = makeAnimated();
+
+type SelectOption = { value: string; label: string };
+
+const customSelectStylesSingle: StylesConfig<SelectOption, false> = {
+    control: (base, state) => ({
+        ...base,
+        minHeight: '46px',
+        borderRadius: '12px',
+        border: state.isFocused ? '1px solid #1d4ed8' : '1px solid #cbd5e1',
+        boxShadow: state.isFocused ? '0 0 0 3px rgba(29,78,216,0.15)' : 'none',
+        '&:hover': { borderColor: '#94a3b8' },
+        fontSize: '0.95rem',
+    }),
+    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+    menu: (base) => ({ ...base, borderRadius: '12px', overflow: 'hidden' }),
+    option: (base, state) => ({
+        ...base,
+        backgroundColor: state.isSelected ? '#1565c0' : state.isFocused ? '#eff6ff' : '#fff',
+        color: state.isSelected ? '#fff' : '#334155',
+        fontSize: '0.92rem',
+    }),
+};
+
+// ── Checkbox pill helper ────────────────────────────────────
+interface CheckboxPillProps {
+    label: string;
+    checked: boolean;
+    onChange: () => void;
+    selectAll?: boolean;
+}
+const CheckboxPill: React.FC<CheckboxPillProps> = ({ label, checked, onChange, selectAll }) => (
+    <span
+        className={`mbf-checkbox-pill${selectAll ? ' mbf-checkbox-pill--selectall' : ''}${checked ? ' mbf-checkbox-pill--active' : ''}`}
+        onClick={onChange}
+        role="checkbox"
+        aria-checked={checked}
+        tabIndex={0}
+        onKeyDown={(e) => e.key === ' ' && onChange()}
+    >
+        {checked && <span className="mbf-checkbox-tick">✓</span>}
+        {label}
+    </span>
+);
 
 const MultipleBookingForm: React.FC = () => {
     const navigate = useNavigate();
@@ -46,102 +72,69 @@ const MultipleBookingForm: React.FC = () => {
     const [courts, setCourts] = useState<string[]>([]);
     const [dates, setDates] = useState<string[]>([]);
     const [turns, setTurns] = useState<string[]>([]);
-    const [motive, setMotive] = useState<string[]>([]);
+    const [motive, setMotive] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
 
     const availableCourts = ['Cancha 1', 'Cancha 2', 'Cancha 3'];
     const availableTurns = [
         '08:15-10:00', '10:15-12:00', '12:15-14:00',
-        '14:15-16:00', '16:15-18:00', '18:15-20:00', '20:15-22:00', '22:15-00:00'
+        '14:15-16:00', '16:15-18:00', '18:15-20:00',
+        '20:15-22:00', '22:15-00:00',
     ];
     const availableMotives = ['Campeonato', 'Clases', 'Mantencion', 'Clima', 'Reserva'];
 
-    const ALL_COURTS_OPTION = { value: '__ALL__', label: 'Todas las canchas' };
+    const amTurns   = availableTurns.filter(t => { const [s] = t.split('-'); return s >= '08:15' && s <= '14:00'; });
+    const pmTurns   = availableTurns.filter(t => { const [s] = t.split('-'); return s >= '14:15' && s <= '20:00'; });
+    const nightTurns = availableTurns.filter(t => { const [s] = t.split('-'); return s >= '20:15'; });
 
-    const formatOptions = (options: string[]) =>
+    const formatOptions = (options: string[]): SelectOption[] =>
         options.map(opt => ({ value: opt, label: opt }));
-
-    const courtOptions = [ALL_COURTS_OPTION, ...formatOptions(availableCourts)];
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    const ALL_TURNS_OPTION = { value: '__ALL__', label: 'Todos los turnos' };
-    const AM_TURNS_OPTION = { value: '__AM__', label: 'Turnos AM (08:15-14:00)' };
-    const PM_TURNS_OPTION = { value: '__PM__', label: 'Turnos PM (14:15-20:00)' };
-    const NIGHT_TURNS_OPTION = { value: '__NIGHT__', label: 'Turnos Noche (20:15-00:00)' };
+    const total = courts.length * dates.length * turns.length;
 
-// Group turns
-    const amTurns = availableTurns.filter(t => {
-        const [start] = t.split('-');
-        return start >= '08:15' && start <= '14:00';
-    });
-    const pmTurns = availableTurns.filter(t => {
-        const [start] = t.split('-');
-        return start >= '14:15' && start <= '20:00';
-    });
-    const nightTurns = availableTurns.filter(t => {
-        const [start] = t.split('-');
-        return start >= '20:15';
-    });
+    // ── Court helpers ─────────────────────────────────────────
+    const toggleCourt = (court: string) => {
+        setCourts(prev =>
+            prev.includes(court) ? prev.filter(c => c !== court) : [...prev, court]
+        );
+    };
+    // ── Turn helpers ──────────────────────────────────────────
+    const toggleTurn = (turn: string) => {
+        setTurns(prev =>
+            prev.includes(turn) ? prev.filter(t => t !== turn) : [...prev, turn]
+        );
+    };
+    const allTurnsSelected = turns.length === availableTurns.length;
+    const toggleAllTurns = () => setTurns(allTurnsSelected ? [] : [...availableTurns]);
 
-// Options for Select
-    const turnOptions = [
-        ALL_TURNS_OPTION,
-        AM_TURNS_OPTION,
-        PM_TURNS_OPTION,
-        NIGHT_TURNS_OPTION,
-        ...formatOptions(availableTurns)
-    ];
-
+    // ── Reserve ───────────────────────────────────────────────
     const handleReserve = async () => {
-        if (!courts.length) {
+        if (!courts.length)
             return Swal.fire({ icon: 'warning', title: 'Sin canchas', text: 'Selecciona al menos una cancha.' });
-        }
-        if (!dates.length) {
+        if (!dates.length)
             return Swal.fire({ icon: 'warning', title: 'Sin fechas', text: 'Selecciona al menos una fecha.' });
-        }
-        if (!turns.length) {
+        if (!turns.length)
             return Swal.fire({ icon: 'warning', title: 'Sin turnos', text: 'Selecciona uno o más turnos.' });
-        }
-        if (!motive) {
+        if (!motive)
             return Swal.fire({ icon: 'warning', title: 'Sin motivo', text: 'Selecciona un motivo para la reserva.' });
-        }
-
-        const total = courts.length * dates.length * turns.length;
-        if (total > 100) {
-            return Swal.fire({
-                icon: 'warning',
-                title: 'Demasiadas reservas',
-                text: `Estás intentando crear ${total} reservas. Reduce la selección.`,
-            });
-        }
+        if (total > 100)
+            return Swal.fire({ icon: 'warning', title: 'Demasiadas reservas', text: `Estás intentando crear ${total} reservas. Reduce la selección.` });
 
         setIsLoading(true);
         const payload = { courts, dates, turns, motive };
-
         try {
             logger.debug(payload);
             await axios.post(`${apiUrl}/booking/multiple`, payload);
-
-            await Swal.fire({
-                icon: 'success',
-                title: 'Reservas creadas',
-                text: '¡Las reservas fueron creadas exitosamente!',
-                confirmButtonColor: '#3085d6',
-            });
-
+            await Swal.fire({ icon: 'success', title: 'Reservas creadas', text: '¡Las reservas fueron creadas exitosamente!', confirmButtonColor: '#3085d6' });
             setCourts([]);
             setDates([]);
             setTurns([]);
-            setMotive([]);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            setMotive('');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al crear las reservas.',
-                confirmButtonColor: '#d33'
-            });
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Ocurrió un error al crear las reservas.', confirmButtonColor: '#d33' });
         } finally {
             setIsLoading(false);
         }
@@ -149,205 +142,152 @@ const MultipleBookingForm: React.FC = () => {
 
     const handleDateSelect = (date: Date | null) => {
         if (!date) return;
-
         const selected = DateTime.fromJSDate(date).startOf('day');
         const today = DateTime.now().startOf('day');
-
         if (selected < today) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Fecha inválida',
-                text: 'No puedes seleccionar una fecha pasada.',
-            });
+            Swal.fire({ icon: 'info', title: 'Fecha inválida', text: 'No puedes seleccionar una fecha pasada.' });
             return;
         }
-
         const formatted = selected.toISODate();
         if (dates.includes(formatted as string)) return;
-
         if (dates.length >= 10) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Límite alcanzado',
-                text: 'Solo puedes seleccionar hasta 10 fechas.',
-            });
+            Swal.fire({ icon: 'warning', title: 'Límite alcanzado', text: 'Solo puedes seleccionar hasta 10 fechas.' });
             return;
         }
-
-        const updatedDates = [...dates, formatted];
-        const sorted = updatedDates.sort((a, b) =>
+        const sorted = [...dates, formatted].sort((a, b) =>
             DateTime.fromISO(a as string).toMillis() - DateTime.fromISO(b as string).toMillis()
         );
-
         setDates(sorted as string[]);
     };
 
-
-    const handleBackToDashboard = () => navigate('/dashboard');
-
     return (
-        <div className="container" style={{ maxWidth: 600 }}>
-            <form style={{ fontSize: '16px' }}>
+        <div className="mbf-container">
+            {/* Hero */}
+            <div className="mbf-hero">
+                <div className="mbf-hero-text">
+                    <h2>Reserva Múltiple</h2>
+                    <p>Crea reservas para varias canchas, fechas y turnos a la vez</p>
+                </div>
+                {total > 0 && (                    <span className="mbf-hero-badge">{total} reserva{total !== 1 ? 's' : ''}</span>
+                )}
+            </div>
+
+            {/* Config card */}
+            <div className="mbf-card">
+                <p className="mbf-card-title">Configuración</p>
+
                 {/* Canchas */}
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label className="active">Selecciona Canchas</label>
-                    <Select
-                        isMulti
-                        components={animatedComponents}
-                        options={courtOptions}
-                        value={
-                            courts.length === availableCourts.length
-                                ? [ALL_COURTS_OPTION, ...formatOptions(courts)]
-                                : formatOptions(courts)
-                        }
-                        onChange={(selected) => {
-                            const values = selected.map(s => s.value);
-                            if (values.includes('__ALL__')) {
-                                setCourts(availableCourts);
-                            } else {
-                                setCourts(values);
-                            }
-                        }}
-                        menuPortalTarget={document.body}
-                        styles={{
-                            control: base => ({ ...base, minHeight: '44px' }),
-                            menuPortal: base => ({ ...base, zIndex: 9999 }),
-                        }}
-                    />
+                <div className="mbf-field">
+                    <span className="mbf-label">Canchas</span>
+                        <div className="mbf-checkbox-group">
+                        {availableCourts.map(court => (
+                            <CheckboxPill
+                                key={court}
+                                label={court}
+                                checked={courts.includes(court)}
+                                onChange={() => toggleCourt(court)}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 {/* Fechas */}
-                <div style={{ marginBottom: '1.5rem', width:'100%' }}>
+                <div className="mbf-field">
+                    <span className="mbf-label">Fechas</span>
                     <DatePicker
                         onChange={handleDateSelect}
                         minDate={new Date()}
                         dateFormat="yyyy-MM-dd"
-                        wrapperClassName="date-picker-wrapper"
+                        wrapperClassName="mbf-datepicker-wrapper"
                         customInput={<CustomDateInput />}
                     />
-
-                    <p style={{ fontSize: '14px', marginTop: '0.5rem' }}>
-                        {dates.length} / 10 fechas seleccionadas
-                    </p>
-
-                    {/* Chips de fechas */}
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            gap: '0.5rem',
-                            padding: '0.5rem',
-                            marginTop: '0.5rem',
-                            minHeight: '48px',
-                            backgroundColor: '#f5f5f5',
-                            borderRadius: '6px',
-                            border: '1px solid #ccc',
-                            maxHeight: '300px',
-                            overflowY: 'auto',
-                        }}
-                    >
+                    <p className="mbf-date-counter">{dates.length} / 10 fechas seleccionadas</p>
+                    <div className="mbf-chips-container">
                         {dates.map((date) => (
                             <span
                                 key={date}
-                                className="chip"
-                                onClick={() => {
-                                    const updated = dates.filter(d => d !== date);
-                                    setDates(updated);
-                                }}
-                                style={{ cursor: 'pointer', fontSize: '14px' }}
+                                className="mbf-chip"
+                                onClick={() => setDates(dates.filter(d => d !== date))}
                             >
-                                {date} <i className="close material-icons">close</i>
+                                {date}
+                                <span className="mbf-chip-close">×</span>
                             </span>
                         ))}
                     </div>
                 </div>
 
-
                 {/* Turnos */}
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label className="active">Selecciona Turnos</label>
-                    <Select
-                        isMulti
-                        components={animatedComponents}
-                        options={turnOptions}
-                        value={
-                            turns.length === availableTurns.length
-                                ? [ALL_TURNS_OPTION, ...formatOptions(turns)]
-                                : formatOptions(turns)
-                        }
-                        onChange={(selected) => {
-                            const values = selected.map(s => s.value);
-                            if (values.includes('__ALL__')) {
-                                setTurns(availableTurns);
-                            } else if (values.includes('__AM__')) {
-                                setTurns(amTurns);
-                            } else if (values.includes('__PM__')) {
-                                setTurns(pmTurns);
-                            } else if (values.includes('__NIGHT__')) {
-                                setTurns(nightTurns);
-                            } else {
-                                setTurns(values);
-                            }
-                        }}
-                        menuPortalTarget={document.body}
-                        styles={{
-                            control: base => ({ ...base, minHeight: '44px' }),
-                            menuPortal: base => ({ ...base, zIndex: 9999 })
-                        }}
-                    />
+                <div className="mbf-field">
+                    <span className="mbf-label">Turnos</span>
+
+                    <div className="mbf-turns-group">
+                        <div className="mbf-checkbox-group">
+                            <CheckboxPill
+                                label="Todos los turnos"
+                                checked={allTurnsSelected}
+                                onChange={toggleAllTurns}
+                                selectAll
+                            />
+                        </div>
+                    </div>
+
+                    {/* AM */}
+                    <div className="mbf-turns-group">
+                        <span className="mbf-turns-group-label">AM · 08:15–14:00</span>
+                        <div className="mbf-checkbox-grid">
+                            {amTurns.map(t => (
+                                <CheckboxPill key={t} label={t} checked={turns.includes(t)} onChange={() => toggleTurn(t)} />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* PM */}
+                    <div className="mbf-turns-group">
+                        <span className="mbf-turns-group-label">PM · 14:15–20:00</span>
+                        <div className="mbf-checkbox-grid">
+                            {pmTurns.map(t => (
+                                <CheckboxPill key={t} label={t} checked={turns.includes(t)} onChange={() => toggleTurn(t)} />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Noche */}
+                    <div className="mbf-turns-group">
+                        <span className="mbf-turns-group-label">Noche · 20:15–00:00</span>
+                        <div className="mbf-checkbox-grid">
+                            {nightTurns.map(t => (
+                                <CheckboxPill key={t} label={t} checked={turns.includes(t)} onChange={() => toggleTurn(t)} />
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Motivo */}
-                <div style={{ marginBottom: '2rem' }}>
-                    <label className="active">Motivo</label>
-                    <Select
+                <div className="mbf-field">
+                    <span className="mbf-label">Motivo</span>
+                    <Select<SelectOption, false>
                         components={animatedComponents}
                         options={formatOptions(availableMotives)}
                         value={motive ? { value: motive, label: motive } : null}
                         onChange={(selected) => setMotive(selected?.value || '')}
                         menuPortalTarget={document.body}
-                        styles={{
-                            control: base => ({ ...base, minHeight: '44px' }),
-                            menuPortal: base => ({ ...base, zIndex: 9999 })
-                        }}
+                        styles={customSelectStylesSingle}
+                        placeholder="Selecciona un motivo..."
                     />
                 </div>
-            </form>
+            </div>
 
-            {/* Botones */}
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    flexWrap: 'wrap',
-                    marginTop: '1.5rem',
-                }}
-            >
-                <button
-                    type="button"
-                    className="btn waves-effect waves-light blue darken-4"
-                    onClick={handleReserve}
-                    disabled={isLoading}
-                    style={{ minWidth: '140px' }}
-                >
+            {/* Actions */}
+            <div className="mbf-actions">
+                <button type="button" className="mbf-btn-cancel" onClick={() => navigate('/dashboard')}>
+                    Cancelar
+                </button>
+                <button type="button" className="mbf-btn-submit" onClick={handleReserve} disabled={isLoading}>
                     {isLoading ? (
-                        <>
-                            <i className="material-icons left">hourglass_empty</i> Reservando...
-                        </>
+                        <><FontAwesomeIcon icon={faSpinner} spin /> Reservando...</>
                     ) : (
                         'Reservar'
                     )}
-                </button>
-
-                <button
-                    type="button"
-                    className="btn waves-effect waves-light blue darken-1"
-                    onClick={handleBackToDashboard}
-                    style={{ minWidth: '140px' }}
-                >
-                    Cancelar
                 </button>
             </div>
         </div>
