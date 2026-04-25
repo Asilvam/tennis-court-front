@@ -14,6 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '../styles/Home.css'; // Your dedicated CSS file
 import { FaWhatsapp } from 'react-icons/fa';
+import NewsTicker from "./NewsTicker.tsx";
 
 interface InfoItem {
     _id?: string; // Optional for initial data, assuming API provides it
@@ -68,7 +69,8 @@ const Home: React.FC = () => {
     return (
         <div className="container">
             <h4 className="home-title">👋 Bienvenidos(as)</h4>
-            <ResultsTicker />
+            {/*<ResultsTicker />*/}
+            <NewsTicker />
             <Swiper
                 effect={'coverflow'}
                 grabCursor={true}
