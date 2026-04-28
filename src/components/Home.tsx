@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
+import ResultsTicker from './ResultsTicker';
 
 // 1. Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,6 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '../styles/Home.css'; // Your dedicated CSS file
 import { FaWhatsapp } from 'react-icons/fa';
+import NewsTicker from "./NewsTicker.tsx";
 
 interface InfoItem {
     _id?: string; // Optional for initial data, assuming API provides it
@@ -67,7 +69,8 @@ const Home: React.FC = () => {
     return (
         <div className="container">
             <h4 className="home-title">👋 Bienvenidos(as)</h4>
-
+            {/*<ResultsTicker />*/}
+            <NewsTicker />
             <Swiper
                 effect={'coverflow'}
                 grabCursor={true}

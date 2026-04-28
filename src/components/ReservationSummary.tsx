@@ -3,7 +3,6 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faIdBadge,
-    faTriangleExclamation,
     faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/ReservationSummary.css';
@@ -36,12 +35,8 @@ const ReservationSummary: React.FC = () => {
         dateToPlay,
         turn,
         court,
-        isPaidNight,
-        isVisit,
         visitName,
-        isForRanking,
-        idCourtReserve,
-        passCourtReserve
+        isForRanking
     } = responseData;
 
     // Function to navigate back to dashboard
@@ -86,31 +81,12 @@ const ReservationSummary: React.FC = () => {
                     </div>
                 </div>
 
-                {isPaidNight && (
-                    <div className="summary-alert info">
-                        <FontAwesomeIcon icon={faTriangleExclamation}/>
-                        <span><strong>Recordatorio:</strong> Este turno es de pago. 💵</span>
-                    </div>
-                )}
-
-                {!isVisit && isForRanking && (
-                    <div className="summary-alert ranking">
-                        <FontAwesomeIcon icon={faTrophy} className="summary-alert-icon" />
+                {isForRanking && (
+                    <div className="summary-alert ranking" style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '12px', padding: '15px', backgroundColor: '#fff3e0', borderRadius: '8px', border: '1px solid #ffe0b2' }}>
+                        <FontAwesomeIcon icon={faTrophy} style={{ color: '#f57c00', fontSize: '1.2rem' }} />
                         <div className="summary-alert-content">
-                            <h6>¡Actualiza tu Ranking!</h6>
-                            {idCourtReserve && passCourtReserve ? (
-                                <div className="ranking-details">
-                                    <p>Usa estos datos :</p>
-                                    <p className="ranking-credential">
-                                        ID: <strong><span className="ranking-data">{idCourtReserve}</span></strong>
-                                    </p>
-                                    <p className="ranking-credential">
-                                        Password: <strong><span className="ranking-data">{passCourtReserve}</span></strong>
-                                    </p>
-                                </div>
-                            ) : (
-                                <p>Tu ID y clave fueron enviados a tu correo para que puedas actualizar el resultado.</p>
-                            )}
+                            <p style={{ margin: 0, color: '#e65100', fontWeight: 700 }}>¡Actualiza tu Ranking!</p>
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#5d4037' }}>Agrega tus resultados en <strong>Agregar Resultados</strong> de la APP.</p>
                         </div>
                     </div>
                 )}

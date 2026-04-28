@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faTrash } from "@fortawesome/free-solid-svg-icons";
-import Swal from "sweetalert2";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faTrash, faImages, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
+import AppLoader from './AppLoader';
+import '../styles/ImageUploadForm.css';
 
 interface Item {
     _id: string;
@@ -18,10 +20,8 @@ const ImageUploadForm: React.FC = () => {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [fetchLoading, setFetchLoading] = useState(true);
-    const [responseMessage, setResponseMessage] = useState('');
     const [items, setItems] = useState<Item[]>([]);
 
-    // Fetch the list of uploaded items
     const fetchItems = async () => {
         try {
             const response = await axios.get(`${apiUrl}/info-items`);
@@ -29,8 +29,8 @@ const ImageUploadForm: React.FC = () => {
         } catch (error) {
             console.error('Error fetching items:', error);
         } finally {
-        setFetchLoading(false);
-    }
+            setFetchLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -46,9 +46,14 @@ const ImageUploadForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!image || !title || !text) {
-            alert('Please fill in all fields and upload an image.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor completa todos los campos y selecciona una imagen.',
+            });
             return;
         }
+
         setLoading(true);
         const formData = new FormData();
         formData.append('image', image);
@@ -57,132 +62,207 @@ const ImageUploadForm: React.FC = () => {
 
         try {
             const response = await axios.post(`${apiUrl}/info-items/upload`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
             if (response.status === 200 || response.status === 201) {
                 await Swal.fire({
                     icon: 'success',
                     title: 'Carrusel',
-                    text: 'Item agregado con éxito!',
+                    text: 'Item agregado con éxito.',
                 });
-                fetchItems(); // Refresh the list after upload
+                fetchItems();
                 setTitle('');
                 setText('');
                 setImage(null);
             }
-            setResponseMessage(response.data.state);
         } catch (error) {
-            setResponseMessage('Image upload failed.');
             console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo subir el item. Intenta nuevamente.',
+            });
         } finally {
             setLoading(false);
         }
     };
 
     const handleDelete = async (itemId: string) => {
-        console.log(itemId);
         const confirm = await Swal.fire({
-            title: 'Are you sure?',
-            text: "This action cannot be undone!",
+            title: '¿Eliminar item?',
+            text: 'Esta acción no se puede deshacer.',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
         });
 
         if (confirm.isConfirmed) {
             try {
                 await axios.delete(`${apiUrl}/info-items/${itemId}`);
                 setItems((prev) => prev.filter((item) => item._id !== itemId));
-                Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: 'El item fue eliminado correctamente.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
             } catch (error) {
                 console.error('Error deleting item:', error);
-                Swal.fire('Error', 'Failed to delete the item.', 'error');
+                Swal.fire('Error', 'No se pudo eliminar el item.', 'error');
             }
         }
     };
 
-    return fetchLoading ? (
-        <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
-                <div className="circle-clipper left">
-                    <div className="circle"></div>
+    if (fetchLoading) {
+        return <AppLoader text="Cargando carrusel..." />;
+    }
+
+    return (
+        <div className="iuf-container">
+
+            {/* ── Hero ──────────────────────────────────────────────────── */}
+            <div className="iuf-hero">
+                <div className="iuf-hero-text">
+                    <h4>Carrusel de Imágenes</h4>
+                    <p>Administra el contenido visual de la página de inicio.</p>
                 </div>
-                <div className="gap-patch">
-                    <div className="circle"></div>
-                </div>
-                <div className="circle-clipper right">
-                    <div className="circle"></div>
+                <div className="iuf-hero-badge">
+                    <FontAwesomeIcon icon={faImages} />
+                    <span>{items.length} items</span>
                 </div>
             </div>
-        </div>
-    ) :(
-        <Fragment>
-            <div className="container">
-                <h6>Carrusel Imagen, Titulo y texto</h6>
-                <form onSubmit={handleSubmit}>
-                    <div className="input col s12">
-                        <label>Select image:</label>
-                        <input type="file" className="blue darken-1" style={{ width: '100%', color: 'whitesmoke' }}
-                               onChange={handleImageChange} />
+
+            {/* ── Upload form ────────────────────────────────────────────── */}
+            <div className="iuf-card">
+                <p className="iuf-card-title">Agregar nuevo item</p>
+
+                <form className="iuf-form" onSubmit={handleSubmit}>
+
+                    {/* File zone */}
+                    <div className="iuf-field">
+                        <span className="iuf-label">Imagen</span>
+                        <div className={`iuf-file-zone ${image ? 'has-file' : ''}`}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="iuf-file-input"
+                                onChange={handleImageChange}
+                            />
+                            <div className="iuf-file-icon">
+                                <FontAwesomeIcon icon={faCloudUploadAlt} />
+                            </div>
+                            <span className="iuf-file-label">
+                                {image ? image.name : 'Haz clic para seleccionar imagen'}
+                            </span>
+                            <span className="iuf-file-hint">
+                                {image ? `${(image.size / 1024).toFixed(0)} KB` : 'JPG, PNG, WEBP · máx. 10 MB'}
+                            </span>
+                        </div>
                     </div>
-                    <div>
-                        <label>Title:</label>
+
+                    {/* Title */}
+                    <div className="iuf-field">
+                        <label className="iuf-label" htmlFor="iuf-title">Título</label>
                         <input
+                            id="iuf-title"
                             type="text"
+                            className="iuf-input"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Enter the title"
+                            placeholder="Ej: Torneo de Verano"
                         />
                     </div>
-                    <div>
-                        <label>Text:</label>
-                        <textarea
+
+                    {/* Text / caption */}
+                    <div className="iuf-field">
+                        <label className="iuf-label" htmlFor="iuf-text">Descripción</label>
+                        <input
+                            id="iuf-text"
+                            type="text"
+                            className="iuf-input"
                             value={text}
                             onChange={(e) => setText(e.target.value)}
-                            placeholder="Enter the text"
+                            placeholder="Ej: Inscríbete antes del 30 de enero"
                         />
                     </div>
-                    <div className="col s12" style={{ marginTop: '20px' }}>
-                        <button type="submit" className="btn blue darken-4" disabled={loading}>
-                            {loading && <FontAwesomeIcon icon={faSpinner} spin fixedWidth />} Upload
+
+                    {/* Actions */}
+                    <div className="iuf-actions">
+                        <button
+                            type="button"
+                            className="iuf-btn-cancel"
+                            onClick={() => { setTitle(''); setText(''); setImage(null); }}
+                            disabled={loading}
+                        >
+                            Limpiar
                         </button>
-                        <a href="/" className="btn blue darken-1" style={{ marginLeft: '15px' }}>
-                            Cancelar
-                        </a>
+                        <button
+                            type="submit"
+                            className="iuf-btn-submit"
+                            disabled={loading}
+                        >
+                            {loading
+                                ? <><FontAwesomeIcon icon={faSpinner} spin /> Subiendo...</>
+                                : <><FontAwesomeIcon icon={faCloudUploadAlt} /> Subir item</>
+                            }
+                        </button>
                     </div>
                 </form>
-                {responseMessage && <p>{responseMessage}</p>}
-                <h6 className="mt-4">Uploaded Items</h6>
-                <table className="striped">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {items.map((item) => (
-                        <tr key={item._id}>
-                            <td>{item.title}</td>
-                            <td>
-                                <img src={item.imageUrl} alt={item.title} width={50} />
-                            </td>
-                            <td>
-                                <button onClick={() => handleDelete(item._id)} className="btn btn-danger blue darken-1">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
             </div>
-        </Fragment>
+
+            {/* ── Items table ────────────────────────────────────────────── */}
+            <div className="iuf-card">
+                <p className="iuf-card-title">Items publicados</p>
+
+                {items.length === 0 ? (
+                    <div className="iuf-empty">
+                        <FontAwesomeIcon icon={faImages} style={{ fontSize: '2rem', color: '#cbd5e1' }} />
+                        <p>No hay items en el carrusel.</p>
+                    </div>
+                ) : (
+                    <div className="iuf-table-wrapper">
+                        <table className="iuf-table">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {items.map((item) => (
+                                    <tr key={item._id}>
+                                        <td>
+                                            <img
+                                                src={item.imageUrl}
+                                                alt={item.title}
+                                                className="iuf-thumb"
+                                            />
+                                        </td>
+                                        <td className="iuf-title-cell">{item.title}</td>
+                                        <td>{item.text}</td>
+                                        <td>
+                                            <button
+                                                className="iuf-btn-delete"
+                                                onClick={() => handleDelete(item._id)}
+                                                title="Eliminar item"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 

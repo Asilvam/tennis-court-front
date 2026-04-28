@@ -36,16 +36,21 @@
 
 /* Categories Grid */
 .categories-grid {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 20px;
+    width: 100%;
 }
 
 .category-card {
     border-radius: 20px;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    width: 100%;
+    float: none !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .category-card:hover {
@@ -59,10 +64,13 @@
 
 .category-header {
     padding: 24px 30px;
-    display: flex;
+    display: flex !important;
+    flex-direction: row !important;
     justify-content: space-between;
     align-items: center;
     background: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .category-label {
@@ -93,6 +101,7 @@
 .category-content {
     background: rgba(255, 255, 255, 0.5);
     padding: 10px 20px 25px 20px;
+    border-radius: 0 0 20px 20px;
 }
 
 .ranking-list {
@@ -117,12 +126,6 @@
     transform: scale(1.01);
 }
 
-/* Top 3 Styles */
-.player-row.top-three {
-    background: linear-gradient(to right, #ffffff, #f7fafc);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
 .rank-indicator {
     display: flex;
     justify-content: center;
@@ -135,9 +138,36 @@
     font-size: 1.1rem;
 }
 
-.medal-icon {
-    font-size: 1.5rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+/* Top 8 Master Styles */
+.player-row.master-zone {
+    background: linear-gradient(to right, #fffbeb, #ffffff);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.master-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 900;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.master-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #d97706;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .player-avatar-wrapper {
@@ -176,6 +206,12 @@
     font-weight: 600;
     color: #2d3748;
     font-size: 1.05rem;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .player-score {

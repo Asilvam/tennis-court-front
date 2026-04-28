@@ -102,3 +102,32 @@ code {
   background-color: #f5f5f5 !important;
   color: #666 !important;
 }
+
+/* ── AppLoader ─────────────────────────────────────────────────────────────── */
+.app-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  width: 100%;
+  gap: 16px;
+}
+
+.app-loader-icon {
+  color: #1565c0;
+}
+
+.app-loader-text {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Inline variant – small spinner inside a button or row, no full-page height */
+.app-loader-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: unset;
+}

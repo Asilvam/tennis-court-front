@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import AppLoader from './AppLoader';
 import '../styles/AdminReserves.css';
 
 interface Reserve {
@@ -19,10 +20,9 @@ const AdminReserves: React.FC = () => {
     const [reserves, setReserves] = useState<Reserve[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    // Fetch reserves data from the API
     const fetchReserves = async () => {
         try {
-            const response = await axios.get<Reserve[]>(`${apiUrl}/court-reserve`); // Replace with actual endpoint
+            const response = await axios.get<Reserve[]>(`${apiUrl}/court-reserve`);
             setReserves(response.data);
         } catch (error) {
             console.error('Error fetching reserves:', error);
@@ -31,26 +31,26 @@ const AdminReserves: React.FC = () => {
         }
     };
 
-    // Handle deletion of a reservation
     const handleDelete = async (reserveId: string) => {
         const confirm = await Swal.fire({
-            title: 'Are you sure?',
-            text: "This action cannot be undone!",
+            title: '¿Eliminar reserva?',
+            text: 'Esta acción no se puede deshacer.',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
         });
 
         if (confirm.isConfirmed) {
             try {
-                await axios.delete(`${apiUrl}/court-reserve/${reserveId}`); // Replace with actual endpoint
-                setReserves((prev) => prev.filter((reserve) => reserve.idCourtReserve !== reserveId));
-                Swal.fire('Deleted!', 'The reservation has been deleted.', 'success');
+                await axios.delete(`${apiUrl}/court-reserve/${reserveId}`);
+                setReserves(prev => prev.filter(r => r.idCourtReserve !== reserveId));
+                Swal.fire({ icon: 'success', title: 'Eliminada', text: 'La reserva fue eliminada correctamente.', confirmButtonColor: '#1565c0' });
             } catch (error) {
                 console.error('Error deleting reservation:', error);
-                Swal.fire('Error', 'Failed to delete the reservation.', 'error');
+                Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo eliminar la reserva.', confirmButtonColor: '#dc2626' });
             }
         }
     };
@@ -59,55 +59,65 @@ const AdminReserves: React.FC = () => {
         fetchReserves();
     }, []);
 
-    // if (loading) return <p>Loading reservations...</p>;
+    if (loading) return <AppLoader text="Cargando reservas..." />;
 
-    return loading ? (
-        <div className="preloader-wrapper active">
-            <div className="spinner-layer spinner-blue-only">
-                <div className="circle-clipper left">
-                    <div className="circle"></div>
+    return (
+        <div className="ar-container">
+            {/* Hero */}
+            <div className="ar-hero">
+                <div className="ar-hero-text">
+                    <h2>Reservas Activas</h2>
+                    <p>Gestión y eliminación de reservas de cancha</p>
                 </div>
-                <div className="gap-patch">
-                    <div className="circle"></div>
-                </div>
-                <div className="circle-clipper right">
-                    <div className="circle"></div>
-                </div>
+                {reserves.length > 0 && (
+                    <span className="ar-hero-badge">{reserves.length} reserva{reserves.length !== 1 ? 's' : ''}</span>
+                )}
             </div>
-        </div>
-    ) : (
-        <div className="container admin-table-container">
-            <h6>Admin actives Reservations</h6>
-            {reserves.length === 0 ? (
-                <p>No reservations available.</p>
-            ) : (
-                <table className="reserves-table-custom">
-                    <thead>
-                        <tr>
-                            <th className="col-player1">Player 1</th>
-                            <th>Date</th>
-                            <th>Turn</th>
-                            <th>Court</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reserves.map((reserve) => (
-                            <tr key={reserve.idCourtReserve}>
-                                <td className="col-player1">{reserve.player1}</td>
-                                <td>{reserve.dateToPlay.slice(8, 10)}-{reserve.dateToPlay.slice(5, 7)}</td>
-                                <td>{reserve.turn.split('-')[0]}</td>
-                                <td>{reserve.court.split(' ')[1]}</td>
-                                <td>
-                                    <button className="btn red darken-4" onClick={() => handleDelete(reserve.idCourtReserve)}>
-                                        <FontAwesomeIcon icon={faTrash} />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+
+            {/* Card */}
+            <div className="ar-card">
+                {reserves.length === 0 ? (
+                    <div className="ar-empty">
+                        <span className="ar-empty-icon">📭</span>
+                        No hay reservas activas.
+                    </div>
+                ) : (
+                    <div className="ar-table-wrapper">
+                        <table className="ar-table">
+                            <thead>
+                                <tr>
+                                    <th>Jugador</th>
+                                    <th>Fecha</th>
+                                    <th>Turno</th>
+                                    <th>Cancha</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reserves.map(reserve => (
+                                    <tr key={reserve.idCourtReserve}>
+                                        <td>{reserve.player1}</td>
+                                        <td>
+                                            {reserve.dateToPlay.slice(8, 10)}-{reserve.dateToPlay.slice(5, 7)}
+                                        </td>
+                                        <td>{reserve.turn.split('-')[0]}</td>
+                                        <td>{reserve.court.split(' ')[1]}</td>
+                                        <td>
+                                            <button
+                                                className="ar-btn-delete"
+                                                onClick={() => handleDelete(reserve.idCourtReserve)}
+                                                title="Eliminar reserva"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

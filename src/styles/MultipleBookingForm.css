@@ -1,0 +1,410 @@
+/* ============================================================
+   MultipleBookingForm — prefijo mbf-
+   Design system: mismo que Dashboard / AdminRegister
+   ============================================================ */
+
+/* Container */
+.mbf-container {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.mbf-hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+  border-radius: 24px !important;
+  padding: 2rem 2rem 1.6rem !important;
+  margin-bottom: 1.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+}
+
+.mbf-hero-text {
+  color: #fff !important;
+}
+
+.mbf-hero-text h2 {
+  margin: 0 0 0.25rem !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+}
+
+.mbf-hero-text p {
+  margin: 0 !important;
+  font-size: 0.9rem !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.mbf-hero-badge {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 50px !important;
+  padding: 0.45rem 1.1rem !important;
+  color: #fff !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.mbf-card {
+  background: rgba(255, 255, 255, 0.84) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 24px rgba(30, 58, 138, 0.08) !important;
+  border: 1px solid rgba(203, 213, 225, 0.5) !important;
+  padding: 1.75rem 1.75rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.mbf-card-title {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: #1e3a8a !important;
+  margin: 0 0 1.25rem !important;
+  padding-bottom: 0.6rem !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+/* ── Field wrapper ────────────────────────────────────────── */
+.mbf-field {
+  margin-bottom: 1.4rem !important;
+}
+
+.mbf-field:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ── Label ────────────────────────────────────────────────── */
+.mbf-label {
+  display: block !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #475569 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ── Custom Date Input ────────────────────────────────────── */
+.mbf-date-input {
+  display: flex !important;
+  align-items: center !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  padding: 0 14px !important;
+  width: 100% !important;
+  min-height: 46px !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+  background-color: #fff !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  color: #334155 !important;
+}
+
+.mbf-date-input:hover {
+  border-color: #94a3b8 !important;
+}
+
+.mbf-date-input:focus,
+.mbf-date-input:focus-within {
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15) !important;
+  outline: none !important;
+}
+
+.mbf-date-input-text {
+  flex: 1 !important;
+  font-size: 0.95rem !important;
+  color: #64748b !important;
+}
+
+.mbf-date-input-icon {
+  margin-left: 0.75rem !important;
+  color: #94a3b8 !important;
+  font-size: 1.15rem !important;
+}
+
+/* ── Date counter ─────────────────────────────────────────── */
+.mbf-date-counter {
+  font-size: 0.8rem !important;
+  color: #64748b !important;
+  margin: 0.4rem 0 0.5rem !important;
+}
+
+/* ── Chips container ──────────────────────────────────────── */
+.mbf-chips-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.4rem !important;
+  padding: 0.6rem !important;
+  margin-top: 0.5rem !important;
+  min-height: 48px !important;
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  max-height: 160px !important;
+  overflow-y: auto !important;
+}
+
+/* ── Chip ─────────────────────────────────────────────────── */
+.mbf-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border: 1px solid #bfdbfe !important;
+  border-radius: 20px !important;
+  padding: 0.2rem 0.65rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+  line-height: 1 !important;
+  height: auto !important;
+}
+
+.mbf-chip:hover {
+  background: #bfdbfe !important;
+}
+
+.mbf-chip-close {
+  font-size: 0.9rem !important;
+  line-height: 1 !important;
+  color: #3b82f6 !important;
+  margin-left: 0.1rem !important;
+}
+
+/* ── Summary card ─────────────────────────────────────────── */
+.mbf-summary-card {
+  background: #f0f9ff !important;
+  border: 1px solid #bae6fd !important;
+  border-radius: 16px !important;
+  padding: 1.25rem 1.5rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.mbf-summary-grid {
+  display: flex !important;
+  gap: 1.25rem !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.mbf-summary-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  font-size: 0.88rem !important;
+  color: #0369a1 !important;
+  font-weight: 600 !important;
+}
+
+.mbf-summary-total {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: #1e3a8a !important;
+  border-top: 1px solid #bae6fd !important;
+  padding-top: 0.65rem !important;
+}
+
+.mbf-summary-warning {
+  margin-top: 0.5rem !important;
+  font-size: 0.82rem !important;
+  color: #b45309 !important;
+  background: #fef3c7 !important;
+  border: 1px solid #fde68a !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+/* ── Actions ──────────────────────────────────────────────── */
+.mbf-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  margin-top: 0.5rem !important;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.mbf-btn-submit {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  background: #1565c0 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 1.6rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: background 0.2s, box-shadow 0.2s !important;
+  min-width: 140px !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.25) !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+.mbf-btn-submit:hover:not(:disabled) {
+  background: #1e40af !important;
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.35) !important;
+}
+
+.mbf-btn-submit:disabled {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+.mbf-btn-cancel {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  background: transparent !important;
+  color: #1565c0 !important;
+  border: 1.5px solid #1565c0 !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 1.6rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s !important;
+  min-width: 120px !important;
+  justify-content: center !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+.mbf-btn-cancel:hover {
+  background: #eff6ff !important;
+}
+
+/* ── Checkbox group ───────────────────────────────────────── */
+.mbf-checkbox-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.mbf-checkbox-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.38rem 0.9rem !important;
+  border-radius: 20px !important;
+  border: 1.5px solid #cbd5e1 !important;
+  background: #fff !important;
+  color: #475569 !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  transition: all 0.15s !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+  line-height: 1.4 !important;
+}
+
+.mbf-checkbox-pill:hover {
+  border-color: #94a3b8 !important;
+  background: #f8fafc !important;
+}
+
+.mbf-checkbox-pill--active {
+  background: #1565c0 !important;
+  border-color: #1565c0 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(21,101,192,0.2) !important;
+}
+
+.mbf-checkbox-pill--active:hover {
+  background: #1e40af !important;
+  border-color: #1e40af !important;
+}
+
+/* Check icon inside pill */
+.mbf-checkbox-tick {
+  font-size: 0.75rem !important;
+  line-height: 1 !important;
+}
+
+/* Select-all pill (outlined blue, inactive state) */
+.mbf-checkbox-pill--selectall {
+  border-color: #93c5fd !important;
+  color: #1d4ed8 !important;
+  background: #eff6ff !important;
+}
+
+.mbf-checkbox-pill--selectall.mbf-checkbox-pill--active {
+  background: #1565c0 !important;
+  border-color: #1565c0 !important;
+  color: #fff !important;
+}
+
+/* Turns grid — 3 columns */
+.mbf-checkbox-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.5rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.mbf-checkbox-grid .mbf-checkbox-pill {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+/* Turns sub-group label */
+.mbf-turns-group {
+  margin-bottom: 0.75rem !important;
+}
+
+.mbf-turns-group-label {
+  display: block !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.07em !important;
+  color: #94a3b8 !important;
+  margin-bottom: 0.4rem !important;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .mbf-hero {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .mbf-card {
+    padding: 1.25rem !important;
+  }
+
+  .mbf-actions {
+    flex-direction: column-reverse !important;
+  }
+
+  .mbf-btn-submit,
+  .mbf-btn-cancel {
+    width: 100% !important;
+  }
+
+  .mbf-summary-grid {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+}

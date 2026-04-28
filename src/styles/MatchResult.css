@@ -15,20 +15,12 @@
     font-weight: 600;
 }
 
-/* Form Styles (Reusing Login styles concept) */
-.form-group {
+/* Form Styles */
+.mr-form-group {
     margin-bottom: 20px;
 }
 
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #444;
-    font-size: 0.95rem;
-}
-
-.form-input {
+.mr-form-input {
     width: 100%;
     padding: 12px 15px;
     border: 2px solid #e0e0e0;
@@ -39,7 +31,7 @@
     box-sizing: border-box;
 }
 
-.form-input:focus {
+.mr-form-input:focus {
     border-color: #1e88e5;
     box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
 }
@@ -146,21 +138,7 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.player-avatar {
-    width: 50px;
-    height: 50px;
-    background-color: #e3f2fd;
-    color: #1565c0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin: 0 auto 8px;
-}
-
-.player-name {
+.mr-player-name {
     font-weight: 600;
     font-size: 0.9rem;
     margin-bottom: 4px;
@@ -235,7 +213,7 @@
     background-color: #fff;
 }
 
-.btn-cancel {
+.mr-btn-cancel {
     padding: 10px 20px;
     border: none;
     background: #f5f5f5;
@@ -246,7 +224,7 @@
     transition: background 0.2s;
 }
 
-.btn-cancel:hover {
+.mr-btn-cancel:hover {
     background-color: #e0e0e0;
     color: #333;
 }

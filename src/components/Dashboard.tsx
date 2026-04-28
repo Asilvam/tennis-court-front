@@ -9,6 +9,7 @@ import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import ResultsTicker from './ResultsTicker';
 
 interface CourtReserve {
     turn: string;
@@ -45,7 +46,6 @@ const Dashboard: React.FC = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [playersNames, setPlayersNames] = useState<string[]>([]);
     const [activeReserve, setActiveReserve] = useState<CourtReserve[] | null>(null);
-    const [activeNigthsLigths, setActiveNigthsLigths] = useState<boolean>(false);
 
     const decodeJwtPayload = (token: string): { exp?: number } | null => {
         try {
@@ -183,17 +183,17 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    const getActiveNigthsLigths = async () => {
-        const url = `${apiUrl}/register/active/${namePlayer}`;
-        const headers = { Authorization: `Bearer ${token}` };
-        try {
-            const { data } = await axios.get(url, { headers });
-            setActiveNigthsLigths(data);
-        } catch (error) {
-            console.error("Error fetching active reserves:", error);
-            setActiveNigthsLigths(false);
-        }
-    }
+    // const getActiveNigthsLigths = async () => {
+    //     const url = `${apiUrl}/register/active/${namePlayer}`;
+    //     const headers = { Authorization: `Bearer ${token}` };
+    //     try {
+    //         const { data } = await axios.get(url, { headers });
+    //         setActiveNigthsLigths(data);
+    //     } catch (error) {
+    //         console.error("Error fetching active reserves:", error);
+    //         setActiveNigthsLigths(false);
+    //     }
+    // }
 
     const fetchData = async () => {
         try {
@@ -276,7 +276,6 @@ const Dashboard: React.FC = () => {
             await Promise.all([
                 fetchData(),
                 getActiveReserves(),
-                getActiveNigthsLigths(),
             ]);
 
             Swal.close();
@@ -325,6 +324,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Alerts Section */}
+            <ResultsTicker />
             <div className="alerts-section">
                 {activeReserve && (
                     <div className="alert-card warning">
@@ -342,17 +342,6 @@ const Dashboard: React.FC = () => {
                     </div>
                 )}
 
-                {activeNigthsLigths && (
-                    <div className="alert-card danger">
-                        <div className="alert-icon">
-                            <FontAwesomeIcon icon={faBolt} />
-                        </div>
-                        <div className="alert-content">
-                            <h6>Deuda de Luz Nocturna</h6>
-                            <p>Tienes una deuda pendiente. Por favor contacta a tesorería.</p>
-                        </div>
-                    </div>
-                )}
             </div>
 
             {/* Legend Section */}
