@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from "axios";
@@ -51,6 +51,7 @@ const AdminRegister: React.FC = () => {
     const [users, setUsers] = useState<Register[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
+    const [originalEditUser, setOriginalEditUser] = useState<Register | null>(null);
     const [loading, setLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -100,24 +101,54 @@ const AdminRegister: React.FC = () => {
 
     const handleEdit = (user: Register) => {
         setEditUser({ ...user });
+        setOriginalEditUser({ ...user });
         setIsEditModalOpen(true);
     };
 
     const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
+        setOriginalEditUser(null);
     };
+
+    const hasChanges = useMemo(() => {
+        if (!originalEditUser) {
+            return false;
+        }
+
+        return (
+            editUser.namePlayer !== originalEditUser.namePlayer ||
+            editUser.cellular !== originalEditUser.cellular ||
+            editUser.role !== originalEditUser.role ||
+            editUser.statePlayer !== originalEditUser.statePlayer ||
+            editUser.updatePayment !== originalEditUser.updatePayment
+        );
+    }, [editUser, originalEditUser]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (editUser) {
             if (e.target.name === 'email') {
                 return;
             }
-            setEditUser({...editUser, [e.target.name]: e.target.value});
+            setEditUser(prev => ({ ...prev, [e.target.name]: e.target.value }));
         }
+    };
+
+    const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+
+        if (name !== 'statePlayer' && name !== 'updatePayment') {
+            return;
+        }
+
+        setEditUser(prev => ({ ...prev, [name]: checked }));
     };
 
     const handleSave = async () => {
         if (editUser) {
+            if (!hasChanges) {
+                return;
+            }
+
             try {
                 const response = await axios.patch(
                     `${apiUrl}/register/${editUser.email}`,
@@ -334,14 +365,14 @@ const AdminRegister: React.FC = () => {
                                             <div className="switch status-switch">
                                                 <label>
                                                     Activo
-                                                    <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={(e) => setEditUser({ ...editUser, statePlayer: e.target.checked })} />
+                                                    <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={handleSwitchChange} />
                                                     <span className="lever"></span>
                                                 </label>
                                             </div>
                                             <div className="switch status-switch">
                                                 <label>
                                                     Pago al día
-                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={(e) => setEditUser({ ...editUser, updatePayment: e.target.checked })} />
+                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={handleSwitchChange} />
                                                     <span className="lever"></span>
                                                 </label>
                                             </div>
@@ -351,7 +382,7 @@ const AdminRegister: React.FC = () => {
                                             <button className="btn-flat waves-effect waves-light cancel-btn admin-modal-btn-cancel" type="button" onClick={handleCloseEditModal}>
                                                 Cancelar
                                             </button>
-                                            <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave}>
+                                            <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave} disabled={!hasChanges}>
                                                 Actualizar
                                             </button>
                                         </div>
