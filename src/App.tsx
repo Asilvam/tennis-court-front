@@ -25,7 +25,6 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
 import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
 import PaymentPending from "./pages/payment/PaymentPending.tsx";
 import AdminCategoriesPlayer from "./components/AdminCategoriesPlayer.tsx";
-import Scoreboard from "./components/Scoreboard.tsx";
 
 const App: React.FC = () => {
        return (
@@ -50,8 +49,8 @@ const App: React.FC = () => {
                                                         element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                                                  <Route path="/profile"
                                                         element={<ProtectedRoute><PlayerProfile /></ProtectedRoute>} />
-                                                 <Route path="/scoreboard"
-                                                        element={<ProtectedRoute><Scoreboard player1={"Player 1"} player2={"Player 2"}/></ProtectedRoute>}/>
+                                                 {/*<Route path="/scoreboard"*/}
+                                                 {/*       element={<ProtectedRoute><Scoreboard player1={"Player 1"} player2={"Player 2"}/></ProtectedRoute>}/>*/}
                                                  <Route path="/myhistory"
                                                         element={<ProtectedRoute><MyHistoryReserve /></ProtectedRoute>} />
                                                  <Route path="/updatematch"
@@ -66,8 +65,10 @@ const App: React.FC = () => {
                                                         element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
                                                  <Route path="/resetpassword"
                                                         element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
-                                                 <Route path="/admincategories"
-                                                        element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>} />
+                                                 <Route
+                                                     path="/admincategories"
+                                                     element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}
+                                                 />
                                                  <Route path="/payment/success" element={<PaymentSuccess />} />
                                                  <Route path="/payment/failure" element={<PaymentFailure />} />
                                                  <Route path="/payment/pending" element={<PaymentPending />} />

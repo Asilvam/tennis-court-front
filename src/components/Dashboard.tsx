@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
 import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock, faExclamationTriangle, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ResultsTicker from './ResultsTicker';
 
@@ -52,7 +52,8 @@ const Dashboard: React.FC = () => {
             const parts = token.split('.');
             if (parts.length !== 3) return null;
             const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(atob(base64));
+            const payload = JSON.parse(atob(base64));
+            return payload;
         } catch {
             return null;
         }
@@ -103,7 +104,7 @@ const Dashboard: React.FC = () => {
     };
 
     const changeDateByDays = (days: number) => {
-        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate() || '1980-01-01' ;
+        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate() ;
         if (newDate >= minDate && newDate <= maxDate) {
             setSelectedDate(newDate);
             setSelectedTimeSlot(null);
@@ -127,7 +128,7 @@ const Dashboard: React.FC = () => {
     };
 
     const handleTimeSlotClick = useCallback(
-        (courtId: string, time: string, isPayed: boolean, available: boolean, _data: string, isBlockedByAdmin: boolean) => {
+        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
             if (isBlockedByAdmin) {
                 /*                 Swal.fire({
                                     icon: 'info',
@@ -195,9 +196,13 @@ const Dashboard: React.FC = () => {
     // }
 
     const fetchData = async () => {
+        try {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
             if (!response.data) throw new Error('No data received');
             setTimeSlots(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const getStateUser = async (email: string): Promise<boolean> => {

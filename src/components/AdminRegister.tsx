@@ -298,13 +298,13 @@ const AdminRegister: React.FC = () => {
             {/* Edit Modal */}
             {isEditModalOpen && (
                 <div className="edit-modal-backdrop" onClick={handleCloseEditModal}>
-                    <div id="editModal" className="edit-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="edit-modal-content">
-                            <div className="edit-modal-header">
+                    <div id="editModal" className="modal edit-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content">
+                            <div className="modal-header">
                                 <FontAwesomeIcon icon={faEdit} />
                                 <h5>Editar Usuario</h5>
                             </div>
-                            <div className="edit-modal-body">
+                            <div className="modal-body">
                                 {editUser && (
                                     <form>
                                         <div className="modal-form-section">

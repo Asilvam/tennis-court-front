@@ -9,20 +9,6 @@ body {
   /* Soft background to make glass pop */
 }
 
-/* Navigation: prevent emoji/text overlap */
-.dropdown-content li > a,
-.sidenav li > a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 1.3;
-  white-space: normal;
-}
-
-.dropdown-content {
-  min-width: 240px;
-}
-
 .app-content-wrapper {
   width: 100%;
   min-height: 100vh;
