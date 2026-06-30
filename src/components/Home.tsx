@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
-import ResultsTicker from './ResultsTicker';
 
 // 1. Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -38,7 +37,7 @@ const Home: React.FC = () => {
     const [infoItems, setInfoItems] = useState(infoItemsInnit);
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    const fetchItems = async () => {
+    const fetchItems = useCallback(async () => {
         try {
             const response = await axios.get<InfoItem[]>(`${apiUrl}/info-items`);
             if (response.data && response.data.length > 0) {
@@ -47,7 +46,7 @@ const Home: React.FC = () => {
         } catch (error) {
             console.error('Error fetching carousel items:', error);
         }
-    };
+    }, [apiUrl]);
 
     useEffect(() => {
         const loadDataAndShowInfo = async () => {
@@ -64,7 +63,7 @@ const Home: React.FC = () => {
         };
 
         loadDataAndShowInfo();
-    }, []);
+    }, [fetchItems]);
 
     return (
         <div className="container">

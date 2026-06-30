@@ -1,0 +1,228 @@
+{
+  "collectedAt": "2026-05-31T07:07:05.313Z",
+  "appUrl": "http://localhost:5173",
+  "iterations": 10,
+  "totalRequests": 20,
+  "summary": {
+    "GET /news-ctq": {
+      "count": 10,
+      "methods": {
+        "GET": 10
+      },
+      "statuses": {
+        "unknown": 10
+      }
+    },
+    "GET /info-items": {
+      "count": 10,
+      "methods": {
+        "GET": 10
+      },
+      "statuses": {
+        "unknown": 10
+      }
+    }
+  },
+  "raw": [
+    {
+      "request": {
+        "id": "request@e725f712bea89f5a5366d5c79b201bf8",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211190761
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@1d337f6aa4a44e452e668a26102bdd71",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211190767
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@d9d89983635081807567b163031dd4f9",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211194759
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@fe777a02bb6261d2e43593e1341e3652",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211194790
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@d8ba51c2630046040d0461b99cf8a041",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211198143
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@b690d3a477cfbe148b909e8068772526",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211198144
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@485bb9f42841b30fac7ccee7d7cc661e",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211201562
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@b60a20c39a372ee6beb9daed6a45db2a",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211201568
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@92948d16a4bd841a86c5de53f700ca53",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211204860
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@aef0e4cf8d76ae7453b4e10adc8fe73f",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211204862
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@8104b856012e36172395424d3e2c4ad3",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211208289
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@310b951dbeb1006251e3a44b7c41beef",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211208303
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@cfd8245d0e17f313e18b380c568c4350",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211211752
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@b7647e79b20cd0d0d15f93e6ebf88cb9",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211211762
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@79a75b1be450dbe9b4ece8bfd91bc081",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211215159
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@520ebe63c6c10393aa65b9799c6faa61",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211215256
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@a121dcc41a928651689196d30a45fbb3",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211218636
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@255b7f3788b28dd1b09f9e4d0e1a5244",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211218638
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@0bb478a13954f04c7b85fe298face723",
+        "url": "http://localhost:3500/news-ctq",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211222159
+      },
+      "response": null
+    },
+    {
+      "request": {
+        "id": "request@b030d4759202532f208bc0f9496be60f",
+        "url": "http://localhost:3500/info-items",
+        "method": "GET",
+        "resourceType": "xhr",
+        "timestamp": 1780211222173
+      },
+      "response": null
+    }
+  ]
+}

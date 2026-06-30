@@ -24,7 +24,7 @@ const InactivityLogout: React.FC = () => {
 
     const resetTimer = useCallback(() => {
         if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(handleLogout, 180000); // 30 segundos para pruebas
+        timerRef.current = setTimeout(handleLogout, 300000); // 5 minutos de inactividad
     }, [handleLogout]);
 
     useEffect(() => {

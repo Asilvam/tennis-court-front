@@ -50,10 +50,11 @@ const Navigation: React.FC = () => {
 
     const navItems = [
         { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
-        // { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
+        { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
         { to: '/ranking', label: 'Ranking CTQ', show: tokenExists },
         { to: '/profile', label: 'Mi Perfil', show: tokenExists },
         { to: '/myhistory', label: 'Mi historial', show: tokenExists },
+        { to: '/pay-monthly', label: 'Pagar Mensualidad', show: tokenExists },
         { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
         { to: '/items', label: 'Admin carrusel', show: tokenExists && isUserRoleAdmin },
@@ -103,7 +104,7 @@ const Navigation: React.FC = () => {
                         <li className="divider"></li>
                         <li>
                             <a href="#!" onClick={handleLogout} className="white-text">
-                                Logout
+                                ⏻ Logout
                             </a>
                         </li>
                     </>
@@ -145,7 +146,7 @@ const Navigation: React.FC = () => {
                 {tokenExists && (
                     <li>
                         <a href="#!" className="white-text" onClick={handleLogout}>
-                            Logout
+                            ⏻ Logout
                         </a>
                     </li>
                 )}

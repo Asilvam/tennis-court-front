@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import '../styles/ResultsTicker.css';
 
 interface Player {
@@ -23,18 +24,16 @@ const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 const ResultsTicker: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [results, setResults] = useState<MatchResult[]>([]);
-
-    useEffect(() => {
-        axios
-            .get<MatchResult[]>(`${apiUrl}/match-ranking`)
-            .then(res => {
-                const cutoff = Date.now() - SEVEN_DAYS_MS;
-                const recent = res.data.filter(r => new Date(r.createdAt).getTime() >= cutoff);
-                setResults(recent);
-            })
-            .catch(() => setResults([]));
-    }, []);
+    
+    const { data: results = [] } = useQuery<MatchResult[]>({
+        queryKey: ['match-ranking'],
+        queryFn: async () => {
+            const res = await axios.get<MatchResult[]>(`${apiUrl}/match-ranking`);
+            const cutoff = Date.now() - SEVEN_DAYS_MS;
+            return res.data.filter(r => new Date(r.createdAt).getTime() >= cutoff);
+        },
+        staleTime: 60000, // 1 minuto
+    });
 
     if (results.length === 0) return null;
 

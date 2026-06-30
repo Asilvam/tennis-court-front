@@ -1,0 +1,391 @@
+/* =========================================
+   TennisScore.css
+   ========================================= */
+
+.tennis-scoreboard-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.scoreboard-header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d2e7f5;
+}
+
+.scoreboard-title {
+    font-weight: 700 !important;
+    color: #0d3b66;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 !important;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+.scoreboard-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.undo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.undo-btn {
+    width: 44px !important;
+    height: 44px !important;
+}
+
+.undo-btn i {
+    line-height: 44px !important;
+    font-size: 1.6rem !important;
+}
+
+.format-btn {
+    border-radius: 20px !important;
+    font-weight: 700 !important;
+    height: 38px !important;
+    line-height: 38px !important;
+    padding: 0 16px !important;
+    font-size: 0.85rem !important;
+}
+
+.scoreboard-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f5fbff;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    background-color: #1f6a96;
+    color: #e6f4ff;
+}
+
+.status-pill:empty {
+    background-color: transparent;
+    color: transparent;
+}
+
+/* --- Diseño de la Tabla (Estilo TV) --- */
+.tennis-table {
+    background-color: #0b2b4a;
+    /* Fondo oscuro tipo transmisión de TV */
+    color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+.tennis-table thead {
+    background-color: #0a2340;
+    border-bottom: 2px solid #5cc8ff;
+    /* Acento celeste */
+}
+
+.tennis-table th {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.tennis-table thead th {
+    padding-top: 4px;
+    padding-bottom: 2px;
+    line-height: 1;
+}
+
+.table-header-editable {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e6f4ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+    min-height: 1.2em;
+    cursor: text;
+}
+
+.table-header-editable:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+}
+
+
+.points-col {
+    width: 95px;
+}
+
+.player-col, .player-cell {
+    text-align: left;
+    min-width: 140px;
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+}
+
+.player-col .table-header-input {
+    padding-left: 0;
+}
+
+/* --- Inputs de Nombres de Jugadores --- */
+.player-input {
+    color: #ffffff !important;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    font-weight: 500;
+    font-size: 1.1rem !important;
+    width: 80% !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.player-input:focus {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    text-overflow: clip;
+}
+
+/* --- Contadores de Sets --- */
+.sets-won {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.set-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #8bdcff;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* --- Juegos Históricos y Actuales --- */
+.current-set {
+    font-size: 1.8rem;
+    font-weight: bold;
+    background-color: #144272;
+}
+
+.past-set {
+    font-size: 1.4rem;
+    color: #c3d8e6;
+}
+
+/* --- Puntos (15, 30, 40) --- */
+.current-points {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #7ad8ff;
+    background-color: #0c2130;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- NUEVO: Puntos de Tiebreak --- */
+.tb-points {
+    color: #9be7ff !important;
+    /* Celeste claro para resaltar el tiebreak */
+    background-color: #0b4a6f !important;
+    /* Fondo azul intenso */
+}
+
+.score-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.score-table-wrap {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.format-btn {
+    border-radius: 20px !important;
+    font-weight: bold !important;
+}
+
+.player-cell-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* --- Área de Controles Inferiores --- */
+.controls-row {
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #d2e7f5;
+}
+
+.control-group h6 {
+    font-weight: 600;
+    color: #2b5876;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.control-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.control-header h6 {
+    margin-bottom: 0;
+    line-height: 1.1;
+    padding-top: 2px;
+}
+
+.control-btn {
+    margin: 0 5px 10px 5px;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+    background-color: #0277bd !important;
+    color: #ffffff !important;
+}
+
+.control-btn:hover,
+.control-btn:focus,
+.control-btn:active {
+    background-color: #0277bd !important;
+    color: #ffffff !important;
+}
+
+.control-btn:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.serving-indicator {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    transition: opacity 0.3s ease;
+    opacity: 0.1;
+}
+
+.serving-indicator.active {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .scoreboard-action-bar {
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+    
+    .status-pill {
+        min-width: 100px;
+        height: 32px;
+        font-size: 0.75rem;
+        padding: 0 10px;
+    }
+
+    .undo-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .undo-btn i {
+        line-height: 36px !important;
+        font-size: 1.3rem !important;
+    }
+
+    .format-btn {
+        height: 34px !important;
+        line-height: 34px !important;
+        font-size: 0.8rem !important;
+        padding: 0 12px !important;
+    }
+
+    .player-col, .player-cell {
+        min-width: 90px;
+        padding-right: 6px !important;
+        padding-left: 6px !important;
+    }
+    
+    .player-input {
+        font-size: 0.9rem !important;
+        width: 85% !important;
+    }
+
+    .table-header-editable {
+        font-size: 0.72rem !important;
+    }
+
+    .sets-won {
+        width: 32px;
+    }
+
+    .set-count {
+        font-size: 1.1rem;
+    }
+
+    .current-set {
+        font-size: 1.2rem;
+    }
+
+    .past-set {
+        font-size: 1.0rem;
+    }
+
+    .points-col, .current-points {
+        width: 50px !important;
+        min-width: 50px !important;
+    }
+
+    .current-points {
+        font-size: 1.2rem;
+    }
+    
+    .tennis-table th {
+        font-size: 0.72rem;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .serving-indicator {
+        font-size: 0.85rem;
+        margin-right: 3px;
+    }
+}

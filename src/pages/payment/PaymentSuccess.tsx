@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useQueryClient } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import AppLoader from '../../components/AppLoader';
@@ -9,6 +10,7 @@ const PaymentSuccess: React.FC = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(true);
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         const processPayment = async () => {
@@ -25,6 +27,8 @@ const PaymentSuccess: React.FC = () => {
             }
             if (status === 'approved') {
                 setIsProcessing(false);
+                await queryClient.invalidateQueries({ queryKey: ['available'] });
+                await queryClient.invalidateQueries({ queryKey: ['activeReserves'] });
                 await Swal.fire({
                     icon: 'success',
                     title: '¡Pago Exitoso!',

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from '@tanstack/react-query';
 import { DateTime } from "luxon";
 import { customStyles } from "../utils/customStyles.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,8 +14,7 @@ import {
     faUsers,
     faMapMarkerAlt,
     faTimes,
-    faTrophy,
-    faLightbulb
+    faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
@@ -50,7 +50,8 @@ interface ReserveFormData {
     isForRanking: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ id: _id, title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
+    const queryClient = useQueryClient();
 
     const initialFormData: ReserveFormData = {
         court: '' + selectedTimeSlot?.courtId,
@@ -243,6 +244,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, play
         const response = await axios.post(`${apiUrl}/court-reserve`, formData);
 
         if (response.status === 200 || response.status === 201) {
+            await queryClient.invalidateQueries({ queryKey: ['available'] });
+            await queryClient.invalidateQueries({ queryKey: ['activeReserves'] });
             await Swal.fire({
                 icon: 'success',
                 title: 'Reserva Lista',

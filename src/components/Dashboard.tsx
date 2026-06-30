@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import '../styles/Dashboard.css';
 import axios from "axios";
+import { useQuery } from '@tanstack/react-query';
 import Modal from './Modal';
 import Swal from "sweetalert2";
 import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
 import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faClock, faExclamationTriangle, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ResultsTicker from './ResultsTicker';
 
@@ -30,11 +31,30 @@ interface CourtType {
     slots: TimeSlotType[];
 }
 
+const decodeJwtPayload = (token: string): { exp?: number } | null => {
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(atob(base64));
+        return payload;
+    } catch {
+        return null;
+    }
+};
+
+const isTokenExpired = (token: string): boolean => {
+    const payload = decodeJwtPayload(token);
+    if (!payload?.exp) return true;
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    return payload.exp <= nowInSeconds;
+};
+
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const userInfo = getUserInfoFromLocalStorage();
     const namePlayer = userInfo?.name || '';
-    const [timeSlots, setTimeSlots] = useState<CourtType[]>([]);
+    // timeSlots is now provided by React Query (availableQuery)
     const [selectedDate, setSelectedDate] = useState<string>(DateTime.now().toISODate());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
         courtId: string;
@@ -44,29 +64,9 @@ const Dashboard: React.FC = () => {
         isPayed: boolean;
     } | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [playersNames, setPlayersNames] = useState<string[]>([]);
-    const [activeReserve, setActiveReserve] = useState<CourtReserve[] | null>(null);
+    // playersNames will be read directly from playersNamesQuery.data
 
-    const decodeJwtPayload = (token: string): { exp?: number } | null => {
-        try {
-            const parts = token.split('.');
-            if (parts.length !== 3) return null;
-            const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-            const payload = JSON.parse(atob(base64));
-            return payload;
-        } catch {
-            return null;
-        }
-    };
-
-    const isTokenExpired = (token: string): boolean => {
-        const payload = decodeJwtPayload(token);
-        if (!payload?.exp) return true;
-        const nowInSeconds = Math.floor(Date.now() / 1000);
-        return payload.exp <= nowInSeconds;
-    };
-
-    const forceLogoutToLogin = async () => {
+    const forceLogoutToLogin = useCallback(async () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userInfo');
         await Swal.fire({
@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
             confirmButtonColor: '#1e88e5',
         });
         navigate('/login', { replace: true });
-    };
+    }, [navigate]);
 
     let minDate = DateTime.now().toISODate();
     let maxDate = DateTime.now().plus({ days: 2 }).toISODate();
@@ -127,61 +127,31 @@ const Dashboard: React.FC = () => {
         setSelectedTimeSlot(null);
     };
 
-    const handleTimeSlotClick = useCallback(
-        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
-            if (isBlockedByAdmin) {
-                /*                 Swal.fire({
-                                    icon: 'info',
-                                    title: 'Horario Bloqueado',
-                                    html: `Motivo<br><strong>${data}</strong>`,
-                                    confirmButtonColor: '#1e88e5',
-                                }); */
-                return;
-            }
-            // If the slot is not available, do nothing. The user can already see the details.
-            if (!available) {
-                return;
-            }
-            if (activeReserve) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Información',
-                    text: 'Ya tienes una reserva activa.',
-                    confirmButtonColor: '#1e88e5',
-                });
-                return;
-            }
-            const timeSlot = { courtId, time, date: selectedDate, player1: namePlayer, isPayed };
-            setSelectedTimeSlot(timeSlot);
-            handleOpenModal(timeSlot);
+    // handleTimeSlotClick moved below so it can safely reference query results
+
+
+    // React Query: playersNames and active reserves
+    const playersNamesQuery = useQuery({
+        queryKey: ['playersNames'],
+        queryFn: async () => {
+            const res = await axios.get(`${apiUrl}/register/names`, { headers: { Authorization: `Bearer ${token}` } });
+            return Array.isArray(res.data) ? res.data.filter((n: string) => n !== namePlayer) : [];
         },
-        [selectedDate, namePlayer, activeReserve]
-    );
+        enabled: !!token,
+    });
 
-
-    const getPlayersNames = async () => {
-        const playersNames = await axios.get(`${apiUrl}/register/names`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const namesWithoutMe = () => {
-            return playersNames.data.filter((name: string) => name !== namePlayer);
-        }
-        setPlayersNames(namesWithoutMe);
-    }
-
-    const getActiveReserves = async () => {
-        const url = `${apiUrl}/court-reserve/active/${namePlayer}`;
-        const headers = { Authorization: `Bearer ${token}` };
-        try {
-            const { data } = await axios.get(url, { headers });
-            setActiveReserve(data);
-        } catch (error) {
-            console.error("Error fetching active reserves:", error);
-            setActiveReserve(null);
-        }
-    };
+    const activeReservesQuery = useQuery({
+        queryKey: ['activeReserves', namePlayer],
+        queryFn: async () => {
+            const url = `${apiUrl}/court-reserve/active/${namePlayer}`;
+            const { data } = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+            return data;
+        },
+        enabled: !!namePlayer && !!token,
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000, // 5 minutes
+        refetchOnWindowFocus: false,
+    });
 
     // const getActiveNigthsLigths = async () => {
     //     const url = `${apiUrl}/register/active/${namePlayer}`;
@@ -195,47 +165,89 @@ const Dashboard: React.FC = () => {
     //     }
     // }
 
-    const fetchData = async () => {
-        try {
+    const availableQuery = useQuery({
+        queryKey: ['available', selectedDate],
+        queryFn: async () => {
             const response = await axios.get<CourtType[]>(`${apiUrl}/court-reserve/available/${selectedDate}`);
-            if (!response.data) throw new Error('No data received');
-            setTimeSlots(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+            return response.data || [];
+        },
+        enabled: !!selectedDate,
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+    });
 
-    const getStateUser = async (email: string): Promise<boolean> => {
-        try {
-            const { data } = await axios.post(
-                `${apiUrl}/auth/checkBlocked`,
-                { email },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+    // handleTimeSlotClick references activeReservesQuery at runtime to decide whether to allow creating a new reservation
+    const handleTimeSlotClick = useCallback(
+        (courtId: string, time: string, isPayed: boolean, available: boolean, data: string, isBlockedByAdmin: boolean) => {
+            if (isBlockedByAdmin) return;
+            if (!available) return;
+            const hasActive = (activeReservesQuery?.data && activeReservesQuery.data.length > 0) || false;
+            if (hasActive) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Información',
+                    text: 'Ya tienes una reserva activa.',
+                    confirmButtonColor: '#1e88e5',
+                });
+                return;
+            }
+            const timeSlot = { courtId, time, date: selectedDate, player1: namePlayer, isPayed };
+            setSelectedTimeSlot(timeSlot);
+            handleOpenModal(timeSlot);
+        },
+        [selectedDate, namePlayer, activeReservesQuery?.data]
+    );
 
-            return typeof data === 'boolean' ? data : Boolean(data?.blocked);
-        } catch (error) {
-            console.error('Error validando estado del usuario:', error);
-            return false;
-        }
-    };
+    // checkBlocked as a cached query to avoid re-checking on every date change
+    const checkBlockedQuery = useQuery({
+        queryKey: ['checkBlocked', userInfo?.email],
+        queryFn: async () => {
+            if (!userInfo?.email) return false;
+            try {
+                const { data } = await axios.post(
+                    `${apiUrl}/auth/checkBlocked`,
+                    { email: userInfo.email },
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                return typeof data === 'boolean' ? data : Boolean(data?.blocked);
+            } catch (error) {
+                console.error('Error validando estado del usuario:', error);
+                return false;
+            }
+        },
+        enabled: !!userInfo?.email && !!token,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000,
+        refetchOnWindowFocus: false,
+    });
 
+
+    // playersNamesQuery.data will be used directly where needed
 
     useEffect(() => {
-        getPlayersNames();
-    }, []);
+        const currentToken = getTokenFromLocalStorage();
+        if (!currentToken || isTokenExpired(currentToken)) {
+            void forceLogoutToLogin();
+        }
+    }, [forceLogoutToLogin]);
 
+    // Show loading modal while any of the important queries are loading
     useEffect(() => {
-    const currentToken = getTokenFromLocalStorage();
-    if (!currentToken || isTokenExpired(currentToken)) {
-        void forceLogoutToLogin();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+        const anyLoading = availableQuery?.isLoading || activeReservesQuery?.isLoading || playersNamesQuery?.isLoading;
+        if (anyLoading) {
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Buscando horarios disponibles.',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+            });
+        } else {
+            Swal.close();
+        }
+    }, [availableQuery?.isLoading, activeReservesQuery?.isLoading, playersNamesQuery?.isLoading]);
 
     useEffect(() => {
         const currentToken = getTokenFromLocalStorage();
@@ -244,45 +256,23 @@ const Dashboard: React.FC = () => {
             return;
         }
 
-        const loadDashboardData = async () => {
-            if (!userInfo?.email) {
-                return;
-            }
+        // Use cached query value to decide whether to logout the user
+        const isBlocked = checkBlockedQuery.data;
+        if (isBlocked) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userInfo');
 
-            const isBlocked = await getStateUser(userInfo.email);
-
-            if (isBlocked) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userInfo');
-
+            (async () => {
                 await Swal.fire({
                     icon: 'warning',
                     title: 'Usuario bloqueado',
                     text: 'Tu cuenta fue bloqueada. Debes iniciar sesión nuevamente.',
                     confirmButtonColor: '#1e88e5',
                 });
-
                 navigate('/login', { replace: true });
-                return;
-            }
-
-            Swal.fire({
-                title: 'Cargando...',
-                text: 'Buscando horarios disponibles.',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-            });
-
-            await Promise.all([
-                fetchData(),
-                getActiveReserves(),
-            ]);
-
-            Swal.close();
-        };
-
-        void loadDashboardData();
-    }, [selectedDate]);
+            })();
+        }
+    }, [selectedDate, userInfo?.email, forceLogoutToLogin, checkBlockedQuery.data, navigate]);
 
 
     return (
@@ -326,7 +316,7 @@ const Dashboard: React.FC = () => {
             {/* Alerts Section */}
             <ResultsTicker />
             <div className="alerts-section">
-                {activeReserve && (
+                {(activeReservesQuery.data && activeReservesQuery.data.length > 0) && (
                     <div className="alert-card warning">
                         <div className="alert-icon">
                             <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -334,9 +324,9 @@ const Dashboard: React.FC = () => {
                         <div className="alert-content">
                             <h6>¡Tienes una reserva activa!</h6>
                             <div className="reserve-details">
-                                <span><strong>🏟️ Cancha:</strong> {activeReserve[0]?.court.replace('Cancha ', '')}</span>
-                                <span><strong>📅 Fecha:</strong> {DateTime.fromISO(activeReserve[0]?.dateToPlay).toFormat('dd/MM')}</span>
-                                <span><strong>⏰ Turno:</strong> {activeReserve[0]?.turn}</span>
+                                 <span><strong>🏟️ Cancha:</strong> {activeReservesQuery.data[0]?.court.replace('Cancha ', '')}</span>
+                                 <span><strong>📅 Fecha:</strong> {DateTime.fromISO(activeReservesQuery.data[0]?.dateToPlay).toFormat('dd/MM')}</span>
+                                 <span><strong>⏰ Turno:</strong> {activeReservesQuery.data[0]?.turn}</span>
                             </div>
                         </div>
                     </div>
@@ -356,9 +346,9 @@ const Dashboard: React.FC = () => {
 
             {/* Time Slots Grid */}
             <div className="slots-grid">
-                {timeSlots.map((timeSlot, index) => {
-                    const allAvailable = timeSlot.slots.every(slot => slot.available);
-                    return (
+            {(availableQuery.data || []).map((timeSlot, index) => {
+                const allAvailable = timeSlot.slots.every(slot => slot.available);
+                return (
                         <div key={index} className="time-row">
                             <div className="time-label">
                                 <FontAwesomeIcon icon={faClock} className="mr-1" />
@@ -398,7 +388,7 @@ const Dashboard: React.FC = () => {
                     title="Reserva de Cancha"
                     isOpen={isModalOpen}
                     selectedTimeSlot={selectedTimeSlot}
-                    playersNames={playersNames}
+                    playersNames={(playersNamesQuery.data as string[]) || []}
                     onClose={handleCloseModal}
                 />
             )}

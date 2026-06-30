@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 // import {faTrash, faEye, faPencilAlt} from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +30,7 @@ interface Reservation {
 }
 
 const MyHistoryReserve: React.FC = () => {
+    const queryClient = useQueryClient();
     const [reserves, setReserves] = useState<Reservation[]>([]);
     const userInfo = getUserInfoFromLocalStorage();
     const token = getTokenFromLocalStorage();
@@ -39,11 +41,27 @@ const MyHistoryReserve: React.FC = () => {
     const currentTime = DateTime.now().setZone(timezone); // Current time in the specified timezone
     const today = currentTime.startOf('day');
 
+    const fetchReserves = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setReserves(response.data);
+        } catch (error) {
+            console.error('Error fetching history:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [apiUrl, namePlayer, token]);
+
     useEffect(() => {
         fetchReserves();
         const elems = document.querySelectorAll('.modal');
         M.Modal.init(elems);
-    }, []);
+    }, [fetchReserves]);
 
     const isOkToDelete = (reserve: Reservation): boolean => {
         if (!reserve.state) {
@@ -56,23 +74,8 @@ const MyHistoryReserve: React.FC = () => {
         const isBeforeTimeRange = currentTime < startTime;
         const isFutureDate = reservationDate > today;
         return (isToday && isBeforeTimeRange) || isFutureDate;
-    }
-
-    const fetchReserves = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setReserves(response.data);
-        } catch (error) {
-            console.error('Error fetching reservation data:', error);
-        } finally {
-            setLoading(false);
-        }
     };
+
 
     const handleView = (reserve: Reservation) => {
         const courtNumber = reserve.court.replace(/\D/g, '');
@@ -128,6 +131,8 @@ const MyHistoryReserve: React.FC = () => {
                     },
                 });
                 if (response.status === 200) {
+                    await queryClient.invalidateQueries({ queryKey: ['available'] });
+                    await queryClient.invalidateQueries({ queryKey: ['activeReserves'] });
                     // Show a success message if deletion is successful
                     Swal.fire({
                         icon: 'success',

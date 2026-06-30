@@ -1,5 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, useMemo, ChangeEvent } from 'react';
 import axios from 'axios';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -88,74 +89,97 @@ const PlayerProfile: React.FC = () => {
     const userInfo = getUserInfoFromLocalStorage();
     const emailPlayer = userInfo?.email || '';
     const apiUrl = import.meta.env.VITE_API_URL;
+    const queryClient = useQueryClient();
 
-    // Profile
-    const [player, setPlayer] = useState<PlayerProfileData | null>(null);
+    // Image state
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>('/images/profile-avatar.png');
     const [uploading, setUploading] = useState(false);
 
-    // Ranking
-    const [allCategories, setAllCategories] = useState<CategoryRank[]>([]);
-
-    // Match history
-    const [matchHistory, setMatchHistory] = useState<MatchResult[]>([]);
-
-    // UI
-    const [loading, setLoading] = useState(true);
+    // UI State
     const [activeTab, setActiveTab] = useState<'singles' | 'doubles'>('singles');
 
-    // ─── Fetch ──────────────────────────────────────────────────────────────
+    // ─── Fetch Queries using React Query ─────────────────────────────────────
+    
+    const { data: player, isLoading: profileLoading, error: profileError } = useQuery<PlayerProfileData>({
+        queryKey: ['profile', emailPlayer],
+        queryFn: async () => {
+            const res = await axios.get<PlayerProfileData>(`${apiUrl}/register/profile/${emailPlayer}`);
+            return res.data;
+        },
+        staleTime: 30000,
+        enabled: !!emailPlayer,
+    });
 
+    const { data: rankingData, isLoading: rankingLoading, error: rankingError } = useQuery<Record<string, RankingPlayer[]>>({
+        queryKey: ['ranking'],
+        queryFn: async () => {
+            const res = await axios.get<Record<string, RankingPlayer[]>>(`${apiUrl}/match-ranking/ranking`);
+            return res.data;
+        },
+        staleTime: 30000,
+    });
+
+    const { data: matchHistory = [], isLoading: historyLoading, error: historyError } = useQuery<MatchResult[]>({
+        queryKey: ['history', emailPlayer],
+        queryFn: async () => {
+            const res = await axios.get<MatchResult[]>(`${apiUrl}/match-ranking/history/${emailPlayer}`);
+            return res.data || [];
+        },
+        staleTime: 30000,
+        enabled: !!emailPlayer,
+    });
+
+    // ─── Local State Sync ───────────────────────────────────────────────────
+
+    // Sync imagePreview with player image when loaded
     useEffect(() => {
-        const fetchAll = async () => {
-            try {
-                const [profileRes, rankingRes, historyRes] = await Promise.all([
-                    axios.get<PlayerProfileData>(`${apiUrl}/register/profile/${emailPlayer}`),
-                    axios.get<Record<string, RankingPlayer[]>>(`${apiUrl}/match-ranking/ranking`),
-                    axios.get<MatchResult[]>(`${apiUrl}/match-ranking/history/${emailPlayer}`),
-                ]);
+        if (player?.imageUrlProfile) {
+            setImagePreview(player.imageUrlProfile);
+        } else {
+            setImagePreview('/images/profile-avatar.png');
+        }
+    }, [player?.imageUrlProfile]);
 
-                const profileData = profileRes.data;
-                setPlayer(profileData);
+    // Handle Errors
+    useEffect(() => {
+        const error = profileError || rankingError || historyError;
+        if (error) {
+            logger.error('Error fetching player profile data:', error);
+            Swal.fire('Error', 'No se pudo cargar la información del perfil.', 'error');
+        }
+    }, [profileError, rankingError, historyError]);
 
-                if (profileData.imageUrlProfile) {
-                    setImagePreview(profileData.imageUrlProfile);
-                }
+    // Derived Categories Rank
+    const allCategories = useMemo<CategoryRank[]>(() => {
+        if (!rankingData) return [];
+        const cats: CategoryRank[] = [];
 
-                // Build category ranks from the full ranking object
-                const rankingsData = rankingRes.data;
-                const cats: CategoryRank[] = [];
-
-                Object.entries(rankingsData).forEach(([categoryName, players]) => {
-                    const found = players.find(p => p.id === emailPlayer);
-                    if (found) {
-                        cats.push({
-                            category: categoryName,
-                            points: found.puntos,
-                            rank: found.rank,
-                            isActive: true,
-                        });
-                    }
+        Object.entries(rankingData).forEach(([categoryName, players]) => {
+            const found = players.find(p => p.id === emailPlayer);
+            if (found) {
+                cats.push({
+                    category: categoryName,
+                    points: found.puntos,
+                    rank: found.rank,
+                    isActive: true,
                 });
-
-                setAllCategories(cats);
-                setMatchHistory(historyRes.data || []);
-
-                // Default tab: if player only has doubles categories, open doubles
-                const hasSingles = cats.some(c => !isDoublesCategory(c.category));
-                if (!hasSingles && cats.length > 0) setActiveTab('doubles');
-
-            } catch (error) {
-                logger.error('Error fetching player profile:', error);
-                Swal.fire('Error', 'No se pudo cargar la información del perfil.', 'error');
-            } finally {
-                setLoading(false);
             }
-        };
+        });
+        return cats;
+    }, [rankingData, emailPlayer]);
 
-        fetchAll();
-    }, [apiUrl, emailPlayer]);
+    // Default tab setup on load
+    useEffect(() => {
+        if (allCategories.length > 0) {
+            const hasSingles = allCategories.some(c => !isDoublesCategory(c.category));
+            if (!hasSingles) {
+                setActiveTab('doubles');
+            }
+        }
+    }, [allCategories]);
+
+    const loading = profileLoading || rankingLoading || historyLoading;
 
     // ─── Image upload ────────────────────────────────────────────────────────
 
@@ -188,8 +212,8 @@ const PlayerProfile: React.FC = () => {
             const imageUrlProfile: string = cloudinaryResponse.data.imageUrl;
 
             await axios.patch(`${apiUrl}/register/${emailPlayer}`, { imageUrlProfile });
-
-            setPlayer(prev => prev ? { ...prev, imageUrlProfile } : null);
+            
+            await queryClient.invalidateQueries({ queryKey: ['profile', emailPlayer] });
             Swal.fire('¡Éxito!', 'Tu foto de perfil ha sido actualizada.', 'success');
             setImageFile(null);
         } catch (error) {

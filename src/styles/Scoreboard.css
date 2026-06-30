@@ -1,0 +1,8 @@
+.scoreboard h5 {
+  margin-top: 0;
+}
+
+.scoreboard .striped th,
+.scoreboard .striped td {
+  vertical-align: middle;
+}

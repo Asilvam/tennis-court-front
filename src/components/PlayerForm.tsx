@@ -70,15 +70,6 @@ const PlayerForm: React.FC = () => {
         }
     };
 
-    const handlePartnerTypeChange = (selectedOption: SingleValue<PartnerOption>) => {
-        setFormData(prevState => ({
-            ...prevState,
-            partnerType: selectedOption ? selectedOption.value : ''
-        }));
-        if (errors.partnerType) {
-            setErrors(prev => ({ ...prev, partnerType: undefined }));
-        }
-    };
 
     const validateEmail = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -129,7 +120,7 @@ const PlayerForm: React.FC = () => {
             return setGenerateLoading(false);
         }
 
-        const { retypePwd, ...formDataToSend } = formData;
+        const { retypePwd: _, ...formDataToSend } = formData;
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formDataToSend);
@@ -141,7 +132,7 @@ const PlayerForm: React.FC = () => {
             });
 
             clearForm();
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 const status = error.response?.status;
                 const message = error.response?.data?.message || '';

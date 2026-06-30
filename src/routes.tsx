@@ -11,13 +11,14 @@ import MyHistoryReserve from "./components/MyHistoryReserve.tsx";
 import ImageUploadForm from "./components/ImageUploadForm.tsx";
 import AdminReserves from "./components/AdminReserves.tsx";
 import MatchResultUpdate from "./components/MatchResultUpdate.tsx";
-// import Scoreboard from "./components/Scoreboard.tsx";
 import MultipleBookingForm from "./components/MultipleBookingForm.tsx";
 import PlayerProfile from "./components/PlayerProfile.tsx";
 import AdminCategoriesPlayer from "./components/AdminCategoriesPlayer.tsx";
 import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
 import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
 import PaymentPending from "./pages/payment/PaymentPending.tsx";
+import TennisScoreboard from "./components/TennisScoreboard.tsx";
+import PayMonthCtq from "./components/PayMonthCtq.tsx";
 
 const Router: React.FC = () => {
     return (
@@ -26,7 +27,7 @@ const Router: React.FC = () => {
             <Route path="/login" element={<Login/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/profile" element={<PlayerProfile/>}/>
-            {/*<Route path="/scoreboard" element={<Scoreboard player1={"Player 1"} player2={"Player 2"}/>}/>*/}
+            <Route path="/scoreboard" element={<TennisScoreboard/>}/>
             <Route path="/register" element={<PlayerForm/>}/>
             <Route path="/adminregister" element={<AdminRegister/>}/>
             <Route path="/admincategories" element={<AdminCategoriesPlayer/>}/>
@@ -34,6 +35,7 @@ const Router: React.FC = () => {
             <Route path="/adminreserves" element={<AdminReserves/>}/>
             <Route path="/summary" element={<ReservationSummary/>}/>
             <Route path="/myhistory" element={<MyHistoryReserve/>}/>
+            <Route path="/pay-monthly" element={<PayMonthCtq/>}/>
             <Route path="/updatematch" element={<MatchResultUpdate/>}/>
             <Route path="/multibooking" element={<MultipleBookingForm/>}/>
             {/* Rutas de callbacks de pago */}

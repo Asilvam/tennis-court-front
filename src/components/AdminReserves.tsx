@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useQueryClient } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import AppLoader from './AppLoader';
@@ -16,11 +17,12 @@ interface Reserve {
 }
 
 const AdminReserves: React.FC = () => {
+    const queryClient = useQueryClient();
     const apiUrl = import.meta.env.VITE_API_URL;
     const [reserves, setReserves] = useState<Reserve[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchReserves = async () => {
+    const fetchReserves = useCallback(async () => {
         try {
             const response = await axios.get<Reserve[]>(`${apiUrl}/court-reserve`);
             setReserves(response.data);
@@ -29,7 +31,7 @@ const AdminReserves: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [apiUrl]);
 
     const handleDelete = async (reserveId: string) => {
         const confirm = await Swal.fire({
@@ -46,6 +48,8 @@ const AdminReserves: React.FC = () => {
         if (confirm.isConfirmed) {
             try {
                 await axios.delete(`${apiUrl}/court-reserve/${reserveId}`);
+                await queryClient.invalidateQueries({ queryKey: ['available'] });
+                await queryClient.invalidateQueries({ queryKey: ['activeReserves'] });
                 setReserves(prev => prev.filter(r => r.idCourtReserve !== reserveId));
                 Swal.fire({ icon: 'success', title: 'Eliminada', text: 'La reserva fue eliminada correctamente.', confirmButtonColor: '#1565c0' });
             } catch (error) {
@@ -57,7 +61,7 @@ const AdminReserves: React.FC = () => {
 
     useEffect(() => {
         fetchReserves();
-    }, []);
+    }, [fetchReserves]);
 
     if (loading) return <AppLoader text="Cargando reservas..." />;
 

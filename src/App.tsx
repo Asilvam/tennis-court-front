@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './components/AuthContext.tsx';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './queryClient';
 import Login from './components/Login.tsx';
 import Dashboard from './components/Dashboard.tsx';
 import Home from './components/Home.tsx';
@@ -25,61 +27,67 @@ import PaymentSuccess from "./pages/payment/PaymentSuccess.tsx";
 import PaymentFailure from "./pages/payment/PaymentFailure.tsx";
 import PaymentPending from "./pages/payment/PaymentPending.tsx";
 import AdminCategoriesPlayer from "./components/AdminCategoriesPlayer.tsx";
+import TennisScoreboard from "./components/TennisScoreboard.tsx";
+import PayMonthCtq from "./components/PayMonthCtq.tsx";
 
 const App: React.FC = () => {
        return (
-              <AuthProvider>
-                     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-                            <InactivityLogout /> {/* Auto logout component */}
-                            <div>
-                                   <Navigation />
-                                   <div className="app-content-wrapper">
-                                          <Routes>
-                                                 <Route path="/"
-                                                        element={<Home />} />
-                                                 <Route path="/login"
-                                                        element={<Login />} />
-                                                 <Route path="/register"
-                                                        element={<PlayerForm />} />
-                                                 <Route path="/summary"
-                                                        element={<ReservationSummary />} />
-                                                 <Route path="/ranking"
-                                                        element={<Ranking />} />
-                                                 <Route path="/dashboard"
-                                                        element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                                                 <Route path="/profile"
-                                                        element={<ProtectedRoute><PlayerProfile /></ProtectedRoute>} />
-                                                 {/*<Route path="/scoreboard"*/}
-                                                 {/*       element={<ProtectedRoute><Scoreboard player1={"Player 1"} player2={"Player 2"}/></ProtectedRoute>}/>*/}
-                                                 <Route path="/myhistory"
-                                                        element={<ProtectedRoute><MyHistoryReserve /></ProtectedRoute>} />
-                                                 <Route path="/updatematch"
-                                                        element={<ProtectedRoute><MatchResultUpdate /></ProtectedRoute>} />
-                                                 <Route path="/adminregister"
-                                                        element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
-                                                 <Route path="/items"
-                                                        element={<ProtectedRoute adminOnly={true}><ImageUploadForm /></ProtectedRoute>} />
-                                                 <Route path="/adminreserves"
-                                                        element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
-                                                 <Route path="/multibooking"
-                                                        element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
-                                                 <Route path="/resetpassword"
-                                                        element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
-                                                 <Route
-                                                     path="/admincategories"
-                                                     element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}
-                                                 />
-                                                 <Route path="/payment/success" element={<PaymentSuccess />} />
-                                                 <Route path="/payment/failure" element={<PaymentFailure />} />
-                                                 <Route path="/payment/pending" element={<PaymentPending />} />
-                                                 {/* Unauthorized access page */}
-                                                 <Route path="/unauthorized" element={<Unauthorized />} />
-                                                 <Route path="*" element={<NotFound />} />
-                                          </Routes>
+              <QueryClientProvider client={queryClient}>
+                     <AuthProvider>
+                            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                                   <InactivityLogout /> {/* Auto logout component */}
+                                   <div>
+                                          <Navigation />
+                                          <div className="app-content-wrapper">
+                                                 <Routes>
+                                                        <Route path="/"
+                                                               element={<Home />} />
+                                                        <Route path="/login"
+                                                               element={<Login />} />
+                                                        <Route path="/register"
+                                                               element={<PlayerForm />} />
+                                                        <Route path="/summary"
+                                                               element={<ReservationSummary />} />
+                                                        <Route path="/ranking"
+                                                               element={<Ranking />} />
+                                                        <Route path="/dashboard"
+                                                               element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                                                        <Route path="/profile"
+                                                               element={<ProtectedRoute><PlayerProfile /></ProtectedRoute>} />
+                                                        <Route path="/scoreboard"
+                                                               element={<ProtectedRoute><TennisScoreboard /></ProtectedRoute>} />
+                                                        <Route path="/myhistory"
+                                                               element={<ProtectedRoute><MyHistoryReserve /></ProtectedRoute>} />
+                                                        <Route path="/pay-monthly"
+                                                               element={<ProtectedRoute><PayMonthCtq /></ProtectedRoute>} />
+                                                        <Route path="/updatematch"
+                                                               element={<ProtectedRoute><MatchResultUpdate /></ProtectedRoute>} />
+                                                        <Route path="/adminregister"
+                                                               element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
+                                                        <Route path="/items"
+                                                               element={<ProtectedRoute adminOnly={true}><ImageUploadForm /></ProtectedRoute>} />
+                                                        <Route path="/adminreserves"
+                                                               element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
+                                                        <Route path="/multibooking"
+                                                               element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
+                                                        <Route path="/resetpassword"
+                                                               element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
+                                                        <Route
+                                                            path="/admincategories"
+                                                            element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}
+                                                        />
+                                                        <Route path="/payment/success" element={<PaymentSuccess />} />
+                                                        <Route path="/payment/failure" element={<PaymentFailure />} />
+                                                        <Route path="/payment/pending" element={<PaymentPending />} />
+                                                        {/* Unauthorized access page */}
+                                                        <Route path="/unauthorized" element={<Unauthorized />} />
+                                                        <Route path="*" element={<NotFound />} />
+                                                 </Routes>
+                                          </div>
                                    </div>
-                            </div>
-                     </Router>
-              </AuthProvider>
+                            </Router>
+                     </AuthProvider>
+              </QueryClientProvider>
        );
 };
 
