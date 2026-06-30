@@ -30,11 +30,9 @@ const AdminCategoriesPlayer: React.FC = () => {
     const [searchParams] = useSearchParams();
     const preselectedEmail = searchParams.get('email');
 
-    const [players, setPlayers] = useState<PlayerOption[]>([]);
     const [selectedPlayer, setSelectedPlayer] = useState<PlayerOption | null>(null);
     const [categories, setCategories] = useState<PlayerCategoryPoints[]>([]);
     const [originalCategories, setOriginalCategories] = useState<PlayerCategoryPoints[]>([]);
-    const [loadingPlayers, setLoadingPlayers] = useState(false);
     const [loadingCategories, setLoadingCategories] = useState(false);
     const [saving, setSaving] = useState(false);
 
@@ -46,14 +44,12 @@ const AdminCategoriesPlayer: React.FC = () => {
 
     useEffect(() => {
         const loadPlayers = async () => {
-            setLoadingPlayers(true);
             try {
                 const { data } = await axios.get(`${apiUrl}/register`);
                 const options: PlayerOption[] = (data ?? []).map((u: { email: string; namePlayer: string }) => ({
                     value: u.email,
                     label: u.namePlayer,
                 }));
-                setPlayers(options);
 
                 if (preselectedEmail) {
                     const match = options.find((o) => o.value === preselectedEmail);
@@ -62,8 +58,6 @@ const AdminCategoriesPlayer: React.FC = () => {
             } catch (error) {
                 console.error(error);
                 Swal.fire('Error', 'No se pudo cargar la lista de jugadores.', 'error');
-            } finally {
-                setLoadingPlayers(false);
             }
         };
         void loadPlayers();

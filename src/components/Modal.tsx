@@ -13,14 +13,12 @@ import {
     faUsers,
     faMapMarkerAlt,
     faTimes,
-    faTrophy,
-    faLightbulb
+    faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
 
 interface ModalProps {
-    id: string;
     title: string;
     isOpen: boolean;
     selectedTimeSlot: {
@@ -50,7 +48,7 @@ interface ReserveFormData {
     isForRanking: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
 
     const initialFormData: ReserveFormData = {
         court: '' + selectedTimeSlot?.courtId,

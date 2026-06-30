@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
-import ResultsTicker from './ResultsTicker';
 
 // 1. Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';

@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
 import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock, faExclamationTriangle, faBolt, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faClock, faExclamationTriangle, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ResultsTicker from './ResultsTicker';
 
@@ -394,7 +394,6 @@ const Dashboard: React.FC = () => {
 
             {isModalOpen && (
                 <Modal
-                    id="timeSlotModal"
                     title="Reserva de Cancha"
                     isOpen={isModalOpen}
                     selectedTimeSlot={selectedTimeSlot}

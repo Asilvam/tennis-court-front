@@ -1,7 +1,6 @@
 
 import React, { useState, ChangeEvent, FormEvent, Fragment, useRef } from 'react';
 import axios from 'axios';
-import { SingleValue } from 'react-select';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MdPerson, MdPersonAdd, MdArrowBack } from "react-icons/md";
@@ -28,16 +27,6 @@ const initialFormData: FormData = {
     urlEmail: `${import.meta.env.VITE_API_URL}/auth`,
     partnerType: 'Titular',
 };
-
-interface PartnerOption {
-    value: 'Titular' | 'Familiar';
-    label: string;
-}
-
-// const partnerTypeOptions: readonly PartnerOption[] = [
-//     { value: 'Titular', label: 'Socio Titular' },
-//     { value: 'Familiar', label: 'Socio Familiar' }
-// ];
 
 interface FormErrors {
     email?: string;
@@ -67,16 +56,6 @@ const PlayerForm: React.FC = () => {
         }
         if (name === "pwd" || name === "retypePwd") {
             setErrors(prev => ({ ...prev, password: undefined }));
-        }
-    };
-
-    const handlePartnerTypeChange = (selectedOption: SingleValue<PartnerOption>) => {
-        setFormData(prevState => ({
-            ...prevState,
-            partnerType: selectedOption ? selectedOption.value : ''
-        }));
-        if (errors.partnerType) {
-            setErrors(prev => ({ ...prev, partnerType: undefined }));
         }
     };
 
@@ -129,7 +108,14 @@ const PlayerForm: React.FC = () => {
             return setGenerateLoading(false);
         }
 
-        const { retypePwd, ...formDataToSend } = formData;
+        const formDataToSend = {
+            namePlayer: formData.namePlayer,
+            email: formData.email,
+            cellular: formData.cellular,
+            pwd: formData.pwd,
+            urlEmail: formData.urlEmail,
+            partnerType: formData.partnerType,
+        };
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formDataToSend);
@@ -141,7 +127,7 @@ const PlayerForm: React.FC = () => {
             });
 
             clearForm();
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 const status = error.response?.status;
                 const message = error.response?.data?.message || '';
