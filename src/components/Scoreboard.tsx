@@ -11,7 +11,6 @@ type Player = {
     games: number;
     sets: number;
     tiebreak: number;
-    lastSet: string | null;
 };
 
 type ScoreboardProps = {
@@ -21,35 +20,33 @@ type ScoreboardProps = {
 
 const tennisScores: Score[] = ["0", "15", "30", "40"];
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ player1 , player2}) => {
     const initialPlayers: { p1: Player; p2: Player } = {
-        p1: { name: player1, score: "0", games: 0, sets: 0, tiebreak: 0, lastSet: null },
-        p2: { name: player2, score: "0", games: 0, sets: 0, tiebreak: 0, lastSet: null },
+        p1: { name: player1, score: "0", games: 0, sets: 0, tiebreak: 0 },
+        p2: { name: player2, score: "0", games: 0, sets: 0, tiebreak: 0 },
     };
 
     const [isResetEnabled, setIsResetEnabled] = useState<boolean>(false); // Estado para habilitar/deshabilitar
     const [isPlayer1Serving, setIsPlayer1Serving] = useState<boolean>(true); // true significa que Player 1 sirve
-    const [tieBreakEnabled, setTieBreakEnabled] = useState(false);
+    const [TieBreakCheckEnabled, setTieBreakCheckEnabled] = useState(false);
     // const [isSuperTiebreakEnabled, setIsSuperTiebreakEnabled] = useState(false);
     const [isTieBreak, setIsTieBreak] = useState(false);
-    const [tieBreakStartServer, setTieBreakStartServer] = useState<boolean | null>(null);
 
     const [players, setPlayers] = useState<{ p1: Player; p2: Player }>(initialPlayers);
     const [lastPressed, setLastPressed] = useState<string | null>(null);
 
     const [gameStartTime, setGameStartTime] = useState<Date | null>(new Date()); // Tiempo de inicio del juego
+    const [pointStartTime, setPointStartTime] = useState<Date | null>(null); // Tiempo de inicio del punto
     const [totalTime, setTotalTime] = useState<number>(0); // Tiempo total
 
     const resetScores = () => {
         setPlayers(initialPlayers);
         setLastPressed(null);
         setGameStartTime(new Date());
+        setPointStartTime(null);
         setTotalTime(0);
-        setTieBreakEnabled(false);
+        setTieBreakCheckEnabled(false);
         // setIsSuperTiebreakEnabled(false);
-        setIsTieBreak(false);
-        setTieBreakStartServer(null);
-        setIsPlayer1Serving(true);
     };
 
     useEffect(() => {
@@ -64,32 +61,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
         return () => {
             clearInterval(totalTimer);
         };
-    }, [gameStartTime]);
-
-    const getTieBreakServer = (startServerIsP1: boolean, pointsPlayed: number): boolean => {
-        if (pointsPlayed === 0) {
-            return startServerIsP1;
-        }
-
-        const block = Math.floor((pointsPlayed - 1) / 2);
-        return block % 2 === 0 ? !startServerIsP1 : startServerIsP1;
-    };
-
-    const setLastSetResult = (
-        winner: Player,
-        loser: Player,
-        winnerGames: number,
-        loserGames: number,
-        winnerTb?: number,
-        loserTb?: number
-    ) => {
-        const hasTieBreakScore = typeof winnerTb === "number" && typeof loserTb === "number";
-        const winnerSuffix = hasTieBreakScore ? ` (${winnerTb}-${loserTb})` : "";
-        const loserSuffix = hasTieBreakScore ? ` (${loserTb}-${winnerTb})` : "";
-
-        winner.lastSet = `${winnerGames}-${loserGames}${winnerSuffix}`;
-        loser.lastSet = `${loserGames}-${winnerGames}${loserSuffix}`;
-    };
+    }, [gameStartTime, pointStartTime]);
 
     // Función para manejar la lógica de tie-break
     const handleTieBreakPoint = (player: Player, opponent: Player): void => {
@@ -100,7 +72,6 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
         if (player.tiebreak >= 7 && player.tiebreak - opponent.tiebreak >= 2) {
             // El jugador gana el tie-break, incrementa el contador de sets.
             player.sets++;
-            setLastSetResult(player, opponent, 7, 6, player.tiebreak, opponent.tiebreak);
 
             // Reiniciamos los puntos de tie-break y games para ambos jugadores.
             player.tiebreak = 0;
@@ -110,10 +81,6 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
 
             // Se desactiva el modo tie-break.
             setIsTieBreak(false);
-            setTieBreakStartServer(null);
-            if (tieBreakStartServer !== null) {
-                setIsPlayer1Serving(!tieBreakStartServer);
-            }
         } else {
             // Verificamos si es momento de cambiar de lado.
             const totalPoints = player.tiebreak + opponent.tiebreak;
@@ -129,20 +96,9 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
             const opponentKey = playerKey === "p1" ? "p2" : "p1";
             const player = { ...prev[playerKey] };
             const opponent = { ...prev[opponentKey] };
-            let gameFinished = false;
-            let setFinished = false;
 
             if (isTieBreak) {
                 handleTieBreakPoint(player, opponent);
-                setFinished = player.sets !== prev[playerKey].sets;
-                if (player.sets >= 2 || opponent.sets >= 2) {
-                    const winner = player.sets > opponent.sets ? player.name : opponent.name;
-                    sweetalert2.default.fire({
-                        title: `¡${winner} ha ganado el partido!`,
-                        icon: "success",
-                    })
-                    resetScores();
-                }
             } else {
                 // Lógica de puntaje normal del juego.
                 if (player.score !== "Ad" && player.score !== "40") {
@@ -151,22 +107,19 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
                     player.games++;
                     player.score = "0";
                     opponent.score = "0";
-                    gameFinished = true;
                 } else if (player.score === "40" && opponent.score === "40") {
                     player.score = "Ad";
                 } else if (player.score === "Ad") {
                     player.games++;
                     player.score = "0";
                     opponent.score = "0";
-                    gameFinished = true;
                 } else if (opponent.score === "Ad") {
                     opponent.score = "40";
                 }
 
                 const isTieBreakStart = player.games === 6 && opponent.games === 6
-                if (isTieBreakStart && tieBreakEnabled) {
+                if (isTieBreakStart && TieBreakCheckEnabled) {
                     setIsTieBreak(true);
-                    setTieBreakStartServer(isPlayer1Serving);
                     sweetalert2.default.fire({
                         title: "Tie-Break Activado",
                         icon: "info",
@@ -175,14 +128,12 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
 
                 if (player.games >= 6 && player.games - opponent.games >= 2) {
                     player.sets++;
-                    setLastSetResult(player, opponent, player.games, opponent.games);
                     player.games = 0;
                     opponent.games = 0;
-                    setFinished = true;
                 }
 
-                if (player.sets >= 2 || opponent.sets >= 2) {
-                    const winner = player.sets > opponent.sets ? player.name : opponent.name;
+                if (players.p1.sets >= 2 || players.p2.sets >= 2) {
+                    const winner = players.p1.sets > players.p2.sets ? players.p1.name : players.p2.name;
                     sweetalert2.default.fire({
                         title: `¡${winner} ha ganado el partido!`,
                         icon: "success",
@@ -191,7 +142,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
                 }
             }
             // Cambiamos de servidor cuando ambos inician un nuevo game.
-            if (gameFinished && !isTieBreak && !setFinished) {
+            if (player.score === "0" && opponent.score === "0") {
                 setIsPlayer1Serving((prev) => !prev);
             }
             return { ...prev, [playerKey]: player, [opponentKey]: opponent };
@@ -209,11 +160,9 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
 
     const pointLostBy = (playerKey: "p1" | "p2") => {
         setPlayers((prev) => {
-            const opponentKey = playerKey === "p1" ? "p2" : "p1";
             const player = { ...prev[playerKey] };
-            const opponent = { ...prev[opponentKey] };
 
-            if (isTieBreak) {
+            if ( isTieBreak) {
                 handleTieBreakPointLost(player);
             } else {
                 // Lógica normal: se retrocede en el arreglo de puntajes siempre que no sea "0"
@@ -222,7 +171,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
                 }
             }
 
-            return { ...prev, [playerKey]: player, [opponentKey]: opponent };
+            return { ...prev, [playerKey]: player };
         });
         setLastPressed(playerKey);
     };
@@ -237,20 +186,8 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
 
 
     return (
-        <div className="scoreboard-page">
-            <div className="scoreboard-shell">
-                <div className="scoreboard-header">
-                    <h5 className="scoreboard-title">Tennis Scoreboard</h5>
-                    <span className="scoreboard-chip">Best of 3 sets</span>
-                </div>
-                <div className="scoreboard-chips">
-                    <span className={`scoreboard-chip ${tieBreakEnabled ? "scoreboard-chip--active" : ""}`}>
-                        Tiebreak: {tieBreakEnabled ? "Enabled" : "Off"}
-                    </span>
-                    {isTieBreak && tieBreakEnabled && (
-                        <span className="scoreboard-chip scoreboard-chip--live">Tiebreak Active</span>
-                    )}
-                </div>
+        <div className="container">
+            <h5>Tennis Scoreboard</h5>
 
             {/* Tie Break Checkbox */}
             <div className="left-align" style={{marginBottom: "10px"}}>
@@ -258,14 +195,14 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
                     <label>
                         <input
                             type="checkbox"
-                            checked={tieBreakEnabled}
+                            checked={TieBreakCheckEnabled}
                             onChange={() => {
                                 // Bloquear el checkbox de Tie Break al marcarlo
-                                if (!tieBreakEnabled) {
-                                    setTieBreakEnabled(true);
+                                if (!TieBreakCheckEnabled) {
+                                    setTieBreakCheckEnabled(true);
                                 }
                             }}
-                            disabled={tieBreakEnabled} // Deshabilitar el checkbox una vez marcado
+                            disabled={TieBreakCheckEnabled} // Deshabilitar el checkbox una vez marcado
                         />
                         <span>Tiebreak</span>
                     </label>
@@ -292,111 +229,100 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ player1, player2 }) => {
             {/*    </div>*/}
             {/*</div>*/}
 
-                <div className="scoreboard-card">
-                    <table className="striped centered scoreboard-table">
-                        <thead>
-                        <tr>
-                            <th>Players</th>
-                            <th>Games</th>
-                            <th>Sets</th>
-                            <th>Score</th>
-                            <th>Last Set</th>
-                            {isTieBreak && tieBreakEnabled && <th>TB</th>}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {["p1", "p2"].map((key) => (
-                            <tr key={key}>
-                                <td>
-                                    <div className="scoreboard-player">
-                                        {(() => {
-                                            const pointsPlayed = players.p1.tiebreak + players.p2.tiebreak;
-                                            const isTieBreakServer = isTieBreak && tieBreakStartServer !== null
-                                                ? getTieBreakServer(tieBreakStartServer, pointsPlayed)
-                                                : isPlayer1Serving;
-                                            const isServing = key === "p1" ? isTieBreakServer : !isTieBreakServer;
-                                            return isServing ? (
-                                                <span className="scoreboard-service-ball" title="Serving" />
-                                            ) : (
-                                                <span className="scoreboard-service-placeholder" />
-                                            );
-                                        })()}
-                                        <span>{players[key as "p1" | "p2"].name}</span>
-                                    </div>
-                                </td>
-                                <td className="scoreboard-games">{players[key as "p1" | "p2"].games}</td>
-                                <td className="scoreboard-sets">{players[key as "p1" | "p2"].sets}</td>
-                                <td className="scoreboard-score">{players[key as "p1" | "p2"].score}</td>
-                                <td>{players[key as "p1" | "p2"].lastSet ?? "—"}</td>
-                                {isTieBreak && tieBreakEnabled &&
-                                    <td>
-                                        {isTieBreak && tieBreakEnabled ? (
-                                            <span className="scoreboard-tb">{players[key as "p1" | "p2"].tiebreak}</span>
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </td>}
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
+            <table className="striped centered">
+                <thead>
+                <tr>
+                    <th>Players</th>
+                    <th>Games</th>
+                    <th>Sets</th>
+                    <th>Score</th>
+                    {isTieBreak && TieBreakCheckEnabled && <th>TB</th>}
+                </tr>
+                </thead>
+                <tbody>
+                {["p1", "p2"].map((key) => (
+                    <tr key={key}>
+                        <td>
+                            {players[key as "p1" | "p2"].name}
+                            {/* Show "X" only if it’s that player's turn to serve */}
+                            {((key === "p1" && isPlayer1Serving) || (key === "p2" && !isPlayer1Serving)) && (
+                                <span style={{color: "black", fontWeight: "bold"}}> X</span>
+                            )}
+                        </td>
+                        <td>{players[key as "p1" | "p2"].games}</td>
+                        <td>{players[key as "p1" | "p2"].sets}</td>
+                        <td>{players[key as "p1" | "p2"].score}</td>
+                        {isTieBreak && TieBreakCheckEnabled &&
+                            <td>
+                                {isTieBreak && TieBreakCheckEnabled ? (
+                                    players[key as "p1" | "p2"].tiebreak
+                                ) : (
+                                    "N/A"
+                                )}
+                            </td>}
+                    </tr>
+                ))}
+                </tbody>
+            </table>
 
-                <div className="row scoreboard-actions">
-                    {["p1", "p2"].map((key) => (
-                        <div key={key} className="col s12 m6" style={{marginBottom: "16px"}}>
-                            <div style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"}}>
-                                <button
-                                    onClick={() => pointWonBy(key as "p1" | "p2")}
-                                    className={`btn waves-effect waves-light scoreboard-btn scoreboard-btn--primary ${lastPressed === key ? "blue darken-3" : "blue lighten-3"}`}
-                                    aria-label={`${players[key as "p1" | "p2"].name} wins point`}
-                                >
-                                    {players[key as "p1" | "p2"].name} +
-                                </button>
-                                <button
-                                    onClick={() => pointLostBy(key as "p1" | "p2")}
-                                    className={`btn waves-effect waves-light scoreboard-btn scoreboard-btn--secondary ${lastPressed === key ? "red darken-3" : "red lighten-3"}`}
-                                    aria-label={`${players[key as "p1" | "p2"].name} loses point`}
-                                >
-                                    {players[key as "p1" | "p2"].name} -
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="center-align scoreboard-reset" style={{
-                    marginTop: "40px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "20px"
-                }}>
-                    <button
-                        onClick={resetScores}
-                        className="btn red darken-3"
-                        style={{width: "100%"}}
-                        disabled={!isResetEnabled} // Disable the button if not enabled
-                    >
-                        RESET ALL
-                    </button>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={isResetEnabled}
-                            onChange={() => setIsResetEnabled(!isResetEnabled)} // Toggle the state
-                        />
-                        <span>Enable Reset</span>
-                    </label>
-                </div>
-
-                <div className="center-align" style={{marginTop: "20px"}}>
-                    <div className="scoreboard-time">
-                        <strong>Total Time: </strong>
-                        {formatTime(totalTime)}
+            <div className="row center-align"
+                 style={{marginTop: "20px", display: "flex", justifyContent: "center", gap: "20px"}}>
+                {["p1", "p2"].map((key) => (
+                    <div key={key}
+                         style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"}}>
+                        <button
+                            onClick={() => pointWonBy(key as "p1" | "p2")}
+                            className={`btn ${lastPressed === key ? "blue darken-3" : "blue lighten-3"}`}
+                            style={{width: "125px", height: "125px", fontSize: "14px"}}
+                        >
+                            {players[key as "p1" | "p2"].name} +
+                        </button>
+                        <button
+                            onClick={() => pointLostBy(key as "p1" | "p2")}
+                            className={`btn ${lastPressed === key ? "red darken-3" : "red lighten-3"}`}
+                            style={{width: "100px", height: "100px", fontSize: "14px"}}
+                        >
+                            {players[key as "p1" | "p2"].name} -
+                        </button>
                     </div>
-                </div>
+                ))}
             </div>
+
+            <div className="center-align" style={{
+                marginTop: "40px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "20px"
+            }}>
+                <button
+                    onClick={resetScores}
+                    className="btn red darken-3"
+                    style={{width: "100%"}}
+                    disabled={!isResetEnabled} // Disable the button if not enabled
+                >
+                    RESET ALL
+                </button>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={isResetEnabled}
+                        onChange={() => setIsResetEnabled(!isResetEnabled)} // Toggle the state
+                    />
+                    <span>Enable Reset</span>
+                </label>
+            </div>
+
+            <div className="center-align" style={{marginTop: "20px"}}>
+                <button className="btn grey darken-3" style={{width: "100%"}}>
+                    <strong>Total Time: </strong>
+                    {formatTime(totalTime)}
+                </button>
+            </div>
+            <div className={"center-align"} style={{marginTop: "20px"}}>
+                <h6>Solo Partidos a 3 Sets</h6>
+            </div>
+
         </div>
 
     );

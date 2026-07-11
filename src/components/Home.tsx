@@ -1,116 +1,121 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import Swal from "sweetalert2";
-import ResultsTicker from './ResultsTicker';
-
-// 1. Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
-
-// 2. Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import '../styles/Home.css'; // Your dedicated CSS file
+import React, {useEffect, useMemo, useState} from 'react';
+import { Link } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
+import { MdEventAvailable, MdLeaderboard, MdLogin, MdPersonAdd, MdReceiptLong } from 'react-icons/md';
+import { existTokenInLocalStorage } from '../utils/tokenUtils.ts';
+import { getUserInfoFromLocalStorage } from '../utils/userUtils.ts';
+import '../styles/Home.css';
 import NewsTicker from "./NewsTicker.tsx";
 
-interface InfoItem {
-    _id?: string; // Optional for initial data, assuming API provides it
-    title: string;
-    content: string;
-    imageUrl: string;
-    ctaLink?: string; // Optional: for a "Call to Action" button
-    ctaText?: string; // Optional: text for the CTA button
-}
+const heroFlags = [
+    {
+        src: '/images/new_logo_ctq.png',
+        alt: 'Bandera Club de Tenis Quintero',
+        variant: 'landscape',
+    },
+    {
+        src: '/images/logo_circ_ctq.jpeg',
+        alt: 'Insignia Club de Tenis Quintero',
+        variant: 'circle',
+    },
+] as const;
 
 const Home: React.FC = () => {
-
-    const infoItemsInnit = [
-        {
-            title: "Copa Davis 2024",
-            content: "Gracias a todos los que participaron",
-            imageUrl: "/images/tennis-club.jpeg"
-        }
-    ];
-
-    const [infoItems, setInfoItems] = useState(infoItemsInnit);
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    const fetchItems = async () => {
-        try {
-            const response = await axios.get<InfoItem[]>(`${apiUrl}/info-items`);
-            if (response.data && response.data.length > 0) {
-                setInfoItems(response.data);
-            }
-        } catch (error) {
-            console.error('Error fetching carousel items:', error);
-        }
-    };
+    const tokenExists = existTokenInLocalStorage();
+    const userInfo = getUserInfoFromLocalStorage();
+    const [activeFlagIndex, setActiveFlagIndex] = useState(0);
 
     useEffect(() => {
-        const loadDataAndShowInfo = async () => {
-            await Swal.fire({
-                title: 'Cargando...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                    fetchItems().then(() => {
-                        Swal.close();
-                    });
-                }
-            });
-        };
+        const intervalId = window.setInterval(() => {
+            setActiveFlagIndex((currentIndex) => (currentIndex + 1) % heroFlags.length);
+        }, 5000);
 
-        loadDataAndShowInfo();
+        return () => {
+            window.clearInterval(intervalId);
+        };
     }, []);
 
-    return (
-        <div className="container">
-            <h4 className="home-title">👋 Bienvenidos(as)</h4>
-            {/*<ResultsTicker />*/}
-            <NewsTicker />
-            <Swiper
-                effect={'coverflow'}
-                grabCursor={true}
-                centeredSlides={true}
-                loop={infoItems.length > 2}
-                slidesPerView={'auto'}
-                coverflowEffect={{
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: false,
-                }}
-                autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
-                }}
-                pagination={{ clickable: true }}
-                navigation={true}
-                modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-                className="mySwiper"
-            >
-                {infoItems.map((item, index) => (
-                    <SwiperSlide key={item._id || index} style={{ backgroundImage: `url(${item.imageUrl})` }} />
-                ))}
-            </Swiper>
+    const primaryActions = useMemo(() => {
+        if (tokenExists) {
+            return [
+                { to: '/dashboard', label: 'Reservar cancha', icon: <MdEventAvailable />, tone: 'primary' },
+                { to: '/ranking', label: 'Ver ranking', icon: <MdLeaderboard />, tone: 'secondary' },
+                { to: '/myhistory', label: 'Mi historial', icon: <MdReceiptLong />, tone: 'secondary' },
+            ];
+        }
 
-            {/* Sección de Información de Contacto */}
-            <div className="contact-card-home">
-                <h5 className="contact-title">📱 Información de Contacto</h5>
-                <p>
-                    Para consultas y reservas, contáctanos directamente por WhatsApp:
-                </p>
-                <p>
-                    <b>Ricardo Said:</b> <a href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer"><FaWhatsapp style={{ color: 'green' }} /> +56 9 8962 2137</a>
-                </p>
-                <p>
-                    <b>Administrador App:</b> <a href="https://wa.me/56981914285" target="_blank" rel="noopener noreferrer"><FaWhatsapp style={{ color: 'green' }} /> +56 9 8191 4285</a>
-                </p>
-            </div>
+        return [
+            { to: '/login', label: 'Iniciar sesión', icon: <MdLogin />, tone: 'primary' },
+            { to: '/register', label: 'Crear cuenta', icon: <MdPersonAdd />, tone: 'secondary' },
+            { to: '/ranking', label: 'Explorar ranking', icon: <MdLeaderboard />, tone: 'secondary' },
+        ];
+    }, [tokenExists]);
+
+    const heroSubtitle = tokenExists
+        ? `Hola${userInfo?.name ? `, ${userInfo.name}` : ''}. Tu acceso rápido al club está aquí.`
+        : 'Reserva canchas, revisa novedades y sigue la actividad del club desde una sola experiencia.';
+
+    return (
+        <div className="home-page">
+            <section className="home-hero">
+                <div className="home-hero__content">
+                    <div className="home-hero__flag" aria-label="Identidad visual del club">
+                        <div className={`home-hero__flag-stage home-hero__flag-stage--${heroFlags[activeFlagIndex].variant}`}>
+                            {heroFlags.map((flag, index) => (
+                                <img
+                                    key={flag.src}
+                                    src={flag.src}
+                                    alt={flag.alt}
+                                    className={`home-hero__flag-image home-hero__flag-image--${flag.variant} ${index === activeFlagIndex ? 'is-active' : ''}`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="home-news-band">
+                        <NewsTicker />
+                    </div>
+                    <h1 className="home-hero__title">Todo el club, listo para usar.</h1>
+                    <p className="home-hero__subtitle">{heroSubtitle}</p>
+                    <div className="home-hero__actions">
+                        {primaryActions.map((action) => (
+                            <Link
+                                key={action.to}
+                                to={action.to}
+                                className={`home-action-btn home-action-btn--${action.tone}`}
+                            >
+                                <span className="home-action-btn__icon">{action.icon}</span>
+                                <span>{action.label}</span>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="home-section">
+                <div className="home-section-shell">
+                    <div className="home-contact home-contact--early">
+                        <div className="home-contact__list">
+                            <a className="home-contact__item" href="https://wa.me/56989622137" target="_blank" rel="noopener noreferrer">
+                                <span className="home-contact__icon"><FaWhatsapp /></span>
+                                <span className="home-contact__meta">
+                                    <strong>Ricardo Said</strong>
+                                    <small>Reservas y coordinación</small>
+                                </span>
+                                <span className="home-contact__value">+56 9 8962 2137</span>
+                            </a>
+
+                            <a className="home-contact__item" href="https://wa.me/56981914285" target="_blank" rel="noopener noreferrer">
+                                <span className="home-contact__icon"><FaWhatsapp /></span>
+                                <span className="home-contact__meta">
+                                    <strong>Administrador App</strong>
+                                    <small>Soporte y acceso</small>
+                                </span>
+                                <span className="home-contact__value">+56 9 8191 4285</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

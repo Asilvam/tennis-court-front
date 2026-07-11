@@ -13,14 +13,12 @@ import {
     faUsers,
     faMapMarkerAlt,
     faTimes,
-    faTrophy,
-    faLightbulb
+    faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
 
 interface ModalProps {
-    id: string;
     title: string;
     isOpen: boolean;
     selectedTimeSlot: {
@@ -50,7 +48,7 @@ interface ReserveFormData {
     isForRanking: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
 
     const initialFormData: ReserveFormData = {
         court: '' + selectedTimeSlot?.courtId,
@@ -111,10 +109,14 @@ const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, play
                 const isToday = reservationDate.hasSame(today, 'day');
                 if (isToday) {
                     const [start, end] = formData.turn.split('-');
-                    const startTime = DateTime.fromFormat(start, 'HH:mm', { zone: timezone });
-                    const endTime = DateTime.fromFormat(end, 'HH:mm', { zone: timezone });
-                    const isWithinTimeRange = (currentTime >= startTime && currentTime < endTime) || currentTime < startTime;
-                    if (!isWithinTimeRange) {
+                    const startTime = DateTime.fromISO(`${formData.dateToPlay}T${start}`, { zone: timezone });
+                    let endTime = DateTime.fromISO(`${formData.dateToPlay}T${end}`, { zone: timezone });
+
+                    if (endTime <= startTime) {
+                        endTime = endTime.plus({ days: 1 });
+                    }
+
+                    if (currentTime >= endTime) {
                         isValid = false;
                         Swal.fire({
                             icon: 'error',
@@ -466,6 +468,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, play
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
                                         />
                                     </div>
                                     <div className="form-section">
@@ -486,6 +490,8 @@ const Modal: React.FC<ModalProps> = ({ id, title, isOpen, selectedTimeSlot, play
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
                                         />
                                     </div>
                                 </div>

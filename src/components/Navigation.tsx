@@ -6,6 +6,7 @@ import {
     getUserInfoFromLocalStorage,
     removeUserInfoFromLocalStorage,
 } from '../utils/userUtils.ts';
+import '../styles/Navigation.css';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const M: any;
 
@@ -49,14 +50,13 @@ const Navigation: React.FC = () => {
     };
 
     const navItems = [
-        { to: '/dashboard', label: '🎾 Reserva Cancha', show: tokenExists },
-        { to: '/scoreboard', label: '⏱️ Scoreboard', show: tokenExists },
-        { to: '/ranking', label: '📊 Ranking CTQ', show: tokenExists },
-        { to: '/profile', label: '👤 Mi Perfil', show: tokenExists },
-        { to: '/myhistory', label: '🧾 Mi historial', show: tokenExists },
-        { to: '/updatematch', label: '📝 Agregar Resultado', show: tokenExists },
+        { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
+        // { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
+        { to: '/ranking', label: 'Ranking CTQ', show: tokenExists },
+        { to: '/profile', label: 'Mi Perfil', show: tokenExists },
+        { to: '/myhistory', label: 'Mi historial', show: tokenExists },
+        { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
-        { to: '/items', label: 'Admin carrusel', show: tokenExists && isUserRoleAdmin },
         { to: '/adminreserves', label: 'Admin reservas', show: tokenExists && isUserRoleAdmin },
         { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && isUserRoleAdmin },
         { to:'/resetpassword', label: 'Reset Pass', show: tokenExists && isUserRoleAdmin},
@@ -65,15 +65,15 @@ const Navigation: React.FC = () => {
     return (
         <>
             {/* Navigation bar */}
-            <nav className="blue darken-4">
-                <div className="nav-wrapper">
-                    <Link to="/" className="brand-logo" style={{ marginLeft: '10px', fontSize: '18px' }}>
+            <nav className="ctq-nav">
+                <div className="nav-wrapper ctq-nav__wrapper">
+                    <Link to="/" className="brand-logo ctq-nav__brand">
                        Club de Tenis Quintero
                     </Link>
-                    <a href="/" data-target="mobile-nav" className="sidenav-trigger">
+                    <a href="/" data-target="mobile-nav" className="sidenav-trigger ctq-nav__trigger">
                         <i className="material-icons">menu</i>
                     </a>
-                    <ul className="right hide-on-med-and-down">
+                    <ul className="right hide-on-med-and-down ctq-nav__links">
                         {!tokenExists && (
                             <li>
                                 <Link to="/login">Login</Link>
@@ -89,12 +89,12 @@ const Navigation: React.FC = () => {
             </nav>
 
             {/* Dropdown Structure */}
-            <ul id="dropdown1" className="dropdown-content blue darken-4">
+            <ul id="dropdown1" className="dropdown-content ctq-nav__dropdown">
                 {navItems.map(
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="white-text">{item.label}</Link>
+                                <Link to={item.to} className="white-text ctq-nav__dropdown-link">{item.label}</Link>
                             </li>
                         )
                 )}
@@ -102,8 +102,8 @@ const Navigation: React.FC = () => {
                     <>
                         <li className="divider"></li>
                         <li>
-                            <a href="#!" onClick={handleLogout} className="white-text">
-                                ⏻ Logout
+                            <a href="#!" onClick={handleLogout} className="white-text ctq-nav__dropdown-link">
+                                Logout
                             </a>
                         </li>
                     </>
@@ -111,11 +111,11 @@ const Navigation: React.FC = () => {
             </ul>
             {/* Mobile Navigation (sidenav) */}
             <ul
-                className="sidenav light-blue darken-4"
+                className="sidenav ctq-nav__sidenav"
                 id="mobile-nav"
                 ref={sidenavRef}
                 style={{
-                    width: '240px',
+                    width: '200px',
                     height: 'auto',
                     maxHeight: '90vh',  // Max height based on viewport height for dynamic sizing
                     overflowY: 'auto',  // Enable scrolling if content overflows
@@ -125,7 +125,7 @@ const Navigation: React.FC = () => {
             >
                 {!tokenExists && (
                     <li>
-                        <Link to="/login" className="white-text"
+                        <Link to="/login" className="white-text ctq-nav__sidenav-link"
                               onClick={() => sidenavRef.current?.classList.remove('open')}>
                             Login
                         </Link>
@@ -135,7 +135,7 @@ const Navigation: React.FC = () => {
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="white-text"
+                                <Link to={item.to} className="white-text ctq-nav__sidenav-link"
                                       onClick={() => sidenavRef.current?.classList.remove('open')}>
                                     {item.label}
                                 </Link>
@@ -144,8 +144,8 @@ const Navigation: React.FC = () => {
                 )}
                 {tokenExists && (
                     <li>
-                        <a href="#!" className="white-text" onClick={handleLogout}>
-                            ⏻ Logout
+                        <a href="#!" className="white-text ctq-nav__sidenav-link" onClick={handleLogout}>
+                            Logout
                         </a>
                     </li>
                 )}

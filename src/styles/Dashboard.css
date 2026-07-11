@@ -1,10 +1,11 @@
 /* Dashboard Container */
 .dashboard-container {
-    padding: 20px 10px;
+    padding: 20px 10px 32px;
     max-width: 1400px;
     width: 98%;
     margin: 0 auto;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Outfit', sans-serif;
+    color: var(--ctq-text);
 }
 
 /* Header Section */
@@ -12,12 +13,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-    padding: 20px 30px;
-    border-radius: 24px;
-    color: white;
-    box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.3);
+    margin-bottom: 22px;
+    background: linear-gradient(180deg, var(--ctq-surface-top) 0%, var(--ctq-surface-bottom) 100%);
+    padding: 18px 20px;
+    border-radius: 18px;
+    color: var(--ctq-text);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 18px 36px rgba(4, 10, 22, 0.18);
 }
 
 .welcome-card h5 {
@@ -31,73 +33,95 @@
 }
 
 .date-display {
-    margin-top: 5px;
-    font-size: 0.9rem;
-    opacity: 0.9;
+    margin: 0;
+    font-size: 0.95rem;
+    color: rgba(226, 232, 240, 0.88);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Date Navigation */
 .date-navigation {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
     padding: 5px;
-    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
 }
 
 .nav-btn {
     background: transparent !important;
     border: none;
-    color: white;
-    font-size: 1.2rem;
+    color: var(--ctq-text);
+    font-size: 1.05rem;
     cursor: pointer;
-    padding: 0 10px;
-    transition: transform 0.2s;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 .nav-btn:hover:not(:disabled) {
-    transform: scale(1.2);
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .nav-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.38;
     cursor: not-allowed;
 }
 
 .date-input {
     background: transparent;
     border: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    color: var(--ctq-text);
+    font-size: 0.98rem;
+    font-weight: 600;
     text-align: center;
     outline: none;
+    color-scheme: dark;
+    accent-color: var(--ctq-accent);
+    min-height: 38px;
+    padding: 0 6px;
+    border-radius: 10px;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(92%) sepia(12%) saturate(355%) hue-rotate(176deg) brightness(102%) contrast(96%);
+    opacity: 0.92;
+}
+
+.date-input::-webkit-date-and-time-value {
+    text-align: center;
 }
 
 /* Alerts Section */
 .alerts-section {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .alert-card {
     display: flex;
     align-items: center;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 14px 16px;
+    border-radius: 14px;
     margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 14px 26px rgba(4, 10, 22, 0.14);
 }
 
 .alert-card.warning {
-    background-color: #fff3cd;
-    border-left: 5px solid #ffc107;
-    color: #856404;
+    background: linear-gradient(180deg, rgba(93, 69, 9, 0.26) 0%, rgba(61, 43, 5, 0.28) 100%);
+    border: 1px solid rgba(244, 232, 90, 0.26);
+    color: #fef3c7;
 }
 
 .alert-card.danger {
-    background-color: #f8d7da;
-    border-left: 5px solid #dc3545;
-    color: #721c24;
+    background: rgba(127, 29, 29, 0.22);
+    border: 1px solid rgba(248, 113, 113, 0.24);
+    color: #fecaca;
 }
 
 .alert-icon {
@@ -107,12 +131,13 @@
 
 .alert-content h6 {
     margin: 0 0 5px 0;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .reserve-details span {
     display: block;
     font-size: 0.9rem;
+    color: inherit;
 }
 
 /* Legend Bar */
@@ -120,15 +145,15 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px 20px;
-    margin-bottom: 25px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 22px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(17, 37, 68, 0.92) 0%, rgba(10, 27, 51, 0.96) 100%);
     backdrop-filter: blur(10px);
-    border-radius: 20px;
+    border-radius: 18px;
     font-size: 0.85rem;
-    color: #4a5568;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    color: rgba(226, 232, 240, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 12px 24px rgba(4, 10, 22, 0.16);
 }
 
 .legend-item {
@@ -145,58 +170,58 @@
 }
 
 .dot.available {
-    background-color: #e3f2fd;
-    border: 1px solid #2196f3;
+    background-color: rgba(125, 211, 252, 0.18);
+    border: 1px solid var(--ctq-accent);
 }
 
 .dot.reserved {
-    background-color: #ffebee;
-    border: 1px solid #ef5350;
+    background-color: rgba(248, 113, 113, 0.18);
+    border: 1px solid #f87171;
 }
 
 .dot.maintenance {
-    background-color: #efebe9;
-    border: 1px solid #8d6e63;
+    background-color: rgba(148, 163, 184, 0.18);
+    border: 1px solid #94a3b8;
 }
 
 .dot.championship {
-    background-color: #f3e5f5;
-    border: 1px solid #ab47bc;
+    background-color: rgba(168, 85, 247, 0.18);
+    border: 1px solid #c084fc;
 }
 
 .dot.class {
-    background-color: #e8f5e9;
-    border: 1px solid #66bb6a;
+    background-color: rgba(74, 222, 128, 0.18);
+    border: 1px solid #4ade80;
 }
 
 .dot.weather {
-    background-color: #f1f5f9;
-    border: 1px solid #64748b;
+    background-color: rgba(226, 232, 240, 0.18);
+    border: 1px solid #cbd5e1;
 }
 
 /* Legend Text Colors */
 .legend-item.available {
-    color: #1565c0;
+    color: var(--ctq-accent);
 }
 
 .legend-item.reserved {
-    color: #c62828;
+    color: #fca5a5;
 }
 
 .legend-item.maintenance {
-    color: #4e342e;
+    color: #cbd5e1;
 }
 
 .legend-item.championship {
-    color: #6a1b9a;
+    color: #d8b4fe;
 }
 
 .legend-item.class {
-    color: #2e7d32;
+    color: #86efac;
 }
 
 .legend-item.weather {
-    color: #475569;
+    color: #e2e8f0;
 }
 
 /* Slots Grid */
@@ -209,29 +234,32 @@
 .time-row {
     display: flex;
     align-items: stretch;
-    background: white;
-    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(17, 37, 68, 0.92) 0%, rgba(10, 27, 51, 0.96) 100%);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 12px 24px rgba(4, 10, 22, 0.14);
     transition: transform 0.2s;
 }
 
 .time-row:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 18px 30px rgba(4, 10, 22, 0.2);
 }
 
 .time-label {
-    background: #f1f3f5;
-    color: #495057;
-    font-weight: bold;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ctq-text);
+    font-weight: 700;
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: 80px;
-    border-right: 1px solid #dee2e6;
-    font-size: 0.9rem;
+    border-right: 1px solid rgba(148, 163, 184, 0.16);
+    font-size: 1.02rem;
+    letter-spacing: 0.01em;
+    gap: 6px;
 }
 
 .courts-container {
@@ -254,15 +282,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 0.9rem;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
 }
 
 .court-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 18px rgba(4, 10, 22, 0.16);
 }
 
 .court-name {
@@ -275,45 +303,93 @@
     opacity: 0.8;
 }
 
+.status-matchup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.status-matchup-doubles {
+    gap: 6px 10px;
+}
+
+.status-player,
+.status-team {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: currentColor;
+}
+
+.status-team {
+    max-width: 100%;
+}
+
+.status-vs {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(226, 232, 240, 0.74);
+    padding: 3px 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
 /* Court States */
 .court-card.available {
-    background-color: #e3f2fd;
-    color: #1565c0;
-    border-color: #bbdefb;
+    background-color: rgba(125, 211, 252, 0.12);
+    color: var(--ctq-accent);
+    border-color: rgba(125, 211, 252, 0.28);
 }
 
 .court-card.available:hover {
-    background-color: #bbdefb;
-    border-color: #1976d2;
+    background-color: rgba(125, 211, 252, 0.18);
+    border-color: rgba(125, 211, 252, 0.42);
 }
 
 .court-card.unavailable {
-    background-color: #ffebee;
-    color: #c62828;
-    border-color: #ffcdd2;
+    background-color: rgba(248, 113, 113, 0.14);
+    color: #fecaca;
+    border-color: rgba(248, 113, 113, 0.22);
     cursor: not-allowed;
 }
 
+.court-card.expired {
+    background-color: rgba(71, 85, 105, 0.34);
+    border-color: rgba(148, 163, 184, 0.22);
+    color: rgba(226, 232, 240, 0.72);
+    cursor: not-allowed;
+}
+
+.court-card.expired:hover {
+    transform: none;
+    box-shadow: none;
+    background-color: rgba(71, 85, 105, 0.34);
+    border-color: rgba(148, 163, 184, 0.22);
+}
+
 .court-card.paid {
-    background-color: #f3f4f6;
-    /* Light gray when available */
-    border-color: #d1d5db;
-    color: #374151;
-    /* Charcoal text */
+    background-color: rgba(226, 232, 240, 0.1);
+    border-color: rgba(226, 232, 240, 0.18);
+    color: #e2e8f0;
 }
 
 /* Specific state for paid + occupied/unavailable */
 .court-card.paid.unavailable {
-    background-color: #2d2d2d72;
-    /* Pastel black / Dark charcoal */
-    border-color: #1a1a1a;
+    background-color: rgba(15, 23, 42, 0.84);
+    border-color: rgba(148, 163, 184, 0.18);
     color: #e2e8f0;
-    /* Light text for contrast */
 }
 
 .court-card.paid.available:hover {
-    background-color: #e5e7eb;
-    border-color: #9ca3af;
+    background-color: rgba(226, 232, 240, 0.15);
+    border-color: rgba(226, 232, 240, 0.22);
 }
 
 .time-paid-icon {
@@ -325,21 +401,21 @@
 }
 
 .court-card.championship {
-    background-color: #f3e5f5;
-    color: #6a1b9a;
-    border-color: #e1bee7;
+    background-color: rgba(168, 85, 247, 0.14);
+    color: #e9d5ff;
+    border-color: rgba(192, 132, 252, 0.28);
 }
 
 .court-card.maintenance {
-    background-color: #efebe9;
-    color: #4e342e;
-    border-color: #d7ccc8;
+    background-color: rgba(148, 163, 184, 0.12);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.22);
 }
 
 .court-card.class {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border-color: #c8e6c9;
+    background-color: rgba(74, 222, 128, 0.14);
+    color: #bbf7d0;
+    border-color: rgba(74, 222, 128, 0.24);
 }
 
 .court-card.weather {
@@ -378,10 +454,11 @@
     .time-label {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
         padding: 10px;
-        background-color: #f5f5f5;
+        background: rgba(255, 255, 255, 0.06);
         justify-content: flex-start;
+        font-size: 0.98rem;
     }
 
     .courts-container {
@@ -432,6 +509,11 @@
     .court-name {
         margin-bottom: 0;
         font-size: 1rem;
+    }
+
+    .status-player,
+    .status-team {
+        font-size: 0.98rem;
     }
 
     .courts-container.all-available .court-name {
