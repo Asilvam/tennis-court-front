@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "materialize-css/dist/css/materialize.min.css";
-import "./Scoreboard.css";
+import "../styles/Scoreboard.css";
 import * as sweetalert2 from "sweetalert2";
 
 type Score = "0" | "15" | "30" | "40" | "Ad";
