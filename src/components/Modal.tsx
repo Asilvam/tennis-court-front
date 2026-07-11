@@ -109,10 +109,14 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                 const isToday = reservationDate.hasSame(today, 'day');
                 if (isToday) {
                     const [start, end] = formData.turn.split('-');
-                    const startTime = DateTime.fromFormat(start, 'HH:mm', { zone: timezone });
-                    const endTime = DateTime.fromFormat(end, 'HH:mm', { zone: timezone });
-                    const isWithinTimeRange = (currentTime >= startTime && currentTime < endTime) || currentTime < startTime;
-                    if (!isWithinTimeRange) {
+                    const startTime = DateTime.fromISO(`${formData.dateToPlay}T${start}`, { zone: timezone });
+                    let endTime = DateTime.fromISO(`${formData.dateToPlay}T${end}`, { zone: timezone });
+
+                    if (endTime <= startTime) {
+                        endTime = endTime.plus({ days: 1 });
+                    }
+
+                    if (currentTime >= endTime) {
                         isValid = false;
                         Swal.fire({
                             icon: 'error',
@@ -464,6 +468,8 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
                                         />
                                     </div>
                                     <div className="form-section">
@@ -484,6 +490,8 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
+                                            className="react-select-container"
+                                            classNamePrefix="react-select"
                                         />
                                     </div>
                                 </div>

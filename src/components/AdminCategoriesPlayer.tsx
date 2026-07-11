@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -63,7 +63,7 @@ const AdminCategoriesPlayer: React.FC = () => {
         void loadPlayers();
     }, [apiUrl, preselectedEmail]);
 
-    const loadCategories = async () => {
+    const loadCategories = useCallback(async () => {
         if (!selectedPlayer) return;
         setLoadingCategories(true);
         try {
@@ -78,11 +78,11 @@ const AdminCategoriesPlayer: React.FC = () => {
         } finally {
             setLoadingCategories(false);
         }
-    };
+    }, [apiUrl, selectedPlayer]);
 
     useEffect(() => {
         void loadCategories();
-    }, [selectedPlayer]);
+    }, [loadCategories]);
 
     const hasChanges = useMemo(() => {
         return JSON.stringify(categories) !== JSON.stringify(originalCategories);

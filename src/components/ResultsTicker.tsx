@@ -34,7 +34,7 @@ const ResultsTicker: React.FC = () => {
                 setResults(recent);
             })
             .catch(() => setResults([]));
-    }, []);
+    }, [apiUrl]);
 
     if (results.length === 0) return null;
 

@@ -1,23 +1,6 @@
 // src/context/AuthContext.tsx
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-
-// 1. Define la estructura del objeto de usuario que usaremos en toda la app
-export interface User {
-    name: string;
-    email: string;
-    role: string;
-    // Puedes agregar más campos que vengan del backend aquí
-}
-
-interface AuthContextType {
-    isAuthenticated: boolean;
-    user: User | null;
-    token: string | null;
-    login: (userData: User, token: string) => void;
-    logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import React, { useState, useEffect, ReactNode } from 'react';
+import { AuthContext, User } from './auth-context';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
@@ -51,10 +34,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             {children}
         </AuthContext.Provider>
     );
-};
-
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error('useAuth must be used within an AuthProvider');
-    return context;
 };

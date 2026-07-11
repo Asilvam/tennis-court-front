@@ -1,16 +1,26 @@
 /* --- Player Form Container --- */
+.player-form-page {
+    min-height: calc(100vh - 64px);
+    padding: 20px 0;
+    background: var(--ctq-page-gradient);
+}
+
 .player-form-container {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 0;
+    margin-bottom: 0;
     width: 95%;
     max-width: 900px;
+    padding: 0 0.5rem;
 }
 
 /* --- Card Styles --- */
 .player-form-card {
-    border-radius: 12px;
+    border-radius: 14px;
     position: relative;
     margin-top: 30px;
+    background: linear-gradient(180deg, var(--ctq-surface-top) 0%, var(--ctq-surface-bottom) 100%);
+    border: 1px solid var(--ctq-border-soft);
+    box-shadow: 0 18px 36px rgba(4, 10, 22, 0.24);
 }
 
 .player-form-header-icon {
@@ -20,25 +30,25 @@
     transform: translateX(-50%);
     width: 60px;
     height: 60px;
-    background-color: #1565c0;
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 24px rgba(4, 10, 22, 0.24);
     z-index: 2;
-    color: white;
+    color: var(--ctq-accent);
     font-size: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .player-form-card-content {
     padding: 3rem 1.5rem 1.5rem 1.5rem;
+    color: var(--ctq-text);
 }
 
-.player-form-title {
-    font-weight: 600;
-    color: #1565c0;
-    margin-bottom: 2rem;
+.player-form-card .row {
+    margin-bottom: 0.6rem;
 }
 
 /* --- Actions Container --- */
@@ -69,37 +79,87 @@
 }
 
 .player-form-btn-cancel {
-    color: #1565c0;
+    color: var(--ctq-text);
     text-align: center;
-    background-color: #f5f8fa;
-    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .player-form-btn-cancel:hover {
-    background-color: #e3f2fd;
-    border-color: #1565c0;
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .player-form-btn-submit {
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
+    background: var(--ctq-yellow) !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.24);
 }
 
 .player-form-btn-submit:hover {
-    box-shadow: 0 6px 16px rgba(21, 101, 192, 0.4);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.28);
 }
 
 .player-form-spinner {
     margin-right: 8px;
 }
 
+.player-form-card .input-field label {
+    position: static !important;
+    display: block !important;
+    transform: none !important;
+    margin-bottom: 10px !important;
+    color: rgba(226, 232, 240, 0.88) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+.player-form-card .input-field input {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 8px 0 12px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--ctq-text) !important;
+    font-size: 1rem !important;
+    border-bottom: 2px solid rgba(226, 232, 240, 0.68) !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+.player-form-card .input-field input:focus {
+    border: none !important;
+    border-bottom: 2px solid var(--ctq-accent) !important;
+    box-shadow: none !important;
+}
+
+.player-form-card .input-field input:focus + label {
+    color: var(--ctq-accent) !important;
+}
+
+.player-form-card .input-field input::placeholder {
+    color: rgba(226, 232, 240, 0.46);
+}
+
+.player-form-card .input-field .helper-text.red-text {
+    color: #fca5a5 !important;
+    margin-top: 6px !important;
+}
+
+.player-form-card .input-field {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 /* --- Desktop Layout Adjustments --- */
 @media (min-width: 768px) {
     .player-form-container {
         max-width: 600px;
-        margin-top: 4rem;
-        margin-bottom: 4rem;
     }
 
     .player-form-card-content {

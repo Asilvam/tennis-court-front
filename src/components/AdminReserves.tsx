@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +20,7 @@ const AdminReserves: React.FC = () => {
     const [reserves, setReserves] = useState<Reserve[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchReserves = async () => {
+    const fetchReserves = useCallback(async () => {
         try {
             const response = await axios.get<Reserve[]>(`${apiUrl}/court-reserve`);
             setReserves(response.data);
@@ -29,7 +29,7 @@ const AdminReserves: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [apiUrl]);
 
     const handleDelete = async (reserveId: string) => {
         const confirm = await Swal.fire({
@@ -56,8 +56,8 @@ const AdminReserves: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchReserves();
-    }, []);
+        void fetchReserves();
+    }, [fetchReserves]);
 
     if (loading) return <AppLoader text="Cargando reservas..." />;
 
