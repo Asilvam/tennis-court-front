@@ -7,9 +7,10 @@ import Swal from "sweetalert2";
 import { getTokenFromLocalStorage } from "../utils/tokenUtils.ts";
 import { getUserInfoFromLocalStorage } from "../utils/userUtils.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock, faExclamationTriangle, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faClock, faChevronLeft, faChevronRight, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ResultsTicker from './ResultsTicker';
+import ActiveReservationTicker from './ActiveReservationTicker';
 
 interface CourtReserve {
     turn: string;
@@ -397,26 +398,15 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
 
-            {/* Alerts Section */}
+            {/* Dashboard reminders */}
             <ResultsTicker />
-            <div className="alerts-section">
-                {activeReserve && (
-                    <div className="alert-card warning">
-                        <div className="alert-icon">
-                            <FontAwesomeIcon icon={faExclamationTriangle} />
-                        </div>
-                        <div className="alert-content">
-                            <h6>¡Tienes una reserva activa!</h6>
-                            <div className="reserve-details">
-                                <span><strong>🏟️ Cancha:</strong> {activeReserve[0]?.court.replace('Cancha ', '')}</span>
-                                <span><strong>📅 Fecha:</strong> {DateTime.fromISO(activeReserve[0]?.dateToPlay).toFormat('dd/MM')}</span>
-                                <span><strong>⏰ Turno:</strong> {activeReserve[0]?.turn}</span>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-            </div>
+            {activeReserve?.[0] && (
+                <ActiveReservationTicker
+                    court={activeReserve[0].court}
+                    dateToPlay={activeReserve[0].dateToPlay}
+                    turn={activeReserve[0].turn}
+                />
+            )}
 
             {/* Legend Section */}
             <div className="legend-bar">
