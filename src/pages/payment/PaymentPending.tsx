@@ -1,29 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
+import PaymentStatusPage from './PaymentStatusPage';
 
 const PaymentPending: React.FC = () => {
     const navigate = useNavigate();
 
     const handleReturn = () => {
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
     };
 
     return (
-        <div className="container center-align" style={{ marginTop: '100px' }}>
-            <FontAwesomeIcon icon={faClock} size="4x" color="#ff9800" />
-            <h4>Pago Pendiente</h4>
-            <p>Tu pago está siendo procesado</p>
-            <p>Recibirás una confirmación cuando se complete</p>
-            <button
-                className="btn blue darken-4 waves-effect waves-light"
-                onClick={handleReturn}
-                style={{ marginTop: '20px' }}
-            >
-                Volver al calendario
-            </button>
-        </div>
+        <PaymentStatusPage
+            status="pending"
+            icon={faClock}
+            eyebrow="Pago pendiente"
+            title="Estamos esperando la confirmación"
+            description="Mercado Pago todavía está procesando la transacción."
+            secondaryText="Te enviaremos un correo cuando el pago quede confirmado."
+            actionLabel="Volver al dashboard"
+            onAction={handleReturn}
+        />
     );
 };
 
