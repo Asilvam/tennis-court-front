@@ -169,6 +169,29 @@ code {
 .swal2-confirm {
   background-color: var(--ctq-yellow) !important;
   color: #0f172a !important;
+  min-height: 46px !important;
+  padding: 12px 22px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  box-shadow: none !important;
+  transition: transform 0.1s ease, box-shadow 0.2s ease !important;
+}
+
+.swal2-confirm:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.24) !important;
+}
+
+.swal2-confirm:active {
+  transform: scale(0.98) !important;
+}
+
+.swal2-confirm:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.3), 0 10px 22px rgba(15, 23, 42, 0.24) !important;
 }
 
 .swal2-cancel {

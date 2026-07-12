@@ -465,6 +465,9 @@ const Dashboard: React.FC = () => {
                     selectedTimeSlot={selectedTimeSlot}
                     playersNames={playersNames}
                     onClose={handleCloseModal}
+                    onReservationCreated={async () => {
+                        await Promise.all([fetchData(), getActiveReserves()]);
+                    }}
                 />
             )}
         </div>

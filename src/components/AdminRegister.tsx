@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
@@ -29,9 +29,12 @@ interface SelectOption {
     label: string;
 }
 
+let adminUsersCache: Register[] | null = null;
+
 const AdminRegister: React.FC = () => {
 
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const initialEditUser: Register = {
         namePlayer: '',             // Empty string for player's name
@@ -48,29 +51,81 @@ const AdminRegister: React.FC = () => {
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [users, setUsers] = useState<Register[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>(''); // Add search term state
+    const [users, setUsers] = useState<Register[]>(() => adminUsersCache ?? []);
+    const [searchTerm, setSearchTerm] = useState<string>(() => searchParams.get('search') ?? '');
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
     const [originalEditUser, setOriginalEditUser] = useState<Register | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const modalSelectStyles: StylesConfig<SelectOption, false> = {
         ...customStyles,
-        menuPortal: (base) => ({
+        control: (base, state) => ({
             ...base,
-            zIndex: 1200,
+            minHeight: '46px',
+            height: '46px',
+            background: 'rgba(255, 255, 255, 0.07)',
+            borderColor: state.isFocused ? 'var(--ctq-accent)' : 'rgba(148, 163, 184, 0.24)',
+            borderRadius: '10px',
+            boxShadow: state.isFocused ? '0 0 0 3px rgba(125, 211, 252, 0.14)' : 'none',
+            color: 'var(--ctq-text)',
+            cursor: 'pointer',
+            '&:hover': {
+                borderColor: 'rgba(125, 211, 252, 0.5)',
+            },
+        }),
+        singleValue: (base) => ({
+            ...base,
+            color: 'var(--ctq-text)',
+        }),
+        valueContainer: (base) => ({
+            ...base,
+            height: '46px',
+            padding: '0 12px',
+        }),
+        input: (base) => ({
+            ...base,
+            color: 'var(--ctq-text)',
+        }),
+        dropdownIndicator: (base) => ({
+            ...base,
+            color: 'var(--ctq-text-muted)',
+        }),
+        indicatorsContainer: (base) => ({
+            ...base,
+            height: '46px',
         }),
         menu: (base) => ({
             ...base,
-            zIndex: 1200,
+            zIndex: 10000,
+            background: 'var(--ctq-accent-deep)',
+            border: '1px solid var(--ctq-border-soft)',
+            borderRadius: '10px',
+            overflow: 'hidden',
+        }),
+        option: (base, state) => ({
+            ...base,
+            background: state.isSelected
+                ? 'rgba(125, 211, 252, 0.18)'
+                : state.isFocused
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'transparent',
+            color: state.isSelected ? 'var(--ctq-accent)' : 'var(--ctq-text)',
+            cursor: 'pointer',
+        }),
+        menuPortal: (base) => ({
+            ...base,
+            zIndex: 10000,
         }),
     };
 
     const fetchRegisters = useCallback(async () => {
-        setLoading(true);
+        if (adminUsersCache === null) {
+            setLoading(true);
+        }
         try {
             const response = await axios.get(`${apiUrl}/register`);
+            adminUsersCache = response.data;
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching registers:', error);
@@ -94,6 +149,18 @@ const AdminRegister: React.FC = () => {
             setLoading(false);
         }
     }, [apiUrl]);
+
+    const updateSearchTerm = (value: string) => {
+        setSearchTerm(value);
+
+        const nextParams = new URLSearchParams(searchParams);
+        if (value.trim()) {
+            nextParams.set('search', value);
+        } else {
+            nextParams.delete('search');
+        }
+        setSearchParams(nextParams, { replace: true });
+    };
 
     useEffect(() => {
         fetchRegisters();
@@ -166,7 +233,7 @@ const AdminRegister: React.FC = () => {
                 }
 
                 Swal.fire('Success', `${editUser.namePlayer} informacion actualizada.`, 'success');
-                setSearchTerm('');
+                updateSearchTerm('');
                 handleCloseEditModal();
             } catch (error) {
                 console.error('Error updating user:', error);
@@ -202,7 +269,7 @@ const AdminRegister: React.FC = () => {
 
         try {
             await axios.post(`${apiUrl}/register/resetpass`, { email: user.email });
-            setSearchTerm('');
+            updateSearchTerm('');
             Swal.fire('Enviado ✓', `Se envió el correo de restablecimiento a ${user.email}.`, 'success');
         } catch (error) {
             console.error('Error resetting password:', error);
@@ -210,18 +277,21 @@ const AdminRegister: React.FC = () => {
         }
     };
 
+    const normalizedSearch = searchTerm.trim().toLowerCase();
     const filteredUsers = users.filter(user =>
-        user.namePlayer.toLowerCase().includes(searchTerm.toLowerCase())
+        user.namePlayer.toLowerCase().includes(normalizedSearch)
     );
 
     return loading ? (
-        <AppLoader text="Cargando usuarios..." />
+        <div className="admin-users-loader">
+            <AppLoader text="Cargando usuarios..." />
+        </div>
     ) : (
-        <div className="container admin-register-container">
+        <div className="container admin-register-container admin-users-page">
             <div className="admin-register-hero">
                 <div>
-                    <h4>Administracion de Usuarios</h4>
-                    <p>Gestiona datos, estado y categoria de cada jugador.</p>
+                    <h4>Administración de usuarios</h4>
+                    <p>Gestiona la información, el acceso y las categorías de los jugadores.</p>
                 </div>
                 <div className="admin-register-badge">
                     <FontAwesomeIcon icon={faUsersGear} />
@@ -234,9 +304,11 @@ const AdminRegister: React.FC = () => {
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                     <input
                         type="text"
+                        className="browser-default"
                         placeholder="Buscar por nombre de jugador..."
+                        aria-label="Buscar usuarios por nombre"
                         value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
+                        onChange={e => updateSearchTerm(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
@@ -256,13 +328,25 @@ const AdminRegister: React.FC = () => {
                         <tbody>
                         {filteredUsers.map((user) => (
                             <tr key={user.email}>
-                                <td className="name-cell">{user.namePlayer}</td>
+                                <td
+                                    className={`name-cell ${
+                                        !user.statePlayer
+                                            ? 'name-cell--inactive'
+                                            : !user.updatePayment
+                                                ? 'name-cell--payment-due'
+                                                : ''
+                                    }`}
+                                    title={!user.statePlayer ? 'Usuario inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Usuario activo'}
+                                >
+                                    {user.namePlayer}
+                                </td>
                                 <td className="action-cell">
                                     <button
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light blue darken-4 action-edit-btn"
                                         onClick={() => handleEdit(user)}
                                         title="Editar usuario"
+                                        aria-label={`Editar a ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faEdit} />
                                     </button>
@@ -270,7 +354,9 @@ const AdminRegister: React.FC = () => {
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light action-categories-btn"
                                         onClick={() => navigate(`/admincategories?email=${encodeURIComponent(user.email)}`)}
-                                        title="Administrar categorías"
+                                        disabled={!user.statePlayer}
+                                        title={user.statePlayer ? 'Administrar categorías' : 'Disponible al activar el usuario'}
+                                        aria-label={`Administrar categorías de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faLayerGroup} />
                                     </button>
@@ -278,7 +364,9 @@ const AdminRegister: React.FC = () => {
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light action-reset-btn"
                                         onClick={() => handleResetPassword(user)}
-                                        title="Resetear contraseña"
+                                        disabled={!user.statePlayer}
+                                        title={user.statePlayer ? 'Resetear contraseña' : 'Disponible al activar el usuario'}
+                                        aria-label={`Restablecer contraseña de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faKey} />
                                     </button>
@@ -287,7 +375,7 @@ const AdminRegister: React.FC = () => {
                         ))}
                         {filteredUsers.length === 0 && (
                             <tr>
-                                <td colSpan={2} className="center-align">No se encontraron usuarios.</td>
+                                <td colSpan={2} className="admin-users-empty">No encontramos usuarios con esa búsqueda.</td>
                             </tr>
                         )}
                         </tbody>
@@ -298,11 +386,11 @@ const AdminRegister: React.FC = () => {
             {/* Edit Modal */}
             {isEditModalOpen && (
                 <div className="edit-modal-backdrop" onClick={handleCloseEditModal}>
-                    <div id="editModal" className="modal edit-modal" onClick={(e) => e.stopPropagation()}>
+                    <div id="editModal" className="modal edit-modal" role="dialog" aria-modal="true" aria-labelledby="edit-user-title" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <FontAwesomeIcon icon={faEdit} />
-                                <h5>Editar Usuario</h5>
+                                <h5 id="edit-user-title">Editar usuario</h5>
                             </div>
                             <div className="modal-body">
                                 {editUser && (

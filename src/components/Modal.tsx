@@ -30,6 +30,7 @@ interface ModalProps {
     } | null;
     playersNames: string[];
     onClose: () => void;
+    onReservationCreated?: () => Promise<void> | void;
 }
 
 interface ReserveFormData {
@@ -48,7 +49,14 @@ interface ReserveFormData {
     isForRanking: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersNames, onClose }) => {
+const Modal: React.FC<ModalProps> = ({
+    title,
+    isOpen,
+    selectedTimeSlot,
+    playersNames,
+    onClose,
+    onReservationCreated,
+}) => {
 
     const initialFormData: ReserveFormData = {
         court: '' + selectedTimeSlot?.courtId,
@@ -193,6 +201,7 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                         ...updatedState,
                         player2: checked ? '' : updatedState.player2,
                         visitName: checked ? 'Visita' : '',
+                        isForRanking: checked ? false : updatedState.isForRanking,
                     };
                 }
                 if (name === 'isDouble' && !checked) {
@@ -245,13 +254,69 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
         const response = await axios.post(`${apiUrl}/court-reserve`, formData);
 
         if (response.status === 200 || response.status === 201) {
+            const reservation = response.data;
+            const summary = document.createElement('div');
+            summary.className = 'swal-reservation-summary';
+
+            const intro = document.createElement('p');
+            intro.className = 'swal-reservation-intro';
+            intro.textContent = 'Tu reserva quedó registrada correctamente.';
+            summary.appendChild(intro);
+
+            const details = document.createElement('div');
+            details.className = 'swal-reservation-grid';
+
+            const reservationDetails = [
+                {
+                    label: 'Fecha',
+                    value: DateTime.fromISO(reservation.dateToPlay).setLocale('es-CL').toFormat('dd/MM/yyyy'),
+                },
+                { label: 'Horario', value: reservation.turn },
+                { label: 'Cancha', value: reservation.court },
+            ];
+
+            reservationDetails.forEach(({ label, value }) => {
+                const item = document.createElement('div');
+                item.className = 'swal-reservation-item';
+
+                const itemLabel = document.createElement('span');
+                itemLabel.className = 'swal-reservation-label';
+                itemLabel.textContent = label;
+
+                const itemValue = document.createElement('strong');
+                itemValue.className = 'swal-reservation-value';
+                itemValue.textContent = value;
+
+                item.append(itemLabel, itemValue);
+                details.appendChild(item);
+            });
+
+            summary.appendChild(details);
+
+            const firstTeam = reservation.isDouble
+                ? [reservation.player1, reservation.player2 || reservation.visitName].filter(Boolean).join(' / ')
+                : reservation.player1;
+            const secondTeam = reservation.isDouble
+                ? [reservation.player3, reservation.player4].filter(Boolean).join(' / ')
+                : reservation.player2 || reservation.visitName;
+
+            if (firstTeam && secondTeam) {
+                const matchup = document.createElement('p');
+                matchup.className = 'swal-reservation-matchup';
+                matchup.textContent = `${firstTeam}  vs  ${secondTeam}`;
+                summary.appendChild(matchup);
+            }
+
             await Swal.fire({
                 icon: 'success',
-                title: 'Reserva Lista',
-                text: 'Tu reserva está lista!',
-                confirmButtonColor: '#1e88e5',
+                title: '¡Reserva confirmada!',
+                html: summary,
+                confirmButtonText: 'Volver al dashboard',
+                allowOutsideClick: false,
             });
-            navigate('/summary', { state: { responseData: response.data } });
+            onClose();
+            await onReservationCreated?.();
+            navigate('/dashboard', { replace: true });
         }
     };
 
@@ -407,7 +472,7 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                             </div>
 
                             <div className="options-grid">
-                                <label className={`option-card ${formData.isVisit ? 'active' : ''}`}>
+                                <label className={`option-card option-card--yellow ${formData.isVisit ? 'active' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isVisit"
@@ -420,7 +485,7 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                                     </div>
                                 </label>
 
-                                <label className={`option-card ${formData.isDouble ? 'active' : ''}`}>
+                                <label className={`option-card option-card--yellow ${formData.isDouble ? 'active' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isDouble"
@@ -433,7 +498,7 @@ const Modal: React.FC<ModalProps> = ({ title, isOpen, selectedTimeSlot, playersN
                                     </div>
                                 </label>
 
-                                <label className={`option-card ${formData.isForRanking ? 'active' : ''} ${formData.isVisit ? 'disabled' : ''}`}>
+                                <label className={`option-card option-card--yellow ${formData.isForRanking ? 'active' : ''} ${formData.isVisit ? 'disabled' : ''}`}>
                                     <input
                                         type="checkbox"
                                         name="isForRanking"

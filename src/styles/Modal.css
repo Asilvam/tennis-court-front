@@ -91,6 +91,77 @@
     flex-grow: 1;
 }
 
+/* Compact reservation confirmation rendered inside SweetAlert2 */
+.swal-reservation-summary {
+    margin-top: 4px;
+    text-align: left;
+}
+
+.swal-reservation-intro {
+    margin: 0 0 16px;
+    color: var(--ctq-text-muted);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.swal-reservation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.swal-reservation-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 12px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.swal-reservation-label {
+    color: var(--ctq-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.swal-reservation-value {
+    color: var(--ctq-text);
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+}
+
+.swal-reservation-matchup {
+    margin: 12px 0 0;
+    padding: 11px 12px;
+    background: rgba(125, 211, 252, 0.1);
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    border-radius: 12px;
+    color: var(--ctq-accent);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    .swal-reservation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .swal-reservation-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+}
+
 .reservation-summary-card {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -301,6 +372,16 @@
 
 .option-card.active .option-icon {
     transform: scale(1.08);
+}
+
+.option-card--yellow.active {
+    border-color: var(--ctq-yellow);
+    background: rgba(244, 232, 90, 0.11);
+    box-shadow: inset 0 0 0 1px rgba(244, 232, 90, 0.18), 0 8px 18px rgba(4, 10, 22, 0.14);
+}
+
+.option-card--yellow.active .option-content {
+    color: var(--ctq-yellow);
 }
 
 .option-card.disabled {
