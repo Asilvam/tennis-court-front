@@ -18,6 +18,11 @@ const heroFlags = [
         alt: 'Insignia Club de Tenis Quintero',
         variant: 'circle',
     },
+    {
+        src: '/images/torneo.PNG',
+        alt: 'Bandera Club de Tenis Quintero',
+        variant: 'landscape',
+    }
 ] as const;
 
 const Home: React.FC = () => {
