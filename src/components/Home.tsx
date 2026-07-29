@@ -8,18 +8,18 @@ import '../styles/Home.css';
 import NewsTicker from "./NewsTicker.tsx";
 
 const heroFlags = [
+    // {
+    //     src: '/images/new_logo_ctq.png',
+    //     alt: 'Bandera Club de Tenis Quintero',
+    //     variant: 'landscape',
+    // },
+    // {
+    //     src: '/images/logo_circ_ctq.jpeg',
+    //     alt: 'Insignia Club de Tenis Quintero',
+    //     variant: 'circle',
+    // },
     {
-        src: '/images/new_logo_ctq.png',
-        alt: 'Bandera Club de Tenis Quintero',
-        variant: 'landscape',
-    },
-    {
-        src: '/images/logo_circ_ctq.jpeg',
-        alt: 'Insignia Club de Tenis Quintero',
-        variant: 'circle',
-    },
-    {
-        src: '/images/torneo.PNG',
+        src: '/images/torneo.png',
         alt: 'Bandera Club de Tenis Quintero',
         variant: 'landscape',
     }
