@@ -17,6 +17,7 @@ const Navigation: React.FC = () => {
     const tokenExists = existTokenInLocalStorage();
     const userInfo = getUserInfoFromLocalStorage();
     const isUserRoleAdmin = userInfo?.role === 'admin';
+    const isUserRoleProfesor = userInfo?.role === 'profesor';
     const namePlayer = userInfo?.name || '';
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const Navigation: React.FC = () => {
         { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
         { to: '/adminreserves', label: 'Admin reservas', show: tokenExists && isUserRoleAdmin },
-        { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && isUserRoleAdmin },
+        { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && (isUserRoleAdmin || isUserRoleProfesor) },
         { to:'/resetpassword', label: 'Reset Pass', show: tokenExists && isUserRoleAdmin},
     ];
 

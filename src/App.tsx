@@ -64,7 +64,7 @@ const App: React.FC = () => {
                                                         <Route path="/adminreserves"
                                                                element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
                                                         <Route path="/multibooking"
-                                                               element={<ProtectedRoute adminOnly={true}><MultipleBookingForm /></ProtectedRoute>} />
+                                                               element={<ProtectedRoute adminOnly={true} profesorAllowed={true}><MultipleBookingForm /></ProtectedRoute>} />
                                                         <Route path="/resetpassword"
                                                                element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
                                                         <Route
