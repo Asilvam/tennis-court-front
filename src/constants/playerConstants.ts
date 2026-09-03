@@ -22,4 +22,5 @@ export const categoryOptions = Object.values(PlayerCategory).map(category => ({
 export const roleOptions = [
     {value: 'user', label: 'User'},
     {value: 'admin', label: 'Admin'},
+    {value: 'profesor', label: 'Profesor'},
 ];
