@@ -1,7 +1,6 @@
 
 import React, { useState, ChangeEvent, FormEvent, Fragment, useRef } from 'react';
 import axios from 'axios';
-import { SingleValue } from 'react-select';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MdPerson, MdPersonAdd, MdArrowBack } from "react-icons/md";
@@ -28,16 +27,6 @@ const initialFormData: FormData = {
     urlEmail: `${import.meta.env.VITE_API_URL}/auth`,
     partnerType: 'Titular',
 };
-
-interface PartnerOption {
-    value: 'Titular' | 'Familiar';
-    label: string;
-}
-
-// const partnerTypeOptions: readonly PartnerOption[] = [
-//     { value: 'Titular', label: 'Socio Titular' },
-//     { value: 'Familiar', label: 'Socio Familiar' }
-// ];
 
 interface FormErrors {
     email?: string;
@@ -67,16 +56,6 @@ const PlayerForm: React.FC = () => {
         }
         if (name === "pwd" || name === "retypePwd") {
             setErrors(prev => ({ ...prev, password: undefined }));
-        }
-    };
-
-    const handlePartnerTypeChange = (selectedOption: SingleValue<PartnerOption>) => {
-        setFormData(prevState => ({
-            ...prevState,
-            partnerType: selectedOption ? selectedOption.value : ''
-        }));
-        if (errors.partnerType) {
-            setErrors(prev => ({ ...prev, partnerType: undefined }));
         }
     };
 
@@ -129,7 +108,14 @@ const PlayerForm: React.FC = () => {
             return setGenerateLoading(false);
         }
 
-        const { retypePwd, ...formDataToSend } = formData;
+        const formDataToSend = {
+            namePlayer: formData.namePlayer,
+            email: formData.email,
+            cellular: formData.cellular,
+            pwd: formData.pwd,
+            urlEmail: formData.urlEmail,
+            partnerType: formData.partnerType,
+        };
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formDataToSend);
@@ -141,7 +127,7 @@ const PlayerForm: React.FC = () => {
             });
 
             clearForm();
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 const status = error.response?.status;
                 const message = error.response?.data?.message || '';
@@ -183,15 +169,16 @@ const PlayerForm: React.FC = () => {
 
 
     return (
-        <div className="container player-form-container">
-            <div className="row">
-                <div className="col s12 m12 l12">
-                    <div className="card z-depth-3 player-form-card">
-                        <div className="player-form-header-icon">
-                            <MdPerson />
-                        </div>
-                        <div className="card-content player-form-card-content">
-                            <form onSubmit={handleSubmit}>
+        <div className="player-form-page">
+            <div className="container player-form-container">
+                <div className="row">
+                    <div className="col s12 m12 l12">
+                        <div className="card z-depth-3 player-form-card">
+                            <div className="player-form-header-icon">
+                                <MdPerson />
+                            </div>
+                            <div className="card-content player-form-card-content">
+                                <form onSubmit={handleSubmit}>
                                 <div className="row">
                                     {/* Name Player */}
                                     <div className="input-field col s12">
@@ -274,29 +261,30 @@ const PlayerForm: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Buttons */}
-                                <div className="row player-form-actions-row">
-                                    <div className="col s12 player-form-actions">
+                                    {/* Buttons */}
+                                    <div className="row player-form-actions-row">
+                                        <div className="col s12 player-form-actions">
                                         <a
                                             href="/"
-                                            className="btn-flat waves-effect waves-blue player-form-btn-cancel"
+                                            className="btn-flat waves-effect player-form-btn-cancel"
                                         >
                                             <MdArrowBack style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Cancelar
                                         </a>
                                         <button
                                             type="submit"
-                                            className="btn waves-effect waves-light blue darken-3 player-form-btn-submit"
+                                            className="btn waves-effect player-form-btn-submit"
                                             disabled={generateLoading}
                                         >
-                                            {generateLoading ? (
-                                                <Fragment><FontAwesomeIcon icon={faSpinner} spin fixedWidth className="player-form-spinner" /> Creando...</Fragment>
-                                            ) : (
-                                                <Fragment><MdPersonAdd style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Crear Jugador</Fragment>
-                                            )}
-                                        </button>
+                                                {generateLoading ? (
+                                                    <Fragment><FontAwesomeIcon icon={faSpinner} spin fixedWidth className="player-form-spinner" /> Creando...</Fragment>
+                                                ) : (
+                                                    <Fragment><MdPersonAdd style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Crear usuario</Fragment>
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

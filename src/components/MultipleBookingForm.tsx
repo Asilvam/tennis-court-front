@@ -28,20 +28,62 @@ type SelectOption = { value: string; label: string };
 const customSelectStylesSingle: StylesConfig<SelectOption, false> = {
     control: (base, state) => ({
         ...base,
-        minHeight: '46px',
-        borderRadius: '12px',
-        border: state.isFocused ? '1px solid #1d4ed8' : '1px solid #cbd5e1',
-        boxShadow: state.isFocused ? '0 0 0 3px rgba(29,78,216,0.15)' : 'none',
-        '&:hover': { borderColor: '#94a3b8' },
+        minHeight: '52px',
+        borderRadius: '14px',
+        border: state.isFocused ? '1px solid rgba(125, 211, 252, 0.42)' : '1px solid rgba(148, 163, 184, 0.2)',
+        boxShadow: state.isFocused ? '0 0 0 3px rgba(125, 211, 252, 0.12)' : 'none',
+        background: 'rgba(255, 255, 255, 0.06)',
+        '&:hover': { borderColor: 'rgba(125, 211, 252, 0.3)' },
         fontSize: '0.95rem',
+        color: 'var(--ctq-text)',
+    }),
+    singleValue: (base) => ({
+        ...base,
+        color: 'var(--ctq-text)',
+        fontWeight: 600,
+    }),
+    placeholder: (base) => ({
+        ...base,
+        color: 'var(--ctq-text-muted)',
+    }),
+    input: (base) => ({
+        ...base,
+        color: 'var(--ctq-text)',
+    }),
+    indicatorSeparator: (base) => ({
+        ...base,
+        backgroundColor: 'rgba(148, 163, 184, 0.16)',
+    }),
+    dropdownIndicator: (base, state) => ({
+        ...base,
+        color: state.isFocused ? 'var(--ctq-accent)' : 'rgba(148, 163, 184, 0.9)',
+        '&:hover': { color: 'var(--ctq-accent)' },
     }),
     menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-    menu: (base) => ({ ...base, borderRadius: '12px', overflow: 'hidden' }),
+    menu: (base) => ({
+        ...base,
+        borderRadius: '14px',
+        overflow: 'hidden',
+        background: 'linear-gradient(180deg, rgba(17, 37, 68, 0.98) 0%, rgba(10, 27, 51, 0.99) 100%)',
+        border: '1px solid rgba(148, 163, 184, 0.18)',
+        boxShadow: '0 22px 40px rgba(4, 10, 22, 0.28)',
+    }),
+    menuList: (base) => ({
+        ...base,
+        padding: '6px',
+    }),
     option: (base, state) => ({
         ...base,
-        backgroundColor: state.isSelected ? '#1565c0' : state.isFocused ? '#eff6ff' : '#fff',
-        color: state.isSelected ? '#fff' : '#334155',
+        backgroundColor: state.isSelected
+            ? 'rgba(244, 232, 90, 0.95)'
+            : state.isFocused
+                ? 'rgba(125, 211, 252, 0.14)'
+                : 'transparent',
+        color: state.isSelected ? '#0f172a' : 'var(--ctq-text)',
         fontSize: '0.92rem',
+        borderRadius: '10px',
+        fontWeight: state.isSelected ? 800 : 600,
+        cursor: 'pointer',
     }),
 };
 
@@ -179,7 +221,7 @@ const MultipleBookingForm: React.FC = () => {
                 {/* Canchas */}
                 <div className="mbf-field">
                     <span className="mbf-label">Canchas</span>
-                        <div className="mbf-checkbox-group">
+                    <div className="mbf-checkbox-group mbf-courts-grid">
                         {availableCourts.map(court => (
                             <CheckboxPill
                                 key={court}

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -30,30 +30,58 @@ const AdminCategoriesPlayer: React.FC = () => {
     const [searchParams] = useSearchParams();
     const preselectedEmail = searchParams.get('email');
 
-    const [players, setPlayers] = useState<PlayerOption[]>([]);
     const [selectedPlayer, setSelectedPlayer] = useState<PlayerOption | null>(null);
     const [categories, setCategories] = useState<PlayerCategoryPoints[]>([]);
     const [originalCategories, setOriginalCategories] = useState<PlayerCategoryPoints[]>([]);
-    const [loadingPlayers, setLoadingPlayers] = useState(false);
     const [loadingCategories, setLoadingCategories] = useState(false);
     const [saving, setSaving] = useState(false);
 
     const modalSelectStyles: StylesConfig<CategoryOption, false> = {
         ...customStyles,
+        control: (base, state) => ({
+            ...base,
+            minHeight: '46px',
+            background: 'rgba(255, 255, 255, 0.07)',
+            borderColor: state.isFocused ? 'var(--ctq-accent)' : 'rgba(148, 163, 184, 0.24)',
+            borderRadius: '10px',
+            boxShadow: state.isFocused ? '0 0 0 3px rgba(125, 211, 252, 0.14)' : 'none',
+            color: 'var(--ctq-text)',
+            cursor: 'pointer',
+            '&:hover': { borderColor: 'rgba(125, 211, 252, 0.5)' },
+        }),
+        singleValue: (base) => ({ ...base, color: 'var(--ctq-text)' }),
+        placeholder: (base) => ({ ...base, color: 'var(--ctq-text-muted)' }),
+        input: (base) => ({ ...base, color: 'var(--ctq-text)' }),
+        dropdownIndicator: (base) => ({ ...base, color: 'var(--ctq-text-muted)' }),
         menuPortal: (base) => ({ ...base, zIndex: 1200 }),
-        menu: (base) => ({ ...base, zIndex: 1200 }),
+        menu: (base) => ({
+            ...base,
+            zIndex: 1200,
+            background: 'var(--ctq-accent-deep)',
+            border: '1px solid var(--ctq-border-soft)',
+            borderRadius: '10px',
+            overflow: 'hidden',
+        }),
+        option: (base, state) => ({
+            ...base,
+            background: state.isSelected
+                ? 'rgba(125, 211, 252, 0.18)'
+                : state.isFocused
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'transparent',
+            color: state.isSelected ? 'var(--ctq-accent)' : 'var(--ctq-text)',
+            cursor: 'pointer',
+        }),
     };
 
     useEffect(() => {
         const loadPlayers = async () => {
-            setLoadingPlayers(true);
             try {
                 const { data } = await axios.get(`${apiUrl}/register`);
                 const options: PlayerOption[] = (data ?? []).map((u: { email: string; namePlayer: string }) => ({
                     value: u.email,
                     label: u.namePlayer,
                 }));
-                setPlayers(options);
 
                 if (preselectedEmail) {
                     const match = options.find((o) => o.value === preselectedEmail);
@@ -62,14 +90,12 @@ const AdminCategoriesPlayer: React.FC = () => {
             } catch (error) {
                 console.error(error);
                 Swal.fire('Error', 'No se pudo cargar la lista de jugadores.', 'error');
-            } finally {
-                setLoadingPlayers(false);
             }
         };
         void loadPlayers();
     }, [apiUrl, preselectedEmail]);
 
-    const loadCategories = async () => {
+    const loadCategories = useCallback(async () => {
         if (!selectedPlayer) return;
         setLoadingCategories(true);
         try {
@@ -84,11 +110,11 @@ const AdminCategoriesPlayer: React.FC = () => {
         } finally {
             setLoadingCategories(false);
         }
-    };
+    }, [apiUrl, selectedPlayer]);
 
     useEffect(() => {
         void loadCategories();
-    }, [selectedPlayer]);
+    }, [loadCategories]);
 
     const hasChanges = useMemo(() => {
         return JSON.stringify(categories) !== JSON.stringify(originalCategories);
@@ -181,16 +207,16 @@ const AdminCategoriesPlayer: React.FC = () => {
     };
 
     return (
-        <div className="container admin-register-container">
+        <div className="container admin-register-container admin-categories-page">
             {/* ── Hero ──────────────────────────────────────────────────── */}
             <div className="admin-register-hero">
                 <div>
-                    <h4>Administrar Categorías y Puntos</h4>
+                    <h4>Administrar categorías y puntos</h4>
                     <p>Gestiona el nivel competitivo y puntos de ranking.</p>
                 </div>
                 <div className="admin-register-badge hide-on-small-only">
                     <FontAwesomeIcon icon={faLayerGroup} />
-                    <span>{categories.length} Categorías</span>
+                    <span>{categories.length} categorías</span>
                 </div>
             </div>
 
@@ -307,35 +333,37 @@ const AdminCategoriesPlayer: React.FC = () => {
                                     </button>
                                 </div>
 
-                                <div className="category-mobile-points">
-                                    <label className="category-mobile-points-label">Puntos de Ranking</label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        pattern="[0-9]*"
-                                        className={`browser-default category-mobile-points-input${!row.isActive ? ' points-input--disabled' : ''}`}
-                                        value={row.points}
-                                        disabled={!row.isActive}
-                                        onChange={(e) => updatePoints(row.category, e.target.value)}
-                                    />
-                                </div>
+                                <div className="category-mobile-fields">
+                                    <div className="category-mobile-points">
+                                        <label className="category-mobile-points-label">Puntos de ranking</label>
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            pattern="[0-9]*"
+                                            className={`browser-default category-mobile-points-input${!row.isActive ? ' points-input--disabled' : ''}`}
+                                            value={row.points}
+                                            disabled={!row.isActive}
+                                            onChange={(e) => updatePoints(row.category, e.target.value)}
+                                        />
+                                    </div>
 
-                                <div className={`category-mobile-status${row.isActive ? ' category-mobile-status--active' : ''}`}>
-                                    <label className="status-switch">
-                                        <span className={row.isActive ? 'status-label--active' : 'status-label--inactive'}>
-                                            {row.isActive ? 'Categoría Activa' : 'Categoría Inactiva'}
-                                        </span>
-                                        <div className="switch">
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={row.isActive}
-                                                    onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
-                                                />
-                                                <span className="lever"></span>
-                                            </label>
-                                        </div>
-                                    </label>
+                                    <div className={`category-mobile-status${row.isActive ? ' category-mobile-status--active' : ''}`}>
+                                        <label className="status-switch">
+                                            <span className={row.isActive ? 'status-label--active' : 'status-label--inactive'}>
+                                                {row.isActive ? 'Categoría activa' : 'Categoría inactiva'}
+                                            </span>
+                                            <div className="switch">
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={row.isActive}
+                                                        onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
+                                                    />
+                                                    <span className="lever"></span>
+                                                </label>
+                                            </div>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -367,7 +395,7 @@ const AdminCategoriesPlayer: React.FC = () => {
                             onClick={() => navigate(-1)}
                         >
                             <FontAwesomeIcon icon={faArrowLeft} />
-                            Volver
+                            Cancelar
                         </button>
                         <button
                             className={`admin-modal-btn-submit${!hasChanges ? ' admin-modal-btn-submit--disabled' : ''}`}

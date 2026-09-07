@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTrash, faImages, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +22,7 @@ const ImageUploadForm: React.FC = () => {
     const [fetchLoading, setFetchLoading] = useState(true);
     const [items, setItems] = useState<Item[]>([]);
 
-    const fetchItems = async () => {
+    const fetchItems = useCallback(async () => {
         try {
             const response = await axios.get(`${apiUrl}/info-items`);
             setItems(response.data);
@@ -31,11 +31,11 @@ const ImageUploadForm: React.FC = () => {
         } finally {
             setFetchLoading(false);
         }
-    };
+    }, [apiUrl]);
 
     useEffect(() => {
-        fetchItems();
-    }, []);
+        void fetchItems();
+    }, [fetchItems]);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {

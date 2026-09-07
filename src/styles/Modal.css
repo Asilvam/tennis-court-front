@@ -1,43 +1,41 @@
-/* Modal Overlay */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
-    backdrop-filter: blur(4px);
+    background: rgba(4, 10, 22, 0.7);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Ensure it's on top of everything */
+    z-index: var(--ctq-z-modal);
     animation: fadeIn 0.2s ease-out;
+    padding: 20px 12px;
 }
 
-/* Modal Container */
 .modal-container {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Deep shadow for floating effect */
+    background: linear-gradient(180deg, var(--ctq-surface-top) 0%, var(--ctq-surface-bottom) 100%);
+    width: min(100%, 560px);
+    border-radius: 22px;
+    box-shadow: 0 28px 56px rgba(4, 10, 22, 0.34);
     overflow: hidden;
-    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth spring-like animation */
+    animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
-    max-height: 90vh; /* Never exceed 90% of viewport height */
+    max-height: min(90vh, 860px);
     position: relative;
+    border: 1px solid var(--ctq-border-soft);
+    color: var(--ctq-text);
 }
 
-/* Header */
 .modal-header-modern {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
-    border-bottom: 1px solid #f0f0f0;
-    background-color: #fff;
-    flex-shrink: 0; /* Prevent header from shrinking */
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(255, 255, 255, 0.03);
+    flex-shrink: 0;
 }
 
 .header-title {
@@ -48,128 +46,295 @@
 
 .header-title h3 {
     margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1a1a1a;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--ctq-text);
 }
 
 .header-icon {
-    color: #1e88e5;
-    font-size: 1.2rem;
+    color: var(--ctq-accent);
+    font-size: 1rem;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(125, 211, 252, 0.12);
+    border: 1px solid rgba(125, 211, 252, 0.2);
 }
 
 .close-button {
-    background: #f5f5f5;
-    border: none;
-    color: #666;
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    color: var(--ctq-text-muted);
+    font-size: 0.95rem;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    transition: all 0.2s;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .close-button:hover {
-    background-color: #e0e0e0;
-    color: #333;
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--ctq-text);
+    transform: translateY(-1px);
 }
 
-/* Body */
 .modal-body-modern {
-    padding: 24px;
+    padding: 20px;
     overflow-y: auto;
-    flex-grow: 1; /* Allow body to take available space */
+    flex-grow: 1;
 }
 
-/* Summary Card */
-.reservation-summary-card {
+/* Compact reservation confirmation rendered inside SweetAlert2 */
+.swal-reservation-summary {
+    margin-top: 4px;
+    text-align: left;
+}
+
+.swal-reservation-intro {
+    margin: 0 0 16px;
+    color: var(--ctq-text-muted);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.swal-reservation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.swal-reservation-item {
     display: flex;
-    justify-content: space-between;
-    background-color: #f8f9fa;
-    padding: 16px;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 12px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.16);
     border-radius: 12px;
-    margin-bottom: 24px;
-    border: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.swal-reservation-label {
+    color: var(--ctq-text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.swal-reservation-value {
+    color: var(--ctq-text);
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+}
+
+.swal-reservation-matchup {
+    margin: 12px 0 0;
+    padding: 11px 12px;
+    background: rgba(125, 211, 252, 0.1);
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    border-radius: 12px;
+    color: var(--ctq-accent);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    .swal-reservation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .swal-reservation-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+}
+
+.reservation-summary-card {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 14px;
+    border-radius: 16px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(148, 163, 184, 0.16);
 }
 
 .summary-item {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
 }
 
 .summary-icon {
-    color: #1e88e5;
-    font-size: 1.1rem;
-    background: #e3f2fd;
-    padding: 8px;
-    border-radius: 8px;
+    color: var(--ctq-accent);
+    font-size: 0.96rem;
+    background: rgba(125, 211, 252, 0.12);
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    flex-shrink: 0;
 }
 
 .summary-item div {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .summary-item .label {
-    font-size: 0.7rem;
-    color: #666;
+    font-size: 0.68rem;
+    color: var(--ctq-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-weight: 700;
 }
 
 .summary-item .value {
-    font-weight: 600;
-    color: #333;
-    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ctq-text);
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
 }
 
-/* Form Sections */
 .form-section {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .input-label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 500;
-    color: #444;
+    font-weight: 600;
+    color: var(--ctq-text);
     font-size: 0.9rem;
 }
 
-/* Options Grid (Checkboxes) */
+.react-select-container {
+    width: 100%;
+}
+
+.react-select__control {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(148, 163, 184, 0.22) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    min-height: 46px !important;
+}
+
+.react-select__control:hover,
+.react-select__control--is-focused {
+    border-color: rgba(125, 211, 252, 0.44) !important;
+    box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.12) !important;
+}
+
+.react-select__value-container,
+.react-select__single-value,
+.react-select__input-container,
+.react-select__placeholder {
+    color: var(--ctq-text) !important;
+}
+
+.react-select__value-container {
+    min-height: 46px !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.react-select__placeholder {
+    color: var(--ctq-text-muted) !important;
+    margin: 0 !important;
+}
+
+.react-select__single-value {
+    margin: 0 !important;
+}
+
+.react-select__input-container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.react-select__menu {
+    background: linear-gradient(180deg, rgba(17, 37, 68, 0.98) 0%, rgba(10, 27, 51, 0.98) 100%) !important;
+    border: 1px solid rgba(148, 163, 184, 0.18) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    box-shadow: 0 18px 36px rgba(4, 10, 22, 0.34) !important;
+}
+
+.react-select__option {
+    background: transparent !important;
+    color: var(--ctq-text) !important;
+}
+
+.react-select__option--is-focused {
+    background: rgba(125, 211, 252, 0.12) !important;
+}
+
+.react-select__option--is-selected {
+    background: rgba(244, 232, 90, 0.18) !important;
+    color: var(--ctq-yellow) !important;
+}
+
+.react-select__dropdown-indicator,
+.react-select__clear-indicator {
+    color: var(--ctq-text-muted) !important;
+}
+
 .options-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .option-card {
     position: relative;
     cursor: pointer;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    padding: 12px 10px;
     text-align: center;
-    transition: all 0.2s;
-    background: white;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.option-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(125, 211, 252, 0.28);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.option-card:active {
+    transform: scale(0.985);
 }
 
 .option-card input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
+    inset: 0;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
     z-index: 1;
 }
 
@@ -178,149 +343,218 @@
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    color: #666;
+    color: var(--ctq-text-muted);
+    min-height: 52px;
+    justify-content: center;
 }
 
 .option-icon {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    transition: transform 0.18s ease, color 0.18s ease;
 }
 
 .option-card span {
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
+    line-height: 1.1;
 }
 
-/* Active State for Options */
 .option-card.active {
-    border-color: #1e88e5;
-    background-color: #e3f2fd;
+    border-color: rgba(125, 211, 252, 0.46);
+    background: rgba(125, 211, 252, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.12);
+    transform: translateY(-1px);
 }
 
 .option-card.active .option-content {
-    color: #1565c0;
+    color: var(--ctq-accent);
+}
+
+.option-card.active .option-icon {
+    transform: scale(1.08);
+}
+
+.option-card--yellow.active {
+    border-color: var(--ctq-yellow);
+    background: rgba(244, 232, 90, 0.11);
+    box-shadow: inset 0 0 0 1px rgba(244, 232, 90, 0.18), 0 8px 18px rgba(4, 10, 22, 0.14);
+}
+
+.option-card--yellow.active .option-content {
+    color: var(--ctq-yellow);
 }
 
 .option-card.disabled {
-    opacity: 0.5;
+    opacity: 0.46;
     cursor: not-allowed;
-    background-color: #f5f5f5;
-    border-color: #eee;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(148, 163, 184, 0.12);
+    filter: saturate(0.7);
 }
 
-/* Footer */
+.option-card.disabled:hover,
+.option-card.disabled:active {
+    transform: none;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(148, 163, 184, 0.12);
+}
+
+.doubles-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
 .modal-footer-modern {
-    padding: 16px 24px;
-    border-top: 1px solid #f0f0f0;
+    padding: 16px 20px 18px;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    background-color: #fff;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
     flex-shrink: 0;
 }
 
-.btn-cancel {
-    padding: 10px 20px;
+.btn-cancel,
+.btn-confirm {
+    min-height: 46px;
+    padding: 0 20px;
     border: none;
-    background: #f5f5f5;
-    color: #666;
-    font-weight: 600;
+    border-radius: 14px;
+    font-weight: 700;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.2s;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ctq-text);
+    border: 1px solid rgba(148, 163, 184, 0.18);
 }
 
 .btn-cancel:hover {
-    background-color: #e0e0e0;
-    color: #333;
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
 }
 
 .btn-confirm {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.2s;
-    display: flex;
+    color: #0f172a;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    min-width: 160px;
 }
 
 .btn-confirm:active {
-    transform: scale(0.98);
+    transform: scale(0.985);
 }
 
 .btn-reserve {
-    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
-    box-shadow: 0 4px 6px rgba(30, 136, 229, 0.2);
+    background: var(--ctq-yellow);
+    box-shadow: 0 10px 20px rgba(244, 232, 90, 0.22);
 }
 
 .btn-reserve:hover {
-    box-shadow: 0 6px 12px rgba(30, 136, 229, 0.3);
     transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(244, 232, 90, 0.24);
 }
 
 .btn-pay {
-    background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
-    box-shadow: 0 4px 6px rgba(229, 57, 53, 0.2);
+    background: var(--ctq-yellow);
+    box-shadow: 0 10px 20px rgba(244, 232, 90, 0.22);
 }
 
 .btn-pay:hover {
-    box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3);
     transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(244, 232, 90, 0.24);
 }
 
-/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
 @keyframes slideUp {
-    from { transform: translateY(20px) scale(0.95); opacity: 0; }
+    from { transform: translateY(18px) scale(0.97); opacity: 0; }
     to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Responsive Adjustments */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+    .modal-overlay {
+        padding: 12px;
+        align-items: flex-end;
+    }
+
     .modal-container {
-        width: 95%; /* Leave some margin */
-        max-height: 85vh; /* Don't touch top/bottom edges */
-        border-radius: 16px; /* Keep rounded corners */
-        margin: 0 auto;
+        width: 100%;
+        max-height: 88vh;
+        border-radius: 20px 20px 18px 18px;
+    }
+
+    .modal-header-modern,
+    .modal-body-modern,
+    .modal-footer-modern {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .reservation-summary-card {
-        flex-direction: row; /* Keep horizontal if possible */
-        flex-wrap: wrap;
-        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
         padding: 12px;
     }
 
     .summary-item {
-        flex: 1 1 30%; /* Distribute evenly */
-        min-width: 80px;
+        padding: 2px 0;
+        align-items: flex-start;
+    }
+
+    .summary-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.88rem;
+    }
+
+    .summary-item .label {
+        font-size: 0.62rem;
+    }
+
+    .summary-item .value {
+        font-size: 0.82rem;
     }
 
     .options-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
     }
 
-    .option-card {
-        padding: 8px;
+    .doubles-section {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 
-    .modal-body-modern {
-        padding: 16px;
+    .option-card {
+        padding: 10px 8px;
+    }
+
+    .option-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        min-height: 48px;
+    }
+
+    .option-card span {
+        font-size: 0.74rem;
     }
 
     .modal-footer-modern {
-        padding: 12px 16px;
+        flex-direction: column-reverse;
     }
-}
 
-/* SweetAlert2 Override */
-.swal2-container {
-    z-index: 10000 !important;
+    .btn-cancel,
+    .btn-confirm {
+        width: 100%;
+    }
 }

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import AppLoader from '../../components/AppLoader';
+import PaymentStatusPage from './PaymentStatusPage';
 
 const PaymentSuccess: React.FC = () => {
     const [searchParams] = useSearchParams();
@@ -19,18 +18,21 @@ const PaymentSuccess: React.FC = () => {
                 await Swal.fire({
                     icon: 'error',
                     title: 'Pago no procesado',
-                    text: 'El pago no fue aprobado',
+                    text: 'No pudimos validar la aprobación del pago.',
+                    confirmButtonText: 'Volver al dashboard',
                 });
+                navigate('/dashboard', { replace: true });
                 return;
             }
             if (status === 'approved') {
                 setIsProcessing(false);
                 await Swal.fire({
                     icon: 'success',
-                    title: '¡Pago Exitoso!',
-                    text: 'Tu reserva ha sido confirmada',
+                    title: 'Pago confirmado',
+                    text: 'Tu reserva quedó confirmada correctamente.',
+                    confirmButtonText: 'Volver al dashboard',
                 });
-                navigate('/dashboard');
+                navigate('/dashboard', { replace: true });
                 return;
             } else {
                 throw new Error('Pago no aprobado');
@@ -40,17 +42,21 @@ const PaymentSuccess: React.FC = () => {
         processPayment();
     }, [searchParams, navigate]);
 
-    return (
-        <div className="container center-align" style={{ marginTop: '100px' }}>
-            {isProcessing ? (
-                <AppLoader text="Validando pago..." size="4x" />
-            ) : (
-                <>
-                    <FontAwesomeIcon icon={faCheckCircle} size="4x" color="#4caf50" />
-                    <h4>¡Pago procesado con éxito!</h4>
-                </>
-            )}
-        </div>
+    return isProcessing ? (
+        <PaymentStatusPage
+            status="processing"
+            eyebrow="Procesando pago"
+            title="Validando tu pago"
+            description="Estamos confirmando la transacción con Mercado Pago. Esto puede tardar unos segundos."
+        />
+    ) : (
+        <PaymentStatusPage
+            status="success"
+            icon={faCheckCircle}
+            eyebrow="Pago aprobado"
+            title="Reserva confirmada"
+            description="El pago fue procesado correctamente y tu reserva ya está activa."
+        />
     );
 };
 

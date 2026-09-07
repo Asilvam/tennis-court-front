@@ -1,28 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import PaymentStatusPage from './PaymentStatusPage';
 
 const PaymentFailure: React.FC = () => {
     const navigate = useNavigate();
 
     const handleRetry = () => {
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
     };
 
     return (
-        <div className="container center-align" style={{ marginTop: '100px' }}>
-            <FontAwesomeIcon icon={faTimesCircle} size="4x" color="#f44336" />
-            <h4>Pago Fallido</h4>
-            <p>Tu pago no pudo ser procesado</p>
-            <button
-                className="btn blue darken-4 waves-effect waves-light"
-                onClick={handleRetry}
-                style={{ marginTop: '20px' }}
-            >
-                Cerrar
-            </button>
-        </div>
+        <PaymentStatusPage
+            status="failure"
+            icon={faTimesCircle}
+            eyebrow="Pago rechazado"
+            title="No pudimos procesar el pago"
+            description="La reserva no fue confirmada y la cancha volvió a quedar disponible."
+            secondaryText="Puedes realizar una nueva reserva o intentar con otro medio de pago."
+            actionLabel="Volver al dashboard"
+            onAction={handleRetry}
+        />
     );
 };
 

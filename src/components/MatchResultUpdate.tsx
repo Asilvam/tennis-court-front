@@ -105,7 +105,15 @@ const MatchResultUpdate: React.FC = () => {
     const handleError = (error: unknown) => {
         if (axios.isAxiosError(error)) {
             if (error.response) {
-                if (error.response.status === 400) {
+                if (error.response.status === 409) {
+                    setIsModalOpen(false);
+                    void Swal.fire({
+                        icon: 'info',
+                        title: 'Resultado ya registrado',
+                        text: 'Otro jugador ya ingresó el resultado de este partido. Actualizamos tu lista de pendientes.',
+                        confirmButtonText: 'Entendido',
+                    }).then(() => fetchReserves());
+                } else if (error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Solicitud inválida',
@@ -287,18 +295,18 @@ const MatchResultUpdate: React.FC = () => {
 
     return (
         <div className="match-result-container">
-            <h5 className="match-result-title">Ingresar Resultado Match</h5>
+            <h5 className="match-result-title">Registrar resultado</h5>
 
             <p className="match-result-subtitle">
-                Selecciona uno de tus partidos de ranking (últimos 2 días) para ingresar el resultado.
+                Selecciona un partido de ranking reciente para registrar el marcador y el ganador.
             </p>
 
             {loadingReserves ? (
                 <AppLoader text="Cargando tus partidos de ranking..." size="2x" />
             ) : reserves.length === 0 ? (
                 <div className="match-result-empty">
-                    <h6>No tienes partidos de ranking pendientes</h6>
-                    <p>Solo se muestran partidos de los últimos 2 días sin resultado ingresado.</p>
+                    <h6>No hay partidos pendientes</h6>
+                    <p>Los partidos de ranking de hoy y ayer aparecerán aquí mientras no tengan un resultado registrado.</p>
                 </div>
             ) : (
                 <div className="match-result-table-wrapper">
@@ -315,15 +323,15 @@ const MatchResultUpdate: React.FC = () => {
                         <tbody>
                             {reserves.map((reserve) => (
                                 <tr key={reserve.idCourtReserve}>
-                                    <td>{DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</td>
-                                    <td className="center-align">{reserve.court.replace(/\D/g, '')}</td>
-                                    <td>{reserve.turn.split('-')[0]}</td>
-                                    <td>
+                                    <td data-label="Fecha">{DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</td>
+                                    <td data-label="Cancha" className="center-align">{reserve.court.replace(/\D/g, '')}</td>
+                                    <td data-label="Turno">{reserve.turn.split('-')[0]}</td>
+                                    <td data-label="Jugadores">
                                         {[reserve.player1, reserve.player2, reserve.player3, reserve.player4]
                                             .filter(Boolean)
                                             .join(' / ')}
                                     </td>
-                                    <td className="center-align">
+                                    <td data-label="Acción" className="center-align">
                                         <button
                                             className="btn-validate"
                                             disabled={loading}
@@ -389,10 +397,10 @@ const MatchResultUpdate: React.FC = () => {
                                 <label className="form-label">Marcador final</label>
                                 <input
                                     type="text"
-                                    className="mr-form-input"
+                                    className="mr-form-input browser-default"
                                     value={result}
                                     onChange={(e) => setResult(e.target.value)}
-                                    placeholder="Ej: 6-4, 3-6, 7-6"
+                                    placeholder="Ej: 6:4, 3:6, 7:6"
                                 />
                             </div>
 

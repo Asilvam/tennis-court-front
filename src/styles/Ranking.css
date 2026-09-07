@@ -1,107 +1,114 @@
 .ranking-wrapper {
-    padding: 20px;
-    max-width: 900px;
+    padding: 24px 12px 40px;
+    max-width: 980px;
     margin: 0 auto;
-    animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .ranking-header-section {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 26px;
 }
 
 .ranking-main-title {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     font-weight: 800;
-    color: #1a365d;
+    color: var(--ctq-text);
     margin: 0;
-    letter-spacing: -1px;
+    letter-spacing: 0;
 }
 
 .ranking-main-title span {
-    color: #3182ce;
+    color: var(--ctq-yellow);
 }
 
 .title-icon {
-    color: #ecc94b;
-    margin-right: 15px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    color: var(--ctq-yellow);
+    margin-right: 12px;
+    filter: drop-shadow(0 4px 12px rgba(244, 232, 90, 0.16));
 }
 
 .ranking-subtitle {
-    color: #718096;
-    font-size: 1.1rem;
-    margin-top: 5px;
+    color: var(--ctq-text-muted);
+    font-size: 0.98rem;
+    margin-top: 6px;
 }
 
-/* Categories Grid */
 .categories-grid {
     display: flex !important;
     flex-direction: column !important;
-    gap: 20px;
+    gap: 14px;
     width: 100%;
 }
 
 .category-card {
     border-radius: 20px;
-    overflow: visible;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     cursor: pointer;
     width: 100%;
     float: none !important;
     display: flex !important;
     flex-direction: column !important;
+    background: linear-gradient(180deg, rgba(17, 37, 68, 0.94) 0%, rgba(10, 27, 51, 0.98) 100%) !important;
+    border: 1px solid rgba(148, 163, 184, 0.16) !important;
+    box-shadow: 0 18px 36px rgba(4, 10, 22, 0.16) !important;
 }
 
 .category-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 24px 40px rgba(4, 10, 22, 0.2) !important;
 }
 
 .category-card.active {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: rgba(244, 232, 90, 0.22) !important;
+    box-shadow: 0 28px 48px rgba(4, 10, 22, 0.22) !important;
 }
 
 .category-header {
-    padding: 24px 30px;
+    padding: 20px 22px;
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
     width: 100%;
     box-sizing: border-box;
 }
 
+.category-info {
+    min-width: 0;
+}
+
 .category-label {
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    font-weight: 700;
-    color: #a0aec0;
-    letter-spacing: 1px;
+    font-weight: 800;
+    color: var(--ctq-text-muted);
+    letter-spacing: 0.08em;
 }
 
 .category-name {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #2d3748;
+    margin: 2px 0 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--ctq-text);
 }
 
 .toggle-icon {
-    color: #4a5568;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+    color: var(--ctq-text);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    padding: 9px;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
-/* Ranking List */
 .category-content {
-    background: rgba(255, 255, 255, 0.5);
-    padding: 10px 20px 25px 20px;
-    border-radius: 0 0 20px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 14px 16px;
 }
 
 .ranking-list {
@@ -112,18 +119,20 @@
 
 .player-row {
     display: grid;
-    grid-template-columns: 50px 70px 1fr 100px;
+    grid-template-columns: 44px 58px 1fr 88px;
     align-items: center;
-    padding: 12px 20px;
-    background: white;
-    border-radius: 15px;
-    transition: all 0.2s;
-    border: 1px solid transparent;
+    gap: 12px;
+    padding: 11px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    transition: transform 0.18s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(148, 163, 184, 0.14);
 }
 
 .player-row:hover {
-    background: #edf2f7;
-    transform: scale(1.01);
+    background: rgba(255, 255, 255, 0.075);
+    transform: translateX(2px);
+    box-shadow: 0 12px 22px rgba(4, 10, 22, 0.12);
 }
 
 .rank-indicator {
@@ -134,23 +143,22 @@
 
 .rank-number {
     font-weight: 800;
-    color: #718096;
-    font-size: 1.1rem;
+    color: var(--ctq-text-muted);
+    font-size: 1rem;
 }
 
-/* Top 8 Master Styles */
 .player-row.master-zone {
-    background: linear-gradient(to right, #fffbeb, #ffffff);
-    border: 1px solid rgba(251, 191, 36, 0.25);
+    background: linear-gradient(90deg, rgba(244, 232, 90, 0.08) 0%, rgba(255, 255, 255, 0.05) 58%);
+    border-color: rgba(244, 232, 90, 0.18);
 }
 
 .master-badge {
     position: absolute;
-    bottom: -5px;
-    right: -5px;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    font-size: 0.6rem;
+    bottom: -4px;
+    right: -4px;
+    background: var(--ctq-yellow);
+    color: #0f172a;
+    font-size: 0.58rem;
     font-weight: 900;
     width: 18px;
     height: 18px;
@@ -158,22 +166,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(15, 23, 42, 0.9);
+    box-shadow: 0 4px 8px rgba(4, 10, 22, 0.24);
 }
 
 .master-tag {
     font-size: 0.65rem;
     font-weight: 700;
-    color: #d97706;
+    color: var(--ctq-yellow);
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
 
 .player-avatar-wrapper {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
 }
 
 .player-avatar {
@@ -181,8 +189,9 @@
     height: 100%;
     border-radius: 12px;
     object-fit: cover;
-    border: 2px solid white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 6px 12px rgba(4, 10, 22, 0.16);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .rank-badge {
@@ -203,47 +212,48 @@
 }
 
 .player-name {
-    font-weight: 600;
-    color: #2d3748;
-    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ctq-text);
+    font-size: 1rem;
 }
 
 .player-info {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
 }
 
 .player-score {
     text-align: right;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
 }
 
 .points-value {
     font-weight: 800;
-    color: #2b6cb0;
-    font-size: 1.2rem;
+    color: var(--ctq-accent);
+    font-size: 1.1rem;
     line-height: 1;
 }
 
 .points-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: #a0aec0;
+    font-size: 0.64rem;
+    font-weight: 800;
+    color: var(--ctq-text-muted);
+    letter-spacing: 0.05em;
 }
 
-/* Loader */
 .center-loader {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 300px;
-    color: #4a5568;
+    color: var(--ctq-text-muted);
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -257,13 +267,13 @@
 }
 
 .animate-in {
-    animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-8px);
     }
 
     to {
@@ -272,13 +282,51 @@
     }
 }
 
-@media (max-width: 600px) {
-    .player-row {
-        grid-template-columns: 40px 60px 1fr 80px;
-        padding: 10px 12px;
+@media (max-width: 640px) {
+    .ranking-wrapper {
+        padding: 18px 10px 30px;
+    }
+
+    .ranking-header-section {
+        margin-bottom: 18px;
     }
 
     .ranking-main-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .ranking-subtitle {
+        font-size: 0.92rem;
+    }
+
+    .category-header {
+        padding: 16px 16px;
+    }
+
+    .category-name {
+        font-size: 1.18rem;
+    }
+
+    .category-content {
+        padding: 8px 10px 12px;
+    }
+
+    .player-row {
+        grid-template-columns: 34px 48px 1fr 72px;
+        gap: 10px;
+        padding: 10px 10px;
+    }
+
+    .player-avatar-wrapper {
+        width: 42px;
+        height: 42px;
+    }
+
+    .player-name {
+        font-size: 0.92rem;
+    }
+
+    .points-value {
+        font-size: 0.98rem;
     }
 }
