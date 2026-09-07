@@ -5,10 +5,11 @@ import { useAuth } from './useAuth';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
-    adminOnly?: boolean; // Add optional adminOnly prop
+    adminOnly?: boolean;
+    profesorAllowed?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = false }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = false, profesorAllowed = false }) => {
     const { isAuthenticated, user } = useAuth();
 
     // If user is not authenticated, redirect to login
@@ -17,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
     }
 
     // If route is admin-only and user is not an admin, redirect to unauthorized page
-    if (adminOnly && user?.role !== 'admin') {
+    if (adminOnly && user?.role !== 'admin' && !(profesorAllowed && user?.role === 'profesor')) {
         return <Navigate to="/unauthorized" />;
     }
 
