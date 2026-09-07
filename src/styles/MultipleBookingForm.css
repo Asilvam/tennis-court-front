@@ -88,6 +88,61 @@
   margin-bottom: 8px !important;
 }
 
+.mbf-label-optional {
+  color: rgba(148, 163, 184, 0.7) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.mbf-motive-detail {
+  margin-top: 14px !important;
+}
+
+.mbf-text-input {
+  width: 100% !important;
+  height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 14px !important;
+  outline: none !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--ctq-text) !important;
+  font-family: inherit !important;
+  font-size: 0.95rem !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s !important;
+}
+
+.mbf-text-input::placeholder {
+  color: var(--ctq-text-muted) !important;
+}
+
+.mbf-text-input:hover {
+  border-color: rgba(125, 211, 252, 0.3) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+.mbf-text-input:focus {
+  border-color: rgba(125, 211, 252, 0.42) !important;
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.12) !important;
+}
+
+.mbf-motive-meta {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-top: 7px !important;
+  color: var(--ctq-text-muted) !important;
+  font-size: 0.78rem !important;
+}
+
+.mbf-motive-meta strong {
+  color: var(--ctq-accent) !important;
+}
+
 .mbf-date-input {
   display: flex !important;
   align-items: center !important;

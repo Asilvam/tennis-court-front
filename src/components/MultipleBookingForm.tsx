@@ -12,6 +12,7 @@ import { forwardRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MultipleBookingForm.css';
+import { useAuth } from './useAuth.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
@@ -110,11 +111,16 @@ const CheckboxPill: React.FC<CheckboxPillProps> = ({ label, checked, onChange, s
 
 const MultipleBookingForm: React.FC = () => {
     const navigate = useNavigate();
+    const { user, token } = useAuth();
+    const isProfessor = user?.role === 'profesor';
+    const professorName = user?.name?.trim() || '';
+    const professorMotive = professorName ? `Clases - ${professorName}` : '';
 
     const [courts, setCourts] = useState<string[]>([]);
     const [dates, setDates] = useState<string[]>([]);
     const [turns, setTurns] = useState<string[]>([]);
     const [motive, setMotive] = useState<string>('');
+    const [motiveDetail, setMotiveDetail] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
 
     const availableCourts = ['Cancha 1', 'Cancha 2', 'Cancha 3'];
@@ -123,7 +129,13 @@ const MultipleBookingForm: React.FC = () => {
         '14:15-16:00', '16:15-18:00', '18:15-20:00',
         '20:15-22:00', '22:15-00:00',
     ];
-    const availableMotives = ['Campeonato', 'Clases', 'Mantencion', 'Clima', 'Reserva'];
+    const availableMotives = isProfessor
+        ? professorMotive ? [professorMotive] : []
+        : ['Campeonato', 'Clases', 'Mantencion', 'Clima', 'Reserva'];
+    const normalizedMotiveDetail = motiveDetail.trim();
+    const effectiveMotive = isProfessor
+        ? professorMotive
+        : [motive, normalizedMotiveDetail].filter(Boolean).join(' - ');
 
     const amTurns   = availableTurns.filter(t => { const [s] = t.split('-'); return s >= '08:15' && s <= '14:00'; });
     const pmTurns   = availableTurns.filter(t => { const [s] = t.split('-'); return s >= '14:15' && s <= '20:00'; });
@@ -153,27 +165,34 @@ const MultipleBookingForm: React.FC = () => {
 
     // ── Reserve ───────────────────────────────────────────────
     const handleReserve = async () => {
+        if (!token)
+            return Swal.fire({ icon: 'warning', title: 'Sesión inválida', text: 'Vuelve a iniciar sesión para reservar.' });
+        if (isProfessor && !professorName)
+            return Swal.fire({ icon: 'warning', title: 'Profesor sin nombre', text: 'La cuenta debe tener un nombre asociado.' });
         if (!courts.length)
             return Swal.fire({ icon: 'warning', title: 'Sin canchas', text: 'Selecciona al menos una cancha.' });
         if (!dates.length)
             return Swal.fire({ icon: 'warning', title: 'Sin fechas', text: 'Selecciona al menos una fecha.' });
         if (!turns.length)
             return Swal.fire({ icon: 'warning', title: 'Sin turnos', text: 'Selecciona uno o más turnos.' });
-        if (!motive)
+        if (!effectiveMotive)
             return Swal.fire({ icon: 'warning', title: 'Sin motivo', text: 'Selecciona un motivo para la reserva.' });
         if (total > 100)
             return Swal.fire({ icon: 'warning', title: 'Demasiadas reservas', text: `Estás intentando crear ${total} reservas. Reduce la selección.` });
 
         setIsLoading(true);
-        const payload = { courts, dates, turns, motive };
+        const payload = { courts, dates, turns, motive: effectiveMotive };
         try {
             logger.debug(payload);
-            await axios.post(`${apiUrl}/booking/multiple`, payload);
+            await axios.post(`${apiUrl}/booking/multiple`, payload, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             await Swal.fire({ icon: 'success', title: 'Reservas creadas', text: '¡Las reservas fueron creadas exitosamente!', confirmButtonColor: '#3085d6' });
             setCourts([]);
             setDates([]);
             setTurns([]);
             setMotive('');
+            setMotiveDetail('');
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
             Swal.fire({ icon: 'error', title: 'Error', text: 'Ocurrió un error al crear las reservas.', confirmButtonColor: '#d33' });
@@ -310,12 +329,39 @@ const MultipleBookingForm: React.FC = () => {
                     <Select<SelectOption, false>
                         components={animatedComponents}
                         options={formatOptions(availableMotives)}
-                        value={motive ? { value: motive, label: motive } : null}
-                        onChange={(selected) => setMotive(selected?.value || '')}
+                        value={motive ? { value: motive, label: motive } : isProfessor && effectiveMotive
+                            ? { value: effectiveMotive, label: effectiveMotive }
+                            : null}
+                        onChange={(selected) => {
+                            setMotive(selected?.value || '');
+                            setMotiveDetail('');
+                        }}
+                        isDisabled={isProfessor}
                         menuPortalTarget={document.body}
                         styles={customSelectStylesSingle}
                         placeholder="Selecciona un motivo..."
                     />
+                    {!isProfessor && motive && (
+                        <div className="mbf-motive-detail">
+                            <label className="mbf-label" htmlFor="motive-detail">
+                                Detalle del motivo <span className="mbf-label-optional">(opcional)</span>
+                            </label>
+                            <input
+                                id="motive-detail"
+                                className="mbf-text-input"
+                                type="text"
+                                value={motiveDetail}
+                                maxLength={80}
+                                onChange={(event) => setMotiveDetail(event.target.value)}
+                                placeholder="Ej.: A. Silva vs J. Millar"
+                                autoComplete="off"
+                            />
+                            <div className="mbf-motive-meta">
+                                <span>Se guardará como: <strong>{effectiveMotive}</strong></span>
+                                <span>{motiveDetail.length}/80</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
