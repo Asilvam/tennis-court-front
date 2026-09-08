@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faSpinner, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
@@ -57,6 +57,7 @@ const AdminRegister: React.FC = () => {
     const [originalEditUser, setOriginalEditUser] = useState<Register | null>(null);
     const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const modalSelectStyles: StylesConfig<SelectOption, false> = {
         ...customStyles,
@@ -212,10 +213,11 @@ const AdminRegister: React.FC = () => {
 
     const handleSave = async () => {
         if (editUser) {
-            if (!hasChanges) {
+            if (!hasChanges || isSaving) {
                 return;
             }
 
+            setIsSaving(true);
             try {
                 const response = await axios.patch(
                     `${apiUrl}/register/${editUser.email}`,
@@ -239,7 +241,11 @@ const AdminRegister: React.FC = () => {
                 console.error('Error updating user:', error);
                 Swal.fire('Error', 'Failed to update user.', 'error');
             } finally {
-                fetchRegisters();
+                try {
+                    await fetchRegisters();
+                } finally {
+                    setIsSaving(false);
+                }
             }
         }
     };
@@ -385,7 +391,7 @@ const AdminRegister: React.FC = () => {
 
             {/* Edit Modal */}
             {isEditModalOpen && (
-                <div className="edit-modal-backdrop" onClick={handleCloseEditModal}>
+                <div className="edit-modal-backdrop" onClick={isSaving ? undefined : handleCloseEditModal}>
                     <div id="editModal" className="modal edit-modal" role="dialog" aria-modal="true" aria-labelledby="edit-user-title" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-content">
                             <div className="modal-header">
@@ -397,7 +403,7 @@ const AdminRegister: React.FC = () => {
                                     <form>
                                         <div className="modal-form-section">
                                             <div className="input-field">
-                                                <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} />
+                                                <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} disabled={isSaving} />
                                                 <label htmlFor="namePlayer" className="active">Nombre</label>
                                             </div>
                                             <div className="input-field">
@@ -405,7 +411,7 @@ const AdminRegister: React.FC = () => {
                                                 <label htmlFor="email" className="active">Correo</label>
                                             </div>
                                             <div className="input-field">
-                                                <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} />
+                                                <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} disabled={isSaving} />
                                                 <label htmlFor="cellular" className="active">Celular</label>
                                             </div>
                                         </div>
@@ -425,9 +431,13 @@ const AdminRegister: React.FC = () => {
                                                     }
                                                     options={roleOptions}
                                                     styles={modalSelectStyles}
+                                                    isSearchable={false}
+                                                    isClearable={false}
+                                                    isDisabled={isSaving}
+                                                    blurInputOnSelect
                                                     menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
                                                     menuPosition="fixed"
-                                                    menuPlacement="top"
+                                                    menuPlacement="auto"
                                                     maxMenuHeight={180}
                                                 />
                                             </div>
@@ -453,25 +463,25 @@ const AdminRegister: React.FC = () => {
                                             <div className="switch status-switch">
                                                 <label>
                                                     Activo
-                                                    <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={handleSwitchChange} />
+                                                    <input type="checkbox" name="statePlayer" checked={editUser.statePlayer} onChange={handleSwitchChange} disabled={isSaving} />
                                                     <span className="lever"></span>
                                                 </label>
                                             </div>
                                             <div className="switch status-switch">
                                                 <label>
                                                     Pago al día
-                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={handleSwitchChange} />
+                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={handleSwitchChange} disabled={isSaving} />
                                                     <span className="lever"></span>
                                                 </label>
                                             </div>
                                         </div>
 
                                         <div className="admin-modal-actions">
-                                            <button className="btn-flat waves-effect waves-light cancel-btn admin-modal-btn-cancel" type="button" onClick={handleCloseEditModal}>
+                                            <button className="btn-flat waves-effect waves-light cancel-btn admin-modal-btn-cancel" type="button" onClick={handleCloseEditModal} disabled={isSaving}>
                                                 Cancelar
                                             </button>
-                                            <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave} disabled={!hasChanges}>
-                                                Actualizar
+                                            <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave} disabled={!hasChanges || isSaving} aria-busy={isSaving}>
+                                                {isSaving ? <><FontAwesomeIcon icon={faSpinner} spin /> Actualizando...</> : 'Actualizar'}
                                             </button>
                                         </div>
                                     </form>
