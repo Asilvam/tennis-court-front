@@ -102,6 +102,17 @@ const Modal: React.FC<ModalProps> = ({
         }
     }, [selectedTimeSlot]);
 
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isOpen]);
+
     // Removed Materialize Modal init logic as we are controlling visibility via CSS/React state
 
     const formattedPlayers = playersNames.map(player => ({
@@ -409,7 +420,13 @@ const Modal: React.FC<ModalProps> = ({
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="modal-container"
+                role="dialog"
+                aria-modal="true"
+                aria-label={title}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="modal-header-modern">
                     <div className="header-title">
                         <FontAwesomeIcon icon={faCalendarCheck} className="header-icon" />
@@ -463,6 +480,7 @@ const Modal: React.FC<ModalProps> = ({
                                     isSearchable
                                     isDisabled={formData.isVisit}
                                     menuPortalTarget={document.body}
+                                    menuPosition="fixed"
                                     maxMenuHeight={160}
                                     menuPlacement="auto"
                                     styles={customStyles}
@@ -530,6 +548,7 @@ const Modal: React.FC<ModalProps> = ({
                                             placeholder="Selecciona Player 3"
                                             isSearchable
                                             menuPortalTarget={document.body}
+                                            menuPosition="fixed"
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
@@ -552,6 +571,7 @@ const Modal: React.FC<ModalProps> = ({
                                             placeholder="Selecciona Player 4"
                                             isSearchable
                                             menuPortalTarget={document.body}
+                                            menuPosition="fixed"
                                             maxMenuHeight={160}
                                             menuPlacement="top"
                                             styles={customStyles}
