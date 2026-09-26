@@ -50,7 +50,36 @@ const isTokenExpired = (token: string): boolean => {
     return payload.exp <= nowInSeconds;
 };
 
+const getStatusCategory = (status: string | null | undefined) =>
+    status?.trim().split(/[\s-]+/)[0]?.toLocaleLowerCase('es-CL') ?? '';
+
+const getStatusEmoji = (status: string) => {
+    const category = getStatusCategory(status);
+    const normalizedStatus = status.toLocaleLowerCase('es-CL');
+
+    if (category === 'clases') return '🎾';
+    if (category === 'reserva') return '✏️';
+    if (category === 'mantencion') return '🪏';
+    if (category === 'clima') {
+        if (normalizedStatus.includes('viento')) return '🌬️';
+        if (/trueno|tormenta|rayo/.test(normalizedStatus)) return '⛈️';
+        if (normalizedStatus.includes('lluvia')) return '🌧️';
+        return '🌦️';
+    }
+
+    return '';
+};
+
 const renderCourtStatus = (status: string) => {
+    const emoji = getStatusEmoji(status);
+    if (emoji) {
+        return (
+            <span className="status-text">
+                <span aria-hidden="true">{emoji}</span> {status}
+            </span>
+        );
+    }
+
     if (!status.includes(',')) {
         return <span className="status-text">{status}</span>;
     }
@@ -439,11 +468,11 @@ const Dashboard: React.FC = () => {
                                         className={`court-card ${slot.available ? 'available' : 'unavailable'} 
                                                     ${expiredTimeSlot ? 'expired' : ''}
                                                     ${slot.isPayed ? 'paid' : ''} 
-                                                    ${slot.data === 'Campeonato' ? 'championship' : ''}
-                                                    ${slot.data === 'Mantencion' ? 'maintenance' : ''}
-                                                    ${slot.data === 'Clases' ? 'class' : ''}
-                                                    ${slot.data === 'Clima' ? 'weather' : ''}
-                                                    ${slot.data === 'Reserva' ? 'reserved' : ''}`}
+                                                    ${getStatusCategory(slot.data) === 'campeonato' ? 'championship' : ''}
+                                                    ${getStatusCategory(slot.data) === 'mantencion' ? 'maintenance' : ''}
+                                                    ${getStatusCategory(slot.data) === 'clases' ? 'class' : ''}
+                                                    ${getStatusCategory(slot.data) === 'clima' ? 'weather' : ''}
+                                                    ${getStatusCategory(slot.data) === 'reserva' ? 'reserved' : ''}`}
                                         onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
                                     >
                                         <span className="court-name">
