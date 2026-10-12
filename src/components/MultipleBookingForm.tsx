@@ -10,7 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DateTime } from 'luxon';
 import { forwardRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/MultipleBookingForm.css';
 import { useAuth } from './useAuth.ts';
 
@@ -372,7 +373,7 @@ const MultipleBookingForm: React.FC = () => {
                 </button>
                 <button type="button" className="mbf-btn-submit" onClick={handleReserve} disabled={isLoading}>
                     {isLoading ? (
-                        <><FontAwesomeIcon icon={faSpinner} spin /> Reservando...</>
+                        <><LoadingSpinner size={24} label="Reservando" /> Reservando...</>
                     ) : (
                         'Reservar'
                     )}

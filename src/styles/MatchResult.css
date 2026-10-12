@@ -100,7 +100,7 @@
 }
 
 .btn-validate {
-    min-height: 40px;
+    min-height: 44px;
     padding: 10px 14px;
     display: inline-flex;
     justify-content: center;
@@ -344,7 +344,7 @@
 
 .mr-btn-cancel,
 .btn-save {
-    min-height: 44px;
+    min-height: 46px;
     padding: 11px 20px;
     display: inline-flex;
     justify-content: center;

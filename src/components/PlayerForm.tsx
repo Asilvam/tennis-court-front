@@ -1,8 +1,7 @@
 
 import React, { useState, ChangeEvent, FormEvent, Fragment, useRef } from 'react';
 import axios from 'axios';
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LoadingSpinner } from './LoadingSpinner';
 import { MdPerson, MdPersonAdd, MdArrowBack } from "react-icons/md";
 import logger from "../utils/logger.ts";
 import '../styles/PlayerForm.css';
@@ -276,7 +275,7 @@ const PlayerForm: React.FC = () => {
                                             disabled={generateLoading}
                                         >
                                                 {generateLoading ? (
-                                                    <Fragment><FontAwesomeIcon icon={faSpinner} spin fixedWidth className="player-form-spinner" /> Creando...</Fragment>
+                                                    <Fragment><LoadingSpinner size={24} label="Creando usuario" className="player-form-spinner" /> Creando...</Fragment>
                                                 ) : (
                                                     <Fragment><MdPersonAdd style={{ marginRight: '8px', fontSize: '1.2rem' }} /> Crear usuario</Fragment>
                                                 )}

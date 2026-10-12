@@ -3,7 +3,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faSpinner,
     faPenToSquare,
     faTrophy,
     faRankingStar,
@@ -18,6 +17,7 @@ import '../styles/PlayerProfile.css';
 import logger from '../utils/logger.ts';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils.ts';
 import AppLoader from './AppLoader';
+import { LoadingSpinner } from './LoadingSpinner';
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -258,7 +258,7 @@ const PlayerProfile: React.FC = () => {
                                 className="save-btn"
                             >
                                 {uploading
-                                    ? <><FontAwesomeIcon icon={faSpinner} spin /> Subiendo...</>
+                                    ? <><LoadingSpinner size={24} label="Subiendo" /> Subiendo...</>
                                     : 'Guardar Foto'}
                             </button>
                         )}

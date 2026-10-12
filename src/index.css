@@ -183,10 +183,6 @@ code {
   background: transparent !important;
 }
 
-.swal2-loader {
-  border-color: var(--ctq-accent) transparent var(--ctq-accent) transparent !important;
-}
-
 .swal2-confirm {
   background-color: var(--ctq-yellow) !important;
   color: #0f172a !important;
@@ -231,14 +227,10 @@ code {
   gap: 16px;
 }
 
-.app-loader-icon {
-  color: var(--ctq-accent);
-}
-
 .app-loader-text {
   margin: 0;
   font-size: 1rem;
-  color: #555;
+  color: var(--ctq-text-muted);
 }
 
 /* Inline variant – small spinner inside a button or row, no full-page height */

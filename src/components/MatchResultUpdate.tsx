@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 import { DateTime } from 'luxon';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import AppLoader from './AppLoader';
+import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/MatchResult.css';
 
 interface PlayerData {
@@ -339,7 +340,7 @@ const MatchResultUpdate: React.FC = () => {
                                         >
                                             {loading ? (
                                                 <>
-                                                    <FontAwesomeIcon icon={faSpinner} spin className="mr-2" style={{ marginRight: '8px' }} />
+                                                    <LoadingSpinner size={24} label="Abriendo partido" className="ctq-spinner--spaced" />
                                                     Abriendo...
                                                 </>
                                             ) : (
@@ -468,7 +469,7 @@ const MatchResultUpdate: React.FC = () => {
                                 Cancelar
                             </button>
                             <button className="btn-save" onClick={handleSave} disabled={loading}>
-                                {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : <><FontAwesomeIcon icon={faCheckCircle} /> Guardar Resultado</>}
+                                {loading ? <LoadingSpinner size={24} label="Guardando resultado" /> : <><FontAwesomeIcon icon={faCheckCircle} /> Guardar Resultado</>}
                             </button>
                         </div>
                     </div>

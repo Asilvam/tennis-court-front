@@ -4,10 +4,11 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faSpinner, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
+import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/AdminRegister.css';
 
 interface Register {
@@ -481,7 +482,7 @@ const AdminRegister: React.FC = () => {
                                                 Cancelar
                                             </button>
                                             <button className="btn waves-effect waves-light save-btn admin-modal-btn-submit" type="button" onClick={handleSave} disabled={!hasChanges || isSaving} aria-busy={isSaving}>
-                                                {isSaving ? <><FontAwesomeIcon icon={faSpinner} spin /> Actualizando...</> : 'Actualizar'}
+                                                {isSaving ? <><LoadingSpinner size={24} label="Actualizando" /> Actualizando...</> : 'Actualizar'}
                                             </button>
                                         </div>
                                     </form>

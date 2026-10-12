@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faTrash, faImages, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faImages, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import AppLoader from './AppLoader';
+import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/ImageUploadForm.css';
 
 interface Item {
@@ -206,7 +207,7 @@ const ImageUploadForm: React.FC = () => {
                             disabled={loading}
                         >
                             {loading
-                                ? <><FontAwesomeIcon icon={faSpinner} spin /> Subiendo...</>
+                                ? <><LoadingSpinner size={24} label="Subiendo" /> Subiendo...</>
                                 : <><FontAwesomeIcon icon={faCloudUploadAlt} /> Subir item</>
                             }
                         </button>

@@ -32,7 +32,7 @@ const PaymentStatusPage: React.FC<PaymentStatusPageProps> = ({
             <span className="payment-status-eyebrow">{eyebrow}</span>
 
             <div className="payment-status-icon" aria-hidden="true">
-                {status === 'processing' ? <AppLoader text="" size="3x" /> : icon && <FontAwesomeIcon icon={icon} />}
+                {status === 'processing' ? <AppLoader text="" size="2x" /> : icon && <FontAwesomeIcon icon={icon} />}
             </div>
 
             <h1>{title}</h1>

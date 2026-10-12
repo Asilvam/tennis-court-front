@@ -3,7 +3,8 @@ import axios from 'axios';
 import {useAuth} from "./useAuth.ts";
 import {Link, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner, faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import { LoadingSpinner } from './LoadingSpinner';
 import Swal from 'sweetalert2';
 import '../styles/Login.css';
 
@@ -120,7 +121,7 @@ const Login: React.FC = () => {
                     >
                         {generateLoading ? (
                             <>
-                                <FontAwesomeIcon icon={faSpinner} spin className="mr-2" style={{marginRight: '8px'}} />
+                                <LoadingSpinner size={24} label="Iniciando sesion" className="ctq-spinner--spaced" />
                                 Procesando...
                             </>
                         ) : (

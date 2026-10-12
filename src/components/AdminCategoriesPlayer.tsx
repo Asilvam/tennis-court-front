@@ -8,6 +8,7 @@ import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faArrowLeft, faSave, faPlusCircle, faTrashAlt, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import '../styles/AdminRegister.css';
+import { LoadingSpinner } from './LoadingSpinner';
 
 type CategoryOption = { value: string; label: string };
 
@@ -238,13 +239,7 @@ const AdminCategoriesPlayer: React.FC = () => {
             {/* ── Contenido ─────────────────────────────────────────────── */}
             {loadingCategories ? (
                 <div className="center-align categories-loader">
-                    <div className="preloader-wrapper active">
-                        <div className="spinner-layer spinner-blue-only">
-                            <div className="circle-clipper left"><div className="circle"></div></div>
-                            <div className="gap-patch"><div className="circle"></div></div>
-                            <div className="circle-clipper right"><div className="circle"></div></div>
-                        </div>
-                    </div>
+                    <LoadingSpinner size={80} label="Cargando categorias" />
                 </div>
             ) : selectedPlayer ? (
                 <div className="animate-fade-in">

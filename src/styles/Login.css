@@ -94,6 +94,7 @@
 /* Button */
 .login-btn {
     width: 100%;
+    min-height: 52px;
     padding: 14px;
     background: var(--ctq-yellow);
     color: #0f172a;
