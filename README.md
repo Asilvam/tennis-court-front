@@ -31,7 +31,7 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 - Visual daily court availability grid (up to 2 days ahead)
 - Book singles or doubles slots, with optional "for ranking" flag
 - Invite guest visitors
-- Pay for night-time slots via Mercado Pago ($4,000 / $7,000 / $11,000 CLP)
+- Pay for night-time slots and visitors via Mercado Pago, using rates fetched from the backend (`GET /mp/rates`)
 - View and cancel reservations via personal history
 - Submit match results (score + winner) for ranking-tracked reservations
 - View the Escalerilla CTQ — a category-based player ladder
@@ -93,6 +93,17 @@ VITE_API_URL=http://localhost:3500
 ```
 
 > The backend REST API must be running at the URL defined in `VITE_API_URL`.
+
+### Reservation payment rates
+
+Before confirming a paid booking, the frontend reads `GET /mp/rates` from `VITE_API_URL` and displays the applicable CLP amount. The backend configures the night, visitor and combined rates through `MP_NIGHT_AMOUNT`, `MP_VISIT_AMOUNT` and `MP_NIGHT_VISIT_AMOUNT`; the frontend has no hardcoded fallback. If rates cannot be loaded or are invalid, no payment reservation is created. Free bookings do not require this request.
+
+Deploy the backend endpoint before deploying this frontend change. Mercado Pago and the email service require no changes for this feature.
+
+Run rate-selection and validation tests with Node 22:
+```bash
+npm run test:payment-rates
+```
 
 ### Run development server
 ```bash

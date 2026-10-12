@@ -19,6 +19,7 @@ import logger from '../utils/logger';
 import { AdaptiveSelect, type SelectOption } from './AdaptiveSelect';
 import { OptionPicker } from './OptionPicker';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
+import { getReservationPaymentAmount } from '../utils/paymentRates';
 
 type PlayerField = 'player2' | 'player3' | 'player4';
 const playerInputIds = { player2: 'reservation-player-2', player3: 'reservation-player-3', player4: 'reservation-player-4' };
@@ -80,6 +81,8 @@ const Modal: React.FC<ModalProps> = ({
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const submissionInProgress = useRef(false);
     const visibleViewport = useVisibleViewport(isOpen);
     const [activePicker, setActivePicker] = useState<{ field: PlayerField; query: string } | null>(null);
     const body = useRef<HTMLDivElement>(null);
@@ -363,32 +366,29 @@ const Modal: React.FC<ModalProps> = ({
     }
 
     const handleReserve = async () => {
-        if (!validateForm()) {
+        if (submissionInProgress.current || !validateForm()) {
             return;
         }
+        submissionInProgress.current = true;
+        setIsSubmitting(true);
         try {
-            let amountToPay = 0;
-            let title = '';
-            let text = '';
-
-            if (formData.isPaidNight && formData.isVisit) {
-                amountToPay = 11000;
-                title = 'Visita y Reserva nocturna Pagada';
-                text = "Este turno requiere pago de $11000. ¿Deseas continuar?";
-            } else if (formData.isPaidNight) {
-                amountToPay = 4000;
-                title = 'Turno Pagado';
-                text = "Este turno requiere pago de $4000. ¿Deseas continuar?";
-            } else if (formData.isVisit) {
-                amountToPay = 7000;
-                title = 'Visita Pagada';
-                text = "Este turno requiere pago de $7000. ¿Deseas continuar?";
-            }
-
-            if (amountToPay > 0) {
+            if (formData.isPaidNight || formData.isVisit) {
+                Swal.fire({
+                    title: 'Consultando tarifa...',
+                    text: 'Obteniendo el importe desde el backend.',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading(),
+                });
+                const response = await axios.get(`${apiUrl}/mp/rates`, { timeout: 10_000 });
+                const amountToPay = getReservationPaymentAmount(response.data, Boolean(formData.isPaidNight), formData.isVisit);
+                const formattedAmount = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(amountToPay);
+                const title = formData.isPaidNight && formData.isVisit
+                    ? 'Visita y Reserva nocturna Pagada'
+                    : formData.isPaidNight ? 'Turno Pagado' : 'Visita Pagada';
                 const result = await Swal.fire({
                     title: title,
-                    text: text,
+                    text: `Este turno requiere pago de ${formattedAmount}. ¿Deseas continuar?`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Sí, pagar ahora',
@@ -435,10 +435,13 @@ const Modal: React.FC<ModalProps> = ({
                 Swal.fire({
                     icon: 'error',
                     title: 'Unexpected Error',
-                    text: 'Un error inesperado ha ocurrido. Intente mas tarde.',
+                    text: error instanceof Error ? error.message : 'Un error inesperado ha ocurrido. Intente mas tarde.',
                     confirmButtonColor: '#1e88e5',
                 });
             }
+        } finally {
+            submissionInProgress.current = false;
+            setIsSubmitting(false);
         }
     };
 
@@ -639,8 +642,9 @@ const Modal: React.FC<ModalProps> = ({
                     <button
                         className={`btn-confirm ${formData.isPaidNight || formData.isVisit ? 'btn-pay' : 'btn-reserve'}`}
                         onClick={handleReserve}
+                        disabled={isSubmitting}
                     >
-                        {formData.isPaidNight || formData.isVisit ? (
+                        {isSubmitting ? 'Procesando...' : formData.isPaidNight || formData.isVisit ? (
                             <>
                                 Pagar
                             </>
