@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
@@ -17,6 +16,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Modal.css';
 import logger from '../utils/logger';
+import { AdaptiveSelect, type SelectOption } from './AdaptiveSelect';
+import { OptionPicker } from './OptionPicker';
+import { useVisibleViewport } from '../hooks/useVisibleViewport';
+
+type PlayerField = 'player2' | 'player3' | 'player4';
+const playerInputIds = { player2: 'reservation-player-2', player3: 'reservation-player-3', player4: 'reservation-player-4' };
 
 interface ModalProps {
     title: string;
@@ -75,12 +80,10 @@ const Modal: React.FC<ModalProps> = ({
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
-    const [visibleViewport, setVisibleViewport] = useState<{
-        width: number;
-        height: number;
-        top: number;
-        left: number;
-    } | null>(null);
+    const visibleViewport = useVisibleViewport(isOpen);
+    const [activePicker, setActivePicker] = useState<{ field: PlayerField; query: string } | null>(null);
+    const body = useRef<HTMLDivElement>(null);
+    const savedScroll = useRef(0);
     const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const timezone = 'America/Santiago'; // Chile timezone
@@ -90,6 +93,7 @@ const Modal: React.FC<ModalProps> = ({
     // Actualizar el formulario cuando cambia el slot seleccionado
     useEffect(() => {
         if (selectedTimeSlot) {
+            setActivePicker(null);
             setFormData({
                 court: '' + selectedTimeSlot.courtId,
                 player1: selectedTimeSlot.player1,
@@ -113,50 +117,34 @@ const Modal: React.FC<ModalProps> = ({
 
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
-        const viewport = window.visualViewport;
-        let frame = 0;
-        const measureViewport = () => {
-            const nextViewport = {
-                width: viewport?.width ?? window.innerWidth,
-                height: viewport?.height ?? window.innerHeight,
-                top: viewport?.offsetTop ?? 0,
-                left: viewport?.offsetLeft ?? 0,
-            };
-            setVisibleViewport((previous) =>
-                previous?.width === nextViewport.width &&
-                previous.height === nextViewport.height &&
-                previous.top === nextViewport.top &&
-                previous.left === nextViewport.left
-                    ? previous
-                    : nextViewport,
-            );
-        };
-        const updateViewport = () => {
-            cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(measureViewport);
-        };
-        measureViewport();
-        viewport?.addEventListener('resize', updateViewport);
-        viewport?.addEventListener('scroll', updateViewport);
-        window.addEventListener('resize', updateViewport);
-
         return () => {
-            cancelAnimationFrame(frame);
             document.body.style.overflow = previousOverflow;
-            viewport?.removeEventListener('resize', updateViewport);
-            viewport?.removeEventListener('scroll', updateViewport);
-            window.removeEventListener('resize', updateViewport);
         };
     }, [isOpen]);
-
-    const playerMenuHeight = Math.min(160, Math.max(80, Math.floor((visibleViewport?.height ?? window.innerHeight) / 4)));
-
-    // Removed Materialize Modal init logic as we are controlling visibility via CSS/React state
 
     const formattedPlayers = playersNames.map(player => ({
         value: player,
         label: player
     }));
+
+    const openPlayerPicker = (field: PlayerField, query: string) => {
+        savedScroll.current = body.current?.scrollTop ?? 0;
+        setActivePicker({ field, query });
+    };
+    const closePlayerPicker = () => {
+        const field = activePicker?.field;
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+        setActivePicker(null);
+        requestAnimationFrame(() => {
+            if (body.current) body.current.scrollTop = savedScroll.current;
+            if (field) document.getElementById(`${playerInputIds[field]}-trigger`)?.focus({ preventScroll: true });
+        });
+    };
+    const choosePlayer = (option: SelectOption) => {
+        if (!activePicker) return;
+        setFormData(previous => ({ ...previous, [activePicker.field]: option.value }));
+        closePlayerPicker();
+    };
 
     const validateForm = () => {
         let isValid = true;
@@ -459,7 +447,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <div
             className="modal-overlay"
-            onClick={onClose}
+            onClick={activePicker ? closePlayerPicker : onClose}
             style={visibleViewport ? {
                 top: visibleViewport.top,
                 left: visibleViewport.left,
@@ -470,12 +458,26 @@ const Modal: React.FC<ModalProps> = ({
             } : undefined}
         >
             <div
-                className="modal-container"
+                className={`modal-container${activePicker ? ' modal-container--picking' : ''}`}
                 role="dialog"
                 aria-modal="true"
-                aria-label={title}
+                aria-label={activePicker ? 'Elegir jugador' : title}
                 onClick={(e) => e.stopPropagation()}
             >
+                {activePicker ? (
+                    <OptionPicker
+                        key={activePicker.field}
+                        id="reservation-player-search"
+                        title={activePicker.field === 'player2' && !formData.isDouble ? 'Elegir oponente' : `Elegir jugador ${activePicker.field.slice(-1)}`}
+                        placeholder="Buscar jugador"
+                        options={formattedPlayers}
+                        value={formData[activePicker.field]}
+                        initialQuery={activePicker.query}
+                        onSelect={choosePlayer}
+                        onCancel={closePlayerPicker}
+                    />
+                ) : (
+                <>
                 <div className="modal-header-modern">
                     <div className="header-title">
                         <FontAwesomeIcon icon={faCalendarCheck} className="header-icon" />
@@ -486,7 +488,7 @@ const Modal: React.FC<ModalProps> = ({
                     </button>
                 </div>
 
-                <div className="modal-body-modern">
+                <div ref={body} className="modal-body-modern">
                     {selectedTimeSlot ? (
                         <>
                             <div className="reservation-summary-card">
@@ -515,9 +517,12 @@ const Modal: React.FC<ModalProps> = ({
 
                             <div className="form-section">
                                 <label className="input-label" htmlFor="reservation-player-2">Oponente (Player 2)</label>
-                                <Select
+                                <AdaptiveSelect
                                     inputId="reservation-player-2"
-                                    value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
+                                    label="Oponente (Player 2)"
+                                    viewport={visibleViewport}
+                                    onOpenPicker={query => openPlayerPicker('player2', query)}
+                                    value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2) ?? null}
                                     onChange={(selectedOption) => {
                                         if (selectedOption && 'value' in selectedOption) {
                                             setFormData((prevState) => ({ ...prevState, player2: selectedOption.value }));
@@ -527,14 +532,8 @@ const Modal: React.FC<ModalProps> = ({
                                     }}
                                     options={formattedPlayers}
                                     placeholder={formData.isDouble ? "Selecciona Player 2" : "Selecciona un oponente"}
-                                    isSearchable
                                     isDisabled={formData.isVisit}
-                                    menuPortalTarget={document.body}
-                                    menuPosition="fixed"
-                                    maxMenuHeight={playerMenuHeight}
-                                    menuPlacement="auto"
                                     styles={customStyles}
-                                    className="react-select-container"
                                     classNamePrefix="react-select"
                                 />
                             </div>
@@ -585,9 +584,12 @@ const Modal: React.FC<ModalProps> = ({
                                 <div className="doubles-section">
                                     <div className="form-section">
                                         <label className="input-label" htmlFor="reservation-player-3">Player 3</label>
-                                        <Select
+                                        <AdaptiveSelect
                                             inputId="reservation-player-3"
-                                            value={formattedPlayers.find(option => option.value === formData.player3)}
+                                            label="Player 3"
+                                            viewport={visibleViewport}
+                                            onOpenPicker={query => openPlayerPicker('player3', query)}
+                                            value={formattedPlayers.find(option => option.value === formData.player3) ?? null}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
                                                     setFormData((prevState) => ({ ...prevState, player3: selectedOption.value }));
@@ -597,21 +599,18 @@ const Modal: React.FC<ModalProps> = ({
                                             }}
                                             options={formattedPlayers}
                                             placeholder="Selecciona Player 3"
-                                            isSearchable
-                                            menuPortalTarget={document.body}
-                                            menuPosition="fixed"
-                                            maxMenuHeight={playerMenuHeight}
-                                            menuPlacement="auto"
                                             styles={customStyles}
-                                            className="react-select-container"
                                             classNamePrefix="react-select"
                                         />
                                     </div>
                                     <div className="form-section">
                                         <label className="input-label" htmlFor="reservation-player-4">Player 4</label>
-                                        <Select
+                                        <AdaptiveSelect
                                             inputId="reservation-player-4"
-                                            value={formattedPlayers.find(option => option.value === formData.player4)}
+                                            label="Player 4"
+                                            viewport={visibleViewport}
+                                            onOpenPicker={query => openPlayerPicker('player4', query)}
+                                            value={formattedPlayers.find(option => option.value === formData.player4) ?? null}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
                                                     setFormData((prevState) => ({ ...prevState, player4: selectedOption.value }));
@@ -621,13 +620,7 @@ const Modal: React.FC<ModalProps> = ({
                                             }}
                                             options={formattedPlayers}
                                             placeholder="Selecciona Player 4"
-                                            isSearchable
-                                            menuPortalTarget={document.body}
-                                            menuPosition="fixed"
-                                            maxMenuHeight={playerMenuHeight}
-                                            menuPlacement="auto"
                                             styles={customStyles}
-                                            className="react-select-container"
                                             classNamePrefix="react-select"
                                         />
                                     </div>
@@ -656,6 +649,8 @@ const Modal: React.FC<ModalProps> = ({
                         )}
                     </button>
                 </div>
+                </>
+                )}
             </div>
         </div>
     );

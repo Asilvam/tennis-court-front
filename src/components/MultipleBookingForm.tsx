@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import axios from 'axios';
-import Select, { StylesConfig } from 'react-select';
-import makeAnimated from 'react-select/animated';
+import type { StylesConfig } from 'react-select';
 import logger from '../utils/logger.ts';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,9 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/MultipleBookingForm.css';
 import { useAuth } from './useAuth.ts';
+import { AdaptiveSelect, type SelectOption } from './AdaptiveSelect';
+import { OptionPicker } from './OptionPicker';
+import { useVisibleViewport } from '../hooks/useVisibleViewport';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
@@ -22,10 +25,6 @@ const CustomDateInput = forwardRef(({ onClick }: any, ref: any) => (
         <FontAwesomeIcon icon={faCalendarAlt} className="mbf-date-input-icon" />
     </div>
 ));
-
-const animatedComponents = makeAnimated();
-
-type SelectOption = { value: string; label: string };
 
 const customSelectStylesSingle: StylesConfig<SelectOption, false> = {
     control: (base, state) => ({
@@ -123,6 +122,22 @@ const MultipleBookingForm: React.FC = () => {
     const [motive, setMotive] = useState<string>('');
     const [motiveDetail, setMotiveDetail] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
+    const [motivePickerQuery, setMotivePickerQuery] = useState<string | null>(null);
+    const visibleViewport = useVisibleViewport();
+    const pickingMotive = motivePickerQuery !== null;
+
+    useEffect(() => {
+        if (!pickingMotive) return;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = previousOverflow; };
+    }, [pickingMotive]);
+
+    const closeMotivePicker = () => {
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+        setMotivePickerQuery(null);
+        requestAnimationFrame(() => document.getElementById('multibooking-motive-trigger')?.focus({ preventScroll: true }));
+    };
 
     const availableCourts = ['Cancha 1', 'Cancha 2', 'Cancha 3'];
     const availableTurns = [
@@ -223,7 +238,8 @@ const MultipleBookingForm: React.FC = () => {
     };
 
     return (
-        <div className="mbf-container">
+        <>
+        <div className="mbf-container" aria-hidden={pickingMotive || undefined}>
             {/* Hero */}
             <div className="mbf-hero">
                 <div className="mbf-hero-text">
@@ -327,8 +343,11 @@ const MultipleBookingForm: React.FC = () => {
                 {/* Motivo */}
                 <div className="mbf-field">
                     <span className="mbf-label">Motivo</span>
-                    <Select<SelectOption, false>
-                        components={animatedComponents}
+                    <AdaptiveSelect
+                        inputId="multibooking-motive"
+                        label="Motivo"
+                        viewport={visibleViewport}
+                        onOpenPicker={setMotivePickerQuery}
                         options={formatOptions(availableMotives)}
                         value={motive ? { value: motive, label: motive } : isProfessor && effectiveMotive
                             ? { value: effectiveMotive, label: effectiveMotive }
@@ -338,7 +357,6 @@ const MultipleBookingForm: React.FC = () => {
                             setMotiveDetail('');
                         }}
                         isDisabled={isProfessor}
-                        menuPortalTarget={document.body}
                         styles={customSelectStylesSingle}
                         placeholder="Selecciona un motivo..."
                     />
@@ -380,6 +398,28 @@ const MultipleBookingForm: React.FC = () => {
                 </button>
             </div>
         </div>
+        {pickingMotive && createPortal(
+            <div
+                className="responsive-picker-overlay"
+                style={{ top: visibleViewport.top, left: visibleViewport.left, width: visibleViewport.width, height: visibleViewport.height }}
+                onClick={closeMotivePicker}
+            >
+                <div className="responsive-picker-dialog" role="dialog" aria-modal="true" aria-label="Elegir motivo" onClick={event => event.stopPropagation()}>
+                    <OptionPicker
+                        id="multibooking-motive-search"
+                        title="Elegir motivo"
+                        placeholder="Buscar motivo"
+                        options={formatOptions(availableMotives)}
+                        value={motive}
+                        initialQuery={motivePickerQuery ?? ''}
+                        onSelect={option => { setMotive(option.value); setMotiveDetail(''); closeMotivePicker(); }}
+                        onCancel={closeMotivePicker}
+                    />
+                </div>
+            </div>,
+            document.body,
+        )}
+        </>
     );
 };
 
