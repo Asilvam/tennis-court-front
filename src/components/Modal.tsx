@@ -75,6 +75,12 @@ const Modal: React.FC<ModalProps> = ({
     };
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
+    const [visibleViewport, setVisibleViewport] = useState<{
+        width: number;
+        height: number;
+        top: number;
+        left: number;
+    } | null>(null);
     const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const timezone = 'America/Santiago'; // Chile timezone
@@ -107,11 +113,43 @@ const Modal: React.FC<ModalProps> = ({
 
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
+        const viewport = window.visualViewport;
+        let frame = 0;
+        const measureViewport = () => {
+            const nextViewport = {
+                width: viewport?.width ?? window.innerWidth,
+                height: viewport?.height ?? window.innerHeight,
+                top: viewport?.offsetTop ?? 0,
+                left: viewport?.offsetLeft ?? 0,
+            };
+            setVisibleViewport((previous) =>
+                previous?.width === nextViewport.width &&
+                previous.height === nextViewport.height &&
+                previous.top === nextViewport.top &&
+                previous.left === nextViewport.left
+                    ? previous
+                    : nextViewport,
+            );
+        };
+        const updateViewport = () => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(measureViewport);
+        };
+        measureViewport();
+        viewport?.addEventListener('resize', updateViewport);
+        viewport?.addEventListener('scroll', updateViewport);
+        window.addEventListener('resize', updateViewport);
 
         return () => {
+            cancelAnimationFrame(frame);
             document.body.style.overflow = previousOverflow;
+            viewport?.removeEventListener('resize', updateViewport);
+            viewport?.removeEventListener('scroll', updateViewport);
+            window.removeEventListener('resize', updateViewport);
         };
     }, [isOpen]);
+
+    const playerMenuHeight = Math.min(160, Math.max(80, Math.floor((visibleViewport?.height ?? window.innerHeight) / 4)));
 
     // Removed Materialize Modal init logic as we are controlling visibility via CSS/React state
 
@@ -419,7 +457,18 @@ const Modal: React.FC<ModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
+        <div
+            className="modal-overlay"
+            onClick={onClose}
+            style={visibleViewport ? {
+                top: visibleViewport.top,
+                left: visibleViewport.left,
+                right: 'auto',
+                bottom: 'auto',
+                width: visibleViewport.width,
+                height: visibleViewport.height,
+            } : undefined}
+        >
             <div
                 className="modal-container"
                 role="dialog"
@@ -465,8 +514,9 @@ const Modal: React.FC<ModalProps> = ({
                             </div>
 
                             <div className="form-section">
-                                <label className="input-label">Oponente (Player 2)</label>
+                                <label className="input-label" htmlFor="reservation-player-2">Oponente (Player 2)</label>
                                 <Select
+                                    inputId="reservation-player-2"
                                     value={formData.isVisit ? null : formattedPlayers.find(option => option.value === formData.player2)}
                                     onChange={(selectedOption) => {
                                         if (selectedOption && 'value' in selectedOption) {
@@ -481,7 +531,7 @@ const Modal: React.FC<ModalProps> = ({
                                     isDisabled={formData.isVisit}
                                     menuPortalTarget={document.body}
                                     menuPosition="fixed"
-                                    maxMenuHeight={160}
+                                    maxMenuHeight={playerMenuHeight}
                                     menuPlacement="auto"
                                     styles={customStyles}
                                     className="react-select-container"
@@ -534,8 +584,9 @@ const Modal: React.FC<ModalProps> = ({
                             {formData.isDouble && (
                                 <div className="doubles-section">
                                     <div className="form-section">
-                                        <label className="input-label">Player 3</label>
+                                        <label className="input-label" htmlFor="reservation-player-3">Player 3</label>
                                         <Select
+                                            inputId="reservation-player-3"
                                             value={formattedPlayers.find(option => option.value === formData.player3)}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
@@ -549,16 +600,17 @@ const Modal: React.FC<ModalProps> = ({
                                             isSearchable
                                             menuPortalTarget={document.body}
                                             menuPosition="fixed"
-                                            maxMenuHeight={160}
-                                            menuPlacement="top"
+                                            maxMenuHeight={playerMenuHeight}
+                                            menuPlacement="auto"
                                             styles={customStyles}
                                             className="react-select-container"
                                             classNamePrefix="react-select"
                                         />
                                     </div>
                                     <div className="form-section">
-                                        <label className="input-label">Player 4</label>
+                                        <label className="input-label" htmlFor="reservation-player-4">Player 4</label>
                                         <Select
+                                            inputId="reservation-player-4"
                                             value={formattedPlayers.find(option => option.value === formData.player4)}
                                             onChange={(selectedOption) => {
                                                 if (selectedOption && 'value' in selectedOption) {
@@ -572,8 +624,8 @@ const Modal: React.FC<ModalProps> = ({
                                             isSearchable
                                             menuPortalTarget={document.body}
                                             menuPosition="fixed"
-                                            maxMenuHeight={160}
-                                            menuPlacement="top"
+                                            maxMenuHeight={playerMenuHeight}
+                                            menuPlacement="auto"
                                             styles={customStyles}
                                             className="react-select-container"
                                             classNamePrefix="react-select"

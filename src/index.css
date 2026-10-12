@@ -33,6 +33,27 @@ body {
   min-height: 100vh;
 }
 
+/* Prevent iOS focus zoom in portrait and landscape, including select search inputs. */
+@media (hover: none) and (pointer: coarse) {
+  :root input:is(
+    :not([type]),
+    [type='text'],
+    [type='search'],
+    [type='email'],
+    [type='password'],
+    [type='url'],
+    [type='tel'],
+    [type='number'],
+    [type='date'],
+    [type='time'],
+    [type='datetime-local']
+  ),
+  :root select,
+  :root textarea {
+    font-size: 16px !important;
+  }
+}
+
 .app-route-loader {
   min-height: calc(100vh - 64px);
   padding: 24px 16px;
