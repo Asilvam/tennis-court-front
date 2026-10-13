@@ -105,6 +105,23 @@
     overscroll-behavior: contain;
 }
 
+.payment-hold-notice {
+    padding: 10px 12px;
+    margin: 0 0 16px;
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    border-radius: 10px;
+    background: rgba(251, 191, 36, 0.1);
+    color: #fde68a;
+    font-size: 0.9rem;
+}
+
+.btn-confirm:disabled,
+.btn-cancel:disabled,
+.close-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Compact reservation confirmation rendered inside SweetAlert2 */
 .swal-reservation-summary {
     margin-top: 4px;

@@ -355,6 +355,23 @@
     border-color: rgba(226, 232, 240, 0.22);
 }
 
+.dot.pending-payment {
+    background-color: rgba(251, 191, 36, 0.18);
+    border: 1px dashed #fbbf24;
+}
+
+.legend-item.pending-payment {
+    color: #fde68a;
+}
+
+.court-card.pending-payment,
+.court-card.paid.pending-payment {
+    background-color: rgba(180, 120, 10, 0.18);
+    color: #fde68a;
+    border: 1px dashed rgba(251, 191, 36, 0.72);
+    cursor: not-allowed;
+}
+
 .time-paid-icon {
     font-size: 0.8rem;
     margin-left: 6px;

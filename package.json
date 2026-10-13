@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "test:payment-rates": "node --experimental-strip-types --test tests/paymentRates.test.ts",
+    "test:payment-holds": "node --test tests/paymentHold.test.mjs",
     "start": "serve -s dist",
     "preview": "vite preview"
   },

@@ -20,6 +20,8 @@ import { AdaptiveSelect, type SelectOption } from './AdaptiveSelect';
 import { OptionPicker } from './OptionPicker';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
 import { getReservationPaymentAmount } from '../utils/paymentRates';
+import { usePaymentHold } from '../hooks/usePaymentHold';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 
 type PlayerField = 'player2' | 'player3' | 'player4';
 const playerInputIds = { player2: 'reservation-player-2', player3: 'reservation-player-3', player4: 'reservation-player-4' };
@@ -92,6 +94,26 @@ const Modal: React.FC<ModalProps> = ({
     const timezone = 'America/Santiago'; // Chile timezone
     const currentTime = DateTime.now().setZone(timezone);
     const today = currentTime.startOf('day');
+    const requiresPayment = Boolean(formData.isPaidNight || formData.isVisit);
+    const paymentHold = usePaymentHold(isOpen && requiresPayment, {
+        court: formData.court, dateToPlay: formData.dateToPlay, turn: formData.turn, isVisit: formData.isVisit,
+    });
+
+    const closeReservation = async () => {
+        if (submissionInProgress.current) return;
+        submissionInProgress.current = true;
+        setIsSubmitting(true);
+        try {
+            await paymentHold.release();
+            onClose();
+            await onReservationCreated?.();
+        } catch {
+            await Swal.fire({ icon: 'warning', title: 'No pudimos liberar el horario', text: 'La retención se liberará por vencimiento después de verificar el pago.' });
+        } finally {
+            submissionInProgress.current = false;
+            setIsSubmitting(false);
+        }
+    };
 
     // Actualizar el formulario cuando cambia el slot seleccionado
     useEffect(() => {
@@ -266,6 +288,7 @@ const Modal: React.FC<ModalProps> = ({
                 didOpen: () => Swal.showLoading(),
             });
 
+            paymentHold.checkoutStarted.current = true;
             const response = await axios.post(`${apiUrl}/mp/init-point`, {
                 courtId: formData.court,
                 date: formData.dateToPlay,
@@ -273,7 +296,7 @@ const Modal: React.FC<ModalProps> = ({
                 player1: formData.player1,
                 amount: amountToPay,
                 idCourtReserve: reserveId,
-            });
+            }, { headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` } });
             logger.debug(response);
             window.location.href = response.data.initPoint;
         } catch (error) {
@@ -360,11 +383,6 @@ const Modal: React.FC<ModalProps> = ({
         }
     };
 
-    const createTemporalReserve = async () => {
-        const response = await axios.post(`${apiUrl}/court-reserve`, formData);
-        return response.data.idCourtReserve;
-    }
-
     const handleReserve = async () => {
         if (submissionInProgress.current || !validateForm()) {
             return;
@@ -386,6 +404,13 @@ const Modal: React.FC<ModalProps> = ({
                 const title = formData.isPaidNight && formData.isVisit
                     ? 'Visita y Reserva nocturna Pagada'
                     : formData.isPaidNight ? 'Turno Pagado' : 'Visita Pagada';
+                const hold = paymentHold.hold;
+                if (!hold || paymentHold.remainingSeconds <= 0) throw new Error('La retención venció o no está disponible. Cierra el modal y vuelve a seleccionar el horario.');
+                if (!paymentHold.checkoutStarted.current) {
+                    await axios.patch(`${apiUrl}/court-reserve/holds/${hold.idCourtReserve}`, formData, {
+                        headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
+                    });
+                }
                 const result = await Swal.fire({
                     title: title,
                     text: `Este turno requiere pago de ${formattedAmount}. ¿Deseas continuar?`,
@@ -394,6 +419,8 @@ const Modal: React.FC<ModalProps> = ({
                     confirmButtonText: 'Sí, pagar ahora',
                     cancelButtonText: 'Cancelar',
                     confirmButtonColor: '#1e88e5',
+                    timer: paymentHold.remainingMs(),
+                    timerProgressBar: true,
                 });
                 if (result.isConfirmed) {
                     Swal.fire({
@@ -403,13 +430,16 @@ const Modal: React.FC<ModalProps> = ({
                         allowOutsideClick: false,
                         didOpen: () => Swal.showLoading(),
                     });
-                    const reserveId = await createTemporalReserve();
-                    await handlePay(reserveId, amountToPay);
+                    await handlePay(hold.idCourtReserve, amountToPay);
                     return;
                 }
+                await paymentHold.release();
+                onClose();
+                await onReservationCreated?.();
                 return;
             }
 
+            await paymentHold.release();
             await createReservation();
         } catch (error) {
             logger.error(error);
@@ -450,7 +480,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <div
             className="modal-overlay"
-            onClick={activePicker ? closePlayerPicker : onClose}
+            onClick={activePicker ? closePlayerPicker : () => void closeReservation()}
             style={visibleViewport ? {
                 top: visibleViewport.top,
                 left: visibleViewport.left,
@@ -486,12 +516,21 @@ const Modal: React.FC<ModalProps> = ({
                         <FontAwesomeIcon icon={faCalendarCheck} className="header-icon" />
                         <h3>{title}</h3>
                     </div>
-                    <button className="close-button" onClick={onClose}>
+                    <button className="close-button" onClick={() => void closeReservation()} disabled={isSubmitting}>
                         <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </div>
 
                 <div ref={body} className="modal-body-modern">
+                    {requiresPayment && (
+                        <p className="payment-hold-notice" role="status">
+                            {paymentHold.loading ? 'Reteniendo horario…' : paymentHold.error || (
+                                paymentHold.remainingSeconds > 0
+                                    ? `⏳ Horario retenido: ${Math.floor(paymentHold.remainingSeconds / 60)}:${String(paymentHold.remainingSeconds % 60).padStart(2, '0')} restantes.`
+                                    : 'La retención venció. Cierra y vuelve a seleccionar el horario.'
+                            )}
+                        </p>
+                    )}
                     {selectedTimeSlot ? (
                         <>
                             <div className="reservation-summary-card">
@@ -636,13 +675,13 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
 
                 <div className="modal-footer-modern">
-                    <button className="btn-cancel" onClick={onClose}>
+                    <button className="btn-cancel" onClick={() => void closeReservation()} disabled={isSubmitting}>
                         Cancelar
                     </button>
                     <button
                         className={`btn-confirm ${formData.isPaidNight || formData.isVisit ? 'btn-pay' : 'btn-reserve'}`}
                         onClick={handleReserve}
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || (requiresPayment && (paymentHold.loading || !paymentHold.hold || paymentHold.remainingSeconds <= 0))}
                     >
                         {isSubmitting ? 'Procesando...' : formData.isPaidNight || formData.isVisit ? (
                             <>

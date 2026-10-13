@@ -23,6 +23,7 @@ interface TimeSlotType {
     available: boolean;
     isPayed: boolean;
     isBlockedByAdmin: boolean;
+    isPendingPayment?: boolean;
     data: string;
 }
 
@@ -303,6 +304,13 @@ const Dashboard: React.FC = () => {
         }
     }, [apiUrl, selectedDate]);
 
+    useEffect(() => {
+        const timer = window.setInterval(() => {
+            if (document.visibilityState === 'visible') void fetchData();
+        }, 5000);
+        return () => window.clearInterval(timer);
+    }, [fetchData]);
+
     const getStateUser = useCallback(async (email: string): Promise<boolean> => {
         const cachedStatus = blockedStatusCache.current[email];
         if (typeof cachedStatus === 'boolean') {
@@ -441,6 +449,7 @@ const Dashboard: React.FC = () => {
             <div className="legend-bar">
                 <div className="legend-item available"><span className="dot available"></span>Disponible</div>
                 <div className="legend-item reserved"><span className="dot reserved"></span>Reservado</div>
+                <div className="legend-item pending-payment"><span className="dot pending-payment"></span>Pendiente de pago</div>
                 <div className="legend-item maintenance"><span className="dot maintenance"></span>Mantención</div>
                 <div className="legend-item championship"><span className="dot championship"></span>Campeonato</div>
                 <div className="legend-item class"><span className="dot class"></span>Clases</div>
@@ -468,6 +477,7 @@ const Dashboard: React.FC = () => {
                                         className={`court-card ${slot.available ? 'available' : 'unavailable'} 
                                                     ${expiredTimeSlot ? 'expired' : ''}
                                                     ${slot.isPayed ? 'paid' : ''} 
+                                                    ${slot.isPendingPayment ? 'pending-payment' : ''}
                                                     ${getStatusCategory(slot.data) === 'campeonato' ? 'championship' : ''}
                                                     ${getStatusCategory(slot.data) === 'mantencion' ? 'maintenance' : ''}
                                                     ${getStatusCategory(slot.data) === 'clases' ? 'class' : ''}
