@@ -18,6 +18,8 @@ import logger from '../utils/logger.ts';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils.ts';
 import AppLoader from './AppLoader';
 import { LoadingSpinner } from './LoadingSpinner';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import { updateProfileImage } from '../utils/profileImage';
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -180,14 +182,8 @@ const PlayerProfile: React.FC = () => {
         }
 
         setUploading(true);
-        const formData = new FormData();
-        formData.append('image', imageFile);
-
         try {
-            const cloudinaryResponse = await axios.post(`${apiUrl}/register/profile`, formData);
-            const imageUrlProfile: string = cloudinaryResponse.data.imageUrl;
-
-            await axios.patch(`${apiUrl}/register/${emailPlayer}`, { imageUrlProfile });
+            const imageUrlProfile = await updateProfileImage(apiUrl, emailPlayer, imageFile, getTokenFromLocalStorage());
 
             setPlayer(prev => prev ? { ...prev, imageUrlProfile } : null);
             Swal.fire('¡Éxito!', 'Tu foto de perfil ha sido actualizada.', 'success');

@@ -10,8 +10,12 @@ import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
 import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/AdminRegister.css';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import { buildAdminMemberUpdate, memberType, memberTypeOptions, titularOptions, validateMemberAssociation, type EditableMember } from '../utils/memberEditing';
+import { ADMIN_PASSWORD_RECOVERY_MESSAGE, requestPasswordRecovery } from '../utils/passwordRecovery';
+import '../styles/ResetPassword.css';
 
-interface Register {
+interface Register extends EditableMember {
     namePlayer: string;
     // category: PlayerCategory | '';
     email: string;
@@ -49,6 +53,8 @@ const AdminRegister: React.FC = () => {
         verificationToken: '',      // Empty string for verification token
         // points: '0',                // Default points as a string (can be '0' or '0 points')
         role: 'user',                // Default role is 'user'
+        partnerType: 'Titular',
+        titularId: null,
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -131,15 +137,17 @@ const AdminRegister: React.FC = () => {
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching registers:', error);
-            let errorMessage;
-            if (error.response) {
-                errorMessage = `Server responded with error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
-            } else {
-                if (error.request) {
+            let errorMessage = 'An unexpected error occurred';
+            if (axios.isAxiosError<{ message?: string }>(error)) {
+                if (error.response) {
+                    errorMessage = `Server responded with error: ${error.response.status} - ${error.response.data?.message || error.response.statusText}`;
+                } else if (error.request) {
                     errorMessage = 'No response received from the server';
                 } else {
                     errorMessage = error.message;
                 }
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
             }
             Swal.fire({
                 icon: 'error',
@@ -184,14 +192,10 @@ const AdminRegister: React.FC = () => {
             return false;
         }
 
-        return (
-            editUser.namePlayer !== originalEditUser.namePlayer ||
-            editUser.cellular !== originalEditUser.cellular ||
-            editUser.role !== originalEditUser.role ||
-            editUser.statePlayer !== originalEditUser.statePlayer ||
-            editUser.updatePayment !== originalEditUser.updatePayment
-        );
+        return Object.keys(buildAdminMemberUpdate(editUser, originalEditUser)).length > 0;
     }, [editUser, originalEditUser]);
+
+    const availableTitulares = useMemo(() => titularOptions(users, editUser._id), [users, editUser._id]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (editUser) {
@@ -220,12 +224,16 @@ const AdminRegister: React.FC = () => {
 
             setIsSaving(true);
             try {
+                if (!originalEditUser) return;
+                const update = buildAdminMemberUpdate(editUser, originalEditUser);
+                validateMemberAssociation(update, editUser, users);
                 const response = await axios.patch(
-                    `${apiUrl}/register/${editUser.email}`,
-                    editUser,
+                    `${apiUrl}/register/admin/${encodeURIComponent(editUser.email)}`,
+                    update,
                     {
                         headers: {
                             'Content-Type': 'application/json',
+                            Authorization: `Bearer ${getTokenFromLocalStorage()}`,
                         },
                     }
                 );
@@ -239,8 +247,9 @@ const AdminRegister: React.FC = () => {
                 updateSearchTerm('');
                 handleCloseEditModal();
             } catch (error) {
-                console.error('Error updating user:', error);
-                Swal.fire('Error', 'Failed to update user.', 'error');
+                const message = axios.isAxiosError(error) ? error.response?.data?.message || 'No se pudo actualizar el socio.'
+                    : error instanceof Error ? error.message : 'No se pudo actualizar el socio.';
+                Swal.fire('Error', Array.isArray(message) ? message.join('. ') : String(message), 'error');
             } finally {
                 try {
                     await fetchRegisters();
@@ -253,10 +262,11 @@ const AdminRegister: React.FC = () => {
     const handleResetPassword = async (user: Register) => {
         const result = await Swal.fire({
             title: '¿Resetear contraseña?',
-            html: `Se enviará un correo de restablecimiento a <strong>${user.email}</strong>.`,
+            html: `Se solicitará un enlace para <strong>${user.email}</strong>, de un solo uso y válido por 24 horas. Solo se envía a cuentas activas. Como administrador no necesitas esperar para pedir otro; el enlace nuevo invalida el anterior.`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d97706',
+            confirmButtonColor: '#fbbf24',
+            customClass: { popup: 'password-recovery-popup' },
             cancelButtonColor: '#6b7280',
             confirmButtonText: 'Sí, resetear',
             cancelButtonText: 'Cancelar',
@@ -275,9 +285,9 @@ const AdminRegister: React.FC = () => {
         });
 
         try {
-            await axios.post(`${apiUrl}/register/resetpass`, { email: user.email });
+            await requestPasswordRecovery(apiUrl, user.email, { admin: true, token: getTokenFromLocalStorage() });
             updateSearchTerm('');
-            Swal.fire('Enviado ✓', `Se envió el correo de restablecimiento a ${user.email}.`, 'success');
+            Swal.fire({ icon: 'warning', title: 'Solicitud recibida', text: ADMIN_PASSWORD_RECOVERY_MESSAGE, confirmButtonColor: '#fbbf24', customClass: { popup: 'password-recovery-popup' } });
         } catch (error) {
             console.error('Error resetting password:', error);
             Swal.fire('Error', 'No se pudo enviar el correo de restablecimiento.', 'error');
@@ -458,6 +468,49 @@ const AdminRegister: React.FC = () => {
                                             {/*        maxMenuHeight={180}*/}
                                             {/*    />*/}
                                             {/*</div>*/}
+                                        </div>
+
+                                        <div className="modal-form-section">
+                                            <div className="input-field">
+                                                <p className="select-label">Tipo de socio</p>
+                                                <Select<SelectOption, false>
+                                                    inputId="edit-member-type"
+                                                    aria-label="Tipo de socio"
+                                                    value={memberTypeOptions.find(option => option.value === memberType(editUser.partnerType)) ?? null}
+                                                    options={memberTypeOptions}
+                                                    onChange={option => setEditUser(prev => ({ ...prev, partnerType: option?.value || 'Titular', titularId: option?.value === 'Titular' ? null : prev.titularId }))}
+                                                    styles={modalSelectStyles}
+                                                    isSearchable={false}
+                                                    isClearable={false}
+                                                    isDisabled={isSaving}
+                                                    blurInputOnSelect
+                                                    menuPortalTarget={document.body}
+                                                    menuPosition="fixed"
+                                                    menuPlacement="auto"
+                                                />
+                                            </div>
+                                            {memberType(editUser.partnerType) === 'Carga' && (
+                                                <div className="input-field">
+                                                    <p className="select-label">Titular asociado</p>
+                                                    <Select<SelectOption, false>
+                                                        inputId="edit-member-titular"
+                                                        aria-label="Titular asociado"
+                                                        value={availableTitulares.find(option => option.value === editUser.titularId) ?? null}
+                                                        options={availableTitulares}
+                                                        placeholder="Buscar y seleccionar titular..."
+                                                        onChange={option => setEditUser(prev => ({ ...prev, titularId: option?.value ?? null }))}
+                                                        styles={modalSelectStyles}
+                                                        isSearchable
+                                                        isClearable
+                                                        isDisabled={isSaving}
+                                                        blurInputOnSelect
+                                                        menuPortalTarget={document.body}
+                                                        menuPosition="fixed"
+                                                        menuPlacement="auto"
+                                                    />
+                                                    {!editUser.titularId && <p className="membership-help">Carga sin titular asociado. Selecciona uno para completar la asociación.</p>}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className="modal-form-section switch-group">

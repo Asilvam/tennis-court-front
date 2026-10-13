@@ -1389,3 +1389,7 @@
         padding: 18px 16px;
     }
 }
+.membership-help {
+    color: var(--ctq-text-muted);
+    font-size: 0.85rem;
+}

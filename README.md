@@ -39,6 +39,34 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 - Auto-logout after 60 minutes of inactivity or on JWT expiry
 
 ### Admins
+
+Member editing includes Titular/Carga and a searchable titular selector for cargas. The association uses the member's stable `_id`, not their name or email. Existing Familiar records display as Carga without a mass migration; unrelated edits preserve their stored type. Changes are submitted to `PATCH /register/admin/:email` with the admin JWT and only changed editable fields. Coordinate deployment with the compatible backend. This stage does not create monthly charges, payments, rates or automatic access restrictions, and requires no Mercado Pago, email-service or environment changes.
+
+Run selection and payload-validation tests:
+```bash
+npm run test:member-editing
+```
+
+Profile-photo upload (`POST /register/profile`) and saving (`PATCH /register/:email`) both send the session JWT. The backend allows only the authenticated user's own name, cellular and photo through the profile route; permissions and payment flags require the admin route. Public signup already sends only the allowed basic fields and remains unauthenticated. Older frontends without JWT headers cannot update photos once backend protection is enabled.
+
+Run isolated photo-request tests (mocked HTTP, no uploads or real accounts):
+
+```bash
+npm run test:profile-image
+```
+
+### Password recovery
+
+The login links to public `/recuperar-contrasena`. It requests a one-use email link through `POST /register/password-recovery`; users do not need a session and must wait 24 hours between accepted requests, including after mail-delivery failure. Existing admin reset controls use `POST /register/admin/resetpass` with the admin JWT and have no time limit. Both require an active existing member (`statePlayer=true`); inactive or unknown accounts receive no recovery email. Role-specific generic messages never expose a generated password or guarantee mail delivery. These screens use the login's dark surfaces with amber warning accents and explain the effect before submission.
+
+Public `/restablecer-contrasena` reads the token from `#token=...`, clears the fragment, keeps the token only in component memory and submits matching passwords to `POST /register/password-recovery/confirm`. Reloading the cleaned page requires reopening the original email link. Public-request links expire after fifteen minutes; admin-request links (including Admin users) expire after 24 hours. The backend decides validity, and the email displays it. Both are one-use links; the shared confirmation form refers to the expiry stated in the email. Buttons show loading and disable submissions. No automatic login is performed; by explicit choice, already-issued JWT sessions remain valid until expiry.
+
+The backend needs `PASSWORD_RESET_FRONTEND_URL=http://localhost:5173/restablecer-contrasena` locally and the matching HTTPS frontend URL in production. No new frontend variables, Mercado Pago changes or email-microservice API changes are required. Coordinate backend/frontend publication; the new frontend request path cannot trigger the immediate-password reset behavior of an older backend.
+
+```bash
+npm run test:password-recovery
+```
+
 - Full user management: edit data, roles, payment status, block/unblock accounts
 - Assign and manage ranking categories and points per player
 - Bulk-block court slots across multiple courts and dates
@@ -55,6 +83,8 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 |---|---|---|
 | `/` | Home | Public |
 | `/login` | Login | Public |
+| `/recuperar-contrasena` | ResetPassword | Public |
+| `/restablecer-contrasena` | ConfirmPasswordReset | Public, recovery link required to confirm |
 | `/register` | PlayerForm | Public |
 | `/summary` | ReservationSummary | Public |
 | `/ranking` | Ranking | Public |

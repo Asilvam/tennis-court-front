@@ -20,6 +20,7 @@ const AdminReserves = lazy(() => import("./components/AdminReserves.tsx"));
 const MatchResultUpdate = lazy(() => import("./components/MatchResultUpdate.tsx"));
 const MultipleBookingForm = lazy(() => import("./components/MultipleBookingForm.tsx"));
 const ResetPassword = lazy(() => import("./components/ResetPassword.tsx"));
+const ConfirmPasswordReset = lazy(() => import('./components/ConfirmPasswordReset.tsx'));
 const Ranking = lazy(() => import("./components/Ranking.tsx"));
 const PlayerProfile = lazy(() => import("./components/PlayerProfile.tsx"));
 const PaymentSuccess = lazy(() => import("./pages/payment/PaymentSuccess.tsx"));
@@ -43,6 +44,8 @@ const App: React.FC = () => {
                                                                element={<Home />} />
                                                         <Route path="/login"
                                                                element={<Login />} />
+                                                        <Route path="/recuperar-contrasena" element={<ResetPassword />} />
+                                                        <Route path="/restablecer-contrasena" element={<ConfirmPasswordReset />} />
                                                         <Route path="/register"
                                                                element={<PlayerForm />} />
                                                         <Route path="/summary"
@@ -66,7 +69,7 @@ const App: React.FC = () => {
                                                         <Route path="/multibooking"
                                                                element={<ProtectedRoute adminOnly={true} profesorAllowed={true}><MultipleBookingForm /></ProtectedRoute>} />
                                                         <Route path="/resetpassword"
-                                                               element={<ProtectedRoute adminOnly={true}><ResetPassword /></ProtectedRoute>} />
+                                                               element={<ProtectedRoute adminOnly={true}><ResetPassword adminRequest /></ProtectedRoute>} />
                                                         <Route
                                                             path="/admincategories"
                                                             element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}

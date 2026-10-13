@@ -193,7 +193,10 @@ const Dashboard: React.FC = () => {
     };
 
     const changeDateByDays = (days: number) => {
-        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate() ;
+        const newDate = DateTime.fromISO(selectedDate).plus({ days }).toISODate();
+        if (newDate === null) {
+            return;
+        }
         if (newDate >= minDate && newDate <= maxDate) {
             setSelectedDate(newDate);
             setSelectedTimeSlot(null);

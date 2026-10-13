@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "test:payment-rates": "node --experimental-strip-types --test tests/paymentRates.test.ts",
     "test:payment-holds": "node --test tests/paymentHold.test.mjs",
+    "test:member-editing": "node --experimental-strip-types --test tests/memberEditing.test.ts",
+    "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
+    "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
     "start": "serve -s dist",
     "preview": "vite preview"
   },

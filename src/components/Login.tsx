@@ -131,6 +131,7 @@ const Login: React.FC = () => {
                 </form>
 
                 <div className="login-footer">
+                    <p><Link to="/recuperar-contrasena">¿Olvidaste tu contraseña?</Link></p>
                     <h6>¿Nuevo en el Club?</h6>
                     <p>Regístrate para reservar canchas y participar en torneos.</p>
                     <Link to="/register">Crear una cuenta</Link>
