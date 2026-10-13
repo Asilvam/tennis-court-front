@@ -100,9 +100,9 @@ Before confirming a paid booking, the frontend reads `GET /mp/rates` from `VITE_
 
 Deploy the backend endpoint before deploying this frontend change. Mercado Pago and the email service require no changes for this feature.
 
-### Ten-minute payment holds
+### Two-minute payment holds
 
-Opening a night booking modal, or selecting a visitor for a daytime booking, acquires an authenticated backend hold. The countdown uses the server's deadline. Cancelling before checkout releases it; after checkout starts, the backend reconciles payment before releasing the slot. The calendar refreshes every five seconds and marks pending slots unavailable. Rates still come from `GET /mp/rates`.
+Opening a night booking modal, or selecting a visitor for a daytime booking, acquires an authenticated backend hold for two minutes. The countdown uses the server's deadline; selecting players or starting checkout does not reset it. Cancelling before checkout releases it; after checkout starts, the backend reconciles payment before releasing the slot and keeps it blocked while payment remains in progress. The calendar refreshes every five seconds and marks pending slots unavailable. Rates still come from `GET /mp/rates`.
 
 This hold integration requires matching backend and Mercado Pago changes. Publish Mercado Pago support first, then coordinate backend and frontend deployment: `POST /mp/init-point` now requires JWT. It adds no frontend environment variables and does not change the email service API. The existing payment return screens have not been redesigned in this stage.
 

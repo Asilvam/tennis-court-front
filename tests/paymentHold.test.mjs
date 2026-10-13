@@ -22,7 +22,7 @@ const bundle = await build({
 });
 const { usePaymentHold } = await import(`data:text/javascript;base64,${Buffer.from(bundle.outputFiles[0].text).toString('base64')}`);
 const slot = { court: 'Cancha 1', dateToPlay: '2030-10-12', turn: '20:15-22:00', isVisit: false };
-const hold = id => ({ idCourtReserve: id, holdExpiresAt: new Date(Date.now() + 600000).toISOString(), serverNow: new Date().toISOString() });
+const hold = id => ({ idCourtReserve: id, holdExpiresAt: new Date(Date.now() + 120000).toISOString(), serverNow: new Date().toISOString() });
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function deferred() {
     let resolve;
@@ -85,7 +85,7 @@ test('acquires a hold with the session and without requesting a preference', asy
     assert.equal(f.calls[0][1], 'http://backend.test/court-reserve/holds');
     assert.equal(f.calls[0][3].headers.Authorization, 'Bearer local-test-session');
     assert.equal(f.render().hold.idCourtReserve, 'h-1');
-    assert.ok(f.render().remainingSeconds > 590);
+    assert.ok(f.render().remainingSeconds > 110 && f.render().remainingSeconds <= 120);
 });
 
 test('a free slot does not acquire a hold', async t => {
