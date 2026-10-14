@@ -191,6 +191,9 @@
     min-width: 0;
     overflow-wrap: anywhere;
 }
+.mc-point-row {
+    scroll-margin-block: 16px;
+}
 .mc-point-row small {
     display: block;
     font-size: 12px;
@@ -289,28 +292,7 @@
 }
 @media (max-width: 600px) {
     .member-categories {
-        padding: 16px 16px 24px;
-        height: var(--mc-available-height, 100dvh);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .mc-header,
-    .mc-message {
-        flex-shrink: 0;
-    }
-    .member-categories form {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        min-height: 0;
-    }
-    .mc-edit-scroll {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        padding-bottom: 12px;
+        padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
     }
     .mc-header {
         padding-bottom: 16px;
@@ -331,8 +313,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
-        flex-shrink: 0;
-        margin-top: 0;
+        margin-top: 20px;
         padding-bottom: env(safe-area-inset-bottom);
     }
     .mc-actions > div {
@@ -345,25 +326,5 @@
     }
     .mc-message {
         flex-wrap: wrap;
-    }
-    .mc-compact .mc-header {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-    }
-    .mc-compact .mc-header h1 {
-        font-size: 18px;
-        margin-bottom: 4px;
-    }
-    .mc-compact .mc-header p {
-        font-size: 14px;
-    }
-    .mc-compact .mc-header p span {
-        display: none;
-    }
-    .mc-compact .mc-actions {
-        padding-top: 8px;
-    }
-    .mc-compact .mc-actions > span {
-        display: none;
     }
 }

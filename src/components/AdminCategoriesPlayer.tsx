@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { CSSProperties, FormEvent } from 'react';
+import type { FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +25,6 @@ import type {
     CategoryEditorData,
 } from '../utils/categoryEditor';
 import { useUnsavedCategoryChanges } from '../hooks/useUnsavedCategoryChanges';
-import { useVisibleViewport } from '../hooks/useVisibleViewport';
 import '../styles/MemberCategories.css';
 
 function errorMessage(error: unknown): string {
@@ -48,7 +47,6 @@ export default function AdminCategoriesPlayer() {
     const [params] = useSearchParams();
     const email = params.get('email');
     const navigate = useNavigate();
-    const viewport = useVisibleViewport();
     const [data, setData] = useState<CategoryEditorData | null>(null);
     const [draft, setDraft] = useState<CategoryDraft>({
         activeCategories: [],
@@ -190,14 +188,7 @@ export default function AdminCategoriesPlayer() {
     );
 
     return (
-        <main
-            className={`member-categories${viewport.height < 480 ? ' mc-compact' : ''}`}
-            style={
-                {
-                    '--mc-available-height': `${viewport.height - (document.querySelector('.ctq-nav')?.getBoundingClientRect().height ?? 0)}px`,
-                } as CSSProperties
-            }
-        >
+        <main className="member-categories">
             <header className="mc-header">
                 <button
                     type="button"
@@ -247,7 +238,7 @@ export default function AdminCategoriesPlayer() {
                     )}
                     {data && (
                         <form onSubmit={save}>
-                            <div className="mc-edit-scroll">
+                            <div className="mc-edit-content">
                                 {!data.player.active && (
                                     <div className="mc-message mc-warning">
                                         Socio inactivo. Actívalo desde
