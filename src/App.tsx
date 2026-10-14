@@ -6,6 +6,7 @@ import Home from './components/Home.tsx';
 import Navigation from './components/Navigation.tsx';
 import InactivityLogout from "./components/InactivityLogout.tsx";
 import AppLoader from './components/AppLoader.tsx';
+import './hooks/useUnsavedCategoryChanges';
 
 const Login = lazy(() => import('./components/Login.tsx'));
 const Dashboard = lazy(() => import('./components/Dashboard.tsx'));
