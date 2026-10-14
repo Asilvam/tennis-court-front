@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowLeft,
-    faCheck,
     faPen,
     faRotateRight,
     faSave,
@@ -25,6 +25,7 @@ import type {
     CategoryEditorData,
 } from '../utils/categoryEditor';
 import { useUnsavedCategoryChanges } from '../hooks/useUnsavedCategoryChanges';
+import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
 import '../styles/MemberCategories.css';
 
 function errorMessage(error: unknown): string {
@@ -146,6 +147,12 @@ export default function AdminCategoriesPlayer() {
             );
             applyData(response.data);
             setSaved(true);
+            void Swal.fire({
+                icon: 'success',
+                title: 'Cambios guardados',
+                text: 'Las categorías y los puntajes del socio se actualizaron correctamente.',
+                confirmButtonText: 'Aceptar',
+            });
         } catch (failure) {
             setConflict(
                 axios.isAxiosError(failure) && failure.response?.status === 409,
@@ -155,14 +162,10 @@ export default function AdminCategoriesPlayer() {
             setSaving(false);
         }
     };
-    const reload = () => {
-        if (
-            !dirty ||
-            window.confirm(
-                'Se descartarán tus cambios pendientes al recargar. ¿Continuar?',
-            )
-        )
-            void load();
+    const reload = async () => {
+        if (saving) return;
+        if (!dirty || (await confirmDiscardCategoryChanges('reload')))
+            await load();
     };
     const primary =
         draft.activeCategories.find((category) =>
@@ -229,11 +232,6 @@ export default function AdminCategoriesPlayer() {
                                     Recargar datos
                                 </button>
                             )}
-                        </div>
-                    )}
-                    {saved && (
-                        <div className="mc-message mc-success" role="status">
-                            <FontAwesomeIcon icon={faCheck} /> Cambios guardados
                         </div>
                     )}
                     {data && (

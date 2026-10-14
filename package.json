@@ -12,7 +12,7 @@
     "test:member-editing": "node --experimental-strip-types --test tests/memberEditing.test.ts",
     "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
     "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
-    "test:category-editor": "node --test tests/categoryEditor.test.mjs",
+    "test:category-editor": "node --test tests/categoryEditor.test.mjs tests/unsavedCategoryChanges.test.mjs",
     "start": "serve -s dist",
     "preview": "vite preview"
   },
