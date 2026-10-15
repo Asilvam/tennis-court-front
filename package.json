@@ -13,6 +13,7 @@
     "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
     "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
     "test:category-editor": "node --test tests/categoryEditor.test.mjs tests/unsavedCategoryChanges.test.mjs",
+    "test:inactivity": "node --test tests/inactivityLogout.test.mjs",
     "start": "serve -s dist",
     "preview": "vite preview"
   },
