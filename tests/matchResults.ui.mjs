@@ -20,7 +20,7 @@ const match = (id, extra = {}) => ({
 const queue = () => ({
     matches: [match('oldest'), match('next', { canRegister: false, blockedCode: 'PREVIOUS_RESULT_PENDING', blockedReason: 'Registra primero el resultado del partido anterior.' })],
     member: { name: players[0].name, email: players[0].email },
-    canReviewExpired: false, totalPending: 2, hasOverflow: false,
+    totalPending: 2, serverNow: '2026-10-14T18:00:00Z',
 });
 try {
     for (const profile of profiles) {
@@ -51,8 +51,16 @@ try {
                 writes.push(body);
                 if (delay) await new Promise(resolve => { release = resolve; });
                 if (rejectSave) return route.fulfill({ status: 409, json: { code: 'POINTS_CHANGED', message: 'Los puntos cambiaron. Revisa nuevamente.' } });
-                state.matches = state.matches.filter(row => row.idCourtReserve !== body.matchId).map(row => ({ ...row, canRegister: true, blockedCode: null, blockedReason: null }));
-                state.totalPending = state.matches.length;
+                state.matches = state.matches.map(row => {
+                    if (row.idCourtReserve === body.matchId) {
+                        const size = row.isDouble ? 2 : 1;
+                        return { ...row, phase: 'RECORDED', canRegister: false, blockedCode: 'RESULT_ALREADY_REGISTERED',
+                            blockedReason: 'Uno de los participantes ya ingresó el resultado.',
+                            result: { score: body.result, winners: row.players.slice(body.winnerSide === 'A' ? 0 : size, body.winnerSide === 'A' ? size : size * 2).map(player => player.name) } };
+                    }
+                    return row.phase === 'RECORDED' ? row : { ...row, canRegister: true, blockedCode: null, blockedReason: null };
+                });
+                state.totalPending = state.matches.filter(row => row.phase !== 'RECORDED').length;
                 return route.fulfill({ status: 201, json: { pointChanges: [{ name: players[0].name, category: '4', delta: 300, after: 400 }] } });
             }
             if (url.origin !== new URL(base).origin) return route.abort();
@@ -104,7 +112,8 @@ try {
         await page.getByRole('button', { name: 'Ingresar resultado' }).click();
         const score = page.getByRole('textbox', { name: 'Marcador por sets' });
         await score.fill('invalid');
-        await page.getByRole('radio', { name: /Lado A/ }).check();
+        await page.getByRole('radio', { name: /Player 1/ }).check();
+        assert.equal(await page.getByRole('radio', { name: /Team [12]/ }).count(), 0);
         assert.equal(await page.getByRole('button', { name: 'Guardar resultado', exact: true }).isDisabled(), true);
         await page.getByRole('button', { name: 'Revisar marcador', exact: true }).click();
         await page.getByRole('dialog', { name: 'Marcador inválido' }).waitFor();
@@ -132,13 +141,16 @@ try {
         await page.waitForFunction(() => document.querySelector('.results-editor input')?.disabled === true);
         assert.equal(await page.getByRole('button', { name: 'Cancelar', exact: true }).isDisabled(), true);
         await page.evaluate(() => history.back());
-        await page.waitForTimeout(80);
+        await page.waitForFunction(() => location.pathname === '/updatematch' && document.querySelector('.results-editor input')?.disabled === true);
         assert.equal(new URL(page.url()).pathname, '/updatematch');
         assert(release); release();
         await page.getByRole('dialog', { name: 'Resultado guardado' }).waitFor();
         assert.deepEqual(writes[0], { matchId: 'oldest', result: '6:4, 6:3', winnerSide: 'A' });
         await page.getByRole('button', { name: 'Entendido', exact: true }).click();
-        assert.equal(await page.locator('.results-match').count(), 1);
+        assert.equal(await page.locator('.results-match').count(), 2);
+        assert.equal(await page.getByRole('button', { name: 'Resultado ingresado', exact: true }).isDisabled(), true);
+        assert.equal(await page.locator('.results-recorded-result').getByText('6:4, 6:3', { exact: true }).count(), 1);
+        assert.equal(await page.locator('.results-match--recorded input').count(), 0);
         await page.screenshot({ path: '/tmp/ctq-results-after-save-' + profile.name + '.png', fullPage: true });
         await page.getByRole('button', { name: 'Ingresar resultado' }).waitFor();
         assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 1);
@@ -146,7 +158,7 @@ try {
         rejectSave = true;
         await page.getByRole('button', { name: 'Ingresar resultado' }).click();
         await score.fill('6:2, 6:2');
-        await page.getByRole('radio', { name: /Lado B/ }).check();
+        await page.getByRole('radio', { name: /Player 2/ }).check();
         await page.getByRole('button', { name: 'Guardar resultado', exact: true }).click();
         await page.getByRole('dialog', { name: 'Confirmar resultado' }).getByRole('button', { name: 'Guardar resultado', exact: true }).click();
         await page.getByRole('dialog', { name: 'No se guardó el resultado' }).waitFor();
@@ -156,28 +168,53 @@ try {
         await page.getByRole('button', { name: 'Descartar y salir', exact: true }).click();
         await score.waitFor({ state: 'detached' });
         rejectSave = false;
-        state = { ...queue(), matches: [match('expired', { canRegister: false, blockedCode: 'RESULT_DEADLINE_EXPIRED', blockedReason: 'El plazo venció. Revisión administrativa.' })], totalPending: 1 };
+        const writesBeforePeer = writes.length;
+        state = { ...queue(), matches: [match('peer-result', {
+            phase: 'RECORDED', canRegister: false, blockedCode: 'RESULT_ALREADY_REGISTERED',
+            result: { score: '6:2, 6:4', winners: [players[1].name] },
+        })], totalPending: 0 };
         await mount();
-        await page.getByRole('button', { name: 'Ver motivo del bloqueo' }).click();
-        await page.getByRole('dialog', { name: 'Resultado bloqueado' }).getByText('El plazo venció. Revisión administrativa.').waitFor();
-        await page.getByRole('button', { name: 'Entendido', exact: true }).click();
+        await page.getByRole('heading', { name: 'Resultado registrado', exact: true }).waitFor();
+        assert.equal(await page.getByRole('button', { name: 'Resultado ingresado', exact: true }).isDisabled(), true);
         assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 0);
-        state.canReviewExpired = true;
-        await page.getByRole('button', { name: 'Actualizar pendientes' }).click();
-        await page.getByRole('button', { name: 'Revisar resultado vencido' }).click();
-        await score.fill('6:4, 6:3');
-        await page.getByRole('radio', { name: /Lado A/ }).check();
-        await page.getByRole('button', { name: 'Guardar resultado', exact: true }).click();
-        await page.getByRole('dialog', { name: 'Autorizar resultado vencido' }).getByRole('button', { name: 'Autorizar y guardar' }).click();
-        await page.getByRole('dialog', { name: 'Resultado guardado' }).waitFor();
-        assert.equal(writes.at(-1).allowExpired, true);
-        await page.getByRole('button', { name: 'Entendido', exact: true }).click();
-        await page.getByRole('heading', { name: 'Sin resultados pendientes' }).waitFor();
-        state = { ...queue(), matches: [match('doubles', { isDouble: true, players: players.map(row => ({ ...row, category: 'Dobles' })) })], totalPending: 4, hasOverflow: true };
+        assert.equal(await page.locator('.results-recorded-result').getByText('6:2, 6:4', { exact: true }).count(), 1);
+        assert.equal(await page.locator('.results-recorded-result').getByText('Ganador: ' + players[1].name, { exact: true }).count(), 1);
+        assert.equal(writes.length, writesBeforePeer);
+        await page.screenshot({ path: '/tmp/ctq-results-peer-' + profile.name + '.png', fullPage: true });
+        state = { ...queue(), matches: [
+            match('expired', { dateToPlay: '2026-10-10', canRegister: false, blockedCode: 'RESULT_DEADLINE_EXPIRED' }),
+            match('old-recorded', { dateToPlay: '2026-10-10', phase: 'RECORDED', canRegister: false, result: { score: '6:1, 6:1', winners: [players[0].name] } }),
+            match('expired-phase', { phase: 'EXPIRED', canRegister: false }),
+            match('expired-status', { rankingResultStatus: 'EXPIRED', canRegister: false }),
+            match('expired-code', { blockedCode: 'RESULT_DEADLINE_EXPIRED', canRegister: false }),
+        ], totalPending: 0 };
         await mount();
-        await page.getByRole('button', { name: 'Ver pendientes históricos (4)', exact: true }).click();
-        await page.getByRole('dialog', { name: 'Pendientes históricos' }).getByText('Hay 4 partidos pendientes', { exact: false }).waitFor();
+        await page.getByRole('heading', { name: 'Sin partidos en esta ventana' }).waitFor();
+        assert.equal(await page.getByRole('button', { name: /Ver vencidos/ }).count(), 0);
+        assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 0);
+        assert.equal(await page.locator('.results-match').count(), 0, 'Expired games must not be pending');
+        state.matches = [match('valid-next')];
+        state.totalPending = 1;
+        await page.getByRole('button', { name: 'Actualizar pendientes' }).click();
+        await page.getByRole('button', { name: 'Ingresar resultado' }).click();
+        await score.fill('6:4, 6:3');
+        await page.getByRole('radio', { name: /Player 1/ }).check();
+        await page.getByRole('button', { name: 'Guardar resultado', exact: true }).click();
+        await page.getByRole('dialog', { name: 'Confirmar resultado' }).getByRole('button', { name: 'Guardar resultado', exact: true }).click();
+        await page.getByRole('dialog', { name: 'Resultado guardado' }).waitFor();
+        assert.equal(Object.hasOwn(writes.at(-1), 'allowExpired'), false);
         await page.getByRole('button', { name: 'Entendido', exact: true }).click();
+        await page.getByRole('heading', { name: 'Resultado registrado', exact: true }).waitFor();
+        assert.equal(await page.getByRole('button', { name: 'Resultado ingresado', exact: true }).isDisabled(), true);
+        assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 0);
+        state = { ...queue(), matches: [match('doubles', { isDouble: true, players: players.map(row => ({ ...row, category: 'Dobles' })) })], totalPending: 1 };
+        await mount();
+        await page.getByRole('button', { name: 'Ingresar resultado' }).click();
+        await page.getByRole('radio', { name: /Team 1/ }).waitFor();
+        assert.equal(await page.getByRole('radio', { name: /Team [12]/ }).count(), 2);
+        assert.equal(await page.getByRole('radio', { name: /Lado [AB]/ }).count(), 0);
+        assert.equal(await page.getByRole('radio', { name: /Player [12]/ }).count(), 0);
+        await page.getByRole('button', { name: 'Cancelar', exact: true }).click();
         assert.equal(await page.locator('.results-player').count(), 4);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         rejectGet = true;
@@ -210,7 +247,7 @@ try {
         await page.locator('.results-match').first().waitFor();
         assert.equal(reviewingEmail, players[0].email);
         assert.deepEqual(errors, []);
-        console.log('PASS results flow, layout, draft protection and admin deadline review: ' + profile.name);
+        console.log('PASS two-day window, shared read-only result, player labels and SweetAlert2: ' + profile.name);
         await page.close();
     }
 } finally {

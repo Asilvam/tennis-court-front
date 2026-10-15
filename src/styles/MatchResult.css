@@ -38,6 +38,12 @@
     border-radius: 50%; color: #41525a; background: #e4eaea; font-size: 15px; font-weight: 700;
 }
 .results-match--first .results-order { background: #f2dc58; color: #262e30; }
+.results-match--recorded .results-order { background: #dcefe6; color: #256e63; }
+.results-recorded-result { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding-top: 14px; border-top: 1px solid #d6e0e1; overflow-wrap: anywhere; }
+.results-recorded-result > span { font-size: 13px; color: #52636b; }
+.results-recorded-result > strong { font-size: 22px; color: #256e63; line-height: 1.3; }
+.results-recorded-result > p { font-size: 14px; }
+.results-recorded-result > button { margin-top: 6px; }
 .results-lock { margin-top: 6px; color: #64767c; }
 .results-teams { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; margin: 18px 0; }
 .results-team-label { color: #62737a; font-size: 12px; text-transform: uppercase; font-weight: 700; }

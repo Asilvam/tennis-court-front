@@ -4,7 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRotateRight, faCheck, faLock, faPen, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateRight, faCheck, faLock, faPen } from '@fortawesome/free-solid-svg-icons';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
 import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
@@ -23,18 +23,19 @@ interface PendingMatch {
     dateToPlay: string;
     turn: string;
     isDouble: boolean;
-    phase?: 'CURRENT' | 'AWAITING_RESULT';
+    phase?: 'CURRENT' | 'AWAITING_RESULT' | 'RECORDED' | 'EXPIRED';
+    rankingResultStatus?: 'PENDING' | 'RECORDED' | 'EXPIRED';
     players: Player[];
     canRegister: boolean;
     blockedCode: string | null;
     blockedReason: string | null;
+    result?: { score: string | null; winners: string[] } | null;
 }
 interface Queue {
     matches: PendingMatch[];
     member: { name: string; email: string };
-    canReviewExpired: boolean;
     totalPending: number;
-    hasOverflow: boolean;
+    serverNow?: string;
 }
 interface PointChange {
     name: string;
@@ -86,7 +87,12 @@ export default function MatchResultUpdate() {
                 signal,
             });
             if (!response.data || !Array.isArray(response.data.matches)) throw new Error('Invalid queue');
-            setQueue(response.data);
+            const now = response.data.serverNow ? DateTime.fromISO(response.data.serverNow).setZone('America/Santiago') : DateTime.now().setZone('America/Santiago');
+            const oldestDay = now.startOf('day').minus({ days: 2 });
+            setQueue({ ...response.data, matches: response.data.matches.filter(match =>
+                DateTime.fromISO(match.dateToPlay.slice(0, 10), { zone: 'America/Santiago' }) >= oldestDay
+                && match.phase !== 'EXPIRED' && match.rankingResultStatus !== 'EXPIRED'
+                && match.blockedCode !== 'RESULT_DEADLINE_EXPIRED') });
             lastLoadError.current = '';
             return null;
         } catch (failure) {
@@ -139,23 +145,20 @@ export default function MatchResultUpdate() {
         if (busy.current || (dirty && !(await confirmDiscardCategoryChanges('leave', 'match-result')))) return;
         resetEditor();
     };
-    const canReview = (match: PendingMatch) =>
-        queue?.canReviewExpired === true && match.blockedCode === 'RESULT_DEADLINE_EXPIRED';
-    const canSubmit = (match: PendingMatch) => match.canRegister || canReview(match);
 
     const save = async (match: PendingMatch) => {
-        if (busy.current || !winnerSide || !scorePattern.test(score.trim()) || !canSubmit(match)) return;
+        if (busy.current || !winnerSide || !scorePattern.test(score.trim()) || !match.canRegister) return;
         busy.current = true;
         setSaving(true);
         const size = match.isDouble ? 2 : 1;
         const winners = match.players.slice(winnerSide === 'A' ? 0 : size, winnerSide === 'A' ? size : size * 2);
         try {
             const confirmation = await Swal.fire({
-                icon: canReview(match) ? 'warning' : 'question',
-                title: canReview(match) ? 'Autorizar resultado vencido' : 'Confirmar resultado',
-                text: `${winners.map(player => player.name).join(' y ')} gana. Marcador: ${score.trim()}. ${canReview(match) ? 'El plazo de dos días venció. Esta autorización administrativa quedará registrada. ' : ''}Se actualizarán los puntos de ambos lados.`,
+                icon: 'question',
+                title: 'Confirmar resultado',
+                text: `${winners.map(player => player.name).join(' y ')} gana. Marcador: ${score.trim()}. Se actualizarán los puntos de ambos ${match.isDouble ? 'equipos' : 'jugadores'}.`,
                 showCancelButton: true,
-                confirmButtonText: canReview(match) ? 'Autorizar y guardar' : 'Guardar resultado',
+                confirmButtonText: 'Guardar resultado',
                 cancelButtonText: 'Revisar',
                 focusCancel: true,
                 allowOutsideClick: false,
@@ -165,7 +168,6 @@ export default function MatchResultUpdate() {
                 matchId: match.idCourtReserve,
                 result: score.trim(),
                 winnerSide,
-                ...(canReview(match) ? { allowExpired: true } : {}),
             }, { headers: { Authorization: `Bearer ${token}` } });
             resetEditor();
             const reloadError = await load(undefined, false);
@@ -179,10 +181,11 @@ export default function MatchResultUpdate() {
             });
         } catch (failure) {
             const alreadySaved = axios.isAxiosError(failure) && failure.response?.data?.code === 'RESULT_ALREADY_REGISTERED';
-            if (alreadySaved) resetEditor();
+            const expired = axios.isAxiosError(failure) && failure.response?.data?.code === 'RESULT_DEADLINE_EXPIRED';
+            if (alreadySaved || expired) resetEditor();
             await Swal.fire({
-                icon: alreadySaved ? 'info' : 'error',
-                title: alreadySaved ? 'Resultado ya registrado' : 'No se guardó el resultado',
+                icon: alreadySaved || expired ? 'info' : 'error',
+                title: expired ? 'Partido vencido · Sin puntos' : alreadySaved ? 'Resultado ya registrado' : 'No se guardó el resultado',
                 text: errorMessage(failure),
                 confirmButtonText: 'Entendido',
                 allowOutsideClick: false,
@@ -206,53 +209,61 @@ export default function MatchResultUpdate() {
                     <FontAwesomeIcon icon={faArrowRotateRight} />
                 </button>
             </header>
-            <p className="results-rule">Primero el partido más antiguo. Hasta dos partidos de ranking por socio.</p>
+            <p className="results-rule">Partidos vigentes, hasta dos días atrás. Resultados pendientes en orden.</p>
             {error && <button type="button" className="results-secondary results-message-action" onClick={() => void showNotice('No pudimos cargar los partidos', error, 'error')} disabled={saving}>Ver error de carga</button>}
             {loading && !queue && <div className="results-empty"><LoadingSpinner size={64} /></div>}
-            {queue?.hasOverflow && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Pendientes históricos', `Hay ${queue.totalPending} partidos pendientes anteriores a este límite. Se muestran los dos más antiguos; registra sus resultados en orden o solicita revisión administrativa.`, 'warning')}>Ver pendientes históricos ({queue.totalPending})</button>}
-            {queue && queue.matches.length === 0 && <section className="results-empty"><FontAwesomeIcon icon={faCheck} /><h2>Sin resultados pendientes</h2></section>}
+            {queue && queue.matches.length === 0 && <section className="results-empty"><FontAwesomeIcon icon={faCheck} /><h2>Sin partidos en esta ventana</h2></section>}
             <div className="results-queue">
                 {queue?.matches.map((match, index) => {
                     const editing = editingId === match.idCourtReserve;
+                    const recorded = match.phase === 'RECORDED' || Boolean(match.result);
+                    const firstPending = queue.matches.findIndex(row => row.phase !== 'RECORDED' && !row.result);
                     const size = match.isDouble ? 2 : 1;
-                    const allowed = canSubmit(match);
+                    const allowed = match.canRegister && !recorded;
                     const date = DateTime.fromISO(match.dateToPlay.slice(0, 10)).setLocale('es').toFormat('dd LLL yyyy');
                     const sideName = (side: 'A' | 'B') => match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => player.name).join(' y ');
+                    const sideLabel = (side: 'A' | 'B') => `${match.isDouble ? 'Team' : 'Player'} ${side === 'A' ? 1 : 2}`;
                     return (
-                        <section className={`results-match ${index === 0 ? 'results-match--first' : ''}`} key={match.idCourtReserve} aria-labelledby={`match-title-${index}`}>
+                        <section className={`results-match ${recorded ? 'results-match--recorded' : index === firstPending ? 'results-match--first' : ''}`} key={match.idCourtReserve} aria-labelledby={`match-title-${index}`}>
                             <div className="results-match-heading">
-                                <span className="results-order">{index + 1}</span>
+                                <span className="results-order">{recorded ? <FontAwesomeIcon icon={faCheck} /> : index + 1}</span>
                                 <div>
-                                    <h2 id={`match-title-${index}`}>{match.phase === 'CURRENT' || match.blockedCode === 'MATCH_NOT_FINISHED' ? 'Partido vigente' : index === 0 ? 'Esperando resultado' : 'Siguiente partido'}</h2>
+                                    <h2 id={`match-title-${index}`}>{recorded ? 'Resultado registrado' : match.phase === 'CURRENT' || match.blockedCode === 'MATCH_NOT_FINISHED' ? 'Partido vigente' : index === firstPending ? 'Esperando resultado' : 'Siguiente partido'}</h2>
                                     <p>{date} · {match.turn} · Cancha {match.court.replace(/^Cancha\s*/i, '')} · {match.isDouble ? 'Dobles' : 'Singles'}</p>
                                 </div>
-                                {!match.canRegister && <FontAwesomeIcon icon={faLock} className="results-lock" title="Resultado bloqueado" />}
+                                {!allowed && !recorded && <FontAwesomeIcon icon={faLock} className="results-lock" title="Resultado bloqueado" />}
                             </div>
                             <div className="results-teams">
                                 {(['A', 'B'] as const).map(side => <div className="results-team" key={side}>
-                                    <span className="results-team-label">Lado {side}</span>
-                                    {match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => <div className="results-player" key={player.email}>
+                                    <span className="results-team-label">{sideLabel(side)}</span>
+                                    {match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => <div className="results-player" key={player.name}>
                                         <strong>{player.name}</strong>
-                                        <span>{categoryLabel(player.category)} · {player.points === null ? 'Puntos por revisar' : `${player.points} pts`}</span>
+                                        <span>{recorded && !player.category ? 'Categoría no disponible' : categoryLabel(player.category)} · {player.points === null ? recorded ? 'Puntos no disponibles' : 'Puntos por revisar' : `${player.points} pts${recorded ? ' al registrar' : ''}`}</span>
                                     </div>)}
                                 </div>)}
                             </div>
-                            {match.blockedReason && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Resultado bloqueado', match.blockedReason!, match.blockedCode === 'RESULT_DEADLINE_EXPIRED' ? 'warning' : 'info')}>
-                                <FontAwesomeIcon icon={canReview(match) ? faShieldHalved : faLock} /> Ver motivo del bloqueo
+                            {recorded && <div className="results-recorded-result">
+                                <span>Marcador</span>
+                                <strong>{match.result?.score || 'Detalle no disponible'}</strong>
+                                {Boolean(match.result?.winners?.length) && <p>{match.isDouble ? 'Ganadores' : 'Ganador'}: {match.result!.winners.join(' y ')}</p>}
+                                <button type="button" className="results-secondary" disabled><FontAwesomeIcon icon={faCheck} /> Resultado ingresado</button>
+                            </div>}
+                            {!recorded && match.blockedReason && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Resultado bloqueado', match.blockedReason!, match.blockedCode === 'RESULT_DEADLINE_EXPIRED' ? 'warning' : 'info')}>
+                                <FontAwesomeIcon icon={faLock} /> Ver motivo del bloqueo
                             </button>}
                             {allowed && !editing && <button type="button" className="results-primary" disabled={saving || loading || editingId !== null} onClick={() => setEditingId(match.idCourtReserve)}>
-                                <FontAwesomeIcon icon={canReview(match) ? faShieldHalved : faPen} /> {canReview(match) ? 'Revisar resultado vencido' : 'Ingresar resultado'}
+                                <FontAwesomeIcon icon={faPen} /> Ingresar resultado
                             </button>}
-                            {editing && <form className="results-editor" onSubmit={event => { event.preventDefault(); void save(match); }}>
+                            {editing && !recorded && <form className="results-editor" onSubmit={event => { event.preventDefault(); void save(match); }}>
                                 <label htmlFor="match-score">Marcador por sets</label>
                                 <input id="match-score" ref={input} type="text" maxLength={64} placeholder="6:4, 6:3" value={score} onChange={event => setScore(event.target.value)} autoComplete="off" disabled={saving} aria-invalid={score !== '' && !scorePattern.test(score.trim())} />
                                 {score !== '' && !scorePattern.test(score.trim()) && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Marcador inválido', 'Ingresa los sets separados por coma, por ejemplo 6:4, 6:3.', 'warning').then(() => input.current?.focus({ preventScroll: true }))}>Revisar marcador</button>}
                                 <fieldset disabled={saving}>
-                                    <legend>Lado ganador</legend>
+                                    <legend>{match.isDouble ? 'Equipo ganador' : 'Jugador ganador'}</legend>
                                     <div className="results-winner-options">
                                         {(['A', 'B'] as const).map(side => <label key={side} className={winnerSide === side ? 'is-selected' : ''}>
                                             <input type="radio" name="winner" value={side} checked={winnerSide === side} onChange={() => setWinnerSide(side)} />
-                                            <span><strong>Lado {side}</strong>{sideName(side)}</span>
+                                            <span><strong>{sideLabel(side)}</strong>{sideName(side)}</span>
                                         </label>)}
                                     </div>
                                 </fieldset>
