@@ -4,6 +4,7 @@ let confirmationOpen = false;
 
 export async function confirmDiscardCategoryChanges(
     action: 'leave' | 'reload',
+    context: 'categories' | 'match-result' = 'categories',
 ): Promise<boolean> {
     if (confirmationOpen) return false;
     confirmationOpen = true;
@@ -14,7 +15,9 @@ export async function confirmDiscardCategoryChanges(
             text:
                 action === 'reload'
                     ? 'Se descartarán tus cambios pendientes al recargar los datos.'
-                    : 'Si sales ahora, perderás los cambios de categorías y puntajes que no has guardado.',
+                    : context === 'match-result'
+                        ? 'Si sales ahora, perderás el resultado que no has guardado.'
+                        : 'Si sales ahora, perderás los cambios de categorías y puntajes que no has guardado.',
             showCancelButton: true,
             confirmButtonText:
                 action === 'reload'

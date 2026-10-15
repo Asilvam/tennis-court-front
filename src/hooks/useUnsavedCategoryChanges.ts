@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
     );
 }
 
-export function useUnsavedCategoryChanges(dirty: boolean, saving: boolean) {
+export function useUnsavedEditorChanges(dirty: boolean, saving: boolean, context: 'categories' | 'match-result' = 'categories') {
     const { navigator } = useContext(UNSAFE_NavigationContext);
     const latest = useRef({ dirty, saving });
     latest.current = { dirty, saving };
@@ -29,7 +29,7 @@ export function useUnsavedCategoryChanges(dirty: boolean, saving: boolean) {
             try {
                 const approved =
                     !latest.current.dirty ||
-                    (await confirmDiscardCategoryChanges('leave'));
+                    (await confirmDiscardCategoryChanges('leave', context));
                 if (approved && !disposed && !latest.current.saving)
                     continueNavigation();
             } finally {
@@ -114,5 +114,7 @@ export function useUnsavedCategoryChanges(dirty: boolean, saving: boolean) {
             window.removeEventListener('beforeunload', beforeUnload);
             if (categoryPopHandler === onPop) categoryPopHandler = undefined;
         };
-    }, [enabled, navigator]);
+    }, [enabled, navigator, context]);
 }
+
+export const useUnsavedCategoryChanges = useUnsavedEditorChanges;

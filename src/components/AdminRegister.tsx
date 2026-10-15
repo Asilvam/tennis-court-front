@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
@@ -376,6 +376,15 @@ const AdminRegister: React.FC = () => {
                                         aria-label={`Administrar categorías de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faLayerGroup} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-floating btn-small waves-effect waves-light action-categories-btn"
+                                        onClick={() => navigate(`/updatematch?email=${encodeURIComponent(user.email)}`)}
+                                        title="Revisar resultados"
+                                        aria-label={`Revisar resultados de ${user.namePlayer}`}
+                                    >
+                                        <FontAwesomeIcon icon={faClipboardCheck} />
                                     </button>
                                     <button
                                         type="button"

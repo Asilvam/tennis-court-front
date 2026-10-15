@@ -1,482 +1,272 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 import { DateTime } from 'luxon';
-import { getUserInfoFromLocalStorage } from '../utils/userUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRotateRight, faCheck, faLock, faPen, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
-import AppLoader from './AppLoader';
+import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
+import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
 import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/MatchResult.css';
 
-interface PlayerData {
-    email: string;
+interface Player {
     name: string;
-    cellular: string;
-    categories: [{category :string, points: number, isActive: boolean}]
+    email: string;
+    category: string | null;
+    points: number | null;
 }
-
-interface ValidateMatchResponse {
-    players: string[];
-    isDouble: boolean;
-    isValid: boolean;
-    dataPlayers: PlayerData[];
-}
-
-interface Reservation {
+interface PendingMatch {
+    idCourtReserve: string;
     court: string;
-    player1: string;
-    player2: string;
-    player3?: string;
-    player4?: string;
     dateToPlay: string;
     turn: string;
-    state: boolean;
-    visitName?: string;
-    idCourtReserve: string;
-    passCourtReserve?: string;
-    isForRanking: boolean;
-    resultMatchUpdated?: boolean;
+    isDouble: boolean;
+    phase?: 'CURRENT' | 'AWAITING_RESULT';
+    players: Player[];
+    canRegister: boolean;
+    blockedCode: string | null;
+    blockedReason: string | null;
+}
+interface Queue {
+    matches: PendingMatch[];
+    member: { name: string; email: string };
+    canReviewExpired: boolean;
+    totalPending: number;
+    hasOverflow: boolean;
+}
+interface PointChange {
+    name: string;
+    category: string;
+    delta: number;
+    after: number;
+}
+const scorePattern = /^\d{1,2}[:-]\d{1,2}(?:\(\d{1,2}\))?(?:,\s*\d{1,2}[:-]\d{1,2}(?:\(\d{1,2}\))?){0,2}$/;
+const categoryLabel = (category: string | null) =>
+    ({ '1': 'Primera', '2': 'Segunda', '3': 'Tercera', '4': 'Cuarta' }[category ?? ''] ?? category ?? 'Categoría por revisar');
+
+function errorMessage(error: unknown) {
+    if (axios.isAxiosError(error)) {
+        const message: unknown = error.response?.data?.message;
+        if (Array.isArray(message)) return message.join(' ');
+        if (typeof message === 'string') return message;
+    }
+    return 'No pudimos conectar con el servidor. Tu resultado no se ha descartado.';
 }
 
-const MatchResultUpdate: React.FC = () => {
+const showNotice = (title: string, text: string, icon: 'info' | 'warning' | 'error' = 'info') =>
+    Swal.fire({ title, text, icon, confirmButtonText: 'Entendido', allowOutsideClick: false });
+
+export default function MatchResultUpdate() {
+    const [params] = useSearchParams();
+    const playerEmail = params.get('email') || '';
     const apiUrl = import.meta.env.VITE_API_URL;
-    const userInfo = getUserInfoFromLocalStorage();
     const token = getTokenFromLocalStorage();
-    const namePlayer = userInfo?.name || '';
-    const [matchId, setMatchId] = useState('');
-    const [players, setPlayers] = useState<string[]>([]);
-    const [isDoubles, setIsDoubles] = useState(false);
-    const [result, setResult] = useState('');
-    const [dataWinner, setDataWinner] = useState<PlayerData[]>([]);
-    const [dataLooser, setDataLooser] = useState<PlayerData[]>([]);
-    const [loading, setLoading] = useState(false);
-    // Solo se utiliza el setter por ahora, para eventualmente guardar info de ranking.
-    // Ignoramos el valor para evitar warnings de variable no usada.
-    const [, setDataUpdateRanking] = useState<unknown | null>(null);
-    const [player1Data, setPlayer1Data] = useState<PlayerData | null>(null);
-    const [player2Data, setPlayer2Data] = useState<PlayerData | null>(null);
-    const [player3Data, setPlayer3Data] = useState<PlayerData | null>(null);
-    const [player4Data, setPlayer4Data] = useState<PlayerData | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [queue, setQueue] = useState<Queue | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [editingId, setEditingId] = useState<string | null>(null);
+    const [score, setScore] = useState('');
+    const [winnerSide, setWinnerSide] = useState<'A' | 'B' | ''>('');
+    const [saving, setSaving] = useState(false);
+    const busy = useRef(false);
+    const lastLoadError = useRef('');
+    const input = useRef<HTMLInputElement>(null);
+    const dirty = editingId !== null && (score !== '' || winnerSide !== '');
+    useUnsavedEditorChanges(dirty, saving, 'match-result');
 
-    const [reserves, setReserves] = useState<Reservation[]>([]);
-    const [loadingReserves, setLoadingReserves] = useState(false);
-
-    const getPlayerInitials = (fullName?: string): string => {
-        if (!fullName) return '';
-        const nameParts = fullName.trim().split(' ').filter(part => part.length > 0);
-        if (nameParts.length === 0) return '';
-
-        const firstInitial = nameParts[0][0].toUpperCase() + '.';
-        if (nameParts.length > 1) {
-            const lastName = nameParts[nameParts.length - 1];
-            if (lastName && lastName[0]) {
-                return `${firstInitial} ${lastName}`;
-            }
-        }
-        return firstInitial;
-    };
-
-    // Devuelve las categorías relevantes para este partido, según sea singles o dobles.
-    const getCategoriesForMatch = (player: PlayerData | null, isDoublesMatch: boolean) => {
-        if (!player || !Array.isArray(player.categories)) return [];
-
-        return player.categories.filter((cat) => {
-            const name = (cat.category || '').toLowerCase();
-            const isDoubleCat = name.includes('dobles');
-            return isDoublesMatch ? isDoubleCat : !isDoubleCat;
-        });
-    };
-
-    // Construye el texto a mostrar con todas las categorías activas (opción B).
-    const buildCategoryDisplay = (player: PlayerData | null, isDoublesMatch: boolean): string => {
-        const filtered = getCategoriesForMatch(player, isDoublesMatch);
-        if (filtered.length === 0) return '-';
-
-        const actives = filtered.filter((c) => c.isActive);
-        const categoriesToUse = actives.length > 0 ? actives : filtered;
-
-        return categoriesToUse
-            .map((c) => `${c.category} (${c.points} pts)`)
-            .join(' / ');
-    };
-
-    const handleError = (error: unknown) => {
-        if (axios.isAxiosError(error)) {
-            if (error.response) {
-                if (error.response.status === 409) {
-                    setIsModalOpen(false);
-                    void Swal.fire({
-                        icon: 'info',
-                        title: 'Resultado ya registrado',
-                        text: 'Otro jugador ya ingresó el resultado de este partido. Actualizamos tu lista de pendientes.',
-                        confirmButtonText: 'Entendido',
-                    }).then(() => fetchReserves());
-                } else if (error.response.status === 400) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Solicitud inválida',
-                        text: error.response.data.message || 'La solicitud enviada no es válida.',
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: `Error ${error.response.status}`,
-                        text: error.response.data.message || 'Ocurrió un problema en la solicitud.',
-                    });
-                }
-            } else if (error.request) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Sin respuesta del servidor',
-                    text: 'El servidor no respondió. Por favor, inténtalo más tarde.',
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error en la solicitud',
-                    text: error.message || 'Hubo un problema al enviar la solicitud.',
-                });
-            }
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error inesperado',
-                text: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
-            });
-        }
-    };
-
-    const fetchReserves = async () => {
-        if (!namePlayer || !token) return;
-
-        setLoadingReserves(true);
+    const load = useCallback(async (signal?: AbortSignal, notify = true): Promise<string | null> => {
+        setLoading(true);
+        setError('');
         try {
-            const response = await axios.get<Reservation[]>(`${apiUrl}/court-reserve/isForRankingHistory/${namePlayer}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+            const response = await axios.get<Queue>(`${apiUrl}/match-ranking/pending`, {
+                params: playerEmail ? { playerEmail } : undefined,
+                headers: { Authorization: `Bearer ${token}` },
+                signal,
             });
-            setReserves(response.data);
-        } catch (error) {
-            console.error('Error fetching ranking reservations:', error);
-            handleError(error);
+            if (!response.data || !Array.isArray(response.data.matches)) throw new Error('Invalid queue');
+            setQueue(response.data);
+            lastLoadError.current = '';
+            return null;
+        } catch (failure) {
+            if (axios.isCancel(failure) || signal?.aborted) return null;
+            const message = errorMessage(failure);
+            setError(message);
+            if (notify && message !== lastLoadError.current && !Swal.isVisible()) {
+                await showNotice('No pudimos cargar los partidos', message, 'error');
+            }
+            lastLoadError.current = message;
+            return message;
         } finally {
-            setLoadingReserves(false);
+            if (!signal?.aborted) setLoading(false);
         }
-    };
+    }, [apiUrl, playerEmail, token]);
 
     useEffect(() => {
-        fetchReserves();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        setQueue(null);
+        setEditingId(null);
+        setScore('');
+        setWinnerSide('');
+        lastLoadError.current = '';
+        const controller = new AbortController();
+        void load(controller.signal);
+        return () => controller.abort();
+    }, [load]);
 
-    const openMatchFromReserve = async (reserve: Reservation) => {
-        if (!reserve.idCourtReserve || !reserve.passCourtReserve) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Datos incompletos del partido',
-                text: 'No se encontró la información necesaria para validar este partido.',
-            });
-            return;
-        }
+    useEffect(() => {
+        if (editingId || saving) return;
+        const timer = window.setInterval(() => { if (!document.hidden && !Swal.isVisible()) void load(); }, 60000);
+        return () => window.clearInterval(timer);
+    }, [editingId, saving, load]);
 
+    useEffect(() => {
+        if (editingId) input.current?.focus({ preventScroll: true });
+    }, [editingId]);
+
+    const resetEditor = () => {
+        setEditingId(null);
+        setScore('');
+        setWinnerSide('');
+    };
+    const refresh = async () => {
+        if (busy.current || (dirty && !(await confirmDiscardCategoryChanges('reload', 'match-result')))) return;
+        resetEditor();
+        lastLoadError.current = '';
+        await load();
+    };
+    const cancel = async () => {
+        if (busy.current || (dirty && !(await confirmDiscardCategoryChanges('leave', 'match-result')))) return;
+        resetEditor();
+    };
+    const canReview = (match: PendingMatch) =>
+        queue?.canReviewExpired === true && match.blockedCode === 'RESULT_DEADLINE_EXPIRED';
+    const canSubmit = (match: PendingMatch) => match.canRegister || canReview(match);
+
+    const save = async (match: PendingMatch) => {
+        if (busy.current || !winnerSide || !scorePattern.test(score.trim()) || !canSubmit(match)) return;
+        busy.current = true;
+        setSaving(true);
+        const size = match.isDouble ? 2 : 1;
+        const winners = match.players.slice(winnerSide === 'A' ? 0 : size, winnerSide === 'A' ? size : size * 2);
         try {
-            setLoading(true);
-            const { data }: { data: ValidateMatchResponse } = await axios.post(`${apiUrl}/match-ranking/validate-match`, {
-                id: reserve.idCourtReserve,
-                pass: reserve.passCourtReserve,
+            const confirmation = await Swal.fire({
+                icon: canReview(match) ? 'warning' : 'question',
+                title: canReview(match) ? 'Autorizar resultado vencido' : 'Confirmar resultado',
+                text: `${winners.map(player => player.name).join(' y ')} gana. Marcador: ${score.trim()}. ${canReview(match) ? 'El plazo de dos días venció. Esta autorización administrativa quedará registrada. ' : ''}Se actualizarán los puntos de ambos lados.`,
+                showCancelButton: true,
+                confirmButtonText: canReview(match) ? 'Autorizar y guardar' : 'Guardar resultado',
+                cancelButtonText: 'Revisar',
+                focusCancel: true,
+                allowOutsideClick: false,
             });
-
-            setMatchId(reserve.idCourtReserve);
-            setPlayers(data.players);
-            setIsDoubles(data.isDouble);
-
-            setPlayer1Data(data.dataPlayers[0] || null);
-            setPlayer2Data(data.dataPlayers[1] || null);
-
-            if (data.isDouble) {
-                setPlayer3Data(data.dataPlayers[2] || null);
-                setPlayer4Data(data.dataPlayers[3] || null);
-            } else {
-                setPlayer3Data(null);
-                setPlayer4Data(null);
-            }
-
-            setDataUpdateRanking(() => data.players.map((player: string, index: number) => ({
-                    player,
-                    ...(data.dataPlayers[index] || {}),
-                }))
-            );
-
-            if (data.isValid) {
-                setResult('');
-                setDataWinner([]);
-                setDataLooser([]);
-                setIsModalOpen(true);
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Partido no válido',
-                    text: 'Este partido no es válido para actualizar resultado.',
-                });
-            }
-        } catch (error) {
-            console.error('Error validating match from reserve:', error);
-            handleError(error);
+            if (!confirmation.isConfirmed) return;
+            const { data } = await axios.post<{ pointChanges: PointChange[] }>(`${apiUrl}/match-ranking`, {
+                matchId: match.idCourtReserve,
+                result: score.trim(),
+                winnerSide,
+                ...(canReview(match) ? { allowExpired: true } : {}),
+            }, { headers: { Authorization: `Bearer ${token}` } });
+            resetEditor();
+            const reloadError = await load(undefined, false);
+            await Swal.fire({
+                icon: 'success',
+                title: 'Resultado guardado',
+                text: (data.pointChanges?.map(change => `${change.name}: ${change.delta >= 0 ? '+' : ''}${change.delta} → ${change.after} pts (${categoryLabel(change.category)})`).join('\n') || 'Los puntos fueron actualizados.') +
+                    (reloadError ? '\nEl resultado se guardó, pero no pudimos actualizar la lista de pendientes. Vuelve a actualizarla.' : ''),
+                confirmButtonText: 'Entendido',
+                allowOutsideClick: false,
+            });
+        } catch (failure) {
+            const alreadySaved = axios.isAxiosError(failure) && failure.response?.data?.code === 'RESULT_ALREADY_REGISTERED';
+            if (alreadySaved) resetEditor();
+            await Swal.fire({
+                icon: alreadySaved ? 'info' : 'error',
+                title: alreadySaved ? 'Resultado ya registrado' : 'No se guardó el resultado',
+                text: errorMessage(failure),
+                confirmButtonText: 'Entendido',
+                allowOutsideClick: false,
+            });
+            if (axios.isAxiosError(failure) && failure.response?.status === 409) await load(undefined, false);
         } finally {
-            setLoading(false);
+            busy.current = false;
+            setSaving(false);
         }
     };
-
-    const handleSave = async () => {
-        if (result && dataWinner.length > 0) {
-            setLoading(true);
-            try {
-                await axios.post(`${apiUrl}/match-ranking`, {
-                    matchId,
-                    result,
-                    winner: dataWinner,
-                    looser: dataLooser,
-                });
-
-                setIsModalOpen(false);
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Resultado guardado',
-                    text: `El resultado fue guardado con éxito`,
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
-                
-                // Reset fields
-                setMatchId('');
-                setPlayers([]);
-                setResult('');
-                setDataWinner([]);
-                setDataLooser([]);
-                setPlayer1Data(null);
-                setPlayer2Data(null);
-                setPlayer3Data(null);
-                setPlayer4Data(null);
-                setDataUpdateRanking(null);
-
-                // Refresh pending matches list
-                fetchReserves();
-
-            } catch (error) {
-                console.error('Error saving match result:', error);
-                handleError(error);
-            } finally {
-                setLoading(false);
-            }
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Faltan Datos!',
-                text: 'Por favor, ingresa el resultado y selecciona un ganador.',
-            });
-        }
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        // Optional: Reset result/winner selection if cancelled?
-        // setResult('');
-        // setDataWinner([]);
-    };
-
-    // Preparar textos de categorías/puntos para cada jugador según singles/dobles.
-    const player1Stats = buildCategoryDisplay(player1Data, isDoubles);
-    const player2Stats = buildCategoryDisplay(player2Data, isDoubles);
-    const player3Stats = buildCategoryDisplay(player3Data, isDoubles);
 
     return (
-        <div className="match-result-container">
-            <h5 className="match-result-title">Registrar resultado</h5>
-
-            <p className="match-result-subtitle">
-                Selecciona un partido de ranking reciente para registrar el marcador y el ganador.
-            </p>
-
-            {loadingReserves ? (
-                <AppLoader text="Cargando tus partidos de ranking..." size="2x" />
-            ) : reserves.length === 0 ? (
-                <div className="match-result-empty">
-                    <h6>No hay partidos pendientes</h6>
-                    <p>Los partidos de ranking de hoy y ayer aparecerán aquí mientras no tengan un resultado registrado.</p>
+        <main className="results-page" aria-busy={loading || saving}>
+            <header className="results-header">
+                <div>
+                    <p className="results-eyebrow">CTQ · Ranking</p>
+                    <h1>Resultados</h1>
+                    {queue && <p className="results-member">{queue.member.name}</p>}
                 </div>
-            ) : (
-                <div className="match-result-table-wrapper">
-                    <table className="match-result-table striped">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Cancha</th>
-                                <th>Turno</th>
-                                <th>Jugadores</th>
-                                <th className="center-align">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reserves.map((reserve) => (
-                                <tr key={reserve.idCourtReserve}>
-                                    <td data-label="Fecha">{DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</td>
-                                    <td data-label="Cancha" className="center-align">{reserve.court.replace(/\D/g, '')}</td>
-                                    <td data-label="Turno">{reserve.turn.split('-')[0]}</td>
-                                    <td data-label="Jugadores">
-                                        {[reserve.player1, reserve.player2, reserve.player3, reserve.player4]
-                                            .filter(Boolean)
-                                            .join(' / ')}
-                                    </td>
-                                    <td data-label="Acción" className="center-align">
-                                        <button
-                                            className="btn-validate"
-                                            disabled={loading}
-                                            onClick={() => openMatchFromReserve(reserve)}
-                                        >
-                                            {loading ? (
-                                                <>
-                                                    <LoadingSpinner size={24} label="Abriendo partido" className="ctq-spinner--spaced" />
-                                                    Abriendo...
-                                                </>
-                                            ) : (
-                                                'Ingresar resultado'
-                                            )}
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-
-            {/* Custom Modal for Result Entry */}
-            {isModalOpen && (
-                <div className="match-modal-overlay" onClick={handleCloseModal}>
-                    <div className="match-modal-container" onClick={(e) => e.stopPropagation()}>
-                        <div className="match-modal-header">
-                            <h5>Confirmar Resultado</h5>
-                        </div>
-                        
-                        <div className="match-modal-body">
-                            {/* Players VS Display */}
-                            <div className="players-vs-container">
-                                <div className="player-card-mini">
-                                    <div className="mr-player-name">
-                                        {isDoubles 
-                                            ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
-                                            : getPlayerInitials(players[0])
-                                        }
-                                    </div>
-                                    <div className="player-stats">
-                                        {player1Stats}
-                                    </div>
+                <button type="button" className="results-refresh" onClick={() => void refresh()} disabled={loading || saving} aria-label="Actualizar pendientes" title="Actualizar pendientes">
+                    <FontAwesomeIcon icon={faArrowRotateRight} />
+                </button>
+            </header>
+            <p className="results-rule">Primero el partido más antiguo. Hasta dos partidos de ranking por socio.</p>
+            {error && <button type="button" className="results-secondary results-message-action" onClick={() => void showNotice('No pudimos cargar los partidos', error, 'error')} disabled={saving}>Ver error de carga</button>}
+            {loading && !queue && <div className="results-empty"><LoadingSpinner size={64} /></div>}
+            {queue?.hasOverflow && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Pendientes históricos', `Hay ${queue.totalPending} partidos pendientes anteriores a este límite. Se muestran los dos más antiguos; registra sus resultados en orden o solicita revisión administrativa.`, 'warning')}>Ver pendientes históricos ({queue.totalPending})</button>}
+            {queue && queue.matches.length === 0 && <section className="results-empty"><FontAwesomeIcon icon={faCheck} /><h2>Sin resultados pendientes</h2></section>}
+            <div className="results-queue">
+                {queue?.matches.map((match, index) => {
+                    const editing = editingId === match.idCourtReserve;
+                    const size = match.isDouble ? 2 : 1;
+                    const allowed = canSubmit(match);
+                    const date = DateTime.fromISO(match.dateToPlay.slice(0, 10)).setLocale('es').toFormat('dd LLL yyyy');
+                    const sideName = (side: 'A' | 'B') => match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => player.name).join(' y ');
+                    return (
+                        <section className={`results-match ${index === 0 ? 'results-match--first' : ''}`} key={match.idCourtReserve} aria-labelledby={`match-title-${index}`}>
+                            <div className="results-match-heading">
+                                <span className="results-order">{index + 1}</span>
+                                <div>
+                                    <h2 id={`match-title-${index}`}>{match.phase === 'CURRENT' || match.blockedCode === 'MATCH_NOT_FINISHED' ? 'Partido vigente' : index === 0 ? 'Esperando resultado' : 'Siguiente partido'}</h2>
+                                    <p>{date} · {match.turn} · Cancha {match.court.replace(/^Cancha\s*/i, '')} · {match.isDouble ? 'Dobles' : 'Singles'}</p>
                                 </div>
-
-                                <div className="vs-badge">VS</div>
-
-                                <div className="player-card-mini">
-                                    <div className="mr-player-name">
-                                        {isDoubles 
-                                            ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
-                                            : getPlayerInitials(players[1])
-                                        }
+                                {!match.canRegister && <FontAwesomeIcon icon={faLock} className="results-lock" title="Resultado bloqueado" />}
+                            </div>
+                            <div className="results-teams">
+                                {(['A', 'B'] as const).map(side => <div className="results-team" key={side}>
+                                    <span className="results-team-label">Lado {side}</span>
+                                    {match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => <div className="results-player" key={player.email}>
+                                        <strong>{player.name}</strong>
+                                        <span>{categoryLabel(player.category)} · {player.points === null ? 'Puntos por revisar' : `${player.points} pts`}</span>
+                                    </div>)}
+                                </div>)}
+                            </div>
+                            {match.blockedReason && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Resultado bloqueado', match.blockedReason!, match.blockedCode === 'RESULT_DEADLINE_EXPIRED' ? 'warning' : 'info')}>
+                                <FontAwesomeIcon icon={canReview(match) ? faShieldHalved : faLock} /> Ver motivo del bloqueo
+                            </button>}
+                            {allowed && !editing && <button type="button" className="results-primary" disabled={saving || loading || editingId !== null} onClick={() => setEditingId(match.idCourtReserve)}>
+                                <FontAwesomeIcon icon={canReview(match) ? faShieldHalved : faPen} /> {canReview(match) ? 'Revisar resultado vencido' : 'Ingresar resultado'}
+                            </button>}
+                            {editing && <form className="results-editor" onSubmit={event => { event.preventDefault(); void save(match); }}>
+                                <label htmlFor="match-score">Marcador por sets</label>
+                                <input id="match-score" ref={input} type="text" maxLength={64} placeholder="6:4, 6:3" value={score} onChange={event => setScore(event.target.value)} autoComplete="off" disabled={saving} aria-invalid={score !== '' && !scorePattern.test(score.trim())} />
+                                {score !== '' && !scorePattern.test(score.trim()) && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Marcador inválido', 'Ingresa los sets separados por coma, por ejemplo 6:4, 6:3.', 'warning').then(() => input.current?.focus({ preventScroll: true }))}>Revisar marcador</button>}
+                                <fieldset disabled={saving}>
+                                    <legend>Lado ganador</legend>
+                                    <div className="results-winner-options">
+                                        {(['A', 'B'] as const).map(side => <label key={side} className={winnerSide === side ? 'is-selected' : ''}>
+                                            <input type="radio" name="winner" value={side} checked={winnerSide === side} onChange={() => setWinnerSide(side)} />
+                                            <span><strong>Lado {side}</strong>{sideName(side)}</span>
+                                        </label>)}
                                     </div>
-                                    <div className="player-stats">
-                                        {isDoubles ? player3Stats : player2Stats}
-                                    </div>
+                                </fieldset>
+                                <div className="results-editor-actions">
+                                    <button type="button" className="results-secondary" onClick={() => void cancel()} disabled={saving}>Cancelar</button>
+                                    <button type="submit" className="results-primary" disabled={saving || loading || !allowed || !winnerSide || !scorePattern.test(score.trim())}>
+                                        {saving ? <LoadingSpinner size={24} label="Guardando resultado" /> : <FontAwesomeIcon icon={faCheck} />} {saving ? 'Guardando…' : 'Guardar resultado'}
+                                    </button>
                                 </div>
-                            </div>
-
-                            {/* Result Input */}
-                            <div className="mr-form-group">
-                                <label className="form-label">Marcador final</label>
-                                <input
-                                    type="text"
-                                    className="mr-form-input browser-default"
-                                    value={result}
-                                    onChange={(e) => setResult(e.target.value)}
-                                    placeholder="Ej: 6:4, 3:6, 7:6"
-                                />
-                            </div>
-
-                            {/* Winner Selection */}
-                            <div className="mr-form-group">
-                                <label className="form-label">Seleccionar Ganador</label>
-                                <div className="winner-selection-group">
-                                    {/* Option 1 */}
-                                    <label className="winner-option">
-                                        <input
-                                            type="radio"
-                                            name="winnerSelection"
-                                            checked={dataWinner[0]?.email === (isDoubles ? player1Data?.email : player1Data?.email)}
-                                            onChange={() => {
-                                                if (isDoubles) {
-                                                    if (player1Data && player2Data) setDataWinner([player1Data, player2Data]);
-                                                    if (player3Data && player4Data) setDataLooser([player3Data, player4Data]);
-                                                } else {
-                                                    if (player1Data) setDataWinner([player1Data]);
-                                                    if (player2Data) setDataLooser([player2Data]);
-                                                }
-                                            }}
-                                        />
-                                        <div className="winner-card">
-                                            <span>
-                                                {isDoubles 
-                                                    ? `${getPlayerInitials(players[0])} & ${getPlayerInitials(players[1])}`
-                                                    : getPlayerInitials(players[0])
-                                                }
-                                            </span>
-                                        </div>
-                                    </label>
-
-                                    {/* Option 2 */}
-                                    <label className="winner-option">
-                                        <input
-                                            type="radio"
-                                            name="winnerSelection"
-                                            checked={dataWinner[0]?.email === (isDoubles ? player3Data?.email : player2Data?.email)}
-                                            onChange={() => {
-                                                if (isDoubles) {
-                                                    if (player3Data && player4Data) setDataWinner([player3Data, player4Data]);
-                                                    if (player1Data && player2Data) setDataLooser([player1Data, player2Data]);
-                                                } else {
-                                                    if (player2Data) setDataWinner([player2Data]);
-                                                    if (player1Data) setDataLooser([player1Data]);
-                                                }
-                                            }}
-                                        />
-                                        <div className="winner-card">
-                                            <span>
-                                                {isDoubles 
-                                                    ? `${getPlayerInitials(players[2])} & ${getPlayerInitials(players[3])}`
-                                                    : getPlayerInitials(players[1])
-                                                }
-                                            </span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="match-modal-footer">
-                            <button className="mr-btn-cancel" onClick={handleCloseModal} disabled={loading}>
-                                Cancelar
-                            </button>
-                            <button className="btn-save" onClick={handleSave} disabled={loading}>
-                                {loading ? <LoadingSpinner size={24} label="Guardando resultado" /> : <><FontAwesomeIcon icon={faCheckCircle} /> Guardar Resultado</>}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+                            </form>}
+                        </section>
+                    );
+                })}
+            </div>
+        </main>
     );
-};
-
-export default MatchResultUpdate;
+}

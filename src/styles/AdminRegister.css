@@ -425,7 +425,7 @@
 }
 
 .admin-users-page .action-cell {
-    min-width: 150px;
+    min-width: 188px;
 }
 
 .admin-users-page .action-cell .btn-floating {
@@ -629,13 +629,15 @@
     }
 
     .admin-users-page .action-cell {
-        min-width: 132px;
-        gap: 7px;
+        display: grid;
+        grid-template-columns: repeat(2, 44px);
+        min-width: 104px;
+        gap: 6px;
     }
 
     .admin-users-page .action-cell .btn-floating {
-        width: 34px;
-        height: 34px;
+        width: 44px;
+        height: 44px;
     }
 
     .admin-users-page .edit-modal .modal-body {
