@@ -33,17 +33,39 @@ try {
         let rejectSave = false;
         let rejectGet = false;
         let reviewingEmail;
+        let rejectHistory = false;
+        let emptyHistory = false;
+        const historyRequests = [];
         page.on('pageerror', error => errors.push(error.message));
         page.on('dialog', dialog => { errors.push('Unexpected native dialog'); void dialog.dismiss(); });
         await page.route('**/*', async route => {
             const url = new URL(route.request().url());
+            if (url.pathname.endsWith('/match-ranking/admin/history')) {
+                const query = Object.fromEntries(url.searchParams);
+                historyRequests.push(query);
+                assert.equal(route.request().headers().authorization, 'Bearer isolated-test');
+                if (rejectHistory) return route.fulfill({ status: 403, json: { message: 'Solo administradores.' } });
+                const historical = (id, status, isForRanking = true) => ({
+                    idCourtReserve: id, dateToPlay: query.from.startsWith('2024') ? '2024-01-02' : '2026-09-30',
+                    court: '3', turn: '08:15-10:00', isDouble: id !== 'expired', players: id !== 'expired' ? players.map(row => row.name) : players.slice(0, 2).map(row => row.name),
+                    status, isForRanking, canRegister: false,
+                    result: status === 'RECORDED' ? { score: '6:1, 6:2', winners: [players[0].name, players[1].name] } : null,
+                });
+                const historicalRows = [historical('saved-history', 'RECORDED'), historical('expired', 'EXPIRED'), historical('friendly-history', 'FINISHED', false), historical('cancelled-history', 'CANCELLED')];
+                if (!query.to || query.to >= '2026-11-01') historicalRows.push({ ...historical('future-history', 'CURRENT', false), dateToPlay: '2026-11-01' });
+                return route.fulfill({ json: {
+                    matches: emptyHistory ? [] : query.page === '2' ? [historical('last-page', 'RECORDED')] : historicalRows,
+                    member: { name: players[0].name, email: players[0].email },
+                    page: Number(query.page), total: emptyHistory ? 0 : 21, totalPages: emptyHistory ? 0 : 2,
+                } });
+            }
             if (url.pathname.endsWith('/match-ranking/pending')) {
                 reviewingEmail = url.searchParams.get('playerEmail');
                 assert.equal(route.request().headers().authorization, 'Bearer isolated-test');
                 return rejectGet ? route.fulfill({ status: 503, json: { message: 'Servidor no disponible.' } }) : route.fulfill({ json: state });
             }
             if (url.pathname.endsWith('/register') && route.request().method() === 'GET') {
-                return route.fulfill({ json: [{ namePlayer: players[0].name, email: players[0].email, cellular: '+56900000000', statePlayer: false, updatePayment: false, role: 'user', partnerType: 'Titular' }] });
+                return route.fulfill({ json: [...Array.from({ length: 15 }, (_, i) => ({ namePlayer: `Otro Apellido ${i}`, email: `other${i}@test.invalid`, statePlayer: true, updatePayment: true, role: 'user', partnerType: 'Titular' })), { namePlayer: players[0].name, email: players[0].email, cellular: '+56900000000', statePlayer: false, updatePayment: false, role: 'user', partnerType: 'Titular' }] });
             }
             if (url.pathname.endsWith('/match-ranking') && route.request().method() === 'POST') {
                 assert.equal(route.request().headers().authorization, 'Bearer isolated-test');
@@ -72,8 +94,8 @@ try {
             if (url.port !== new URL(base).port) return route.abort();
             return route.continue();
         });
-        const mount = async (admin = false) => {
-            await page.goto(base + '/fixture');
+        const mount = async (admin = false, direct = false) => {
+            await page.goto(base + (direct ? '/updatematch' : '/fixture'));
             await page.waitForFunction(() => window.ready);
             await page.evaluate(async admin => {
                 const source = await (await fetch('/src/main.tsx?import')).text();
@@ -86,6 +108,7 @@ try {
                 const { default: Results } = await import('/src/components/MatchResultUpdate.tsx');
                 const { default: Admin } = await import('/src/components/AdminRegister.tsx');
                 localStorage.setItem('token', 'isolated-test');
+                localStorage.setItem('userInfo', JSON.stringify({ name: admin ? 'Administrador' : 'Socio', email: admin ? 'admin@test.invalid' : '0@test.invalid', role: admin ? 'admin' : 'user' }));
                 const schedule = window.setInterval.bind(window);
                 window.setInterval = (callback, delay, ...args) => {
                     if (delay === 60000) window.backgroundRefresh = callback;
@@ -96,12 +119,38 @@ try {
                     React.createElement('div', { className: 'app-content-wrapper' }, React.createElement(Routes, {},
                         React.createElement(Route, { path: '/fixture', element: React.createElement(Link, { to: admin ? '/adminregister' : '/updatematch' }, 'Abrir resultados') }),
                         React.createElement(Route, { path: '/adminregister', element: React.createElement(Admin) }),
+                        React.createElement(Route, { path: '/dashboard', element: React.createElement('h1', {}, 'Panel de reservas') }),
                         React.createElement(Route, { path: '/updatematch', element: React.createElement(Results) })))));
             }, admin);
-            await page.getByRole('link', { name: 'Abrir resultados' }).click();
+            if (!direct) await page.getByRole('link', { name: 'Abrir resultados' }).click();
         };
         await mount();
         await page.getByRole('button', { name: 'Ingresar resultado' }).waitFor();
+        await page.getByRole('button', { name: 'Volver', exact: true }).click();
+        await page.getByRole('link', { name: 'Abrir resultados' }).waitFor();
+        assert.equal(new URL(page.url()).pathname, '/fixture');
+        await page.getByRole('link', { name: 'Abrir resultados' }).click();
+        await page.getByRole('button', { name: 'Ingresar resultado' }).waitFor();
+        assert.equal(await page.getByRole('tab', { name: 'Historial', exact: true }).count(), 0, 'Member view must not expose admin history');
+        const palette = await page.evaluate(() => {
+            const probe = document.createElement('span');
+            probe.style.backgroundColor = 'var(--ctq-yellow)';
+            probe.style.color = 'var(--ctq-text)';
+            probe.hidden = true;
+            document.body.append(probe);
+            const expected = { primary: getComputedStyle(probe).backgroundColor, text: getComputedStyle(probe).color };
+            const surface = getComputedStyle(document.querySelector('.results-page'));
+            const primary = getComputedStyle(document.querySelector('.results-primary'));
+            const secondary = getComputedStyle(document.querySelector('.results-secondary'));
+            const actual = { surface: surface.backgroundColor, text: surface.color, primary: primary.backgroundColor, radius: primary.borderRadius, secondary: secondary.backgroundColor };
+            probe.remove();
+            return { expected, actual };
+        });
+        assert.equal(palette.actual.surface, 'rgba(0, 0, 0, 0)', 'Results must not introduce a white panel');
+        assert.equal(palette.actual.text, palette.expected.text);
+        assert.equal(palette.actual.primary, palette.expected.primary, 'Primary actions must use CTQ yellow');
+        assert.equal(palette.actual.secondary, 'rgba(0, 0, 0, 0)');
+        assert.equal(palette.actual.radius, '6px');
         assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 1);
         assert.equal(await page.locator('.results-match').count(), 2);
         await page.getByRole('button', { name: 'Ver motivo del bloqueo' }).click();
@@ -127,6 +176,10 @@ try {
         await page.getByRole('dialog', { name: 'Cambios sin guardar' }).waitFor();
         await page.getByRole('button', { name: 'Seguir editando' }).click();
         assert.equal(await score.inputValue(), '6:4, 6:3');
+        await page.getByRole('button', { name: 'Volver', exact: true }).click();
+        await page.getByRole('dialog', { name: 'Cambios sin guardar' }).waitFor();
+        await page.getByRole('button', { name: 'Seguir editando' }).click();
+        assert.equal(await score.inputValue(), '6:4, 6:3');
         await page.evaluate(() => history.back());
         await page.getByRole('dialog', { name: 'Cambios sin guardar' }).waitFor();
         await page.getByRole('button', { name: 'Seguir editando' }).click();
@@ -140,6 +193,7 @@ try {
         await page.getByRole('dialog', { name: 'Confirmar resultado' }).getByRole('button', { name: 'Guardar resultado', exact: true }).click();
         await page.waitForFunction(() => document.querySelector('.results-editor input')?.disabled === true);
         assert.equal(await page.getByRole('button', { name: 'Cancelar', exact: true }).isDisabled(), true);
+        assert.equal(await page.getByRole('button', { name: 'Volver', exact: true }).isDisabled(), true);
         await page.evaluate(() => history.back());
         await page.waitForFunction(() => location.pathname === '/updatematch' && document.querySelector('.results-editor input')?.disabled === true);
         assert.equal(new URL(page.url()).pathname, '/updatematch');
@@ -232,8 +286,14 @@ try {
         await page.getByRole('dialog', { name: 'No pudimos cargar los partidos' }).waitFor();
         await page.getByRole('button', { name: 'Entendido', exact: true }).click();
         rejectGet = false;
+        state.matches.push(
+            match('friendly', { isForRanking: false, readOnly: true, phase: 'FINISHED', canRegister: true }),
+            match('cancelled', { isForRanking: true, readOnly: true, phase: 'CANCELLED', canRegister: true }),
+            match('future-friendly', { isForRanking: false, readOnly: true, phase: 'CURRENT', dateToPlay: '2026-11-01', canRegister: true }),
+        );
         await mount(true);
-        const reviewButton = page.getByRole('button', { name: 'Revisar resultados de ' + players[0].name });
+        await page.getByPlaceholder('Buscar por nombre de jugador...').fill('Apellido');
+        const reviewButton = page.getByRole('button', { name: 'Ver partidos de ' + players[0].name });
         await reviewButton.waitFor();
         assert.equal(await reviewButton.isDisabled(), false, 'An inactive member can still require historical result review');
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
@@ -241,13 +301,97 @@ try {
             const box = await reviewButton.boundingBox();
             assert(box.width >= 44 && box.height >= 44);
         }
-        await page.screenshot({ path: '/tmp/ctq-results-admin-' + profile.name + '.png', fullPage: true });
+        await reviewButton.scrollIntoViewIfNeeded();
+        const memberScroll = await page.evaluate(() => window.scrollY);
+        assert(memberScroll > 0);
+        await page.screenshot({ path: '/tmp/ctq-results-admin-' + profile.name + '.png' });
         await reviewButton.click();
-        await page.getByRole('heading', { name: 'Resultados', exact: true }).waitFor();
+        await page.getByRole('heading', { name: 'Partidos del socio', exact: true }).waitFor();
         await page.locator('.results-match').first().waitFor();
+        await page.waitForFunction(() => window.scrollY === 0);
         assert.equal(reviewingEmail, players[0].email);
+        assert.equal(await page.locator('.results-match').count(), 1, 'Partidos must only display ranking games');
+        assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 1, 'Only the eligible ranking booking can expose result entry');
+        assert.equal(await page.getByRole('heading', { name: 'Reserva cancelada', exact: true }).count(), 0);
+        assert.equal(await page.getByRole('heading', { name: 'Partido agendado', exact: true }).count(), 0);
+        assert.equal(await page.getByText(/No ranking/).count(), 0);
+        await page.screenshot({ path: '/tmp/ctq-admin-ranking-bookings-' + profile.name + '.png', fullPage: true });
+        await page.getByRole('button', { name: 'Ingresar resultado' }).click();
+        await score.fill('6:4, 6:3');
+        await page.getByRole('button', { name: 'Volver a socios' }).click();
+        await page.getByRole('dialog', { name: 'Cambios sin guardar' }).waitFor();
+        await page.getByRole('button', { name: 'Seguir editando' }).click();
+        assert.equal(await score.inputValue(), '6:4, 6:3');
+        await page.getByRole('tab', { name: 'Historial', exact: true }).click();
+        await page.getByRole('dialog', { name: 'Cambios sin guardar' }).waitFor();
+        await page.getByRole('button', { name: 'Seguir editando' }).click();
+        assert.equal(await score.inputValue(), '6:4, 6:3');
+        await page.getByRole('tab', { name: 'Historial', exact: true }).click();
+        await page.getByRole('button', { name: 'Descartar y salir' }).click();
+        await page.getByText('Vencido sin resultado', { exact: true }).waitFor();
+        assert.equal(await page.getByRole('tab', { name: 'Historial', exact: true }).getAttribute('aria-selected'), 'true');
+        assert.equal(await page.getByRole('button', { name: 'Ingresar resultado' }).count(), 0);
+        assert.equal(await page.getByRole('textbox', { name: 'Marcador por sets' }).count(), 0);
+        assert.equal(await page.getByText('Team 1', { exact: true }).count(), 4);
+        assert.equal(await page.getByText('Player 1', { exact: true }).count(), 1);
+        assert.equal(historyRequests.at(-1).playerEmail, players[0].email);
+        assert.equal(historyRequests.at(-1).to, undefined, 'History must not exclude future bookings by default');
+        assert.equal(await page.getByRole('heading', { name: /01 nov 2026/ }).count(), 1);
+        assert.equal(await page.getByText('Cancelada', { exact: true }).count(), 1);
+        assert.equal(await page.getByText('Finalizado', { exact: true }).count(), 1);
+        await page.getByRole('tab', { name: 'Historial', exact: true }).focus();
+        await page.keyboard.press('ArrowLeft');
+        await page.getByRole('button', { name: 'Ingresar resultado' }).waitFor();
+        assert.equal(await page.getByRole('tab', { name: 'Partidos', exact: true }).getAttribute('aria-selected'), 'true');
+        await page.keyboard.press('ArrowRight');
+        await page.getByText('Vencido sin resultado', { exact: true }).waitFor();
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+        assert(parseFloat(await page.getByLabel('Desde', { exact: true }).evaluate(node => getComputedStyle(node).fontSize)) >= 16);
+        assert.equal(await page.getByRole('button', { name: 'Consultar', exact: true }).evaluate(node => getComputedStyle(node).backgroundColor), palette.expected.primary);
+        await page.screenshot({ path: '/tmp/ctq-admin-history-' + profile.name + '.png', fullPage: true });
+        const historyWrites = writes.length;
+        await page.getByRole('button', { name: 'Página siguiente', exact: true }).click();
+        await page.getByText('Página 2 de 2', { exact: true }).waitFor();
+        assert.equal(historyRequests.at(-1).page, '2');
+        assert.equal(await page.getByRole('button', { name: 'Página siguiente', exact: true }).isDisabled(), true);
+        await page.getByLabel('Desde', { exact: true }).fill('2024-01-01');
+        await page.getByLabel('Hasta', { exact: true }).fill('2024-12-31');
+        await page.getByRole('button', { name: 'Consultar', exact: true }).click();
+        await page.getByText('Página 1 de 2', { exact: true }).waitFor();
+        assert.equal(historyRequests.at(-1).page, '1');
+        assert.equal(historyRequests.at(-1).from, '2024-01-01');
+        assert.equal(historyRequests.at(-1).to, '2024-12-31');
+        assert.equal(await page.getByRole('heading', { name: /2024/ }).count(), 4, 'Old history must not inherit the two-day filter');
+        assert.equal(await page.getByText('Finalizado', { exact: true }).count(), 1);
+        assert.equal(await page.getByText('Cancelada', { exact: true }).count(), 1);
+        await page.getByLabel('Desde', { exact: true }).fill('2025-01-01');
+        await page.getByRole('button', { name: 'Consultar', exact: true }).click();
+        await page.getByRole('dialog', { name: 'Revisa las fechas' }).waitFor();
+        await page.getByRole('button', { name: 'Entendido', exact: true }).click();
+        await page.getByLabel('Desde', { exact: true }).fill('2024-01-01');
+        rejectHistory = true;
+        await page.getByRole('button', { name: 'Consultar', exact: true }).click();
+        await page.getByRole('dialog', { name: 'No pudimos cargar el historial' }).waitFor();
+        await page.getByRole('button', { name: 'Entendido', exact: true }).click();
+        rejectHistory = false;
+        emptyHistory = true;
+        await page.getByRole('button', { name: 'Reintentar consulta', exact: true }).click();
+        await page.getByRole('heading', { name: 'Sin partidos en este período' }).waitFor();
+        assert.equal(writes.length, historyWrites, 'History must not submit any result');
+        await page.getByRole('button', { name: 'Volver a socios' }).click();
+        await page.getByPlaceholder('Buscar por nombre de jugador...').waitFor();
+        assert.equal(await page.getByPlaceholder('Buscar por nombre de jugador...').inputValue(), 'Apellido');
+        assert.equal(new URL(page.url()).searchParams.get('search'), 'Apellido');
+        await page.waitForFunction(expected => Math.abs(window.scrollY - expected) <= 3, memberScroll);
+        state = queue();
+        await mount(false, true);
+        await page.getByRole('button', { name: 'Ingresar resultado' }).waitFor();
+        assert.equal(await page.evaluate(() => window.history.state.idx), 0);
+        await page.getByRole('button', { name: 'Volver', exact: true }).click();
+        await page.getByRole('heading', { name: 'Panel de reservas', exact: true }).waitFor();
+        assert.equal(new URL(page.url()).pathname, '/dashboard');
         assert.deepEqual(errors, []);
-        console.log('PASS two-day window, shared read-only result, player labels and SweetAlert2: ' + profile.name);
+        console.log('PASS member rules, admin read-only history, filters, pagination, SweetAlert2 and return navigation: ' + profile.name);
         await page.close();
     }
 } finally {

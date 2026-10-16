@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
@@ -39,6 +39,8 @@ let adminUsersCache: Register[] | null = null;
 const AdminRegister: React.FC = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const scrollRestored = useRef(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const initialEditUser: Register = {
@@ -175,6 +177,16 @@ const AdminRegister: React.FC = () => {
     useEffect(() => {
         fetchRegisters();
     }, [fetchRegisters]);
+
+    useEffect(() => {
+        const saved = (location.state as { adminUsersScrollY?: unknown } | null)?.adminUsersScrollY;
+        if (loading || scrollRestored.current || typeof saved !== 'number' || !Number.isFinite(saved)) return;
+        const frame = requestAnimationFrame(() => {
+            window.scrollTo({ top: Math.max(0, saved), behavior: 'instant' });
+            scrollRestored.current = true;
+        });
+        return () => cancelAnimationFrame(frame);
+    }, [loading, location.state]);
 
     const handleEdit = (user: Register) => {
         setEditUser({ ...user });
@@ -380,9 +392,11 @@ const AdminRegister: React.FC = () => {
                                     <button
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light action-categories-btn"
-                                        onClick={() => navigate(`/updatematch?email=${encodeURIComponent(user.email)}`)}
-                                        title="Revisar resultados"
-                                        aria-label={`Revisar resultados de ${user.namePlayer}`}
+                                        onClick={() => navigate(`/updatematch?email=${encodeURIComponent(user.email)}`, {
+                                            state: { returnTo: `/adminregister${location.search}`, returnScrollY: window.scrollY },
+                                        })}
+                                        title="Ver partidos"
+                                        aria-label={`Ver partidos de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faClipboardCheck} />
                                     </button>

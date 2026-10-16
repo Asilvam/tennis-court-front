@@ -59,18 +59,6 @@ interface MatchResult {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const formatRivalName = (fullName: string): string => {
-    if (!fullName) return '';
-    const parts = fullName.trim().split(' ').filter(Boolean);
-    if (parts.length === 0) return fullName;
-    const firstInitial = parts[0][0].toUpperCase() + '.';
-    if (parts.length > 1) {
-        const lastName = parts[parts.length - 1];
-        return `${firstInitial} ${lastName}`;
-    }
-    return firstInitial;
-};
-
 const formatDate = (dateStr: string): string => {
     try {
         const [year, month, day] = dateStr.split('-');
@@ -371,7 +359,7 @@ const PlayerProfile: React.FC = () => {
                                 <div key={match.id} className={`match-row ${match.ganador ? 'win' : 'loss'}`}>
                                     <div className="match-date">{formatDate(match.fecha)}</div>
                                     <div className="match-rival">
-                                        vs <strong>{formatRivalName(match.rival)}</strong>
+                                        vs <strong>{match.rival}</strong>
                                     </div>
                                     <div className="match-score">
                                         {match.score !== 'N/A' ? match.score : '—'}

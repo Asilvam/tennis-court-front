@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRotateRight, faCheck, faLock, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRotateRight, faCheck, faLock, faPen } from '@fortawesome/free-solid-svg-icons';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
 import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
 import { LoadingSpinner } from './LoadingSpinner';
+import { getUserInfoFromLocalStorage } from '../utils/userUtils';
+import AdminMatchHistory from './AdminMatchHistory';
 import '../styles/MatchResult.css';
 
 interface Player {
@@ -23,7 +25,9 @@ interface PendingMatch {
     dateToPlay: string;
     turn: string;
     isDouble: boolean;
-    phase?: 'CURRENT' | 'AWAITING_RESULT' | 'RECORDED' | 'EXPIRED';
+    isForRanking?: boolean;
+    readOnly?: boolean;
+    phase?: 'CURRENT' | 'AWAITING_RESULT' | 'RECORDED' | 'EXPIRED' | 'CANCELLED' | 'UNCONFIRMED' | 'FINISHED' | 'REVIEW_REQUIRED';
     rankingResultStatus?: 'PENDING' | 'RECORDED' | 'EXPIRED';
     players: Player[];
     canRegister: boolean;
@@ -46,6 +50,9 @@ interface PointChange {
 const scorePattern = /^\d{1,2}[:-]\d{1,2}(?:\(\d{1,2}\))?(?:,\s*\d{1,2}[:-]\d{1,2}(?:\(\d{1,2}\))?){0,2}$/;
 const categoryLabel = (category: string | null) =>
     ({ '1': 'Primera', '2': 'Segunda', '3': 'Tercera', '4': 'Cuarta' }[category ?? ''] ?? category ?? 'Categoría por revisar');
+const canEnterResult = (match: PendingMatch) => match.canRegister && match.isForRanking !== false
+    && !match.readOnly && !match.result
+    && !['RECORDED', 'EXPIRED', 'CANCELLED', 'UNCONFIRMED', 'FINISHED', 'REVIEW_REQUIRED'].includes(match.phase ?? '');
 
 function errorMessage(error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -62,6 +69,10 @@ const showNotice = (title: string, text: string, icon: 'info' | 'warning' | 'err
 export default function MatchResultUpdate() {
     const [params] = useSearchParams();
     const playerEmail = params.get('email') || '';
+    const navigate = useNavigate();
+    const location = useLocation();
+    const adminReview = getUserInfoFromLocalStorage()?.role === 'admin' && Boolean(playerEmail);
+    const [view, setView] = useState<'current' | 'history'>('current');
     const apiUrl = import.meta.env.VITE_API_URL;
     const token = getTokenFromLocalStorage();
     const [queue, setQueue] = useState<Queue | null>(null);
@@ -77,6 +88,10 @@ export default function MatchResultUpdate() {
     const dirty = editingId !== null && (score !== '' || winnerSide !== '');
     useUnsavedEditorChanges(dirty, saving, 'match-result');
 
+    useEffect(() => {
+        if (adminReview) window.scrollTo({ top: 0, behavior: 'instant' });
+    }, [adminReview, playerEmail]);
+
     const load = useCallback(async (signal?: AbortSignal, notify = true): Promise<string | null> => {
         setLoading(true);
         setError('');
@@ -91,6 +106,8 @@ export default function MatchResultUpdate() {
             const oldestDay = now.startOf('day').minus({ days: 2 });
             setQueue({ ...response.data, matches: response.data.matches.filter(match =>
                 DateTime.fromISO(match.dateToPlay.slice(0, 10), { zone: 'America/Santiago' }) >= oldestDay
+                && match.isForRanking !== false && !match.readOnly
+                && !['CANCELLED', 'UNCONFIRMED', 'FINISHED'].includes(match.phase ?? '')
                 && match.phase !== 'EXPIRED' && match.rankingResultStatus !== 'EXPIRED'
                 && match.blockedCode !== 'RESULT_DEADLINE_EXPIRED') });
             lastLoadError.current = '';
@@ -121,10 +138,10 @@ export default function MatchResultUpdate() {
     }, [load]);
 
     useEffect(() => {
-        if (editingId || saving) return;
+        if (editingId || saving || view === 'history') return;
         const timer = window.setInterval(() => { if (!document.hidden && !Swal.isVisible()) void load(); }, 60000);
         return () => window.clearInterval(timer);
-    }, [editingId, saving, load]);
+    }, [editingId, saving, load, view]);
 
     useEffect(() => {
         if (editingId) input.current?.focus({ preventScroll: true });
@@ -145,9 +162,29 @@ export default function MatchResultUpdate() {
         if (busy.current || (dirty && !(await confirmDiscardCategoryChanges('leave', 'match-result')))) return;
         resetEditor();
     };
+    const changeView = async (next: 'current' | 'history') => {
+        if (view === next) return true;
+        if (busy.current || (dirty && !(await confirmDiscardCategoryChanges('leave', 'match-result')))) return false;
+        resetEditor();
+        setView(next);
+        if (next === 'current') void load();
+        return true;
+    };
+    const goBack = () => {
+        if (busy.current) return;
+        if (!adminReview) {
+            if (typeof window.history.state?.idx === 'number' && window.history.state.idx > 0) navigate(-1);
+            else navigate('/dashboard', { replace: true });
+            return;
+        }
+        const origin = location.state as { returnTo?: unknown; returnScrollY?: unknown } | null;
+        const returnTo = typeof origin?.returnTo === 'string' && /^\/adminregister(?:\?|$)/.test(origin.returnTo)
+            ? origin.returnTo : '/adminregister';
+        navigate(returnTo, { state: { adminUsersScrollY: origin?.returnScrollY } });
+    };
 
     const save = async (match: PendingMatch) => {
-        if (busy.current || !winnerSide || !scorePattern.test(score.trim()) || !match.canRegister) return;
+        if (busy.current || !winnerSide || !scorePattern.test(score.trim()) || !canEnterResult(match)) return;
         busy.current = true;
         setSaving(true);
         const size = match.isDouble ? 2 : 1;
@@ -199,17 +236,33 @@ export default function MatchResultUpdate() {
 
     return (
         <main className="results-page" aria-busy={loading || saving}>
+            <button type="button" className="results-back results-secondary" onClick={goBack} disabled={saving}>
+                <FontAwesomeIcon icon={faArrowLeft} /> {adminReview ? 'Volver a socios' : 'Volver'}
+            </button>
             <header className="results-header">
                 <div>
-                    <p className="results-eyebrow">CTQ · Ranking</p>
-                    <h1>Resultados</h1>
-                    {queue && <p className="results-member">{queue.member.name}</p>}
+                    <p className="results-eyebrow">{adminReview ? 'CTQ · Partidos' : 'CTQ · Ranking'}</p>
+                    <h1>{adminReview ? 'Partidos del socio' : 'Resultados'}</h1>
+                    {(queue || adminReview) && <p className="results-member">{queue?.member.name || playerEmail}</p>}
                 </div>
-                <button type="button" className="results-refresh" onClick={() => void refresh()} disabled={loading || saving} aria-label="Actualizar pendientes" title="Actualizar pendientes">
+                {view === 'current' && <button type="button" className="results-refresh" onClick={() => void refresh()} disabled={loading || saving} aria-label="Actualizar pendientes" title="Actualizar pendientes">
                     <FontAwesomeIcon icon={faArrowRotateRight} />
-                </button>
+                </button>}
             </header>
-            <p className="results-rule">Partidos vigentes, hasta dos días atrás. Resultados pendientes en orden.</p>
+            {adminReview && <div className="results-tabs" role="tablist" aria-label="Vistas de partidos del socio">
+                {(['current', 'history'] as const).map(tab => <button key={tab} id={`results-tab-${tab}`} type="button" role="tab" aria-selected={view === tab} aria-controls={`results-panel-${tab}`} tabIndex={view === tab ? 0 : -1} disabled={saving}
+                    onClick={() => void changeView(tab)} onKeyDown={event => {
+                        if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+                            event.preventDefault();
+                            const next = event.key === 'Home' ? 'current' : event.key === 'End' ? 'history' : tab === 'current' ? 'history' : 'current';
+                            void changeView(next).then(changed => document.getElementById(`results-tab-${changed ? next : view}`)?.focus());
+                        }
+                    }}>{tab === 'current' ? 'Partidos' : 'Historial'}</button>)}
+            </div>}
+            {adminReview && view === 'history' ? <div id="results-panel-history" role="tabpanel" aria-labelledby="results-tab-history">
+                <AdminMatchHistory key={playerEmail} playerEmail={playerEmail} />
+            </div> : <div id="results-panel-current" role={adminReview ? 'tabpanel' : undefined} aria-labelledby={adminReview ? 'results-tab-current' : undefined}>
+            {!adminReview && <p className="results-rule">Partidos vigentes, hasta dos días atrás. Resultados pendientes en orden.</p>}
             {error && <button type="button" className="results-secondary results-message-action" onClick={() => void showNotice('No pudimos cargar los partidos', error, 'error')} disabled={saving}>Ver error de carga</button>}
             {loading && !queue && <div className="results-empty"><LoadingSpinner size={64} /></div>}
             {queue && queue.matches.length === 0 && <section className="results-empty"><FontAwesomeIcon icon={faCheck} /><h2>Sin partidos en esta ventana</h2></section>}
@@ -217,9 +270,9 @@ export default function MatchResultUpdate() {
                 {queue?.matches.map((match, index) => {
                     const editing = editingId === match.idCourtReserve;
                     const recorded = match.phase === 'RECORDED' || Boolean(match.result);
-                    const firstPending = queue.matches.findIndex(row => row.phase !== 'RECORDED' && !row.result);
+                    const firstPending = queue.matches.findIndex(row => row.isForRanking !== false && !row.readOnly && row.phase !== 'RECORDED' && !row.result);
                     const size = match.isDouble ? 2 : 1;
-                    const allowed = match.canRegister && !recorded;
+                    const allowed = canEnterResult(match);
                     const date = DateTime.fromISO(match.dateToPlay.slice(0, 10)).setLocale('es').toFormat('dd LLL yyyy');
                     const sideName = (side: 'A' | 'B') => match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => player.name).join(' y ');
                     const sideLabel = (side: 'A' | 'B') => `${match.isDouble ? 'Team' : 'Player'} ${side === 'A' ? 1 : 2}`;
@@ -229,16 +282,16 @@ export default function MatchResultUpdate() {
                                 <span className="results-order">{recorded ? <FontAwesomeIcon icon={faCheck} /> : index + 1}</span>
                                 <div>
                                     <h2 id={`match-title-${index}`}>{recorded ? 'Resultado registrado' : match.phase === 'CURRENT' || match.blockedCode === 'MATCH_NOT_FINISHED' ? 'Partido vigente' : index === firstPending ? 'Esperando resultado' : 'Siguiente partido'}</h2>
-                                    <p>{date} · {match.turn} · Cancha {match.court.replace(/^Cancha\s*/i, '')} · {match.isDouble ? 'Dobles' : 'Singles'}</p>
+                                    <p>{date} · {match.turn} · Cancha {match.court.replace(/^Cancha\s*/i, '')} · {match.isDouble ? 'Dobles' : 'Singles'}{adminReview ? ` · ${match.isForRanking === false ? 'No ranking' : 'Ranking'}` : ''}</p>
                                 </div>
-                                {!allowed && !recorded && <FontAwesomeIcon icon={faLock} className="results-lock" title="Resultado bloqueado" />}
+                                {!allowed && !recorded && !match.readOnly && <FontAwesomeIcon icon={faLock} className="results-lock" title="Resultado bloqueado" />}
                             </div>
                             <div className="results-teams">
                                 {(['A', 'B'] as const).map(side => <div className="results-team" key={side}>
                                     <span className="results-team-label">{sideLabel(side)}</span>
                                     {match.players.slice(side === 'A' ? 0 : size, side === 'A' ? size : size * 2).map(player => <div className="results-player" key={player.name}>
                                         <strong>{player.name}</strong>
-                                        <span>{recorded && !player.category ? 'Categoría no disponible' : categoryLabel(player.category)} · {player.points === null ? recorded ? 'Puntos no disponibles' : 'Puntos por revisar' : `${player.points} pts${recorded ? ' al registrar' : ''}`}</span>
+                                        {!match.readOnly && match.isForRanking !== false && <span>{recorded && !player.category ? 'Categoría no disponible' : categoryLabel(player.category)} · {player.points === null ? recorded ? 'Puntos no disponibles' : 'Puntos por revisar' : `${player.points} pts${recorded ? ' al registrar' : ''}`}</span>}
                                     </div>)}
                                 </div>)}
                             </div>
@@ -248,7 +301,7 @@ export default function MatchResultUpdate() {
                                 {Boolean(match.result?.winners?.length) && <p>{match.isDouble ? 'Ganadores' : 'Ganador'}: {match.result!.winners.join(' y ')}</p>}
                                 <button type="button" className="results-secondary" disabled><FontAwesomeIcon icon={faCheck} /> Resultado ingresado</button>
                             </div>}
-                            {!recorded && match.blockedReason && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Resultado bloqueado', match.blockedReason!, match.blockedCode === 'RESULT_DEADLINE_EXPIRED' ? 'warning' : 'info')}>
+                            {!recorded && !match.readOnly && match.blockedReason && <button type="button" className="results-secondary results-message-action" disabled={saving} onClick={() => void showNotice('Resultado bloqueado', match.blockedReason!, match.blockedCode === 'RESULT_DEADLINE_EXPIRED' ? 'warning' : 'info')}>
                                 <FontAwesomeIcon icon={faLock} /> Ver motivo del bloqueo
                             </button>}
                             {allowed && !editing && <button type="button" className="results-primary" disabled={saving || loading || editingId !== null} onClick={() => setEditingId(match.idCourtReserve)}>
@@ -278,6 +331,7 @@ export default function MatchResultUpdate() {
                     );
                 })}
             </div>
+            </div>}
         </main>
     );
 }
