@@ -7,11 +7,11 @@ import { faArrowLeft, faArrowRight, faCreditCard, faRotateRight } from '@fortawe
 import { useAuth } from './useAuth';
 import { LoadingSpinner } from './LoadingSpinner';
 import { MembershipBillingSelect } from './MembershipBillingSelect';
-import { advancePeriods, BillingContext, BillingPayment, billingMoney, billingPeriodLabel, paymentMethodLabel, paymentStatusLabel, selectedDuesTotal, toggleDueSelection } from '../utils/membershipPayments';
+import { BillingContext, BillingPayment, billingMoney, billingPeriodLabel, billingToday, paymentMethodLabel, paymentStatusLabel, selectedDuesTotal, toggleDueSelection } from '../utils/membershipPayments';
 import { legacyMembershipReturn, memberCheckoutIdentity, MemberPaymentState, MembershipAccess, membershipReference, safeMembershipCheckoutUrl, selectableMemberDues } from '../utils/memberPayments';
 import '../styles/MembershipPayments.css';
 
-interface PortalContext extends BillingContext { access: MembershipAccess }
+interface PortalContext extends BillingContext { access: MembershipAccess; currentPeriod: string }
 interface History { items: BillingPayment[]; total: number; pageSize: number }
 const api = `${import.meta.env.VITE_API_URL}/membership-billing`;
 const errorText = (error: unknown) => {
@@ -36,7 +36,6 @@ function MembershipPaymentsPortal() {
     return membershipReference(rawReference) ? rawReference : membershipReference(saved) ? saved : '';
   });
   const [context, setContext] = useState<PortalContext | null>(null);
-  const [through, setThrough] = useState(() => advancePeriods()[0]);
   const [selected, setSelected] = useState<string[]>([]);
   const [tab, setTab] = useState('dues');
   const [beneficiary, setBeneficiary] = useState('');
@@ -51,11 +50,13 @@ function MembershipPaymentsPortal() {
   const headers = useCallback(() => ({ Authorization: `Bearer ${token}` }), [token]);
 
   const loadHome = useCallback(async () => {
-    const { data } = await axios.post<PortalContext>(`${api}/me/dues`, { throughPeriod: through }, { headers: headers(), timeout: 20000 });
+    const { data } = await axios.post<PortalContext>(`${api}/me/dues`, {}, { headers: headers(), timeout: 20000 });
     setContext(data);
-    setSelected(previous => previous.filter(id => data.dues.some(due => due.id === id && due.status === 'OPEN' && due.period <= through)));
+    const eligible = data.members.filter(person => person.active && person.enrolled).map(person => person.id);
+    const available = selectableMemberDues(data.dues, eligible, data.currentPeriod || billingToday().slice(0, 7));
+    setSelected(previous => previous.filter(id => available.some(due => due.id === id)));
     return data;
-  }, [headers, through]);
+  }, [headers]);
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -151,7 +152,7 @@ function MembershipPaymentsPortal() {
   };
 
   const eligible = context?.members.filter(person => person.active && person.enrolled).map(person => person.id) || [];
-  const visibleDues = selectableMemberDues(context?.dues || [], eligible, through);
+  const visibleDues = selectableMemberDues(context?.dues || [], eligible, context?.currentPeriod || billingToday().slice(0, 7));
   const total = selectedDuesTotal(context?.dues || [], selected);
   const resumeUrl = safeMembershipCheckoutUrl(payment?.initPoint);
   return <main className="member-payments" aria-busy={busy || loading}>
@@ -167,12 +168,12 @@ function MembershipPaymentsPortal() {
     </section>}
     <div className="mp-tabs" role="tablist" aria-label="Mensualidades"><button role="tab" id="mp-dues-tab" aria-controls="mp-dues-panel" aria-selected={tab === 'dues'} onClick={() => setTab('dues')}>Cuotas</button><button role="tab" id="mp-history-tab" aria-controls="mp-history-panel" aria-selected={tab === 'history'} onClick={() => setTab('history')}>Historial de pagos</button></div>
     {loading ? <div className="mp-loading"><LoadingSpinner size={56} /></div> : !context ? <p>No se pudieron cargar tus mensualidades. Vuelve a intentarlo con el botón actualizar.</p> : tab === 'dues' ? <section id="mp-dues-panel" role="tabpanel" aria-labelledby="mp-dues-tab">
-      <div className="mp-filters"><MembershipBillingSelect label="Cuotas hasta" value={through} options={advancePeriods().map(period => ({ value: period, label: billingPeriodLabel(period) }))} onChange={setThrough} disabled={busy} /><span>Vencimiento: día 5 del mes siguiente</span></div>
+      <div className="mp-filters"><span>Vencimiento: día 5 del mes siguiente</span></div>
       {context.members.map(person => <section className="mp-beneficiary" key={person.id}>
         <h2>{person.name} <small>{person.memberType}</small></h2>
         {!person.active || !person.enrolled ? <p>Requiere revisión administrativa antes de generar cuotas.</p> : <>
           <div className="mp-dues">{visibleDues.filter(due => due.beneficiaryId === person.id).map(due => <label className="mp-due" key={due.id}>
-            <input type="checkbox" aria-label={`${person.name}, ${billingPeriodLabel(due.period)}`} checked={selected.includes(due.id)} disabled={busy} onChange={() => setSelected(previous => toggleDueSelection(context.dues, previous, due.id))} />
+            <input type="checkbox" aria-label={`${person.name}, ${billingPeriodLabel(due.period)}`} checked={selected.includes(due.id)} disabled={busy} onChange={() => setSelected(previous => toggleDueSelection(visibleDues, previous, due.id))} />
             <span>{billingPeriodLabel(due.period)}{due.pricingMode === 'TEST' && <small className="mp-test">Prueba</small>}</span><strong>{billingMoney(due.amount)}</strong>
           </label>)}</div>
           {!visibleDues.some(due => due.beneficiaryId === person.id) && <p className="mp-empty">Sin cuotas por pagar en este período.</p>}

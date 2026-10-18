@@ -38,7 +38,19 @@ test('payment-only sessions can enter only the portal and dedicated return path'
   for (const path of ['/adminpayments', '/dashboard', '/monthlypayments/other', '/monthlypayments/return/extra'])
     assert.equal(membershipSessionPath(path), false);
 });
-test('only active enrolled beneficiaries, open dues and the selected horizon are eligible', () => {
+test('only active enrolled beneficiaries, open dues and periods through the current month are eligible', () => {
   const rows = [{ id: '1', beneficiaryId: 'own', period: '2026-10', status: 'OPEN' }, { id: '2', beneficiaryId: 'own', period: '2026-11', status: 'OPEN' }, { id: '3', beneficiaryId: 'own', period: '2026-10', status: 'PAID' }, { id: '4', beneficiaryId: 'other', period: '2026-10', status: 'OPEN' }];
   assert.deepEqual(selectableMemberDues(rows as never, ['own'], '2026-10').map(row => row.id), ['1']);
+});
+test('members can select arrears and current dues for themselves and cargas, never future dues', () => {
+  const rows = [
+    { id: 'arrears', beneficiaryId: 'own', period: '2026-09', status: 'OPEN' },
+    { id: 'current', beneficiaryId: 'own', period: '2026-10', status: 'OPEN' },
+    { id: 'future', beneficiaryId: 'own', period: '2026-11', status: 'OPEN' },
+    { id: 'carga-current', beneficiaryId: 'carga', period: '2026-10', status: 'OPEN' },
+    { id: 'carga-future', beneficiaryId: 'carga', period: '2027-01', status: 'OPEN' },
+    { id: 'paid', beneficiaryId: 'own', period: '2026-08', status: 'PAID' },
+  ];
+  assert.deepEqual(selectableMemberDues(rows as never, ['own', 'carga'], '2026-10').map(row => row.id), ['arrears', 'current', 'carga-current']);
+  assert.deepEqual(selectableMemberDues(rows as never, ['own'], '2026-11').map(row => row.id), ['arrears', 'current', 'future']);
 });

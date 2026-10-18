@@ -40,8 +40,8 @@ export function legacyMembershipReturn(params: URLSearchParams): string | null {
 
 export const membershipSessionPath = (path: string) => path === '/monthlypayments' || path === '/monthlypayments/return';
 
-export function selectableMemberDues(dues: MembershipDue[], beneficiaryIds: string[], through: string) {
-  return dues.filter(row => row.status === 'OPEN' && beneficiaryIds.includes(row.beneficiaryId) && row.period <= through);
+export function selectableMemberDues(dues: MembershipDue[], beneficiaryIds: string[], currentPeriod: string) {
+  return dues.filter(row => row.status === 'OPEN' && beneficiaryIds.includes(row.beneficiaryId) && row.period <= currentPeriod);
 }
 
 export interface MembershipAccess {
