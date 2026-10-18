@@ -21,14 +21,24 @@ export function memberCheckoutIdentity(ids: string[], previous?: { hash: string;
 export function paymentLoginReturn(value: unknown): string {
   if (typeof value !== 'string') return '/';
   if (value === '/monthlypayments') return value;
-  if (!value.startsWith('/monthlypayments?')) return '/';
+  if (!value.startsWith('/monthlypayments?') && !value.startsWith('/monthlypayments/return?')) return '/';
   try {
     const url = new URL(value, 'https://ctq.invalid');
     const reference = url.searchParams.get('reference');
-    return url.origin === 'https://ctq.invalid' && url.pathname === '/monthlypayments' && membershipReference(reference)
-      ? `/monthlypayments?reference=${reference}` : '/';
+    if (url.origin !== 'https://ctq.invalid' || !membershipReference(reference)) return '/';
+    if (url.pathname === '/monthlypayments/return') return `/monthlypayments/return?reference=${reference}`;
+    return url.pathname === '/monthlypayments'
+      ? legacyMembershipReturn(url.searchParams) || `/monthlypayments?reference=${reference}` : '/';
   } catch { return '/'; }
 }
+
+export function legacyMembershipReturn(params: URLSearchParams): string | null {
+  const reference = params.get('reference');
+  const returned = ['payment_id', 'collection_id', 'collection_status', 'status', 'preference_id'].some(key => params.has(key));
+  return returned && membershipReference(reference) ? `/monthlypayments/return?reference=${reference}` : null;
+}
+
+export const membershipSessionPath = (path: string) => path === '/monthlypayments' || path === '/monthlypayments/return';
 
 export function selectableMemberDues(dues: MembershipDue[], beneficiaryIds: string[], through: string) {
   return dues.filter(row => row.status === 'OPEN' && beneficiaryIds.includes(row.beneficiaryId) && row.period <= through);

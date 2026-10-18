@@ -31,6 +31,7 @@ const PaymentPending = lazy(() => import("./pages/payment/PaymentPending.tsx"));
 const AdminCategoriesPlayer = lazy(() => import("./components/AdminCategoriesPlayer.tsx"));
 const AdminMembershipPayments = lazy(() => import('./components/AdminMembershipPayments.tsx'));
 const MembershipPayments = lazy(() => import('./components/MembershipPayments.tsx'));
+const MembershipPaymentReturn = lazy(() => import('./components/MembershipPaymentReturn.tsx'));
 
 const App: React.FC = () => {
        const routeFallback = <AppLoader text="Cargando vista..." className="app-route-loader" />;
@@ -46,6 +47,7 @@ const App: React.FC = () => {
                                                  <MembershipSessionBoundary>
                                                  <Routes>
                                                         <Route path="/monthlypayments" element={<ProtectedRoute><MembershipPayments /></ProtectedRoute>} />
+                                                        <Route path="/monthlypayments/return" element={<ProtectedRoute><MembershipPaymentReturn /></ProtectedRoute>} />
                                                         <Route path="/"
                                                                element={<Home />} />
                                                         <Route path="/login"

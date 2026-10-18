@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import { useAuth } from './useAuth';
 import { LoadingSpinner } from './LoadingSpinner';
 import { MembershipBillingSelect } from './MembershipBillingSelect';
 import { advancePeriods, BillingContext, BillingPayment, billingMoney, billingPeriodLabel, paymentMethodLabel, paymentStatusLabel, selectedDuesTotal, toggleDueSelection } from '../utils/membershipPayments';
-import { memberCheckoutIdentity, MemberPaymentState, MembershipAccess, membershipReference, safeMembershipCheckoutUrl, selectableMemberDues } from '../utils/memberPayments';
+import { legacyMembershipReturn, memberCheckoutIdentity, MemberPaymentState, MembershipAccess, membershipReference, safeMembershipCheckoutUrl, selectableMemberDues } from '../utils/memberPayments';
 import '../styles/MembershipPayments.css';
 
 interface PortalContext extends BillingContext { access: MembershipAccess }
@@ -21,6 +21,12 @@ const errorText = (error: unknown) => {
 const showError = (error: unknown) => Swal.fire({ icon: 'error', title: 'Mensualidades', text: errorText(error), confirmButtonText: 'Aceptar' });
 
 export default function MembershipPayments() {
+  const [params] = useSearchParams();
+  const returned = legacyMembershipReturn(params);
+  return returned ? <Navigate to={returned} replace /> : <MembershipPaymentsPortal />;
+}
+
+function MembershipPaymentsPortal() {
   const { token, user } = useAuth();
   const [params, setParams] = useSearchParams();
   const storageKey = `ctq-membership-attempt:${user?.email}`;
