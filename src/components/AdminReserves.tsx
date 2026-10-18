@@ -45,7 +45,9 @@ const AdminReserves: React.FC = () => {
 
         if (confirm.isConfirmed) {
             try {
-                await axios.delete(`${apiUrl}/court-reserve/${reserveId}`);
+                await axios.delete(`${apiUrl}/court-reserve/${reserveId}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 setReserves(prev => prev.filter(r => r.idCourtReserve !== reserveId));
                 Swal.fire({ icon: 'success', title: 'Eliminada', text: 'La reserva fue eliminada correctamente.', confirmButtonColor: '#1565c0' });
             } catch (error) {

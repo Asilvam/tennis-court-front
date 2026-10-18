@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faMoneyBillTransfer, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
@@ -14,6 +14,7 @@ import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { buildAdminMemberUpdate, memberType, memberTypeOptions, titularOptions, validateMemberAssociation, type EditableMember } from '../utils/memberEditing';
 import { ADMIN_PASSWORD_RECOVERY_MESSAGE, requestPasswordRecovery } from '../utils/passwordRecovery';
 import '../styles/ResetPassword.css';
+import { memberPaymentsRoute } from '../utils/membershipNavigation';
 
 interface Register extends EditableMember {
     namePlayer: string;
@@ -367,7 +368,7 @@ const AdminRegister: React.FC = () => {
                                     }`}
                                     title={!user.statePlayer ? 'Usuario inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Usuario activo'}
                                 >
-                                    {user.namePlayer}
+                                    <span className="admin-user-name" title={user.namePlayer}>{user.namePlayer}</span>
                                 </td>
                                 <td className="action-cell">
                                     <button
@@ -395,7 +396,8 @@ const AdminRegister: React.FC = () => {
                                         onClick={() => navigate(`/updatematch?email=${encodeURIComponent(user.email)}`, {
                                             state: { returnTo: `/adminregister${location.search}`, returnScrollY: window.scrollY },
                                         })}
-                                        title="Ver partidos"
+                                        disabled={!user.statePlayer}
+                                        title={user.statePlayer ? 'Ver partidos' : 'Disponible al activar el usuario'}
                                         aria-label={`Ver partidos de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faClipboardCheck} />
@@ -409,6 +411,18 @@ const AdminRegister: React.FC = () => {
                                         aria-label={`Restablecer contraseña de ${user.namePlayer}`}
                                     >
                                         <FontAwesomeIcon icon={faKey} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn-floating btn-small waves-effect waves-light action-payments-btn"
+                                        onClick={() => navigate(memberPaymentsRoute(user._id!), {
+                                            state: { returnTo: `/adminregister${location.search}`, returnScrollY: window.scrollY },
+                                        })}
+                                        disabled={!user.statePlayer || !user._id}
+                                        title={user.statePlayer ? 'Pagos del socio' : 'Disponible al activar el usuario'}
+                                        aria-label={`Pagos de ${user.namePlayer}`}
+                                    >
+                                        <FontAwesomeIcon icon={faMoneyBillTransfer} />
                                     </button>
                                 </td>
                             </tr>

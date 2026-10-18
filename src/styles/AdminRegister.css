@@ -454,6 +454,11 @@
     color: var(--ctq-yellow);
 }
 
+.admin-users-page .action-payments-btn {
+    background: rgba(125, 211, 252, 0.12) !important;
+    color: var(--ctq-accent);
+}
+
 .admin-users-page .action-cell .btn-floating:hover:not(:disabled) {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.13) !important;
@@ -608,6 +613,7 @@
 
 @media (max-width: 520px) {
     .admin-users-page {
+        width: calc(100% - 16px);
         padding: 10px 0 28px;
     }
 
@@ -620,24 +626,46 @@
     }
 
     .admin-users-page > .admin-card {
-        padding: 12px;
+        padding: 8px;
     }
 
     .admin-users-page .user-table th,
     .admin-users-page .user-table td {
-        padding: 10px 8px;
+        padding: 8px 6px;
     }
 
-    .admin-users-page .action-cell {
-        display: grid;
-        grid-template-columns: repeat(2, 44px);
-        min-width: 104px;
-        gap: 6px;
+    .admin-users-page .user-table {
+        table-layout: fixed;
+    }
+
+    .admin-users-page .user-table th:last-child {
+        width: 196px;
+    }
+
+    .admin-users-page .admin-user-name {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .admin-users-page .user-table .action-cell {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-end;
+        min-width: 0;
+        gap: 2px;
+        padding: 8px 4px;
     }
 
     .admin-users-page .action-cell .btn-floating {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
     }
 
     .admin-users-page .edit-modal .modal-body {

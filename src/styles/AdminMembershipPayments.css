@@ -1,0 +1,584 @@
+.admin-membership-payments {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  color: var(--ctq-text);
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+.admin-membership-payments * {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+.ap-header,
+.ap-editor-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.ap-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-header h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+}
+.ap-editor-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ap-editor-heading {
+  margin: 20px 0;
+}
+.ap-reload {
+  margin-left: auto;
+}
+.admin-membership-payments button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--ctq-border-soft);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ctq-text);
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.3;
+}
+.admin-membership-payments button:hover:not(:disabled) {
+  border-color: var(--ctq-accent);
+}
+.admin-membership-payments button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.admin-membership-payments .ap-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  flex: 0 0 44px;
+}
+.admin-membership-payments .ap-primary {
+  background: var(--ctq-yellow);
+  border-color: var(--ctq-yellow);
+  color: #102b31;
+  font-weight: 600;
+}
+.admin-membership-payments :focus-visible {
+  outline: 2px solid var(--ctq-accent);
+  outline-offset: 3px;
+}
+.ap-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 18px 0;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-tabs button {
+  border-radius: 0;
+  border-color: transparent;
+  border-bottom: 3px solid transparent;
+  color: var(--ctq-text-muted);
+}
+.ap-tabs button[aria-selected='true'] {
+  border-bottom-color: var(--ctq-accent);
+  color: var(--ctq-accent);
+}
+.ap-filters {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.ap-filters label,
+.ap-form-grid label,
+.ap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  color: var(--ctq-text-muted);
+  font-size: 14px;
+}
+.ap-filters > label,
+.ap-filters > .ap-field {
+  flex: 1 1 170px;
+}
+.ap-filters--member > .ap-field {
+  flex: 0 1 320px;
+}
+.ap-search {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  flex: 2 1 260px;
+}
+.ap-search label {
+  flex: 1;
+}
+.admin-membership-payments input:not([type='checkbox']):not([role='combobox']),
+.admin-membership-payments textarea {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  height: auto;
+  padding: 10px 12px;
+  margin: 0;
+  border: 1px solid var(--ctq-border-soft);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ctq-text);
+  font: inherit;
+  font-size: 16px !important;
+  line-height: 1.4;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+.admin-membership-payments input::placeholder {
+  color: var(--ctq-text-muted);
+  opacity: 0.85;
+}
+.admin-membership-payments input[type='date'],
+.admin-membership-payments input[type='month'] {
+  color-scheme: dark;
+  min-width: 0;
+}
+.admin-membership-payments input[type='checkbox'] {
+  position: static;
+  opacity: 1;
+  pointer-events: auto;
+  appearance: auto;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin: 0;
+  accent-color: var(--ctq-accent);
+}
+.admin-membership-payments input[type='checkbox'] + span {
+  padding: 0;
+  height: auto;
+  line-height: 1.4;
+}
+.admin-membership-payments input[type='checkbox'] + span::before,
+.admin-membership-payments input[type='checkbox'] + span::after {
+  display: none;
+}
+.ap-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.ap-table th,
+.ap-table td {
+  padding: 14px 10px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--ctq-border-soft);
+  overflow-wrap: anywhere;
+}
+.ap-table th {
+  font-size: 12px;
+  color: var(--ctq-text-muted);
+  text-transform: uppercase;
+}
+.ap-table td {
+  font-size: 15px;
+}
+.ap-table th:first-child {
+  width: 41%;
+}
+.ap-table th:last-child {
+  width: 64px;
+}
+.admin-membership-payments small {
+  display: block;
+  color: var(--ctq-text-muted);
+  font-size: 13px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.ap-table strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.ap-status {
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ctq-text-muted);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ap-status--CONFIRMED,
+.ap-status--PAID {
+  color: #86efac;
+  background: rgba(134, 239, 172, 0.1);
+}
+.ap-status--REVERSED,
+.ap-status--NOT_ENROLLED {
+  color: #fca5a5;
+  background: rgba(252, 165, 165, 0.08);
+}
+.admin-membership-payments .ap-test {
+  color: var(--ctq-accent);
+}
+.ap-muted {
+  color: var(--ctq-text-muted);
+  font-size: 14px;
+}
+.ap-empty {
+  padding: 28px 0;
+  color: var(--ctq-text-muted);
+}
+.ap-loading {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+}
+.ap-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+  font-size: 14px;
+}
+.ap-pagination > span:first-child {
+  margin-right: auto;
+  color: var(--ctq-text-muted);
+}
+.admin-membership-payments fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.admin-membership-payments legend {
+  font-size: 17px;
+  padding: 0 0 10px;
+  color: var(--ctq-accent);
+}
+.ap-beneficiary {
+  padding: 14px 0;
+  border-top: 1px solid var(--ctq-border-soft);
+}
+.ap-beneficiary h3 {
+  font-size: 17px;
+  margin: 0 0 10px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ap-beneficiary h3 span {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--ctq-text-muted);
+  font-size: 14px;
+}
+.ap-due-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+.ap-due {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 0;
+  cursor: pointer;
+  color: var(--ctq-text);
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-due > span {
+  flex: 1;
+  font-size: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ap-due > strong {
+  font-size: 16px;
+  flex: 0 0 auto;
+  text-align: right;
+}
+.ap-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  margin-bottom: 8px;
+  color: var(--ctq-text-muted);
+}
+.ap-total strong {
+  font-size: 24px;
+  color: var(--ctq-yellow);
+  white-space: nowrap;
+}
+.ap-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+.ap-wide {
+  grid-column: 1 / -1;
+}
+.ap-form-grid textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.ap-verification {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 64px;
+  margin: 16px 0 0;
+  color: var(--ctq-text);
+  font-size: 15px;
+  cursor: pointer;
+}
+.ap-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--ctq-border-soft);
+  padding-top: 18px;
+  margin-top: 8px;
+}
+.ap-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.ap-payment {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-payment-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 100px;
+  align-items: start;
+  gap: 16px;
+}
+.ap-payment-summary strong {
+  display: block;
+  font-size: 17px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ap-payment-summary small {
+  margin-top: 5px;
+}
+.ap-payment-amount {
+  text-align: right;
+}
+.ap-payment-amount .ap-status {
+  margin-top: 6px;
+}
+.ap-payment-detail {
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid var(--ctq-border-soft);
+}
+.ap-payment-detail dl {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 10px 16px;
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+.ap-payment-detail dt {
+  color: var(--ctq-text-muted);
+}
+.ap-payment-detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.ap-payment-detail ul {
+  padding: 0;
+  margin: 0;
+}
+.ap-payment-detail li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 0;
+  border-top: 1px solid var(--ctq-border-soft);
+}
+.ap-payment-detail li span {
+  overflow-wrap: anywhere;
+}
+.ap-payment-detail li strong {
+  white-space: nowrap;
+}
+.ap-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ap-member-summary {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-member-summary h2 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ap-member-summary p {
+  margin: 5px 0 12px;
+  color: var(--ctq-text-muted);
+  overflow-wrap: anywhere;
+}
+.ap-member-summary > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+}
+.ap-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 12px;
+}
+.ap-section-heading h2 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.4;
+}
+.ap-dues-table th:first-child {
+  width: 32%;
+}
+.ap-dues-table th:last-child {
+  width: auto;
+}
+@media (max-width: 650px) {
+  .admin-membership-payments {
+    padding: 16px 12px 28px;
+  }
+  .ap-header h1 {
+    font-size: 21px;
+  }
+  .ap-filters {
+    gap: 12px;
+  }
+  .ap-search {
+    flex-basis: 100%;
+  }
+  .ap-filters > label,
+  .ap-filters > .ap-field {
+    flex-basis: calc(50% - 6px);
+  }
+  .ap-filters--member > .ap-field {
+    flex-basis: 100%;
+    max-width: 320px;
+  }
+  .ap-table thead {
+    display: none;
+  }
+  .ap-table,
+  .ap-table tbody {
+    display: block;
+  }
+  .ap-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px;
+    gap: 10px 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ctq-border-soft);
+  }
+  .ap-table td {
+    display: block;
+    border: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .ap-table td:first-child {
+    grid-column: 1 / 3;
+  }
+  .ap-table td:nth-child(2) {
+    grid-column: 1;
+  }
+  .ap-table td:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .ap-table td:nth-child(4) {
+    grid-column: 1 / 3;
+  }
+  .ap-table td.ap-row-actions {
+    grid-column: 3;
+    grid-row: 1 / 4;
+    align-self: center;
+  }
+  .ap-table td[data-label]:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    color: var(--ctq-text-muted);
+    margin-bottom: 4px;
+  }
+  .ap-due-list,
+  .ap-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ap-due-list {
+    gap: 0;
+  }
+  .ap-due > span {
+    font-size: 15px;
+  }
+  .ap-form-grid {
+    gap: 16px;
+  }
+  .ap-form-actions > button {
+    flex: 1;
+  }
+  .ap-payment-summary {
+    grid-template-columns: minmax(0, 1fr) 110px;
+    gap: 12px;
+  }
+  .ap-payment-summary > .ap-row-actions {
+    grid-column: 1 / -1;
+  }
+  .ap-payment-summary strong {
+    font-size: 16px;
+  }
+  .ap-payment-detail dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .ap-payment-detail dd {
+    margin-bottom: 8px;
+  }
+  .ap-pagination {
+    gap: 8px;
+  }
+  .ap-dues-table tbody tr {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ap-dues-table td:nth-child(4) {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}

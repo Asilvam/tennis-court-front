@@ -7,6 +7,7 @@ import Navigation from './components/Navigation.tsx';
 import InactivityLogout from "./components/InactivityLogout.tsx";
 import AppLoader from './components/AppLoader.tsx';
 import './hooks/useUnsavedCategoryChanges';
+import { MembershipSessionBoundary } from './components/MembershipSessionBoundary';
 
 const Login = lazy(() => import('./components/Login.tsx'));
 const Dashboard = lazy(() => import('./components/Dashboard.tsx'));
@@ -28,6 +29,8 @@ const PaymentSuccess = lazy(() => import("./pages/payment/PaymentSuccess.tsx"));
 const PaymentFailure = lazy(() => import("./pages/payment/PaymentFailure.tsx"));
 const PaymentPending = lazy(() => import("./pages/payment/PaymentPending.tsx"));
 const AdminCategoriesPlayer = lazy(() => import("./components/AdminCategoriesPlayer.tsx"));
+const AdminMembershipPayments = lazy(() => import('./components/AdminMembershipPayments.tsx'));
+const MembershipPayments = lazy(() => import('./components/MembershipPayments.tsx'));
 
 const App: React.FC = () => {
        const routeFallback = <AppLoader text="Cargando vista..." className="app-route-loader" />;
@@ -40,7 +43,9 @@ const App: React.FC = () => {
                                    <Navigation />
                                    <div className="app-content-wrapper">
                                           <Suspense fallback={routeFallback}>
+                                                 <MembershipSessionBoundary>
                                                  <Routes>
+                                                        <Route path="/monthlypayments" element={<ProtectedRoute><MembershipPayments /></ProtectedRoute>} />
                                                         <Route path="/"
                                                                element={<Home />} />
                                                         <Route path="/login"
@@ -63,6 +68,7 @@ const App: React.FC = () => {
                                                                element={<ProtectedRoute><MatchResultUpdate /></ProtectedRoute>} />
                                                         <Route path="/adminregister"
                                                                element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
+                                                        <Route path="/adminpayments" element={<ProtectedRoute adminOnly={true}><AdminMembershipPayments /></ProtectedRoute>} />
                                                         <Route path="/items"
                                                                element={<ProtectedRoute adminOnly={true}><ImageUploadForm /></ProtectedRoute>} />
                                                         <Route path="/adminreserves"
@@ -81,6 +87,7 @@ const App: React.FC = () => {
                                                         <Route path="/unauthorized" element={<Unauthorized />} />
                                                         <Route path="*" element={<NotFound />} />
                                                  </Routes>
+                                                 </MembershipSessionBoundary>
                                           </Suspense>
                                    </div>
                             </div>

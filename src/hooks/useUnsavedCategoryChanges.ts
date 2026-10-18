@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
     );
 }
 
-export function useUnsavedEditorChanges(dirty: boolean, saving: boolean, context: 'categories' | 'match-result' = 'categories') {
+export function useUnsavedEditorChanges(dirty: boolean, saving: boolean, context: 'categories' | 'match-result' | 'membership-payment' = 'categories') {
     const { navigator } = useContext(UNSAFE_NavigationContext);
     const latest = useRef({ dirty, saving });
     latest.current = { dirty, saving };

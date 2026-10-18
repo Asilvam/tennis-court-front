@@ -314,7 +314,9 @@ const Modal: React.FC<ModalProps> = ({
             didOpen: () => Swal.showLoading(),
         });
 
-        const response = await axios.post(`${apiUrl}/court-reserve`, formData);
+        const response = await axios.post(`${apiUrl}/court-reserve`, formData, {
+            headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` },
+        });
 
         if (response.status === 200 || response.status === 201) {
             const reservation = response.data;

@@ -1,28 +1,32 @@
 import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { existTokenInLocalStorage, removeTokenFromLocalStorage } from '../utils/tokenUtils';
+import { removeTokenFromLocalStorage } from '../utils/tokenUtils';
 import {
-    getUserInfoFromLocalStorage,
     removeUserInfoFromLocalStorage,
 } from '../utils/userUtils.ts';
 import '../styles/Navigation.css';
+import { useAuth } from './useAuth';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const M: any;
 
 const Navigation: React.FC = () => {
     const sidenavRef = useRef<HTMLUListElement>(null);
     const navigate = useNavigate();
+    const { user, logout, isAuthenticated } = useAuth();
 
-    const tokenExists = existTokenInLocalStorage();
-    const userInfo = getUserInfoFromLocalStorage();
-    const isUserRoleAdmin = userInfo?.role === 'admin';
-    const isUserRoleProfesor = userInfo?.role === 'profesor';
-    const namePlayer = userInfo?.name || '';
+    const tokenExists = isAuthenticated;
+    const isUserRoleAdmin = user?.role === 'admin';
+    const isUserRoleProfesor = user?.role === 'profesor';
+    const namePlayer = user?.name || '';
 
     useEffect(() => {
-        const dropdownElems = document.querySelectorAll('.dropdown-trigger');
-        M.Dropdown.init(dropdownElems, { alignment: 'right' });
+        const dropdownElems = document.querySelectorAll('.ctq-nav .dropdown-trigger');
+        const dropdownInstances = M.Dropdown.init(dropdownElems, {
+            alignment: 'right',
+            constrainWidth: false,
+            coverTrigger: false,
+        });
 
         const sidenavInstance = M.Sidenav.init(sidenavRef.current, {});
         const closeSidenavOnClick = () => sidenavInstance?.close();
@@ -30,6 +34,7 @@ const Navigation: React.FC = () => {
         sidenavInstance.el.addEventListener('click', closeSidenavOnClick);
 
         return () => {
+            dropdownInstances.forEach((instance: { destroy: () => void }) => instance.destroy());
             sidenavInstance.el.removeEventListener('click', closeSidenavOnClick);
             sidenavInstance?.destroy();
         };
@@ -39,6 +44,7 @@ const Navigation: React.FC = () => {
         if (tokenExists) {
             removeTokenFromLocalStorage();
             removeUserInfoFromLocalStorage();
+            logout();
             Swal.fire({
                 icon: 'success',
                 title: 'Logged out OK!',
@@ -51,6 +57,7 @@ const Navigation: React.FC = () => {
     };
 
     const navItems = [
+        { to: '/monthlypayments', label: 'Mis mensualidades', show: tokenExists },
         { to: '/dashboard', label: 'Reserva Cancha', show: tokenExists },
         // { to: '/scoreboard', label: 'Scorer Court', show: tokenExists },
         { to: '/ranking', label: 'Ranking CTQ', show: tokenExists },
@@ -59,9 +66,10 @@ const Navigation: React.FC = () => {
         { to: '/updatematch', label: 'Agregar Resultado', show: tokenExists },
         { to: '/adminregister', label: 'Admin usuarios', show: tokenExists && isUserRoleAdmin },
         { to: '/adminreserves', label: 'Admin reservas', show: tokenExists && isUserRoleAdmin },
+        { to: '/adminpayments', label: 'Mensualidades', show: tokenExists && isUserRoleAdmin },
         { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && (isUserRoleAdmin || isUserRoleProfesor) },
         { to:'/resetpassword', label: 'Reset Pass', show: tokenExists && isUserRoleAdmin},
-    ];
+    ].map(item => ({ ...item, show: item.show && (!user?.financiallyRestricted || item.to === '/monthlypayments') }));
 
     return (
         <>

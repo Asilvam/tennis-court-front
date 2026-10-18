@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {useAuth} from "./useAuth.ts";
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useLocation} from 'react-router-dom';
+import { paymentLoginReturn } from '../utils/memberPayments';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import { LoadingSpinner } from './LoadingSpinner';
@@ -13,6 +14,7 @@ export interface LoginResponse {
     username: string;
     namePlayer: string;
     role: string;
+    financiallyRestricted?: boolean;
 }
 
 const Login: React.FC = () => {
@@ -23,6 +25,7 @@ const Login: React.FC = () => {
     const [generateLoading, setGenerateLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,8 +33,8 @@ const Login: React.FC = () => {
         setError(null); // Clear previous errors
         try {
             const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, {username, password});
-            const { accessToken, namePlayer, role } = response.data;
-            login({ name: namePlayer, email: username, role }, accessToken);
+            const { accessToken, namePlayer, role, financiallyRestricted } = response.data;
+            login({ name: namePlayer, email: username, role, financiallyRestricted }, accessToken);
             
             const Toast = Swal.mixin({
                 toast: true,
@@ -50,7 +53,8 @@ const Login: React.FC = () => {
                 title: `¡Bienvenido(a) ${namePlayer}!`
             })
             
-            navigate('/');
+            const returnTo = paymentLoginReturn(location.state?.from);
+            navigate(financiallyRestricted && returnTo === '/' ? '/monthlypayments' : returnTo);
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
