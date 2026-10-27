@@ -121,6 +121,7 @@
   align-items: end;
   gap: 8px;
   flex: 2 1 260px;
+  min-width: 0;
 }
 .ap-search label {
   flex: 1;
@@ -129,6 +130,8 @@
 .admin-membership-payments textarea {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 46px;
   height: auto;
   padding: 10px 12px;
@@ -151,6 +154,12 @@
 .admin-membership-payments input[type='month'] {
   color-scheme: dark;
   min-width: 0;
+  height: 46px;
+}
+.admin-membership-payments input[type='date']::-webkit-date-and-time-value,
+.admin-membership-payments input[type='month']::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
 }
 .admin-membership-payments input[type='checkbox'] {
   position: static;
@@ -227,6 +236,8 @@
   background: rgba(134, 239, 172, 0.1);
 }
 .ap-status--REVERSED,
+.ap-status--VOID,
+.ap-status--ARCHIVED,
 .ap-status--NOT_ENROLLED {
   color: #fca5a5;
   background: rgba(252, 165, 165, 0.08);
@@ -472,6 +483,50 @@
 .ap-dues-table th:last-child {
   width: auto;
 }
+.ap-enrollment {
+  padding: 16px 0;
+}
+.ap-enrollment-preview {
+  margin-top: 16px;
+}
+.ap-enrollment-preview h3 {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+.ap-enrollment-preview ul,
+.ap-membership-periods ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.ap-enrollment-preview li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-enrollment-preview li > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ap-enrollment-preview li > strong {
+  flex-shrink: 0;
+}
+.ap-membership-periods {
+  padding: 12px 0;
+  color: var(--ctq-text-muted);
+  font-size: 14px;
+}
+.ap-membership-periods summary {
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--ctq-accent);
+}
+.ap-membership-periods li {
+  padding: 8px 0;
+  overflow-wrap: anywhere;
+}
 @media (max-width: 650px) {
   .admin-membership-payments {
     padding: 16px 12px 28px;
@@ -487,7 +542,8 @@
   }
   .ap-filters > label,
   .ap-filters > .ap-field {
-    flex-basis: calc(50% - 6px);
+    flex-basis: 100%;
+    max-width: 100%;
   }
   .ap-filters--member > .ap-field {
     flex-basis: 100%;

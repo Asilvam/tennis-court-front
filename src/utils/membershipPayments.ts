@@ -5,6 +5,9 @@ export interface BillingPerson {
   memberType: string;
   active: boolean;
   enrolled: boolean;
+  billingStartPeriod?: string;
+  canReenroll?: boolean;
+  billingPeriods?: { fromPeriod: string; throughPeriod?: string; approvedAt: string; reason: string }[];
 }
 export interface MembershipDue {
   id: string;
@@ -12,13 +15,14 @@ export interface MembershipDue {
   period: string;
   dueAt: string;
   amount: number;
-  status: 'OPEN' | 'PAID';
+  status: 'OPEN' | 'PAID' | 'VOID' | 'ARCHIVED';
   pricingMode: 'TEST' | 'STANDARD';
 }
 export interface BillingContext {
   memberId: string;
   members: BillingPerson[];
   dues: MembershipDue[];
+  billing?: { minimumStartPeriod: string; currentPeriod: string };
 }
 export interface BillingMemberRow extends BillingPerson {
   amount: number | null;
@@ -26,7 +30,7 @@ export interface BillingMemberRow extends BillingPerson {
   pricingMode: string;
 }
 export interface BankDraft {
-  method: 'BANK_TRANSFER' | 'BANK_DEPOSIT';
+  method: 'BANK_TRANSFER' | 'BANK_DEPOSIT' | 'CASH';
   payerId: string;
   payerName: string;
   receivedDate: string;
@@ -42,7 +46,7 @@ export interface BankPaymentPayload {
   payerName: string;
   payerMemberId?: string;
   receivedDate: string;
-  reference: string;
+  reference?: string;
   amount: number;
   notes: string;
   verified: true;
@@ -59,6 +63,7 @@ export interface BillingPayment {
   confirmedAt?: string;
   payer: { name: string; memberId?: string };
   bank?: { reference: string; receivedAt: string };
+  cash?: { receiptNumber: string; receivedAt: string };
   notes?: string;
   registeredBy: string;
   pricingMode: string;
@@ -74,6 +79,7 @@ export const paymentMethodLabel = (method: string) =>
     BANK_TRANSFER: 'Transferencia bancaria',
     BANK_DEPOSIT: 'Depósito bancario',
     MERCADO_PAGO: 'Mercado Pago',
+    CASH: 'Efectivo',
   })[method] || method;
 export const paymentStatusLabel = (status: string) =>
   ({
@@ -85,6 +91,8 @@ export const paymentStatusLabel = (status: string) =>
     CANCELLED: 'Cancelado',
     OPEN: 'Por pagar',
     PAID: 'Pagado',
+    VOID: 'Sin cobro por baja',
+    ARCHIVED: 'Histórico no exigible',
     NOT_GENERATED: 'Sin generar',
     NOT_ENROLLED: 'Sin inicio aprobado',
   })[status] || status;
@@ -179,10 +187,10 @@ export function bankPaymentPayload(
     amount !== total
   )
     throw new Error('El monto recibido debe coincidir exactamente con las cuotas seleccionadas.');
-  if (!['BANK_TRANSFER', 'BANK_DEPOSIT'].includes(draft.method))
-    throw new Error('Selecciona un medio bancario.');
+  if (!['BANK_TRANSFER', 'BANK_DEPOSIT', 'CASH'].includes(draft.method))
+    throw new Error('Selecciona un medio de pago manual.');
   if (!draft.verified)
-    throw new Error('Confirma que verificaste el ingreso en la cuenta bancaria.');
+    throw new Error(draft.method === 'CASH' ? 'Confirma que recibiste el monto completo en efectivo.' : 'Confirma que verificaste el ingreso en la cuenta bancaria.');
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(draft.receivedDate) ||
     Number.isNaN(Date.parse(`${draft.receivedDate}T12:00:00Z`)) ||
@@ -194,7 +202,7 @@ export function bankPaymentPayload(
   const payerName = payer?.name || draft.payerName.trim();
   if (!payerName || payerName.length > 140 || (draft.payerId && !payer))
     throw new Error('Identifica a la persona que realizó el pago.');
-  if (!draft.reference.trim() || draft.reference.trim().length > 120)
+  if (draft.method !== 'CASH' && (!draft.reference?.trim() || draft.reference.trim().length > 120))
     throw new Error('Indica una referencia bancaria de hasta 120 caracteres.');
   if (draft.notes.length > 1000)
     throw new Error('La observación no puede superar 1000 caracteres.');
@@ -204,7 +212,7 @@ export function bankPaymentPayload(
     payerName,
     ...(payer ? { payerMemberId: payer.id } : {}),
     receivedDate: draft.receivedDate,
-    reference: draft.reference.trim(),
+    ...(draft.method === 'CASH' ? {} : { reference: draft.reference.trim() }),
     amount,
     notes: draft.notes.trim(),
     verified: true,

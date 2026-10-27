@@ -6,6 +6,7 @@ import {
   bankRequestIdentity,
   billingToday,
   paymentMethodLabel,
+  paymentStatusLabel,
   selectedDuesTotal,
   toggleDueSelection,
   type BankDraft,
@@ -73,6 +74,35 @@ const draft: BankDraft = {
   notes: '  Verificado  ',
   verified: true,
 };
+
+test('non-collectible history and void dues are never selected or demanded before a new quota', () => {
+  const renewed = structuredClone(context);
+  renewed.dues[0].status = 'ARCHIVED';
+  assert.deepEqual(toggleDueSelection(renewed.dues, [], 't-nov'), ['t-nov']);
+  assert.equal(bankPaymentPayload(renewed, ['t-nov'], { ...draft, amount: '180' }, now).amount, 180);
+  assert.throws(() => bankPaymentPayload(renewed, ['t-oct'], { ...draft, amount: '180' }, now), /disponible/);
+  renewed.dues[0].status = 'VOID';
+  assert.deepEqual(toggleDueSelection(renewed.dues, [], 't-oct'), []);
+  assert.equal(paymentStatusLabel('ARCHIVED'), 'Histórico no exigible');
+  assert.equal(paymentStatusLabel('VOID'), 'Sin cobro por baja');
+});
+
+test('cash uses a separate method and never submits a bank reference', () => {
+  const payload = bankPaymentPayload(context, ['t-oct', 'c-oct'], { ...draft, method: 'CASH' }, now);
+  assert.equal(payload.method, 'CASH');
+  assert.equal(payload.amount, 230);
+  assert.equal(Object.hasOwn(payload, 'reference'), false);
+  assert.equal(paymentMethodLabel('CASH'), 'Efectivo');
+});
+test('cash requires explicit receipt of the complete amount and cannot bypass full-dues rules', () => {
+  assert.throws(() => bankPaymentPayload(context, ['t-oct', 'c-oct'], { ...draft, method: 'CASH', verified: false }, now), /efectivo/);
+  assert.throws(() => bankPaymentPayload(context, ['t-oct', 'c-oct'], { ...draft, method: 'CASH', amount: '229' }, now), /exactamente/);
+  assert.throws(() => bankPaymentPayload(context, ['t-nov'], { ...draft, method: 'CASH', amount: '180' }, now), /consecutivos/);
+});
+test('cash accepts an empty bank-reference field while bank transfers still require it', () => {
+  assert.equal(bankPaymentPayload(context, ['t-oct', 'c-oct'], { ...draft, method: 'CASH', reference: '' }, now).method, 'CASH');
+  assert.throws(() => bankPaymentPayload(context, ['t-oct', 'c-oct'], { ...draft, method: 'BANK_TRANSFER', reference: '' }, now), /referencia/);
+});
 
 test('uses Chile calendar and current plus three months across the new year', () => {
   assert.equal(billingToday(new Date('2026-11-01T02:00:00Z')), '2026-10-31');

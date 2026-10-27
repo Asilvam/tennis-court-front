@@ -42,6 +42,14 @@ test('only active enrolled beneficiaries, open dues and periods through the curr
   const rows = [{ id: '1', beneficiaryId: 'own', period: '2026-10', status: 'OPEN' }, { id: '2', beneficiaryId: 'own', period: '2026-11', status: 'OPEN' }, { id: '3', beneficiaryId: 'own', period: '2026-10', status: 'PAID' }, { id: '4', beneficiaryId: 'other', period: '2026-10', status: 'OPEN' }];
   assert.deepEqual(selectableMemberDues(rows as never, ['own'], '2026-10').map(row => row.id), ['1']);
 });
+test('the member portal excludes archived history and void dues from checkout', () => {
+  const rows = [
+    { id: 'old', beneficiaryId: 'own', period: '2026-08', status: 'ARCHIVED' },
+    { id: 'gap', beneficiaryId: 'own', period: '2026-09', status: 'VOID' },
+    { id: 'current', beneficiaryId: 'own', period: '2026-10', status: 'OPEN' },
+  ];
+  assert.deepEqual(selectableMemberDues(rows as never, ['own'], '2026-10').map(row => row.id), ['current']);
+});
 test('members can select arrears and current dues for themselves and cargas, never future dues', () => {
   const rows = [
     { id: 'arrears', beneficiaryId: 'own', period: '2026-09', status: 'OPEN' },

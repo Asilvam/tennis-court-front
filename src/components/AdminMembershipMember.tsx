@@ -1,14 +1,17 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBillTransfer } from '@fortawesome/free-solid-svg-icons';
-import { billingMoney, billingPeriodLabel, paymentStatusLabel } from '../utils/membershipPayments';
-import type { BillingContext } from '../utils/membershipPayments';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
+import { billingMoney, billingPeriodLabel, paymentStatusLabel } from "../utils/membershipPayments";
+import type { BillingContext } from "../utils/membershipPayments";
+import { MembershipEnrollment } from "./MembershipEnrollment";
 
 export function AdminMembershipMember({
   context,
   onRegister,
+  onChanged,
 }: {
   context: BillingContext;
   onRegister: () => void;
+  onChanged?: () => void | Promise<void>;
 }) {
   const person = context.members.find((row) => row.id === context.memberId);
   if (!person) return null;
@@ -29,6 +32,29 @@ export function AdminMembershipMember({
       {!person.enrolled && (
         <p className="ap-muted">Inicio de facturación pendiente de aprobación.</p>
       )}
+      {(!person.enrolled || person.canReenroll) && (
+        <MembershipEnrollment key={person.id} context={context} onSaved={onChanged || (() => {})} />
+      )}
+      {!!person.billingPeriods?.length && (
+        <details className="ap-membership-periods">
+          <summary>Vigencia de mensualidades</summary>
+          <ul>
+            {person.billingPeriods.map((interval) => (
+              <li key={interval.fromPeriod}>
+                <strong>
+                  {billingPeriodLabel(interval.fromPeriod)}
+                  {interval.throughPeriod
+                    ? ` a ${billingPeriodLabel(interval.throughPeriod)}`
+                    : " en adelante"}
+                </strong>
+                <small>
+                  {new Date(interval.approvedAt).toLocaleDateString("es-CL")} · {interval.reason}
+                </small>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
       {dues.length ? (
         <table className="ap-table ap-dues-table">
           <thead>
@@ -46,13 +72,13 @@ export function AdminMembershipMember({
                   <strong>{billingPeriodLabel(row.period)}</strong>
                 </td>
                 <td data-label="Vencimiento">
-                  {new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago' }).format(
+                  {new Intl.DateTimeFormat("es-CL", { timeZone: "America/Santiago" }).format(
                     new Date(new Date(row.dueAt).getTime() - 1),
                   )}
                 </td>
                 <td data-label="Monto">
                   {billingMoney(row.amount)}
-                  {row.pricingMode === 'TEST' && <small className="ap-test">Prueba</small>}
+                  {row.pricingMode === "TEST" && <small className="ap-test">Prueba</small>}
                 </td>
                 <td data-label="Estado">
                   <span className={`ap-status ap-status--${row.status}`}>

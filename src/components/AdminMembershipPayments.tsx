@@ -13,6 +13,7 @@ import {
   faRotateRight,
   faSearch,
   faSave,
+  faUserCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { LoadingSpinner } from './LoadingSpinner';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
@@ -230,8 +231,8 @@ function BankPaymentForm({
                       <span>
                         {billingPeriodLabel(row.period)}
                         <small>
-                          {row.status === 'PAID'
-                            ? 'Pagado'
+                          {row.status !== 'OPEN'
+                            ? paymentStatusLabel(row.status)
                             : `Hasta ${dateLabel(new Date(new Date(row.dueAt).getTime() - 1).toISOString())}`}
                         </small>
                       </span>
@@ -255,8 +256,9 @@ function BankPaymentForm({
               options={[
                 { value: 'BANK_TRANSFER', label: 'Transferencia bancaria' },
                 { value: 'BANK_DEPOSIT', label: 'Depósito bancario' },
+                { value: 'CASH', label: 'Efectivo' },
               ]}
-              onChange={(value) => change('method', value as BankDraft['method'])}
+              onChange={(value) => setDraft(previous => ({ ...previous, method: value as BankDraft['method'], verified: false, ...(value === 'CASH' ? { reference: '' } : {}) }))}
               disabled={saving}
             />
             <MembershipBillingSelect
@@ -297,7 +299,7 @@ function BankPaymentForm({
                 readOnly
               />
             </label>
-            <label className="ap-wide">
+            {draft.method !== 'CASH' && <label className="ap-wide">
               Referencia bancaria
               <input
                 value={draft.reference}
@@ -305,7 +307,7 @@ function BankPaymentForm({
                 autoComplete="off"
                 onChange={(event) => change('reference', event.target.value)}
               />
-            </label>
+            </label>}
             <label className="ap-wide">
               Observación (opcional)
               <textarea
@@ -322,7 +324,7 @@ function BankPaymentForm({
               checked={draft.verified}
               onChange={(event) => change('verified', event.target.checked)}
             />
-            <span>Verifiqué el ingreso de este monto en la cuenta bancaria.</span>
+            <span>{draft.method === 'CASH' ? 'Recibí este monto completo en efectivo.' : 'Verifiqué el ingreso de este monto en la cuenta bancaria.'}</span>
           </label>
         </fieldset>
         <div className="ap-form-actions">
@@ -364,6 +366,20 @@ export default function AdminMembershipPayments() {
   const [reversing, setReversing] = useState(false);
   const reversalRequest = useRef<{ id: string; reason: string; key: string }>();
   const requestVersion = useRef(0);
+  useEffect(() => {
+    const nextSearch = searchInput.trim();
+    if (memberId || view !== 'dues' || nextSearch === search) return;
+    if (!nextSearch) {
+      setPage(1);
+      setSearch('');
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setPage(1);
+      setSearch(nextSearch);
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [searchInput, search, memberId, view]);
   const load = useCallback(
     async (signal?: AbortSignal) => {
       const version = ++requestVersion.current;
@@ -454,8 +470,8 @@ export default function AdminMembershipPayments() {
     if (reversing) return;
     const result = await Swal.fire({
       icon: 'warning',
-      title: 'Anular registro bancario',
-      text: `Se reabrirán las cuotas de ${billingMoney(payment.amount)}. Esto no devuelve dinero al banco.`,
+      title: payment.method === 'CASH' ? 'Anular registro de efectivo' : 'Anular registro bancario',
+      text: `Se corregirán las imputaciones de ${billingMoney(payment.amount)} respetando las vigencias y el histórico no exigible. Esto no realiza una devolución de dinero.`,
       input: 'textarea',
       inputLabel: 'Motivo de la corrección',
       inputValue: reversalRequest.current?.id === payment.id ? reversalRequest.current.reason : '',
@@ -482,7 +498,7 @@ export default function AdminMembershipPayments() {
       await Swal.fire({
         icon: 'success',
         title: 'Registro anulado',
-        text: 'La corrección quedó auditada y las cuotas se reabrieron.',
+        text: 'La corrección quedó auditada y se actualizaron las cuotas correspondientes.',
         confirmButtonText: 'Aceptar',
       });
       await load();
@@ -585,6 +601,8 @@ export default function AdminMembershipPayments() {
                     type="search"
                     value={searchInput}
                     placeholder="Nombre o correo"
+                    aria-label="Buscar socios por nombre o correo"
+                    maxLength={100}
                     onChange={(event) => setSearchInput(event.target.value)}
                   />
                 </label>
@@ -634,6 +652,7 @@ export default function AdminMembershipPayments() {
                     { value: '', label: 'Todos' },
                     { value: 'BANK_TRANSFER', label: 'Transferencia bancaria' },
                     { value: 'BANK_DEPOSIT', label: 'Depósito bancario' },
+                    { value: 'CASH', label: 'Efectivo' },
                     { value: 'MERCADO_PAGO', label: 'Mercado Pago' },
                   ]}
                   onChange={(value) => {
@@ -679,6 +698,7 @@ export default function AdminMembershipPayments() {
                   <AdminMembershipMember
                     context={memberDetails}
                     onRegister={() => void open(memberId)}
+                    onChanged={() => load()}
                   />
                 ) : (
                   <table className="ap-table">
@@ -716,6 +736,7 @@ export default function AdminMembershipPayments() {
                             </span>
                           </td>
                           <td className="ap-row-actions">
+                            {member.canReenroll ? <button type="button" className="ap-icon" title="Reinscribir socio" aria-label={`Reinscribir a ${member.name}`} onClick={() => navigate(`/adminpayments?memberId=${member.id}`)}><FontAwesomeIcon icon={faUserCheck} /></button> : member.active && !member.enrolled ? <button type="button" className="ap-icon" title="Habilitar mensualidades" aria-label={`Habilitar mensualidades de ${member.name}`} onClick={() => navigate(`/adminpayments?memberId=${member.id}`)}><FontAwesomeIcon icon={faUserCheck} /></button> :
                             <button
                               type="button"
                               className="ap-icon"
@@ -725,7 +746,7 @@ export default function AdminMembershipPayments() {
                               disabled={!member.active || !member.enrolled}
                             >
                               <FontAwesomeIcon icon={faMoneyBillTransfer} />
-                            </button>
+                            </button>}
                           </td>
                         </tr>
                       ))}
@@ -773,7 +794,7 @@ export default function AdminMembershipPayments() {
                             <button
                               type="button"
                               className="ap-icon"
-                              title="Anular registro bancario"
+                              title={payment.method === 'CASH' ? 'Anular registro de efectivo' : 'Anular registro bancario'}
                               aria-label={`Anular registro de ${payment.payer.name}`}
                               disabled={reversing}
                               onClick={() => void reverse(payment)}
@@ -788,8 +809,8 @@ export default function AdminMembershipPayments() {
                           <dl>
                             <dt>Referencia CTQ</dt>
                             <dd>{payment.publicReference}</dd>
-                            <dt>{payment.method === 'MERCADO_PAGO' ? 'Operación Mercado Pago' : 'Referencia bancaria'}</dt>
-                            <dd>{payment.provider?.paymentId || payment.bank?.reference || '—'}</dd>
+                            <dt>{payment.method === 'MERCADO_PAGO' ? 'Operación Mercado Pago' : payment.method === 'CASH' ? 'Folio de efectivo' : 'Referencia bancaria'}</dt>
+                            <dd>{payment.provider?.paymentId || payment.cash?.receiptNumber || payment.bank?.reference || '—'}</dd>
                             {payment.provider && <><dt>Estado del proveedor</dt><dd>{payment.provider.status}</dd><dt>Monto recibido</dt><dd>{billingMoney(payment.provider.receivedAmount)} {payment.provider.currency}</dd></>}
                             {!!payment.reviewReasons?.length && <><dt>Revisión necesaria</dt><dd>{payment.reviewReasons.join(', ')}</dd></>}
                             <dt>Registrado por</dt>

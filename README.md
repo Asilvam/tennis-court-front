@@ -40,7 +40,7 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 
 ### Admins
 
-Member editing includes Titular/Carga and a searchable titular selector for cargas. The association uses the member's stable `_id`, not their name or email. Existing Familiar records display as Carga without a mass migration; unrelated edits preserve their stored type. Changes are submitted to `PATCH /register/admin/:email` with the admin JWT and only changed editable fields. Coordinate deployment with the compatible backend. This stage does not create monthly charges, payments, rates or automatic access restrictions, and requires no Mercado Pago, email-service or environment changes.
+Member editing includes Titular/Carga and a searchable titular selector for cargas. The association uses the member's stable `_id`, not their name or email. Existing Familiar records display as Carga without a mass migration; unrelated edits preserve their stored type. Changes are submitted to `PATCH /register/admin/:email` with the admin JWT and only changed editable fields. Coordinate deployment with the compatible backend. Editing this association is separate from initial billing enrollment and recording payments; see **Monthly Membership Payments** below for that workflow. It requires no new Mercado Pago, email-service or environment configuration.
 
 Run selection and payload-validation tests:
 ```bash
@@ -77,6 +77,26 @@ npm run test:password-recovery
 
 ---
 
+## Monthly Membership Payments
+
+Members use **Mis mensualidades** (`/monthlypayments`) for arrears, the current month and payment history. A titular may also select linked cargas. Mercado Pago results are verified by the backend; returning to the app never confirms money by itself.
+
+Admins enter **Administrar usuarios → Pagos del socio** or **Mensualidades CTQ** (`/adminpayments`). The new stage 1 is implemented and tested locally, not deployed automatically:
+
+- **Habilitar mensualidades** approves an active member's initial billing month after **Revisar cuotas**, a reason and SweetAlert2 confirmation. It creates open dues, not a payment; it cannot replace existing financial history.
+- The member detail shows approved billing periods. Inactive gaps are excluded when an interval history exists; automatic closure and re-enrollment remain stage 2.
+- **Registrar pago** accepts bank transfer, bank deposit or **Efectivo**. Totals equal full selected dues, oldest first. Cash requires confirmation of full receipt, no bank reference; the backend generates its folio and identifies the receiving admin.
+- History distinguishes methods and shows bank reference, cash folio or Mercado Pago operation. Reversing a manual record preserves evidence and reopens only its dues; it does not refund money and cannot modify Mercado Pago payments.
+- Only active admins can approve enrollment or record payments. Inactive beneficiaries remain disabled. Backend checks are authoritative.
+
+Stage 2 adds **Reinscribir socio** in the existing detail for validated automatic terminations. It previews the current quota and the previous unpaid quotas that become non-collectible history. Confirmation preserves real payments and opens a new validity period without requiring previous debt. `VOID` displays as **Sin cobro por baja** and `ARCHIVED` as **Histórico no exigible**; neither is selectable for payment or represents money received.
+
+Operational rules and the three-stage plan are documented in the backend README under **Mensualidades CTQ**, `docs/membership-billing-enrollment-cash-stage-1.md` and `docs/membership-billing-lifecycle-stage-2.md`. Stage 2 is implemented locally; automation is disabled by default and requires separate stage 3 approval. No frontend flags, new environment variables, general activation or deployment were added.
+
+```bash
+npm run test:membership-payments
+```
+
 ## Routes
 
 | Path | Component | Access |
@@ -89,6 +109,9 @@ npm run test:password-recovery
 | `/summary` | ReservationSummary | Public |
 | `/ranking` | Ranking | Public |
 | `/dashboard` | Dashboard | Auth required |
+| `/monthlypayments` | MembershipPayments | Auth required; available to active payments-only sessions |
+| `/monthlypayments/return` | MembershipPaymentReturn | Auth required; server-verified outcome |
+| `/adminpayments` | AdminMembershipPayments | Active admin only; optional memberId for individual detail |
 | `/profile` | PlayerProfile | Auth required |
 | `/myhistory` | MyHistoryReserve | Auth required |
 | `/updatematch` | MatchResultUpdate | Auth required |
