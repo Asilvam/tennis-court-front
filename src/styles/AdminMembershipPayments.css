@@ -486,6 +486,23 @@
 .ap-enrollment {
   padding: 16px 0;
 }
+.ap-batch h2 { font-size: 20px; line-height: 1.4; margin: 0 0 16px; }
+.ap-batch-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 16px 0; }
+.ap-batch-list { list-style: none; margin: 0; padding: 0; max-height: 520px; overflow-y: auto; }
+.ap-batch-list > li { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 100px; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--ctq-border-soft); }
+.ap-batch-person { display: flex; gap: 10px; align-items: center; min-width: 0; min-height: 44px; cursor: pointer; }
+.ap-batch-person input { flex: 0 0 20px; }
+.ap-batch-person strong { display: block; font-size: 14px; line-height: 1.45; color: var(--ctq-text); }
+.ap-batch-person span, .ap-batch-state { min-width: 0; overflow-wrap: anywhere; }
+.ap-batch-list small { display: block; color: var(--ctq-text-muted); font-size: 12px; line-height: 1.5; }
+.ap-batch-amount { text-align: right; overflow-wrap: anywhere; }
+@media (max-width: 650px) {
+  .ap-batch-list > li { grid-template-columns: minmax(0, 1fr) 84px; gap: 8px 12px; }
+  .ap-batch-person { grid-column: 1; grid-row: 1; }
+  .ap-batch-state { grid-column: 1; padding-left: 30px; }
+  .ap-batch-amount { grid-column: 2; grid-row: 1; }
+  .ap-batch-tools button { width: 100%; }
+}
 .ap-enrollment-preview {
   margin-top: 16px;
 }

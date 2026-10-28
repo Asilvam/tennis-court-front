@@ -49,6 +49,7 @@ const result = await build({
       './LoadingSpinner': `export const LoadingSpinner = 'LoadingSpinner';`,
       './MembershipBillingSelect': `export const MembershipBillingSelect = 'BillingSelect';`,
       './AdminMembershipMember': `export const AdminMembershipMember = 'MemberDetail';`,
+      './MembershipBatchEnrollment': `export const MembershipBatchEnrollment = 'BatchEnrollment';`,
       '../utils/tokenUtils': `export const getTokenFromLocalStorage = () => 'fixture';`,
       '../hooks/useUnsavedCategoryChanges': `export const useUnsavedEditorChanges = () => {};`,
       '../utils/categoryConfirmation': `export const confirmDiscardCategoryChanges = async () => false;`,

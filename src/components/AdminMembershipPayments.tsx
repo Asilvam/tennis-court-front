@@ -16,6 +16,7 @@ import {
   faUserCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { LoadingSpinner } from './LoadingSpinner';
+import { MembershipBatchEnrollment } from './MembershipBatchEnrollment';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
 import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
@@ -364,6 +365,7 @@ export default function AdminMembershipPayments() {
   const [unavailable, setUnavailable] = useState(false);
   const [detail, setDetail] = useState<string | null>(null);
   const [reversing, setReversing] = useState(false);
+  const [enrollmentBusy, setEnrollmentBusy] = useState(false);
   const reversalRequest = useRef<{ id: string; reason: string; key: string }>();
   const requestVersion = useRef(0);
   useEffect(() => {
@@ -450,6 +452,7 @@ export default function AdminMembershipPayments() {
     return () => controller.abort();
   }, [load]);
   const open = async (id: string) => {
+    if (enrollmentBusy) return;
     if (loading) return;
     setLoading(true);
     try {
@@ -509,6 +512,7 @@ export default function AdminMembershipPayments() {
     }
   };
   const changeView = (next: 'dues' | 'history') => {
+    if (enrollmentBusy) return;
     setView(next);
     if (next === 'dues' && !period && !memberId) setPeriod(billingToday().slice(0, 7));
     setPage(1);
@@ -523,6 +527,7 @@ export default function AdminMembershipPayments() {
           className="ap-icon"
           aria-label="Volver a usuarios"
           title="Volver a usuarios"
+          disabled={enrollmentBusy}
           onClick={() => navigate(returnTarget.returnTo, { state: returnTarget.state })}
         >
           <FontAwesomeIcon icon={faArrowLeft} />
@@ -534,7 +539,7 @@ export default function AdminMembershipPayments() {
             className="ap-icon ap-reload"
             aria-label="Actualizar mensualidades"
             title="Actualizar mensualidades"
-            disabled={loading || reversing}
+            disabled={loading || reversing || enrollmentBusy}
             onClick={() => void load()}
           >
             <FontAwesomeIcon icon={faRotateRight} />
@@ -572,7 +577,7 @@ export default function AdminMembershipPayments() {
               role="tab"
               aria-selected={view === 'dues'}
               onClick={() => changeView('dues')}
-              disabled={reversing}
+              disabled={reversing || enrollmentBusy}
             >
               Cuotas
             </button>
@@ -580,7 +585,7 @@ export default function AdminMembershipPayments() {
               role="tab"
               aria-selected={view === 'history'}
               onClick={() => changeView('history')}
-              disabled={reversing}
+              disabled={reversing || enrollmentBusy}
             >
               Historial de pagos
             </button>
@@ -603,6 +608,7 @@ export default function AdminMembershipPayments() {
                     placeholder="Nombre o correo"
                     aria-label="Buscar socios por nombre o correo"
                     maxLength={100}
+                    disabled={enrollmentBusy}
                     onChange={(event) => setSearchInput(event.target.value)}
                   />
                 </label>
@@ -611,7 +617,7 @@ export default function AdminMembershipPayments() {
                   className="ap-icon"
                   aria-label="Buscar socio"
                   title="Buscar socio"
-                  disabled={loading}
+                  disabled={loading || enrollmentBusy}
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
@@ -622,6 +628,7 @@ export default function AdminMembershipPayments() {
                 Mes
                 <input
                   type="month"
+                  disabled={enrollmentBusy}
                   value={period}
                   onChange={(event) => {
                     setPeriod(
@@ -641,7 +648,7 @@ export default function AdminMembershipPayments() {
                   label: billingPeriodLabel(value),
                 }))}
                 onChange={setThrough}
-                disabled={loading}
+                disabled={loading || enrollmentBusy}
               />
             ) : (
               <>
@@ -680,6 +687,7 @@ export default function AdminMembershipPayments() {
               </>
             )}
           </div>
+          {view === 'dues' && !memberId && !loading && !unavailable && <MembershipBatchEnrollment onSaved={() => load()} onBusyChange={setEnrollmentBusy} onReview={id => navigate(`/adminpayments?memberId=${id}`)} />}
           {loading ? (
             <div className="ap-loading" role="status">
               <LoadingSpinner size={64} />
@@ -699,6 +707,8 @@ export default function AdminMembershipPayments() {
                     context={memberDetails}
                     onRegister={() => void open(memberId)}
                     onChanged={() => load()}
+                    onBusyChange={setEnrollmentBusy}
+                    busy={enrollmentBusy}
                   />
                 ) : (
                   <table className="ap-table">
@@ -743,7 +753,7 @@ export default function AdminMembershipPayments() {
                               aria-label={`Registrar pago de ${member.name}`}
                               title="Registrar pago"
                               onClick={() => void open(member.id)}
-                              disabled={!member.active || !member.enrolled}
+                              disabled={!member.active || !member.enrolled || enrollmentBusy}
                             >
                               <FontAwesomeIcon icon={faMoneyBillTransfer} />
                             </button>}
@@ -880,7 +890,7 @@ export default function AdminMembershipPayments() {
                     className="ap-icon"
                     aria-label="Página anterior"
                     title="Página anterior"
-                    disabled={page === 1 || reversing}
+                    disabled={page === 1 || reversing || enrollmentBusy}
                     onClick={() => setPage(page - 1)}
                   >
                     <FontAwesomeIcon icon={faChevronLeft} />
@@ -893,7 +903,7 @@ export default function AdminMembershipPayments() {
                     className="ap-icon"
                     aria-label="Página siguiente"
                     title="Página siguiente"
-                    disabled={page * 20 >= total || reversing}
+                    disabled={page * 20 >= total || reversing || enrollmentBusy}
                     onClick={() => setPage(page + 1)}
                   >
                     <FontAwesomeIcon icon={faChevronRight} />

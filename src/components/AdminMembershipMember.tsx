@@ -3,15 +3,21 @@ import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
 import { billingMoney, billingPeriodLabel, paymentStatusLabel } from "../utils/membershipPayments";
 import type { BillingContext } from "../utils/membershipPayments";
 import { MembershipEnrollment } from "./MembershipEnrollment";
+import { MembershipBatchEnrollment } from "./MembershipBatchEnrollment";
+import { MembershipHistoryReview } from "./MembershipHistoryReview";
 
 export function AdminMembershipMember({
   context,
   onRegister,
   onChanged,
+  onBusyChange,
+  busy = false,
 }: {
   context: BillingContext;
   onRegister: () => void;
   onChanged?: () => void | Promise<void>;
+  onBusyChange?: (value: boolean) => void;
+  busy?: boolean;
 }) {
   const person = context.members.find((row) => row.id === context.memberId);
   if (!person) return null;
@@ -24,7 +30,7 @@ export function AdminMembershipMember({
           type="button"
           className="ap-primary"
           onClick={onRegister}
-          disabled={!person.active || !person.enrolled}
+          disabled={!person.active || !person.enrolled || busy}
         >
           <FontAwesomeIcon icon={faMoneyBillTransfer} /> Registrar pago
         </button>
@@ -32,8 +38,26 @@ export function AdminMembershipMember({
       {!person.enrolled && (
         <p className="ap-muted">Inicio de facturación pendiente de aprobación.</p>
       )}
-      {(!person.enrolled || person.canReenroll) && (
+      {((!person.enrolled && context.members.length === 1) || person.canReenroll) && (
         <MembershipEnrollment key={person.id} context={context} onSaved={onChanged || (() => {})} />
+      )}
+      {context.members.length > 1 &&
+        !person.canReenroll &&
+        context.members.some((row) => row.active && !row.enrolled) && (
+          <MembershipBatchEnrollment
+            key={`family-${person.id}`}
+            familyMemberId={person.id}
+            currentPeriod={context.billing?.currentPeriod}
+            onSaved={onChanged || (() => {})}
+            onBusyChange={onBusyChange}
+          />
+        )}
+      {person.historyReviewAvailable && (
+        <MembershipHistoryReview
+          memberId={person.id}
+          onSaved={onChanged || (() => {})}
+          onBusyChange={onBusyChange}
+        />
       )}
       {!!person.billingPeriods?.length && (
         <details className="ap-membership-periods">

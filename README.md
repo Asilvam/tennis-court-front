@@ -91,6 +91,8 @@ Admins enter **Administrar usuarios → Pagos del socio** or **Mensualidades CTQ
 
 Stage 2 adds **Reinscribir socio** in the existing detail for validated automatic terminations. It previews the current quota and the previous unpaid quotas that become non-collectible history. Confirmation preserves real payments and opens a new validity period without requiring previous debt. `VOID` displays as **Sin cobro por baja** and `ARCHIVED` as **Histórico no exigible**; neither is selectable for payment or represents money received.
 
+Manual/family enrollment uses **Habilitar titular y cargas** with individual selection; global **Habilitar socios** previews eligible, already enabled and review-only members. Already enabled members are never reset by a later batch. Requests are split into stable blocks of 10 and uncertain responses retry the same payload/key. **Revisar vigencia** explicitly approves a valid old baseline without creating dues, changing payments or reenrolling the member. These workflows are implemented and tested locally; no production enrollments are implied. See backend `docs/membership-billing-manual-batch.md`.
+
 Operational rules and the three-stage plan are documented in the backend README under **Mensualidades CTQ**, `docs/membership-billing-enrollment-cash-stage-1.md` and `docs/membership-billing-lifecycle-stage-2.md`. Stage 2 is implemented locally; automation is disabled by default and requires separate stage 3 approval. No frontend flags, new environment variables, general activation or deployment were added.
 
 ```bash

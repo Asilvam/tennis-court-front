@@ -10,7 +10,7 @@
     "test:payment-rates": "node --experimental-strip-types --test tests/paymentRates.test.ts",
     "test:payment-holds": "node --test tests/paymentHold.test.mjs",
     "test:member-editing": "node --experimental-strip-types --test tests/memberEditing.test.ts",
-    "test:membership-payments": "node --experimental-strip-types --test tests/membershipPayments.test.ts tests/membershipNavigation.test.ts tests/memberPayments.test.ts tests/membershipReturn.test.ts tests/membershipReturnBoundary.test.mjs tests/membershipAdminNavigation.test.mjs tests/membershipAccessSession.test.mjs tests/membershipSearch.test.mjs tests/membershipEnrollment.test.mjs",
+    "test:membership-payments": "node --experimental-strip-types --test tests/membershipPayments.test.ts tests/membershipNavigation.test.ts tests/memberPayments.test.ts tests/membershipReturn.test.ts tests/membershipReturnBoundary.test.mjs tests/membershipAdminNavigation.test.mjs tests/membershipAccessSession.test.mjs tests/membershipSearch.test.mjs tests/membershipEnrollment.test.mjs tests/membershipActivation.test.mjs",
     "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
     "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
     "test:category-editor": "node --test tests/categoryEditor.test.mjs tests/unsavedCategoryChanges.test.mjs",

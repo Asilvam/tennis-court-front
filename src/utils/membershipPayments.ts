@@ -7,6 +7,7 @@ export interface BillingPerson {
   enrolled: boolean;
   billingStartPeriod?: string;
   canReenroll?: boolean;
+  historyReviewAvailable?: boolean;
   billingPeriods?: { fromPeriod: string; throughPeriod?: string; approvedAt: string; reason: string }[];
 }
 export interface MembershipDue {
