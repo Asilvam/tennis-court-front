@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
 
 const InactivityLogout: React.FC = () => {
-    const navigate = useNavigate();
     const { token, user, logout } = useAuth();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const inactivityTimeout = user?.role === 'admin' ? 60 * 60 * 1000 : 3 * 60 * 1000;
@@ -12,19 +9,9 @@ const InactivityLogout: React.FC = () => {
     const handleLogout = useCallback(() => {
         const tokenExists = !!localStorage.getItem('token');
         if (tokenExists) {
-            logout();
-            localStorage.removeItem('token');
-            localStorage.removeItem('userInfo');
-            Swal.fire({
-                icon: 'warning',
-                title: 'Sesión cerrada por inactividad',
-                text: '¡Hasta pronto!',
-                confirmButtonColor: '#1e88e5',
-            }).then(() => {
-                navigate('/');
-            });
+            logout('inactive');
         }
-    }, [navigate, logout]);
+    }, [logout]);
 
     const resetTimer = useCallback(() => {
         if (timerRef.current) clearTimeout(timerRef.current);

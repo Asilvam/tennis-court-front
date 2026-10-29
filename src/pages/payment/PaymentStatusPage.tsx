@@ -15,6 +15,8 @@ interface PaymentStatusPageProps {
     secondaryText?: string;
     actionLabel?: string;
     onAction?: () => void;
+    secondaryActionLabel?: string;
+    onSecondaryAction?: () => void;
 }
 
 const PaymentStatusPage: React.FC<PaymentStatusPageProps> = ({
@@ -26,6 +28,8 @@ const PaymentStatusPage: React.FC<PaymentStatusPageProps> = ({
     secondaryText,
     actionLabel,
     onAction,
+    secondaryActionLabel,
+    onSecondaryAction,
 }) => (
     <main className="payment-status-page">
         <section className={`payment-status-card payment-status-card--${status}`} aria-live="polite">
@@ -42,6 +46,11 @@ const PaymentStatusPage: React.FC<PaymentStatusPageProps> = ({
             {actionLabel && onAction && (
                 <button type="button" className="payment-status-action" onClick={onAction}>
                     {actionLabel}
+                </button>
+            )}
+            {secondaryActionLabel && onSecondaryAction && (
+                <button type="button" className="payment-status-action payment-status-action--secondary" onClick={onSecondaryAction}>
+                    {secondaryActionLabel}
                 </button>
             )}
         </section>

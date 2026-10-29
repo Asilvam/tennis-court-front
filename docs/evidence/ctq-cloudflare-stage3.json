@@ -1,0 +1,567 @@
+{
+  "date": "2026-10-29",
+  "scope": "Isolated local bundle + NestJS/JWT/MongoDB; published finding uses anonymous pages with APIs blocked",
+  "environment": {
+    "api": "https://api.ctq-fixture.invalid",
+    "replicaSet": "ctqDomainStage3",
+    "smtp": "simulated",
+    "paymentProvider": "simulated"
+  },
+  "heads": {
+    "tennis-court-front": "27f99cc3e33547336cb617a8917f647514fef96e",
+    "tennis-app-backend": "b6d8f4add1eb45d259065bb54af2bba4ff2ec6c4",
+    "mercadopago-microservice": "df70dac5cb52e1f4fde3b3ccdfabaa0ecf0dfcba",
+    "email-send-microservice": "3faf96ea183ebcbc36f610499a1456263e45d1a3"
+  },
+  "localUncommittedChangesIncluded": true,
+  "bundleHashes": {
+    "index-DKw7Z8Ya.js": "f607d3bf5225ab407ca3837ed8af9806120b2a32305f98bd90c94c579032ee51",
+    "index-DnX3JJFZ.js": "9148264c9e4c58f75ec4dd56cafa9be2d8f645c191ba498ad564460897f1276a"
+  },
+  "regression": [
+    {
+      "project": "backend",
+      "passed": 826,
+      "failed": 0,
+      "skipped": 0,
+      "suites": 54
+    },
+    {
+      "project": "mp",
+      "passed": 128,
+      "failed": 0,
+      "skipped": 0,
+      "suites": 8
+    },
+    {
+      "project": "mail",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "suites": 7
+    },
+    {
+      "project": "frontend",
+      "passed": 237,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "regressionTotal": 1221,
+  "e2e": {
+    "passed": 96,
+    "engines": [
+      "chromium",
+      "webkit"
+    ],
+    "widths": [
+      390,
+      820,
+      1440
+    ],
+    "checkpoints": [
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "chromium",
+        "width": 820,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "webkit",
+        "width": 820,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "carga-own-dues"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "login-refresh-current-only-180-50"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "backend-role-family-and-advance-permissions"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "forged-monthly-success-not-trusted"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "monthly-pending"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "monthly-cancelled-without-settlement"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "cancelled-unexpired-preference-still-prevents-overlap"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "verified-settlement-idempotent-and-url-cannot-reverse"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "admin-member-history"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "old-domain-login-compatible"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "reset-end-to-end-through-mail-transport-and-single-use"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "updated-password-login"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "expired-reset-rejected"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "financial-invariants-no-bookings-no-real-providers"
+      },
+      {
+        "engine": "webkit",
+        "width": 1440,
+        "name": "expired-jwt-login-and-attempt-preserved"
+      }
+    ]
+  },
+  "publishedFindings": [
+    {
+      "code": "RESERVATION_SUCCESS_TRUSTS_QUERY",
+      "origin": "https://ctq.serviciosasm.cl",
+      "reproducedOnPublishedBundle": true,
+      "backendRequests": 0,
+      "writes": 0
+    },
+    {
+      "code": "RESERVATION_SUCCESS_TRUSTS_QUERY",
+      "origin": "https://app-tenis-qtro-2-be6b838be293.herokuapp.com",
+      "reproducedOnPublishedBundle": true,
+      "backendRequests": 0,
+      "writes": 0
+    }
+  ],
+  "releaseApproved": false,
+  "notes": [
+    "No real payment, reset request, SMTP delivery or booking was initiated by these tests.",
+    "Cloudflare/Heroku DNS and URL changes from stages 1-2 were not modified in stage 3.",
+    "The reservation return finding is not counted as a successful correctness test."
+  ]
+}

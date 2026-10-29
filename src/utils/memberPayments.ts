@@ -1,4 +1,5 @@
 import type { MembershipDue } from './membershipPayments';
+import { reservationReturnPath, reservationReturnReference } from './reservationPaymentReturn.ts';
 
 export const membershipReference = (value: string | null): value is string =>
   !!value && /^membership-[a-f\d-]{36}$/i.test(value);
@@ -20,6 +21,14 @@ export function memberCheckoutIdentity(ids: string[], previous?: { hash: string;
 
 export function paymentLoginReturn(value: unknown): string {
   if (typeof value !== 'string') return '/';
+  if (value.startsWith('/payment/')) {
+    try {
+      const url = new URL(value, 'https://ctq.invalid');
+      const reference = reservationReturnReference(url.searchParams);
+      return url.origin === 'https://ctq.invalid' && reservationReturnPath(url.pathname) && reference
+        ? `${url.pathname}?reservation=${encodeURIComponent(reference)}` : '/';
+    } catch { return '/'; }
+  }
   if (value === '/monthlypayments') return value;
   if (!value.startsWith('/monthlypayments?') && !value.startsWith('/monthlypayments/return?')) return '/';
   try {

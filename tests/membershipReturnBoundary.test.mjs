@@ -43,3 +43,10 @@ test('restricted sessions can render the result and portal, while anonymous logi
   assert.equal(render('/login', undefined, false, false).props.children, 'page');
   assert.equal(render('/dashboard', undefined, false).props.children, 'page');
 });
+test('restricted sessions may read their reservation return without regaining booking access', () => {
+  assert.equal(render('/payment/success').props.children, 'page');
+  assert.equal(render('/payment/pending').props.children, 'page');
+  assert.equal(render('/payment/failure').props.children, 'page');
+  assert.equal(render('/dashboard').props.to, '/monthlypayments');
+  assert.equal(render('/login', '/payment/failure?external_reference=abc123&status=approved').props.to, '/payment/failure?reservation=abc123');
+});

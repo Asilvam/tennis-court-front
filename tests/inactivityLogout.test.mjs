@@ -45,7 +45,10 @@ beforeEach(context => {
     context.mock.timers.enable({ apis: ['setTimeout'] });
     harness = {
         cleanups: [], dialogs: [], routes: [], logoutCalls: 0,
-        auth: { token: 'test-token', user: { role: 'admin' }, logout() { harness.logoutCalls++; } },
+        auth: { token: 'test-token', user: { role: 'admin' }, logout(reason) {
+            harness.logoutCalls++; harness.reason = reason;
+            harness.storage.delete('token'); harness.storage.delete('userInfo');
+        } },
         storage: new Map([['token', 'test-token'], ['userInfo', '{}']]),
     };
     globalThis.__inactivityTest = harness;
@@ -74,9 +77,9 @@ test('admins remain signed in for 60 idle minutes without advance warnings', asy
     assert.equal(harness.logoutCalls, 1);
     assert.equal(harness.storage.has('token'), false);
     assert.equal(harness.storage.has('userInfo'), false);
-    assert.equal(harness.dialogs.length, 1);
-    assert.equal(harness.dialogs[0].title, 'Sesión cerrada por inactividad');
-    assert.deepEqual(harness.routes, ['/']);
+    assert.equal(harness.reason, 'inactive');
+    assert.equal(harness.dialogs.length, 0);
+    assert.deepEqual(harness.routes, []);
 });
 
 for (const role of ['user', 'profesor', undefined]) {

@@ -4,6 +4,15 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 
 ---
 
+## Correccion del retorno de reservas (2026-10-29)
+
+Especificacion, contrato, plan y evidencias en
+[correccion-retorno-reservas.md](docs/correccion-retorno-reservas.md).
+Los tres retornos `/payment/{success,failure,pending}` requieren sesion y
+consultan el estado persistido por propietario; la URL no confirma el pago.
+Cambio local, pendiente de commit/despliegue y validacion publicada.
+Sin variables de entorno nuevas; se reutiliza `VITE_API_URL`.
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -36,7 +45,15 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 - Submit match results (score + winner) for ranking-tracked reservations
 - View the Escalerilla CTQ — a category-based player ladder
 - Upload and manage profile photo
-- Auto-logout after 60 minutes of inactivity or on JWT expiry
+- Auto-logout after 3 minutes of inactivity (60 minutes for admins), or on JWT expiry
+
+### Session Expiration
+
+Expired/malformed cached JWTs never mount protected views. JWT expiry is checked by a timer and again on focus/visibility changes. A `401` from this backend using the current session token clears authentication and redirects immediately to `/login`, with one SweetAlert2 notice; it does not wait for acknowledgement or an unsaved-editor confirmation. Inactivity uses the same login flow without advance warnings. JWT lifetime remains determined by the backend, independently of the inactivity limit.
+
+Network failures, `403`, `429`, `5xx`, login credential errors, third-party responses and late denials from a previous login do not revoke the current session. Existing payment attempt references/idempotency data in `sessionStorage` are preserved; signing in does not retry or confirm a payment. Password recovery remains accessible after the expiry notice. No new environment variables are required.
+
+Session regression tests are included in `npm run test:membership-payments` and `npm run test:inactivity`.
 
 ### Admins
 
@@ -215,3 +232,93 @@ web: npm run start
 ```
 
 Build the project with `npm run build` and deploy the `dist/` folder via `serve`.
+
+### Custom Domain: ctq.serviciosasm.cl
+
+Technical report and detailed three-stage plan (Spanish):
+[Mejora CTQ Cloudflare](docs/mejora-ctq-cloudflare.md). Includes executed changes,
+DNS/TLS evidence, pending tasks by repository, test criteria and rollback.
+
+Stage 1 completed on 2026-10-29: domain, DNS and TLS verified. React remains hosted by Heroku app
+`app-tenis-qtro-2`; Cloudflare only manages DNS. No Worker, Pages deployment,
+code release or environment variable changes are required for this stage.
+
+| Setting | Value |
+| --- | --- |
+| Custom frontend URL | `https://ctq.serviciosasm.cl` |
+| Existing frontend URL, kept operational | `https://app-tenis-qtro-2-be6b838be293.herokuapp.com` |
+| Cloudflare DNS zone | `serviciosasm.cl` |
+| DNS record | `CNAME ctq` |
+| Heroku DNS target | `pacific-egret-i6kljf65rjgfb4ofdfrzwloo.herokudns.com` |
+| TTL / proxy | Automatic / DNS only (`proxied: false`) |
+| TLS | Heroku ACM enabled; `Cert issued`, Let's Encrypt, hostname verified |
+
+Verification on 2026-10-29: authoritative Cloudflare DNS, `1.1.1.1` and
+`8.8.8.8` resolve the exact CNAME. HTTPS requests to `/`, `/login`,
+`/monthlypayments` and `/restablecer-contrasena` return the same application
+HTML as the original Heroku address (HTTP 200, matching SHA-256). TLS checks
+passed with normal certificate verification, including the exact hostname/SAN.
+The issued certificate expires on 2027-01-27 and Heroku scheduled automatic
+renewal; recheck live ACM status rather than treating these dates as current.
+This checks routing/TLS only, not authenticated API/payment behavior. No
+credentials were sent over HTTP. ACM initially reported `Unable to resolve DNS`
+because it ran before the record existed; one refresh after public DNS
+propagation resolved it. Do not bypass certificate errors or sign in over HTTP.
+
+The CNAME must use the target returned by `heroku domains`, not the
+`herokuapp.com` address. Heroku also registers `ctq.serviciosasm.cl` as a custom
+domain so it can route that Host header to this app. Keep DNS-only mode during
+certificate issuance and renewal; enabling the Cloudflare proxy is a separate
+decision and must include TLS/ACM renewal checks. No zone-wide SSL settings or
+other DNS records are changed by this setup.
+
+Read-only verification:
+
+```bash
+heroku domains --app app-tenis-qtro-2
+heroku certs:auto --app app-tenis-qtro-2
+cf dns records list --zone serviciosasm.cl --name ctq.serviciosasm.cl
+dig @arturo.ns.cloudflare.com ctq.serviciosasm.cl CNAME +short
+curl -I https://ctq.serviciosasm.cl/login
+```
+
+Stage 2 completed on 2026-10-29: the backend password-reset URL and all three
+Mercado Pago return URLs now use the custom domain in Heroku. Config releases:
+backend `v66`, Mercado Pago `v37`; no code deployment. Monthly returns derive
+`/monthlypayments/return?reference=...` from `MP_SUCCESS_URL` as before.
+`VITE_API_URL`, webhooks, internal service URLs and payment credentials remain
+unchanged. No frontend config change, new variable or email-service restart.
+
+Browser CORS checks passed in Chromium/WebKit from both domains at 390/1440 px
+(8 read-only cases), using a deliberately invalid fixture JWT and no cookies.
+Both origins render the login and expose the expected API 401 without CORS
+errors. Existing wildcard CORS was not changed: this verifies the current
+cookie-free JWT flow, not credentialed cookie support or origin restriction.
+Unit regression: frontend 237, backend focused 103, Mercado Pago 128, mail 30.
+External payment providers, database writes and SMTP were mocked in unit tests;
+no live checkout, payment, reset request or email was generated for this stage.
+
+Stage 3 technical tests ran on 2026-10-29: 1221 regression tests passed across
+the four projects and 96 integrated checkpoints passed on Chromium/WebKit in
+mobile/tablet/desktop viewports, with real local NestJS/JWT/Mongo transactions
+and simulated provider/SMTP transports. The user signed in to the published
+domain as test 1 and the profile was checked read-only. No live payment, reset,
+mail delivery or financial portal write was initiated by the validation.
+
+Stage 3 closure is **not approved**: the published reservation success page can
+announce an unverified payment from URL parameters alone (pre-existing behavior
+on both domains). Existing payment links may still return to the old frontend,
+which remains available; there is no forced redirect. Local session corrections
+are still separate from deployed code.
+See the [stage 3 validation report](docs/ctq-cloudflare-stage3-validacion.md)
+and [filtered evidence](docs/evidence/ctq-cloudflare-stage3.json) for cases,
+limitations, the reservation finding and remaining approval decisions.
+
+Browser storage is origin-specific: members must sign in again at the new
+domain, and attempts stored under the old origin are not copied automatically.
+Do not retry a payment simply because that local attempt is not visible.
+
+Rollback: keep using the original Heroku URL. If the new address must be removed,
+coordinate that decision before deleting only the `ctq` CNAME and its matching
+Heroku custom domain. Do not alter `www`, the zone's other records, existing
+certificates or backend/payment services.

@@ -8,6 +8,7 @@ import InactivityLogout from "./components/InactivityLogout.tsx";
 import AppLoader from './components/AppLoader.tsx';
 import './hooks/useUnsavedCategoryChanges';
 import { MembershipSessionBoundary } from './components/MembershipSessionBoundary';
+import { AuthSessionBoundary } from './components/AuthSessionBoundary';
 
 const Login = lazy(() => import('./components/Login.tsx'));
 const Dashboard = lazy(() => import('./components/Dashboard.tsx'));
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               <AuthProvider>
                      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                             <InactivityLogout /> {/* Auto logout component */}
+                            <AuthSessionBoundary>
                             <div>
                                    <Navigation />
                                    <div className="app-content-wrapper">
@@ -83,9 +85,9 @@ const App: React.FC = () => {
                                                             path="/admincategories"
                                                             element={<ProtectedRoute adminOnly={true}><AdminCategoriesPlayer /></ProtectedRoute>}
                                                         />
-                                                        <Route path="/payment/success" element={<PaymentSuccess />} />
-                                                        <Route path="/payment/failure" element={<PaymentFailure />} />
-                                                        <Route path="/payment/pending" element={<PaymentPending />} />
+                                                        <Route path="/payment/success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+                                                        <Route path="/payment/failure" element={<ProtectedRoute><PaymentFailure /></ProtectedRoute>} />
+                                                        <Route path="/payment/pending" element={<ProtectedRoute><PaymentPending /></ProtectedRoute>} />
                                                         <Route path="/unauthorized" element={<Unauthorized />} />
                                                         <Route path="*" element={<NotFound />} />
                                                  </Routes>
@@ -93,6 +95,7 @@ const App: React.FC = () => {
                                           </Suspense>
                                    </div>
                             </div>
+                            </AuthSessionBoundary>
                      </Router>
               </AuthProvider>
        );
