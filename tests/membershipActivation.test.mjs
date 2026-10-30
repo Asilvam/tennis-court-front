@@ -16,9 +16,11 @@ const compile = async name => {
         '@fortawesome/free-solid-svg-icons': `export const faCheck=0,faClipboardCheck=0,faUserCheck=0;`,
         '../utils/tokenUtils': `export const getTokenFromLocalStorage=()=> 'fixture-token';`,
         './LoadingSpinner': `export const LoadingSpinner='Spinner';`,
+        './MembershipBillingSelect': `export const MembershipBillingSelect='BillingSelect';`,
+        '../hooks/useUnsavedCategoryChanges': `export const useUnsavedEditorChanges=()=>{};`,
       };
       builder.onResolve({filter:/.*/}, args=>args.path in modules?{path:args.path,namespace:'fixture'}:undefined);
-      builder.onLoad({filter:/.*/,namespace:'fixture'}, args=>({loader:'js',contents:modules[args.path]}));
+      builder.onLoad({filter:/.*/,namespace:'fixture'}, args=>({loader:'js',contents:modules[args.path]+(args.path==='react'?'export const useEffect=()=>{};':'')}));
     }}],
   });
   return (await import(`data:text/javascript;base64,${Buffer.from(result.outputFiles[0].text).toString('base64')}`))[name];
@@ -32,12 +34,12 @@ const button=name=>nodes(h.tree).find(n=>n.type==='button'&&text(n).trim()===nam
 const flush=async()=>{await new Promise(setImmediate);render();};
 const click=async name=>{button(name).props.onClick();await flush();};
 const reason=value=>{nodes(h.tree).find(n=>n.type==='input'&&n.props.maxLength===1000).props.onChange({target:{value}});render();};
-const select=async()=>{await click('Habilitar socios');await click('Seleccionar pendientes');reason('Habilitacion revisada');};
+const select=async()=>{await click('Habilitar socios');await click('Seleccionar pendientes');};
 beforeEach(()=>{
   h={states:[],refs:[],requests:[],dialogs:[],busy:[],saved:0,confirmed:true,props:{currentPeriod:'2026-10'},
-    preview:{startPeriod:'2026-10',minimumStartPeriod:'2026-10',currentPeriod:'2026-10',items:[
-      {memberId:'one',name:'Titular fixture',memberType:'Titular',status:'ELIGIBLE',reason:'Sin inicio',plan:{approvalHash:'a'.repeat(64),total:180}},
-      {memberId:'two',name:'Carga fixture',memberType:'Carga',status:'ELIGIBLE',reason:'Sin inicio',plan:{approvalHash:'b'.repeat(64),total:50}},
+    preview:{startPeriod:'2026-10',throughPeriod:'2026-10',minimumStartPeriod:'2026-10',currentPeriod:'2026-10',items:[
+      {memberId:'one',name:'Titular fixture',memberType:'Titular',status:'ELIGIBLE',reason:'Sin inicio',plan:{approvalHash:'a'.repeat(64),total:180,rows:[{period:'2026-10',amount:180}]}},
+      {memberId:'two',name:'Carga fixture',memberType:'Carga',status:'ELIGIBLE',reason:'Sin inicio',plan:{approvalHash:'b'.repeat(64),total:50,rows:[{period:'2026-10',amount:50}]}},
       {memberId:'old',name:'Habilitado',memberType:'Titular',status:'ALREADY_ENABLED',reason:'Se conserva'},
       {memberId:'inactive',name:'Inactivo',memberType:'Titular',status:'REVIEW_REQUIRED',reason:'Cuenta inactiva'},
     ]},
@@ -57,29 +59,30 @@ test('opening the batch only previews; already enabled and inactive members are 
 });
 test('family preview sends only its explicit family ID and month',async()=>{
   h.props.familyMemberId='titular-id';render();await click('Habilitar titular y cargas');
-  assert.deepEqual(h.requests[0].payload,{startPeriod:'2026-10',familyMemberId:'titular-id'});
+  assert.deepEqual(h.requests[0].payload,{startPeriod:'2026-10',throughPeriod:'2026-10',familyMemberId:'titular-id'});
 });
 test('confirmation submits reviewed selected IDs without prices, payments or activation flags',async()=>{
   await select();const b=button('Confirmar habilitación');b.props.onClick();b.props.onClick();await flush();
   assert.equal(h.requests.length,2);assert.equal(h.saved,1);
-  assert.deepEqual(h.requests[1].payload,{startPeriod:'2026-10',reason:'Habilitacion revisada',items:[
+  assert.deepEqual(h.requests[1].payload,{startPeriod:'2026-10',throughPeriod:'2026-10',items:[
     {memberId:'one',approvalHash:'a'.repeat(64)},{memberId:'two',approvalHash:'b'.repeat(64)}]});
   assert.ok(h.requests[1].options.headers['Idempotency-Key']);
 });
-test('a reason and SweetAlert confirmation are mandatory',async()=>{
-  await select();reason('');await click('Confirmar habilitación');assert.equal(h.requests.length,1);
-  reason('Motivo valido');h.confirmed=false;await click('Confirmar habilitación');assert.equal(h.requests.length,1);
+test('ordinary family enrollment needs confirmation but not a reason',async()=>{
+  await select();assert.equal(nodes(h.tree).find(n=>n.props?.maxLength===1000),undefined);
+  h.confirmed=false;await click('Confirmar habilitación');assert.equal(h.requests.length,1);
 });
 test('uncertain responses lock the reviewed payload and retry with exactly the same identity',async()=>{
   await select();h.recordError=new Error('timeout');await click('Confirmar habilitación');
   const first=h.requests[1];assert.ok(button('Reintentar mismo lote'));
-  assert.ok(nodes(h.tree).find(n=>n.type==='input'&&n.props.type==='month').props.disabled);
+  assert.ok(nodes(h.tree).find(n=>n.type==='BillingSelect').props.disabled);
+  assert.equal(button('Cerrar').props.disabled,true);
   h.recordError=null;await click('Reintentar mismo lote');
   assert.deepEqual(h.requests[2].payload,first.payload);
   assert.equal(h.requests[2].options.headers['Idempotency-Key'],first.options.headers['Idempotency-Key']);
 });
 test('changing month clears old selection and requires another review',async()=>{
-  await select();nodes(h.tree).find(n=>n.type==='input'&&n.props.type==='month').props.onChange({target:{value:'2026-11'}});render();
+  await select();nodes(h.tree).find(n=>n.type==='BillingSelect'&&n.props.label==='Hasta el mes').props.onChange('2027-01');render();
   assert.equal(button('Confirmar habilitación'),undefined);assert.ok(button('Revisar socios'));
 });
 test('large selections are split into stable small requests for Heroku',async()=>{

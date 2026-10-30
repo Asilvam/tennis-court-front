@@ -1,0 +1,2617 @@
+{
+  "date": "2026-10-29",
+  "scope": "read-only UI review; API responses mocked; no live club calls",
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "initial": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 12,
+            "right": 221.515625,
+            "width": 209.515625,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 12,
+            "right": 189,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 201,
+            "right": 378,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 12,
+            "right": 189,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 201,
+            "right": 378,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 253,
+            "right": 297,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 820,
+      "initial": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 24,
+            "right": 233.515625,
+            "width": 209.515625,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 398,
+            "width": 374,
+            "parentRight": 398,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 422,
+            "right": 796,
+            "width": 374,
+            "parentRight": 796,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 552.09375,
+            "right": 638.671875,
+            "width": 86.578125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 650.671875,
+            "right": 796,
+            "width": 145.328125,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 398,
+            "width": 374,
+            "parentRight": 398,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 422,
+            "right": 796,
+            "width": 374,
+            "parentRight": 796,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 498.796875,
+            "right": 585.375,
+            "width": 86.578125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 597.375,
+            "right": 796,
+            "width": 198.625,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 270.65625,
+            "width": 246.65625,
+            "parentRight": 270.65625,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 286.65625,
+            "right": 533.328125,
+            "width": 246.671875,
+            "parentRight": 533.328125,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 549.328125,
+            "right": 796,
+            "width": 246.671875,
+            "parentRight": 796,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 663,
+            "right": 707,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "initial": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 184,
+            "right": 405.765625,
+            "width": 221.765625,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 708,
+            "width": 524,
+            "parentRight": 708,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 732,
+            "right": 1256,
+            "width": 524,
+            "parentRight": 1256,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 1000.40625,
+            "right": 1091.015625,
+            "width": 90.609375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 1103.015625,
+            "right": 1256,
+            "width": 152.984375,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 708,
+            "width": 524,
+            "parentRight": 708,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 732,
+            "right": 1256,
+            "width": 524,
+            "parentRight": 1256,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 943.28125,
+            "right": 1033.890625,
+            "width": 90.609375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 1045.890625,
+            "right": 1256,
+            "width": 210.109375,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 530.65625,
+            "width": 346.65625,
+            "parentRight": 530.65625,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 546.65625,
+            "right": 893.328125,
+            "width": 346.671875,
+            "parentRight": 893.328125,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 909.328125,
+            "right": 1256,
+            "width": 346.671875,
+            "parentRight": 1256,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 1123,
+            "right": 1167,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "initial": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 12,
+            "right": 221.515625,
+            "width": 209.515625,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 12,
+            "right": 189,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 201,
+            "right": 378,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 12,
+            "right": 332,
+            "width": 320,
+            "parentRight": 332,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 227.921875,
+            "right": 378,
+            "width": 150.078125,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 12,
+            "right": 189,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 201,
+            "right": 378,
+            "width": 177,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 390,
+          "scale": 1
+        },
+        "documentWidth": 390,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 12,
+            "right": 56,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 12,
+            "right": 85.609375,
+            "width": 73.609375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 91.609375,
+            "right": 233.203125,
+            "width": 141.59375,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 12,
+            "right": 378,
+            "width": 366,
+            "parentRight": 378,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 253.015625,
+            "right": 297.015625,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 334,
+            "right": 378,
+            "width": 44,
+            "parentRight": 378,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 820,
+      "initial": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 24,
+            "right": 233.515625,
+            "width": 209.515625,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 398,
+            "width": 374,
+            "parentRight": 398,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 422,
+            "right": 796,
+            "width": 374,
+            "parentRight": 796,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 552.09375,
+            "right": 638.671875,
+            "width": 86.578125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 650.671875,
+            "right": 796,
+            "width": 145.328125,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 24,
+            "right": 344,
+            "width": 320,
+            "parentRight": 344,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 645.921875,
+            "right": 796,
+            "width": 150.078125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 398,
+            "width": 374,
+            "parentRight": 398,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 422,
+            "right": 796,
+            "width": 374,
+            "parentRight": 796,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 498.796875,
+            "right": 585.375,
+            "width": 86.578125,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 597.375,
+            "right": 796,
+            "width": 198.625,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 820,
+          "scale": 1
+        },
+        "documentWidth": 820,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 24,
+            "right": 68,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 24,
+            "right": 97.609375,
+            "width": 73.609375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 103.609375,
+            "right": 245.203125,
+            "width": 141.59375,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 24,
+            "right": 270.671875,
+            "width": 246.671875,
+            "parentRight": 270.671875,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 286.671875,
+            "right": 533.34375,
+            "width": 246.671875,
+            "parentRight": 533.34375,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 549.34375,
+            "right": 796.015625,
+            "width": 246.671875,
+            "parentRight": 796.015625,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 663.015625,
+            "right": 707.015625,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 752,
+            "right": 796,
+            "width": 44,
+            "parentRight": 796,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "initial": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Habilitar mensualidades",
+            "x": 184,
+            "right": 405.765625,
+            "width": 221.765625,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "enrollment": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 708,
+            "width": 524,
+            "parentRight": 708,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 732,
+            "right": 1256,
+            "width": 524,
+            "parentRight": 1256,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 1000.40625,
+            "right": 1091.015625,
+            "width": 90.609375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Revisar cuotas",
+            "x": 1103.015625,
+            "right": 1256,
+            "width": 152.984375,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "preview": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "enero de 2027",
+            "x": 184,
+            "right": 504,
+            "width": 320,
+            "parentRight": 504,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Registrar pago",
+            "x": 1097.90625,
+            "right": 1256,
+            "width": 158.09375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 708,
+            "width": 524,
+            "parentRight": 708,
+            "font": "16px"
+          },
+          {
+            "tag": "INPUT",
+            "type": null,
+            "text": "",
+            "x": 732,
+            "right": 1256,
+            "width": 524,
+            "parentRight": 1256,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Cancelar",
+            "x": 943.28125,
+            "right": 1033.890625,
+            "width": 90.609375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Confirmar habilitación",
+            "x": 1045.890625,
+            "right": 1256,
+            "width": 210.109375,
+            "parentRight": 1256,
+            "font": "15px"
+          }
+        ]
+      },
+      "previewPayload": {
+        "startPeriod": "2026-10"
+      },
+      "selectedThrough": "enero de 2027",
+      "reasonDialog": "Indica un motivo de al menos 5 caracteres.",
+      "history": {
+        "viewport": {
+          "width": 1440,
+          "scale": 1
+        },
+        "documentWidth": 1440,
+        "controls": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Volver a usuarios",
+            "x": 184,
+            "right": 228,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Actualizar mensualidades",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Cuotas",
+            "x": 184,
+            "right": 260.734375,
+            "width": 76.734375,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": null,
+            "text": "Historial de pagos",
+            "x": 266.734375,
+            "right": 416.296875,
+            "width": 149.5625,
+            "parentRight": 1256,
+            "font": "15px"
+          },
+          {
+            "tag": "INPUT",
+            "type": "month",
+            "text": "month",
+            "x": 184,
+            "right": 530.671875,
+            "width": 346.671875,
+            "parentRight": 530.671875,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 546.671875,
+            "right": 893.34375,
+            "width": 346.671875,
+            "parentRight": 893.34375,
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "type": null,
+            "text": "Todos",
+            "x": 909.34375,
+            "right": 1256.015625,
+            "width": 346.671875,
+            "parentRight": 1256.015625,
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página anterior",
+            "x": 1123.015625,
+            "right": 1167.015625,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "14px"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "text": "Página siguiente",
+            "x": 1212,
+            "right": 1256,
+            "width": 44,
+            "parentRight": 1256,
+            "font": "14px"
+          }
+        ]
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        }
+      ],
+      "pageErrors": []
+    }
+  ],
+  "status": "reviewed"
+}

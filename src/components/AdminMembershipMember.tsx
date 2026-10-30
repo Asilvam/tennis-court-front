@@ -30,16 +30,29 @@ export function AdminMembershipMember({
           type="button"
           className="ap-primary"
           onClick={onRegister}
-          disabled={!person.active || !person.enrolled || busy}
+          disabled={
+            !person.active ||
+            !person.enrolled ||
+            busy ||
+            !context.dues.some(
+              (row) =>
+                row.status === "OPEN" &&
+                context.members.some(
+                  (member) => member.id === row.beneficiaryId && member.active && member.enrolled,
+                ),
+            )
+          }
         >
           <FontAwesomeIcon icon={faMoneyBillTransfer} /> Registrar pago
         </button>
       </div>
-      {!person.enrolled && (
-        <p className="ap-muted">Inicio de facturación pendiente de aprobación.</p>
-      )}
-      {((!person.enrolled && context.members.length === 1) || person.canReenroll) && (
-        <MembershipEnrollment key={person.id} context={context} onSaved={onChanged || (() => {})} />
+      {(person.enrolled || context.members.length === 1 || person.canReenroll) && (
+        <MembershipEnrollment
+          key={person.id}
+          context={context}
+          onSaved={onChanged || (() => {})}
+          onBusyChange={onBusyChange}
+        />
       )}
       {context.members.length > 1 &&
         !person.canReenroll &&
@@ -113,9 +126,9 @@ export function AdminMembershipMember({
             ))}
           </tbody>
         </table>
-      ) : (
+      ) : person.enrolled ? (
         <p className="ap-empty">No hay cuotas generadas para este socio.</p>
-      )}
+      ) : null}
     </section>
   );
 }

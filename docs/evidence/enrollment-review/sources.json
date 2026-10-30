@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-29",
+  "mode": "diagnostic only, no app code changes or financial writes",
+  "sourceHashes": {
+    "tennis-court-front/src/components/MembershipEnrollment.tsx": "25335728aae0ceb54c2caf5523aa7e431a2f3f5b086f48fbfef238b91926ab69",
+    "tennis-court-front/src/components/AdminMembershipPayments.tsx": "52b99f54a8cb53e22d1913dd25c52082c0875c1c2166293504f450f3628e42fa",
+    "tennis-court-front/src/components/AdminMembershipMember.tsx": "91e2411f676d5de5765a353665a58c4778db1b0262173860bf8ac633194470cf",
+    "tennis-court-front/src/styles/AdminMembershipPayments.css": "167014fbf8e4ab3a7ff7ca30ef83d7843e4337df3627e02bb843a7a47c711b8c",
+    "tennis-app-backend/src/membership-billing/billing-enrollment.policy.ts": "a14f8ff08db55a65001a2ef7ed156d38958aad355bd48aef9cea78df9561f3f0",
+    "tennis-app-backend/src/membership-billing/billing-admin.service.ts": "4a7d9b15febc99301ef4b4e17dca9a4c23fc52133973e06b8643de45fcd00583",
+    "tennis-app-backend/src/membership-billing/dto/enroll-membership.dto.ts": "6ccd09a81e501edbbbd2a1db27414ebc94356c20cf9905c1ee3f46ab3d42c3a2"
+  },
+  "reportSha256": "64a66841dedeb2525cc5120f0e0e14af13bcaa0fc00948cc66cacaead1c35fcb",
+  "bundleIndexSha256": "8007d4f91dbabd37cf8525718348fa7d27a1afe98e55ba0f0b481178c8b1c4f3"
+}

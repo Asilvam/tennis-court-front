@@ -37,6 +37,22 @@ actualizar referencias y pruebas y registrar hashes nuevos. El generador
 `scripts/build-site-identity.mjs` recibe la ruta al modulo `sharp` del runtime
 de herramientas; no agrega ese modulo al bundle de la aplicacion.
 
+## Plan de creacion de cuotas mensuales
+
+Diagnostico de selector de meses/motivo obligatorio:
+[revision-habilitacion-mensualidades.md](docs/revision-habilitacion-mensualidades.md).
+Plan tecnico en tres etapas, con contratos backend, experiencia movil/escritorio
+y matriz de pruebas:
+[plan-creacion-cuotas-mensuales.md](docs/plan-creacion-cuotas-mensuales.md).
+Estado: etapa 1 backend validada localmente (883 pruebas); etapa 2 React
+implementada con 257 pruebas frontend y 168 comprobaciones de navegador con
+API simulada. Falta la regresion integrada de etapa 3 y la comprobacion fisica
+de iPhone/iPad. Informe backend:
+`tennis-app-backend/docs/membership-dues-generation-stage-1.md`.
+Flujo, contratos, comandos y evidencia de React:
+[mensualidades-etapa-2-react.md](docs/mensualidades-etapa-2-react.md).
+Sin cambios de cuotas/pagos reales, configuracion del club ni despliegues.
+
 Barra superior alineada al contenido en escritorio: alcance, rama y evidencia
 en [mejora-grafica-barra-titulo.md](docs/mejora-grafica-barra-titulo.md).
 Continuacion: contenedor comun para las vistas principales y Perfil adaptado a

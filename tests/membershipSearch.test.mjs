@@ -118,10 +118,10 @@ test('a new search returns to page one and preserves the selected month', async 
   find(node => node.props?.['aria-label'] === 'Página siguiente').props.onClick(); render();
   assert.equal(h.requests.at(-1).options.params.page, 2);
   await finish(h.requests.at(-1), [], 41);
-  find(node => node.type === 'input' && node.props.type === 'month').props.onChange({ target: { value: '2026-09' } }); render();
+  find(node => node.type === 'BillingSelect' && node.props.label === 'Mes').props.onChange('2026-10'); render();
   await finish(h.requests.at(-1), [], 41);
   type('test'); tick(context, 250);
-  assert.deepEqual(h.requests.at(-1).options.params, { search: 'test', period: '2026-09', page: 1 });
+  assert.deepEqual(h.requests.at(-1).options.params, { search: 'test', period: '2026-10', page: 1 });
 });
 test('Enter or the search button submits immediately without a duplicate delayed request', context => {
   type('test');
@@ -164,4 +164,17 @@ test('unmounting before the delay cancels the pending search', context => {
   cleanup();
   context.mock.timers.tick(250);
   assert.equal(h.requests.length, count);
+});
+test('opening payment only reads existing dues; it never prepares months',async()=>{
+  const id='111111111111111111111111';
+  find(node=>node.props?.['aria-label']==='Actualizar mensualidades').props.onClick();render();
+  await finish(h.requests.at(-1),[{id,name:'Fixture',active:true,enrolled:true,email:'fixture@example.invalid',memberType:'Titular',amount:180,status:'OPEN'}]);
+  find(node=>node.props?.['aria-label']==='Registrar pago de Fixture').props.onClick();render();
+  const request=h.requests.at(-1);
+  assert.ok(request.url.endsWith(`/members/${id}`));
+  assert.equal(request.options.params,undefined);
+  request.resolve({data:{memberId:id,members:[{id,name:'Fixture',active:true,enrolled:true}],dues:[]}});
+  await flush();
+  assert.equal(h.dialogs.at(-1).title,'Sin cuotas disponibles');
+  assert.equal(h.requests.length,3);
 });
