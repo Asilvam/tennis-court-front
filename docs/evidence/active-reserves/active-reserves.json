@@ -1,0 +1,1564 @@
+{
+  "date": "2026-10-29",
+  "scope": "Real React build with mocked reservations/deletes; no club/provider traffic or real writes",
+  "views": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 320,
+      "metrics": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "tableWidth": 288,
+        "wrapperWidth": 288,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 222.296875,
+            "right": 226,
+            "bottom": 294.296875,
+            "width": 210,
+            "height": 72
+          },
+          {
+            "x": 16,
+            "y": 308.296875,
+            "right": 104,
+            "bottom": 351.296875,
+            "width": 88,
+            "height": 43
+          },
+          {
+            "x": 116,
+            "y": 308.296875,
+            "right": 226,
+            "bottom": 351.296875,
+            "width": 110,
+            "height": 43
+          },
+          {
+            "x": 238,
+            "y": 308.296875,
+            "right": 304,
+            "bottom": 351.296875,
+            "width": 66,
+            "height": 43
+          },
+          {
+            "x": 260,
+            "y": 236.296875,
+            "right": 304,
+            "bottom": 280.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 260,
+          "y": 236.296875,
+          "right": 304,
+          "bottom": 280.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 390,
+      "metrics": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "tableWidth": 358,
+        "wrapperWidth": 358,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 222.296875,
+            "right": 278.5,
+            "bottom": 270.296875,
+            "width": 262.5,
+            "height": 48
+          },
+          {
+            "x": 16,
+            "y": 284.296875,
+            "right": 127.328125,
+            "bottom": 327.296875,
+            "width": 111.328125,
+            "height": 43
+          },
+          {
+            "x": 139.328125,
+            "y": 284.296875,
+            "right": 278.5,
+            "bottom": 327.296875,
+            "width": 139.171875,
+            "height": 43
+          },
+          {
+            "x": 290.5,
+            "y": 284.296875,
+            "right": 374,
+            "bottom": 327.296875,
+            "width": 83.5,
+            "height": 43
+          },
+          {
+            "x": 330,
+            "y": 224.296875,
+            "right": 374,
+            "bottom": 268.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 330,
+          "y": 224.296875,
+          "right": 374,
+          "bottom": 268.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 767,
+      "metrics": {
+        "viewport": 767,
+        "documentWidth": 767,
+        "tableWidth": 735,
+        "wrapperWidth": 735,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 191.296875,
+            "right": 561.25,
+            "bottom": 215.296875,
+            "width": 545.25,
+            "height": 24
+          },
+          {
+            "x": 16,
+            "y": 239.296875,
+            "right": 253,
+            "bottom": 282.296875,
+            "width": 237,
+            "height": 43
+          },
+          {
+            "x": 265,
+            "y": 239.296875,
+            "right": 561.25,
+            "bottom": 282.296875,
+            "width": 296.25,
+            "height": 43
+          },
+          {
+            "x": 573.25,
+            "y": 239.296875,
+            "right": 751,
+            "bottom": 282.296875,
+            "width": 177.75,
+            "height": 43
+          },
+          {
+            "x": 707,
+            "y": 181.296875,
+            "right": 751,
+            "bottom": 225.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 707,
+          "y": 181.296875,
+          "right": 751,
+          "bottom": 225.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 768,
+      "metrics": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "tableWidth": 736,
+        "wrapperWidth": 736,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 229.6875,
+            "right": 338,
+            "bottom": 299.6875,
+            "width": 322,
+            "height": 70
+          },
+          {
+            "x": 338,
+            "y": 229.6875,
+            "right": 454,
+            "bottom": 299.6875,
+            "width": 116,
+            "height": 70
+          },
+          {
+            "x": 454,
+            "y": 229.6875,
+            "right": 588,
+            "bottom": 299.6875,
+            "width": 134,
+            "height": 70
+          },
+          {
+            "x": 588,
+            "y": 229.6875,
+            "right": 686,
+            "bottom": 299.6875,
+            "width": 98,
+            "height": 70
+          },
+          {
+            "x": 686,
+            "y": 229.6875,
+            "right": 752,
+            "bottom": 299.6875,
+            "width": 66,
+            "height": 70
+          }
+        ],
+        "button": {
+          "x": 698,
+          "y": 242.6875,
+          "right": 742,
+          "bottom": 286.6875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 820,
+      "metrics": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "tableWidth": 788,
+        "wrapperWidth": 788,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 229.6875,
+            "right": 390,
+            "bottom": 299.6875,
+            "width": 374,
+            "height": 70
+          },
+          {
+            "x": 390,
+            "y": 229.6875,
+            "right": 506,
+            "bottom": 299.6875,
+            "width": 116,
+            "height": 70
+          },
+          {
+            "x": 506,
+            "y": 229.6875,
+            "right": 640,
+            "bottom": 299.6875,
+            "width": 134,
+            "height": 70
+          },
+          {
+            "x": 640,
+            "y": 229.6875,
+            "right": 738,
+            "bottom": 299.6875,
+            "width": 98,
+            "height": 70
+          },
+          {
+            "x": 738,
+            "y": 229.6875,
+            "right": 804,
+            "bottom": 299.6875,
+            "width": 66,
+            "height": 70
+          }
+        ],
+        "button": {
+          "x": 750,
+          "y": 242.6875,
+          "right": 794,
+          "bottom": 286.6875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1024,
+      "metrics": {
+        "viewport": 1024,
+        "documentWidth": 1024,
+        "tableWidth": 976,
+        "wrapperWidth": 976,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 24,
+            "y": 233.6875,
+            "right": 524,
+            "bottom": 306.6875,
+            "width": 500,
+            "height": 73
+          },
+          {
+            "x": 524,
+            "y": 233.6875,
+            "right": 656,
+            "bottom": 306.6875,
+            "width": 132,
+            "height": 73
+          },
+          {
+            "x": 656,
+            "y": 233.6875,
+            "right": 810,
+            "bottom": 306.6875,
+            "width": 154,
+            "height": 73
+          },
+          {
+            "x": 810,
+            "y": 233.6875,
+            "right": 920,
+            "bottom": 306.6875,
+            "width": 110,
+            "height": 73
+          },
+          {
+            "x": 920,
+            "y": 233.6875,
+            "right": 1000,
+            "bottom": 306.6875,
+            "width": 80,
+            "height": 73
+          }
+        ],
+        "button": {
+          "x": 940,
+          "y": 248.1875,
+          "right": 984,
+          "bottom": 292.1875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1440,
+      "metrics": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "tableWidth": 1072,
+        "wrapperWidth": 1072,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 184,
+            "y": 233.6875,
+            "right": 780,
+            "bottom": 306.6875,
+            "width": 596,
+            "height": 73
+          },
+          {
+            "x": 780,
+            "y": 233.6875,
+            "right": 912,
+            "bottom": 306.6875,
+            "width": 132,
+            "height": 73
+          },
+          {
+            "x": 912,
+            "y": 233.6875,
+            "right": 1066,
+            "bottom": 306.6875,
+            "width": 154,
+            "height": 73
+          },
+          {
+            "x": 1066,
+            "y": 233.6875,
+            "right": 1176,
+            "bottom": 306.6875,
+            "width": 110,
+            "height": 73
+          },
+          {
+            "x": 1176,
+            "y": 233.6875,
+            "right": 1256,
+            "bottom": 306.6875,
+            "width": 80,
+            "height": 73
+          }
+        ],
+        "button": {
+          "x": 1196,
+          "y": 248.1875,
+          "right": 1240,
+          "bottom": 292.1875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 320,
+      "metrics": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "tableWidth": 288,
+        "wrapperWidth": 288,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 222.296875,
+            "right": 226,
+            "bottom": 294.296875,
+            "width": 210,
+            "height": 72
+          },
+          {
+            "x": 16,
+            "y": 308.296875,
+            "right": 104,
+            "bottom": 351.296875,
+            "width": 88,
+            "height": 43
+          },
+          {
+            "x": 116,
+            "y": 308.296875,
+            "right": 226,
+            "bottom": 351.296875,
+            "width": 110,
+            "height": 43
+          },
+          {
+            "x": 238,
+            "y": 308.296875,
+            "right": 304,
+            "bottom": 351.296875,
+            "width": 66,
+            "height": 43
+          },
+          {
+            "x": 260,
+            "y": 236.296875,
+            "right": 304,
+            "bottom": 280.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 260,
+          "y": 236.296875,
+          "right": 304,
+          "bottom": 280.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 390,
+      "metrics": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "tableWidth": 358,
+        "wrapperWidth": 358,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 222.296875,
+            "right": 278.5,
+            "bottom": 270.296875,
+            "width": 262.5,
+            "height": 48
+          },
+          {
+            "x": 16,
+            "y": 284.296875,
+            "right": 127.328125,
+            "bottom": 327.296875,
+            "width": 111.328125,
+            "height": 43
+          },
+          {
+            "x": 139.328125,
+            "y": 284.296875,
+            "right": 278.5,
+            "bottom": 327.296875,
+            "width": 139.171875,
+            "height": 43
+          },
+          {
+            "x": 290.5,
+            "y": 284.296875,
+            "right": 374,
+            "bottom": 327.296875,
+            "width": 83.5,
+            "height": 43
+          },
+          {
+            "x": 330,
+            "y": 224.296875,
+            "right": 374,
+            "bottom": 268.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 330,
+          "y": 224.296875,
+          "right": 374,
+          "bottom": 268.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 767,
+      "metrics": {
+        "viewport": 767,
+        "documentWidth": 767,
+        "tableWidth": 735,
+        "wrapperWidth": 735,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 191.296875,
+            "right": 561.25,
+            "bottom": 215.296875,
+            "width": 545.25,
+            "height": 24
+          },
+          {
+            "x": 16,
+            "y": 239.296875,
+            "right": 253,
+            "bottom": 282.296875,
+            "width": 237,
+            "height": 43
+          },
+          {
+            "x": 265,
+            "y": 239.296875,
+            "right": 561.25,
+            "bottom": 282.296875,
+            "width": 296.25,
+            "height": 43
+          },
+          {
+            "x": 573.25,
+            "y": 239.296875,
+            "right": 751,
+            "bottom": 282.296875,
+            "width": 177.75,
+            "height": 43
+          },
+          {
+            "x": 707,
+            "y": 181.296875,
+            "right": 751,
+            "bottom": 225.296875,
+            "width": 44,
+            "height": 44
+          }
+        ],
+        "button": {
+          "x": 707,
+          "y": 181.296875,
+          "right": 751,
+          "bottom": 225.296875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(0, 0, 0, 0)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 768,
+      "metrics": {
+        "viewport": 768,
+        "documentWidth": 768,
+        "tableWidth": 736,
+        "wrapperWidth": 736,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 229.1875,
+            "right": 338,
+            "bottom": 299.1875,
+            "width": 322,
+            "height": 70
+          },
+          {
+            "x": 338,
+            "y": 229.1875,
+            "right": 454,
+            "bottom": 299.1875,
+            "width": 116,
+            "height": 70
+          },
+          {
+            "x": 454,
+            "y": 229.1875,
+            "right": 588,
+            "bottom": 299.1875,
+            "width": 134,
+            "height": 70
+          },
+          {
+            "x": 588,
+            "y": 229.1875,
+            "right": 686,
+            "bottom": 299.1875,
+            "width": 98,
+            "height": 70
+          },
+          {
+            "x": 686,
+            "y": 229.1875,
+            "right": 752,
+            "bottom": 299.1875,
+            "width": 66,
+            "height": 70
+          }
+        ],
+        "button": {
+          "x": 698,
+          "y": 242.6875,
+          "right": 742,
+          "bottom": 286.6875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 820,
+      "metrics": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "tableWidth": 788,
+        "wrapperWidth": 788,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 16,
+            "y": 229.1875,
+            "right": 390,
+            "bottom": 299.1875,
+            "width": 374,
+            "height": 70
+          },
+          {
+            "x": 390,
+            "y": 229.1875,
+            "right": 506,
+            "bottom": 299.1875,
+            "width": 116,
+            "height": 70
+          },
+          {
+            "x": 506,
+            "y": 229.1875,
+            "right": 640,
+            "bottom": 299.1875,
+            "width": 134,
+            "height": 70
+          },
+          {
+            "x": 640,
+            "y": 229.1875,
+            "right": 738,
+            "bottom": 299.1875,
+            "width": 98,
+            "height": 70
+          },
+          {
+            "x": 738,
+            "y": 229.1875,
+            "right": 804,
+            "bottom": 299.1875,
+            "width": 66,
+            "height": 70
+          }
+        ],
+        "button": {
+          "x": 750,
+          "y": 242.6875,
+          "right": 794,
+          "bottom": 286.6875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1024,
+      "metrics": {
+        "viewport": 1024,
+        "documentWidth": 1024,
+        "tableWidth": 976,
+        "wrapperWidth": 976,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 24,
+            "y": 233.1875,
+            "right": 524,
+            "bottom": 306.1875,
+            "width": 500,
+            "height": 73
+          },
+          {
+            "x": 524,
+            "y": 233.1875,
+            "right": 656,
+            "bottom": 306.1875,
+            "width": 132,
+            "height": 73
+          },
+          {
+            "x": 656,
+            "y": 233.1875,
+            "right": 810,
+            "bottom": 306.1875,
+            "width": 154,
+            "height": 73
+          },
+          {
+            "x": 810,
+            "y": 233.1875,
+            "right": 920,
+            "bottom": 306.1875,
+            "width": 110,
+            "height": 73
+          },
+          {
+            "x": 920,
+            "y": 233.1875,
+            "right": 1000,
+            "bottom": 306.1875,
+            "width": 80,
+            "height": 73
+          }
+        ],
+        "button": {
+          "x": 940,
+          "y": 248.1875,
+          "right": 984,
+          "bottom": 292.1875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1440,
+      "metrics": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "tableWidth": 1072,
+        "wrapperWidth": 1072,
+        "overlap": false,
+        "clippedNames": false,
+        "firstRow": [
+          {
+            "x": 184,
+            "y": 233.1875,
+            "right": 780,
+            "bottom": 306.1875,
+            "width": 596,
+            "height": 73
+          },
+          {
+            "x": 780,
+            "y": 233.1875,
+            "right": 912,
+            "bottom": 306.1875,
+            "width": 132,
+            "height": 73
+          },
+          {
+            "x": 912,
+            "y": 233.1875,
+            "right": 1066,
+            "bottom": 306.1875,
+            "width": 154,
+            "height": 73
+          },
+          {
+            "x": 1066,
+            "y": 233.1875,
+            "right": 1176,
+            "bottom": 306.1875,
+            "width": 110,
+            "height": 73
+          },
+          {
+            "x": 1176,
+            "y": 233.1875,
+            "right": 1256,
+            "bottom": 306.1875,
+            "width": 80,
+            "height": 73
+          }
+        ],
+        "button": {
+          "x": 1196,
+          "y": 248.1875,
+          "right": 1240,
+          "bottom": 292.1875,
+          "width": 44,
+          "height": 44
+        },
+        "cellColor": "rgb(248, 250, 252)",
+        "cellBackground": "rgba(10, 27, 51, 0.98)",
+        "headerBackground": "rgba(17, 37, 68, 0.96)",
+        "headerColor": "rgb(125, 211, 252)",
+        "buttonColor": "rgb(252, 165, 165)",
+        "heroBackground": "none"
+      },
+      "requests": [
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/court-reserve/one",
+          "method": "DELETE"
+        },
+        {
+          "path": "/membership-billing/me/access",
+          "method": "GET"
+        },
+        {
+          "path": "/court-reserve",
+          "method": "GET"
+        }
+      ]
+    }
+  ],
+  "passed": [
+    "chromium/320: no page or table horizontal scroll",
+    "chromium/320: full names fit and cells do not overlap",
+    "chromium/320: stable 44px delete target",
+    "chromium/320: rendered text, heading and destructive colors match CTQ",
+    "chromium/320: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/320: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/320: full time range and year visible",
+    "chromium/320: keyboard focus uses CTQ accent",
+    "chromium/320: hover stays dark and readable",
+    "chromium/320: cancelling SweetAlert does not delete",
+    "chromium/320: failed delete keeps row",
+    "chromium/320: confirmation inherits CTQ yellow",
+    "chromium/320: successful fixture delete removes only one row",
+    "chromium/320: empty state readable without a white panel",
+    "chromium/320: no page errors or live APIs",
+    "chromium/390: no page or table horizontal scroll",
+    "chromium/390: full names fit and cells do not overlap",
+    "chromium/390: stable 44px delete target",
+    "chromium/390: rendered text, heading and destructive colors match CTQ",
+    "chromium/390: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/390: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/390: full time range and year visible",
+    "chromium/390: keyboard focus uses CTQ accent",
+    "chromium/390: hover stays dark and readable",
+    "chromium/390: cancelling SweetAlert does not delete",
+    "chromium/390: failed delete keeps row",
+    "chromium/390: confirmation inherits CTQ yellow",
+    "chromium/390: successful fixture delete removes only one row",
+    "chromium/390: empty state readable without a white panel",
+    "chromium/390: no page errors or live APIs",
+    "chromium/767: no page or table horizontal scroll",
+    "chromium/767: full names fit and cells do not overlap",
+    "chromium/767: stable 44px delete target",
+    "chromium/767: rendered text, heading and destructive colors match CTQ",
+    "chromium/767: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/767: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/767: full time range and year visible",
+    "chromium/767: keyboard focus uses CTQ accent",
+    "chromium/767: hover stays dark and readable",
+    "chromium/767: cancelling SweetAlert does not delete",
+    "chromium/767: failed delete keeps row",
+    "chromium/767: confirmation inherits CTQ yellow",
+    "chromium/767: successful fixture delete removes only one row",
+    "chromium/767: empty state readable without a white panel",
+    "chromium/767: no page errors or live APIs",
+    "chromium/768: no page or table horizontal scroll",
+    "chromium/768: full names fit and cells do not overlap",
+    "chromium/768: stable 44px delete target",
+    "chromium/768: rendered text, heading and destructive colors match CTQ",
+    "chromium/768: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/768: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/768: full time range and year visible",
+    "chromium/768: keyboard focus uses CTQ accent",
+    "chromium/768: hover stays dark and readable",
+    "chromium/768: cancelling SweetAlert does not delete",
+    "chromium/768: failed delete keeps row",
+    "chromium/768: confirmation inherits CTQ yellow",
+    "chromium/768: successful fixture delete removes only one row",
+    "chromium/768: empty state readable without a white panel",
+    "chromium/768: no page errors or live APIs",
+    "chromium/820: no page or table horizontal scroll",
+    "chromium/820: full names fit and cells do not overlap",
+    "chromium/820: stable 44px delete target",
+    "chromium/820: rendered text, heading and destructive colors match CTQ",
+    "chromium/820: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/820: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/820: full time range and year visible",
+    "chromium/820: keyboard focus uses CTQ accent",
+    "chromium/820: hover stays dark and readable",
+    "chromium/820: cancelling SweetAlert does not delete",
+    "chromium/820: failed delete keeps row",
+    "chromium/820: confirmation inherits CTQ yellow",
+    "chromium/820: successful fixture delete removes only one row",
+    "chromium/820: empty state readable without a white panel",
+    "chromium/820: no page errors or live APIs",
+    "chromium/1024: no page or table horizontal scroll",
+    "chromium/1024: full names fit and cells do not overlap",
+    "chromium/1024: stable 44px delete target",
+    "chromium/1024: rendered text, heading and destructive colors match CTQ",
+    "chromium/1024: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/1024: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/1024: full time range and year visible",
+    "chromium/1024: keyboard focus uses CTQ accent",
+    "chromium/1024: hover stays dark and readable",
+    "chromium/1024: cancelling SweetAlert does not delete",
+    "chromium/1024: failed delete keeps row",
+    "chromium/1024: confirmation inherits CTQ yellow",
+    "chromium/1024: successful fixture delete removes only one row",
+    "chromium/1024: empty state readable without a white panel",
+    "chromium/1024: no page errors or live APIs",
+    "chromium/1440: no page or table horizontal scroll",
+    "chromium/1440: full names fit and cells do not overlap",
+    "chromium/1440: stable 44px delete target",
+    "chromium/1440: rendered text, heading and destructive colors match CTQ",
+    "chromium/1440: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "chromium/1440: compact mobile rows and aligned tablet/desktop columns",
+    "chromium/1440: full time range and year visible",
+    "chromium/1440: keyboard focus uses CTQ accent",
+    "chromium/1440: hover stays dark and readable",
+    "chromium/1440: cancelling SweetAlert does not delete",
+    "chromium/1440: failed delete keeps row",
+    "chromium/1440: confirmation inherits CTQ yellow",
+    "chromium/1440: successful fixture delete removes only one row",
+    "chromium/1440: empty state readable without a white panel",
+    "chromium/1440: no page errors or live APIs",
+    "webkit/320: no page or table horizontal scroll",
+    "webkit/320: full names fit and cells do not overlap",
+    "webkit/320: stable 44px delete target",
+    "webkit/320: rendered text, heading and destructive colors match CTQ",
+    "webkit/320: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/320: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/320: full time range and year visible",
+    "webkit/320: keyboard focus uses CTQ accent",
+    "webkit/320: hover stays dark and readable",
+    "webkit/320: cancelling SweetAlert does not delete",
+    "webkit/320: failed delete keeps row",
+    "webkit/320: confirmation inherits CTQ yellow",
+    "webkit/320: successful fixture delete removes only one row",
+    "webkit/320: empty state readable without a white panel",
+    "webkit/320: no page errors or live APIs",
+    "webkit/390: no page or table horizontal scroll",
+    "webkit/390: full names fit and cells do not overlap",
+    "webkit/390: stable 44px delete target",
+    "webkit/390: rendered text, heading and destructive colors match CTQ",
+    "webkit/390: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/390: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/390: full time range and year visible",
+    "webkit/390: keyboard focus uses CTQ accent",
+    "webkit/390: hover stays dark and readable",
+    "webkit/390: cancelling SweetAlert does not delete",
+    "webkit/390: failed delete keeps row",
+    "webkit/390: confirmation inherits CTQ yellow",
+    "webkit/390: successful fixture delete removes only one row",
+    "webkit/390: empty state readable without a white panel",
+    "webkit/390: no page errors or live APIs",
+    "webkit/767: no page or table horizontal scroll",
+    "webkit/767: full names fit and cells do not overlap",
+    "webkit/767: stable 44px delete target",
+    "webkit/767: rendered text, heading and destructive colors match CTQ",
+    "webkit/767: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/767: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/767: full time range and year visible",
+    "webkit/767: keyboard focus uses CTQ accent",
+    "webkit/767: hover stays dark and readable",
+    "webkit/767: cancelling SweetAlert does not delete",
+    "webkit/767: failed delete keeps row",
+    "webkit/767: confirmation inherits CTQ yellow",
+    "webkit/767: successful fixture delete removes only one row",
+    "webkit/767: empty state readable without a white panel",
+    "webkit/767: no page errors or live APIs",
+    "webkit/768: no page or table horizontal scroll",
+    "webkit/768: full names fit and cells do not overlap",
+    "webkit/768: stable 44px delete target",
+    "webkit/768: rendered text, heading and destructive colors match CTQ",
+    "webkit/768: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/768: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/768: full time range and year visible",
+    "webkit/768: keyboard focus uses CTQ accent",
+    "webkit/768: hover stays dark and readable",
+    "webkit/768: cancelling SweetAlert does not delete",
+    "webkit/768: failed delete keeps row",
+    "webkit/768: confirmation inherits CTQ yellow",
+    "webkit/768: successful fixture delete removes only one row",
+    "webkit/768: empty state readable without a white panel",
+    "webkit/768: no page errors or live APIs",
+    "webkit/820: no page or table horizontal scroll",
+    "webkit/820: full names fit and cells do not overlap",
+    "webkit/820: stable 44px delete target",
+    "webkit/820: rendered text, heading and destructive colors match CTQ",
+    "webkit/820: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/820: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/820: full time range and year visible",
+    "webkit/820: keyboard focus uses CTQ accent",
+    "webkit/820: hover stays dark and readable",
+    "webkit/820: cancelling SweetAlert does not delete",
+    "webkit/820: failed delete keeps row",
+    "webkit/820: confirmation inherits CTQ yellow",
+    "webkit/820: successful fixture delete removes only one row",
+    "webkit/820: empty state readable without a white panel",
+    "webkit/820: no page errors or live APIs",
+    "webkit/1024: no page or table horizontal scroll",
+    "webkit/1024: full names fit and cells do not overlap",
+    "webkit/1024: stable 44px delete target",
+    "webkit/1024: rendered text, heading and destructive colors match CTQ",
+    "webkit/1024: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/1024: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/1024: full time range and year visible",
+    "webkit/1024: keyboard focus uses CTQ accent",
+    "webkit/1024: hover stays dark and readable",
+    "webkit/1024: cancelling SweetAlert does not delete",
+    "webkit/1024: failed delete keeps row",
+    "webkit/1024: confirmation inherits CTQ yellow",
+    "webkit/1024: successful fixture delete removes only one row",
+    "webkit/1024: empty state readable without a white panel",
+    "webkit/1024: no page errors or live APIs",
+    "webkit/1440: no page or table horizontal scroll",
+    "webkit/1440: full names fit and cells do not overlap",
+    "webkit/1440: stable 44px delete target",
+    "webkit/1440: rendered text, heading and destructive colors match CTQ",
+    "webkit/1440: real header/cell backgrounds are dark, not legacy white/bright blue",
+    "webkit/1440: compact mobile rows and aligned tablet/desktop columns",
+    "webkit/1440: full time range and year visible",
+    "webkit/1440: keyboard focus uses CTQ accent",
+    "webkit/1440: hover stays dark and readable",
+    "webkit/1440: cancelling SweetAlert does not delete",
+    "webkit/1440: failed delete keeps row",
+    "webkit/1440: confirmation inherits CTQ yellow",
+    "webkit/1440: successful fixture delete removes only one row",
+    "webkit/1440: empty state readable without a white panel",
+    "webkit/1440: no page errors or live APIs"
+  ],
+  "captures": [
+    "active-reserves-chromium-320.png",
+    "active-reserves-chromium-390.png",
+    "active-reserves-chromium-820.png",
+    "active-reserves-chromium-1440.png",
+    "active-reserves-webkit-320.png",
+    "active-reserves-webkit-390.png",
+    "active-reserves-webkit-820.png",
+    "active-reserves-webkit-1440.png"
+  ],
+  "sourceHashes": {
+    "src/components/AdminReserves.tsx": "a06de6a8007d2485510fda0014974a611f64f816c1b82ad210691daac88aba79",
+    "src/styles/AdminReserves.css": "195ac8668a2dbb0cdd94412b340a05366cd71a8e12b87e7d115fb854209d2149",
+    "src/index.css": "55a6f967c8960483a907ff5ff06ea7aae2fe1756b7433bfb96480b0a0bd41752"
+  },
+  "status": "passed"
+}

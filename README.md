@@ -37,6 +37,18 @@ actualizar referencias y pruebas y registrar hashes nuevos. El generador
 `scripts/build-site-identity.mjs` recibe la ruta al modulo `sharp` del runtime
 de herramientas; no agrega ese modulo al bundle de la aplicacion.
 
+Barra superior alineada al contenido en escritorio: alcance, rama y evidencia
+en [mejora-grafica-barra-titulo.md](docs/mejora-grafica-barra-titulo.md).
+Continuacion: contenedor comun para las vistas principales y Perfil adaptado a
+escritorio, conservando paleta CTQ. Implementacion, pruebas y capturas en
+[mejora-grafica-contenedores-perfil.md](docs/mejora-grafica-contenedores-perfil.md).
+Correccion de colores locales y tabla responsive de Reservas activas, con pruebas
+de los colores renderizados:
+[mejora-grafica-reservas-activas.md](docs/mejora-grafica-reservas-activas.md).
+Multi-booking: distribucion escritorio/movil, calendario multiple en espanol y
+confirmacion SweetAlert2, con pruebas y evidencia tecnica:
+[mejora-grafica-multibooking.md](docs/mejora-grafica-multibooking.md).
+
 ## Tech Stack
 
 | Layer | Technology |

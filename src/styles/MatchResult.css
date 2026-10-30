@@ -1,7 +1,7 @@
 .results-page {
-    max-width: 880px;
+    max-width: var(--ctq-page-max);
     margin: 24px auto 40px;
-    padding: 24px;
+    padding: 24px var(--ctq-page-gutter);
     background: transparent;
     color: var(--ctq-text);
     color-scheme: dark;

@@ -1,0 +1,1586 @@
+TAP version 13
+# Subtest: forced login unmounts dirty editors before navigation and does not await a dialog
+ok 1 - forced login unmounts dirty editors before navigation and does not await a dialog
+  ---
+  duration_ms: 1.311
+  type: 'test'
+  ...
+# Subtest: the login remains usable while the single expiry notice is shown
+ok 2 - the login remains usable while the single expiry notice is shown
+  ---
+  duration_ms: 0.251875
+  type: 'test'
+  ...
+# Subtest: inactivity uses the same login flow and SweetAlert2 notice
+ok 3 - inactivity uses the same login flow and SweetAlert2 notice
+  ---
+  duration_ms: 0.345958
+  type: 'test'
+  ...
+# Subtest: a successful login cancels a scheduled expiry notice on effect cleanup
+ok 4 - a successful login cancels a scheduled expiry notice on effect cleanup
+  ---
+  duration_ms: 0.493167
+  type: 'test'
+  ...
+# Subtest: after the notice, public recovery pages are not trapped by the forced login
+ok 5 - after the notice, public recovery pages are not trapped by the forced login
+  ---
+  duration_ms: 0.128208
+  type: 'test'
+  ...
+# Subtest: loads one principal and additional categories without pending edits
+ok 6 - loads one principal and additional categories without pending edits
+  ---
+  duration_ms: 0.926834
+  type: 'test'
+  ...
+# Subtest: switching category does not transfer or reset points
+ok 7 - switching category does not transfer or reset points
+  ---
+  duration_ms: 0.11925
+  type: 'test'
+  ...
+# Subtest: sends only explicit points adjustments, including zero
+ok 8 - sends only explicit points adjustments, including zero
+  ---
+  duration_ms: 0.203542
+  type: 'test'
+  ...
+# Subtest: rejects invalid numeric input, even when adjustment section is closed
+ok 9 - rejects invalid numeric input, even when adjustment section is closed
+  ---
+  duration_ms: 0.220917
+  type: 'test'
+  ...
+# Subtest: resolving old multiple-principal data becomes an explicit pending change
+ok 10 - resolving old multiple-principal data becomes an explicit pending change
+  ---
+  duration_ms: 0.198834
+  type: 'test'
+  ...
+# Subtest: unknown historical categories do not become edits or point adjustments
+ok 11 - unknown historical categories do not become edits or point adjustments
+  ---
+  duration_ms: 0.096959
+  type: 'test'
+  ...
+# (node:84065) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: admins remain signed in for 60 idle minutes without advance warnings
+ok 12 - admins remain signed in for 60 idle minutes without advance warnings
+  ---
+  duration_ms: 4.518042
+  type: 'test'
+  ...
+# Subtest: non-admin role user retains the three-minute timeout
+ok 13 - non-admin role user retains the three-minute timeout
+  ---
+  duration_ms: 1.064083
+  type: 'test'
+  ...
+# Subtest: non-admin role profesor retains the three-minute timeout
+ok 14 - non-admin role profesor retains the three-minute timeout
+  ---
+  duration_ms: 0.396709
+  type: 'test'
+  ...
+# Subtest: non-admin role undefined retains the three-minute timeout
+ok 15 - non-admin role undefined retains the three-minute timeout
+  ---
+  duration_ms: 0.368334
+  type: 'test'
+  ...
+# Subtest: mousemove restarts the full admin inactivity period
+ok 16 - mousemove restarts the full admin inactivity period
+  ---
+  duration_ms: 0.219542
+  type: 'test'
+  ...
+# Subtest: keydown restarts the full admin inactivity period
+ok 17 - keydown restarts the full admin inactivity period
+  ---
+  duration_ms: 0.139667
+  type: 'test'
+  ...
+# Subtest: mousedown restarts the full admin inactivity period
+ok 18 - mousedown restarts the full admin inactivity period
+  ---
+  duration_ms: 0.72275
+  type: 'test'
+  ...
+# Subtest: touchstart restarts the full admin inactivity period
+ok 19 - touchstart restarts the full admin inactivity period
+  ---
+  duration_ms: 2.155584
+  type: 'test'
+  ...
+# Subtest: scroll restarts the full admin inactivity period
+ok 20 - scroll restarts the full admin inactivity period
+  ---
+  duration_ms: 0.86575
+  type: 'test'
+  ...
+# Subtest: no inactivity timer runs before login
+ok 21 - no inactivity timer runs before login
+  ---
+  duration_ms: 0.329791
+  type: 'test'
+  ...
+# Subtest: login starts a fresh admin timer instead of retaining the anonymous timer
+ok 22 - login starts a fresh admin timer instead of retaining the anonymous timer
+  ---
+  duration_ms: 0.124958
+  type: 'test'
+  ...
+# Subtest: cleanup removes the timer and all activity listeners
+ok 23 - cleanup removes the timer and all activity listeners
+  ---
+  duration_ms: 1.65875
+  type: 'test'
+  ...
+# Subtest: legacy Familiar displays as Carga without changing stored data
+ok 24 - legacy Familiar displays as Carga without changing stored data
+  ---
+  duration_ms: 2.70725
+  type: 'test'
+  ...
+# Subtest: missing legacy type displays as Titular
+ok 25 - missing legacy type displays as Titular
+  ---
+  duration_ms: 0.25725
+  type: 'test'
+  ...
+# Subtest: titular choices exclude the edited member and other cargas or familiares
+ok 26 - titular choices exclude the edited member and other cargas or familiares
+  ---
+  duration_ms: 0.190417
+  type: 'test'
+  ...
+# Subtest: member identifiers, not names or emails, are used for associations
+ok 27 - member identifiers, not names or emails, are used for associations
+  ---
+  duration_ms: 0.177625
+  type: 'test'
+  ...
+# Subtest: saving a titular clears its old association
+ok 28 - saving a titular clears its old association
+  ---
+  duration_ms: 0.154292
+  type: 'test'
+  ...
+# Subtest: editing unrelated legacy details does not force an unassociated familiar into a new type
+ok 29 - editing unrelated legacy details does not force an unassociated familiar into a new type
+  ---
+  duration_ms: 0.309875
+  type: 'test'
+  ...
+# Subtest: completing a legacy familiar association explicitly saves Carga
+ok 30 - completing a legacy familiar association explicitly saves Carga
+  ---
+  duration_ms: 0.436083
+  type: 'test'
+  ...
+# Subtest: reassigning a carga emits its new titular, without changing role or access flags
+ok 31 - reassigning a carga emits its new titular, without changing role or access flags
+  ---
+  duration_ms: 0.216875
+  type: 'test'
+  ...
+# Subtest: only changed editable fields are sent, never returned credentials or identifiers
+ok 32 - only changed editable fields are sent, never returned credentials or identifiers
+  ---
+  duration_ms: 2.251708
+  type: 'test'
+  ...
+# Subtest: an unchanged edit does not enable saving
+ok 33 - an unchanged edit does not enable saving
+  ---
+  duration_ms: 0.845375
+  type: 'test'
+  ...
+# Subtest: a carga cannot clear its titular during an association change
+ok 34 - a carga cannot clear its titular during an association change
+  ---
+  duration_ms: 1.062792
+  type: 'test'
+  ...
+# Subtest: a member cannot choose itself as titular
+ok 35 - a member cannot choose itself as titular
+  ---
+  duration_ms: 0.220334
+  type: 'test'
+  ...
+# Subtest: a disappeared or demoted titular cannot be selected
+ok 36 - a disappeared or demoted titular cannot be selected
+  ---
+  duration_ms: 0.098958
+  type: 'test'
+  ...
+# Subtest: invalid types are not silently converted to Titular
+ok 37 - invalid types are not silently converted to Titular
+  ---
+  duration_ms: 0.061208
+  type: 'test'
+  ...
+# Subtest: checkout accepts only the provider HTTPS host, never arbitrary browser URLs
+ok 38 - checkout accepts only the provider HTTPS host, never arbitrary browser URLs
+  ---
+  duration_ms: 2.193209
+  type: 'test'
+  ...
+# Subtest: an identical selection retains idempotency across order changes and retry
+ok 39 - an identical selection retains idempotency across order changes and retry
+  ---
+  duration_ms: 0.88775
+  type: 'test'
+  ...
+# Subtest: return URLs restore only the monthly reference, not claims of paid status or open redirects
+ok 40 - return URLs restore only the monthly reference, not claims of paid status or open redirects
+  ---
+  duration_ms: 0.581458
+  type: 'test'
+  ...
+# Subtest: old checkout return links migrate to the dedicated result without trusting browser status
+ok 41 - old checkout return links migrate to the dedicated result without trusting browser status
+  ---
+  duration_ms: 9.034208
+  type: 'test'
+  ...
+# Subtest: login preserves the result reference but strips all browser payment claims and redirect targets
+ok 42 - login preserves the result reference but strips all browser payment claims and redirect targets
+  ---
+  duration_ms: 17.622458
+  type: 'test'
+  ...
+# Subtest: payment-only sessions can enter only the portal and dedicated return path
+ok 43 - payment-only sessions can enter only the portal and dedicated return path
+  ---
+  duration_ms: 0.239417
+  type: 'test'
+  ...
+# Subtest: only active enrolled beneficiaries, open dues and periods through the current month are eligible
+ok 44 - only active enrolled beneficiaries, open dues and periods through the current month are eligible
+  ---
+  duration_ms: 44.38825
+  type: 'test'
+  ...
+# Subtest: the member portal excludes archived history and void dues from checkout
+ok 45 - the member portal excludes archived history and void dues from checkout
+  ---
+  duration_ms: 0.201417
+  type: 'test'
+  ...
+# Subtest: members can select arrears and current dues for themselves and cargas, never future dues
+ok 46 - members can select arrears and current dues for themselves and cargas, never future dues
+  ---
+  duration_ms: 1.234583
+  type: 'test'
+  ...
+# Subtest: an authenticated session queries backend permissions without any membership env flag
+ok 47 - an authenticated session queries backend permissions without any membership env flag
+  ---
+  duration_ms: 23.6375
+  type: 'test'
+  ...
+# Subtest: the backend can restore ordinary access on the next refresh
+ok 48 - the backend can restore ordinary access on the next refresh
+  ---
+  duration_ms: 3.784625
+  type: 'test'
+  ...
+# Subtest: backend PAYMENTS_ONLY denial updates the session without revoking login identity
+ok 49 - backend PAYMENTS_ONLY denial updates the session without revoking login identity
+  ---
+  duration_ms: 13.640375
+  type: 'test'
+  ...
+# Subtest: a network outage does not erase the session or claim new permissions
+ok 50 - a network outage does not erase the session or claim new permissions
+  ---
+  duration_ms: 10.481958
+  type: 'test'
+  ...
+# Subtest: anonymous visitors do not query private membership permissions
+ok 51 - anonymous visitors do not query private membership permissions
+  ---
+  duration_ms: 1.466
+  type: 'test'
+  ...
+# Subtest: unmount removes permission refresh timers and the response interceptor
+ok 52 - unmount removes permission refresh timers and the response interceptor
+  ---
+  duration_ms: 2.098958
+  type: 'test'
+  ...
+# Subtest: an expired cached token never authenticates or sends private requests
+ok 53 - an expired cached token never authenticates or sends private requests
+  ---
+  duration_ms: 0.978125
+  type: 'test'
+  ...
+# Subtest: malformed cached token is cleared: not-a-jwt
+ok 54 - malformed cached token is cleared: not-a-jwt
+  ---
+  duration_ms: 2.12525
+  type: 'test'
+  ...
+# Subtest: malformed cached token is cleared: eyJhbGciOiJI
+ok 55 - malformed cached token is cleared: eyJhbGciOiJI
+  ---
+  duration_ms: 2.515917
+  type: 'test'
+  ...
+# Subtest: invalid cached user data redirects safely instead of crashing
+ok 56 - invalid cached user data redirects safely instead of crashing
+  ---
+  duration_ms: 2.015
+  type: 'test'
+  ...
+# Subtest: 401 on the initial permission request clears the session immediately
+ok 57 - 401 on the initial permission request clears the session immediately
+  ---
+  duration_ms: 2.59275
+  type: 'test'
+  ...
+# Subtest: concurrent API denials close the session only once
+ok 58 - concurrent API denials close the session only once
+  ---
+  duration_ms: 7.894375
+  type: 'test'
+  ...
+# Subtest: 403 never clears authentication
+ok 59 - 403 never clears authentication
+  ---
+  duration_ms: 2.500334
+  type: 'test'
+  ...
+# Subtest: 429 never clears authentication
+ok 60 - 429 never clears authentication
+  ---
+  duration_ms: 4.172459
+  type: 'test'
+  ...
+# Subtest: 500 never clears authentication
+ok 61 - 500 never clears authentication
+  ---
+  duration_ms: 4.157917
+  type: 'test'
+  ...
+# Subtest: 503 never clears authentication
+ok 62 - 503 never clears authentication
+  ---
+  duration_ms: 4.002125
+  type: 'test'
+  ...
+# Subtest: unrelated 401 does not revoke the current session: {"url":"https://provider.example.invalid/checkout"}
+ok 63 - unrelated 401 does not revoke the current session: {"url":"https://provider.example.invalid/checkout"}
+  ---
+  duration_ms: 3.806459
+  type: 'test'
+  ...
+# Subtest: unrelated 401 does not revoke the current session: {"url":"https://backend.example.invalid/auth/login"}
+ok 64 - unrelated 401 does not revoke the current session: {"url":"https://backend.example.invalid/auth/login"}
+  ---
+  duration_ms: 2.363166
+  type: 'test'
+  ...
+# Subtest: unrelated 401 does not revoke the current session: {"headers":{}}
+ok 65 - unrelated 401 does not revoke the current session: {"headers":{}}
+  ---
+  duration_ms: 4.068166
+  type: 'test'
+  ...
+# Subtest: unrelated 401 does not revoke the current session: {"headers":{"Authorization":"Bearer previous-session"}}
+ok 66 - unrelated 401 does not revoke the current session: {"headers":{"Authorization":"Bearer previous-session"}}
+  ---
+  duration_ms: 1.956458
+  type: 'test'
+  ...
+# Subtest: a late response from the previous login cannot clear a new login
+ok 67 - a late response from the previous login cannot clear a new login
+  ---
+  duration_ms: 1.466542
+  type: 'test'
+  ...
+# Subtest: JWT expiry closes the session via timer without waiting for an API error
+ok 68 - JWT expiry closes the session via timer without waiting for an API error
+  ---
+  duration_ms: 3.887459
+  type: 'test'
+  ...
+# Subtest: JWT expiry closes the session via focus without waiting for an API error
+ok 69 - JWT expiry closes the session via focus without waiting for an API error
+  ---
+  duration_ms: 2.115791
+  type: 'test'
+  ...
+# Subtest: JWT expiry closes the session via visibilitychange without waiting for an API error
+ok 70 - JWT expiry closes the session via visibilitychange without waiting for an API error
+  ---
+  duration_ms: 6.947333
+  type: 'test'
+  ...
+# Subtest: Axios baseURL paths and AxiosHeaders are matched only inside our API prefix
+ok 71 - Axios baseURL paths and AxiosHeaders are matched only inside our API prefix
+  ---
+  duration_ms: 1.0065
+  type: 'test'
+  ...
+# Subtest: a session notice acknowledgement does not restore the expired token
+ok 72 - a session notice acknowledgement does not restore the expired token
+  ---
+  duration_ms: 5.278292
+  type: 'test'
+  ...
+# Subtest: opening the batch only previews; already enabled and inactive members are not selectable
+ok 73 - opening the batch only previews; already enabled and inactive members are not selectable
+  ---
+  duration_ms: 180.879833
+  type: 'test'
+  ...
+# Subtest: family preview sends only its explicit family ID and month
+ok 74 - family preview sends only its explicit family ID and month
+  ---
+  duration_ms: 3.2295
+  type: 'test'
+  ...
+# Subtest: confirmation submits reviewed selected IDs without prices, payments or activation flags
+ok 75 - confirmation submits reviewed selected IDs without prices, payments or activation flags
+  ---
+  duration_ms: 40.26075
+  type: 'test'
+  ...
+# Subtest: ordinary family enrollment needs confirmation but not a reason
+ok 76 - ordinary family enrollment needs confirmation but not a reason
+  ---
+  duration_ms: 8.300667
+  type: 'test'
+  ...
+# Subtest: uncertain responses lock the reviewed payload and retry with exactly the same identity
+ok 77 - uncertain responses lock the reviewed payload and retry with exactly the same identity
+  ---
+  duration_ms: 10.105375
+  type: 'test'
+  ...
+# Subtest: changing month clears old selection and requires another review
+ok 78 - changing month clears old selection and requires another review
+  ---
+  duration_ms: 4.329666
+  type: 'test'
+  ...
+# Subtest: large selections are split into stable small requests for Heroku
+ok 79 - large selections are split into stable small requests for Heroku
+  ---
+  duration_ms: 13.309834
+  type: 'test'
+  ...
+# Subtest: history review is read only until approved and never submits a new start or payment
+ok 80 - history review is read only until approved and never submits a new start or payment
+  ---
+  duration_ms: 2.837875
+  type: 'test'
+  ...
+# Subtest: history cancellation makes no write and stale reviews cannot be applied twice
+ok 81 - history cancellation makes no write and stale reviews cannot be applied twice
+  ---
+  duration_ms: 2.961916
+  type: 'test'
+  ...
+# Subtest: an authenticated admin sees monthly administration in desktop and mobile without an env flag
+ok 82 - an authenticated admin sees monthly administration in desktop and mobile without an env flag
+  ---
+  duration_ms: 46.179959
+  type: 'test'
+  ...
+# Subtest: monthly administration is hidden for role user
+ok 83 - monthly administration is hidden for role user
+  ---
+  duration_ms: 0.619375
+  type: 'test'
+  ...
+# Subtest: monthly administration is hidden for role profesor
+ok 84 - monthly administration is hidden for role profesor
+  ---
+  duration_ms: 0.598917
+  type: 'test'
+  ...
+# Subtest: monthly administration is hidden for role undefined
+ok 85 - monthly administration is hidden for role undefined
+  ---
+  duration_ms: 1.853833
+  type: 'test'
+  ...
+# Subtest: an unauthenticated session never gains admin links from a stored role
+ok 86 - an unauthenticated session never gains admin links from a stored role
+  ---
+  duration_ms: 2.586959
+  type: 'test'
+  ...
+# Subtest: a current-session role change removes monthly administration immediately
+ok 87 - a current-session role change removes monthly administration immediately
+  ---
+  duration_ms: 15.127292
+  type: 'test'
+  ...
+# Subtest: an authenticated member sees the monthly portal without environment feature flags
+ok 88 - an authenticated member sees the monthly portal without environment feature flags
+  ---
+  duration_ms: 0.555333
+  type: 'test'
+  ...
+# Subtest: the backend payments-only restriction hides booking links but keeps the portal accessible
+ok 89 - the backend payments-only restriction hides booking links but keeps the portal accessible
+  ---
+  duration_ms: 0.219208
+  type: 'test'
+  ...
+# Subtest: the monthly portal link is hidden before authentication
+ok 90 - the monthly portal link is hidden before authentication
+  ---
+  duration_ms: 4.118791
+  type: 'test'
+  ...
+# Subtest: active members can generate; inactive enrolled members cannot
+ok 91 - active members can generate; inactive enrolled members cannot
+  ---
+  duration_ms: 1.926208
+  type: 'test'
+  ...
+# Subtest: review sends the explicit range without a reason or payment
+ok 92 - review sends the explicit range without a reason or payment
+  ---
+  duration_ms: 94.153459
+  type: 'test'
+  ...
+# Subtest: changing the start invalidates the old preview
+ok 93 - changing the start invalidates the old preview
+  ---
+  duration_ms: 24.532209
+  type: 'test'
+  ...
+# Subtest: normal generation has no reason input and cancellation makes no writes
+ok 94 - normal generation has no reason input and cancellation makes no writes
+  ---
+  duration_ms: 7.155833
+  type: 'test'
+  ...
+# Subtest: confirmed enrollment sends the server fingerprint and an idempotency key only once
+ok 95 - confirmed enrollment sends the server fingerprint and an idempotency key only once
+  ---
+  duration_ms: 9.983167
+  type: 'test'
+  ...
+# Subtest: an uncertain response preserves the same approval and idempotency on retry
+ok 96 - an uncertain response preserves the same approval and idempotency on retry
+  ---
+  duration_ms: 3.071417
+  type: 'test'
+  ...
+# Subtest: a stale preview conflict requires review again instead of silently approving new prices
+ok 97 - a stale preview conflict requires review again instead of silently approving new prices
+  ---
+  duration_ms: 4.692042
+  type: 'test'
+  ...
+# Subtest: a terminated member uses reenrollment, with only the current month and no debt prerequisite
+ok 98 - a terminated member uses reenrollment, with only the current month and no debt prerequisite
+  ---
+  duration_ms: 4.026583
+  type: 'test'
+  ...
+# Subtest: four selected months are reviewed and confirmed as four without hidden reasons
+ok 99 - four selected months are reviewed and confirmed as four without hidden reasons
+  ---
+  duration_ms: 3.615375
+  type: 'test'
+  ...
+# Subtest: already enrolled preview distinguishes existing paid rows and creates only new rows
+ok 100 - already enrolled preview distinguishes existing paid rows and creates only new rows
+  ---
+  duration_ms: 2.114417
+  type: 'test'
+  ...
+# Subtest: reenrollment still requires a reason
+ok 101 - reenrollment still requires a reason
+  ---
+  duration_ms: 2.3925
+  type: 'test'
+  ...
+# Subtest: ordinary inactive accounts cannot use reenrollment
+ok 102 - ordinary inactive accounts cannot use reenrollment
+  ---
+  duration_ms: 0.238459
+  type: 'test'
+  ...
+# Subtest: reenrollment cancellation leaves the inactive member and history unchanged
+ok 103 - reenrollment cancellation leaves the inactive member and history unchanged
+  ---
+  duration_ms: 1.897875
+  type: 'test'
+  ...
+# Subtest: member payment links use the immutable ID, never a name or email
+ok 104 - member payment links use the immutable ID, never a name or email
+  ---
+  duration_ms: 1.829125
+  type: 'test'
+  ...
+# Subtest: return to users preserves the exact search URL and scroll position
+ok 105 - return to users preserves the exact search URL and scroll position
+  ---
+  duration_ms: 0.998125
+  type: 'test'
+  ...
+# Subtest: unsafe or unrelated return destinations cannot redirect outside users
+ok 106 - unsafe or unrelated return destinations cannot redirect outside users
+  ---
+  duration_ms: 0.21125
+  type: 'test'
+  ...
+# Subtest: direct entry and invalid scroll values have safe defaults
+ok 107 - direct entry and invalid scroll values have safe defaults
+  ---
+  duration_ms: 0.533584
+  type: 'test'
+  ...
+# Subtest: non-collectible history and void dues are never selected or demanded before a new quota
+ok 108 - non-collectible history and void dues are never selected or demanded before a new quota
+  ---
+  duration_ms: 70.096667
+  type: 'test'
+  ...
+# Subtest: cash uses a separate method and never submits a bank reference
+ok 109 - cash uses a separate method and never submits a bank reference
+  ---
+  duration_ms: 0.473875
+  type: 'test'
+  ...
+# Subtest: cash requires explicit receipt of the complete amount and cannot bypass full-dues rules
+ok 110 - cash requires explicit receipt of the complete amount and cannot bypass full-dues rules
+  ---
+  duration_ms: 0.378042
+  type: 'test'
+  ...
+# Subtest: cash accepts an empty bank-reference field while bank transfers still require it
+ok 111 - cash accepts an empty bank-reference field while bank transfers still require it
+  ---
+  duration_ms: 1.576417
+  type: 'test'
+  ...
+# Subtest: uses Chile calendar and current plus three months across the new year
+ok 112 - uses Chile calendar and current plus three months across the new year
+  ---
+  duration_ms: 0.806625
+  type: 'test'
+  ...
+# Subtest: selecting a later due includes earlier unpaid months for that beneficiary only
+ok 113 - selecting a later due includes earlier unpaid months for that beneficiary only
+  ---
+  duration_ms: 0.224584
+  type: 'test'
+  ...
+# Subtest: removing an older month removes later selected months without removing a carga
+ok 114 - removing an older month removes later selected months without removing a carga
+  ---
+  duration_ms: 0.486042
+  type: 'test'
+  ...
+# Subtest: settled and unknown dues cannot be selected
+ok 115 - settled and unknown dues cannot be selected
+  ---
+  duration_ms: 0.192875
+  type: 'test'
+  ...
+# Subtest: builds a full bank payment with beneficiary IDs and verified payer identity
+ok 116 - builds a full bank payment with beneficiary IDs and verified payer identity
+  ---
+  duration_ms: 1.548375
+  type: 'test'
+  ...
+# Subtest: automatically totals full dues of the selected titular and carga only
+ok 117 - automatically totals full dues of the selected titular and carga only
+  ---
+  duration_ms: 1.715709
+  type: 'test'
+  ...
+# Subtest: the automatic amount resets to zero when selection is cleared
+ok 118 - the automatic amount resets to zero when selection is cleared
+  ---
+  duration_ms: 0.323333
+  type: 'test'
+  ...
+# Subtest: the automatic amount follows consecutive-month selection and removal
+ok 119 - the automatic amount follows consecutive-month selection and removal
+  ---
+  duration_ms: 0.084125
+  type: 'test'
+  ...
+# Subtest: repeated IDs cannot double the displayed selected amount
+ok 120 - repeated IDs cannot double the displayed selected amount
+  ---
+  duration_ms: 0.085667
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount 229
+ok 121 - rejects incomplete, excess or invalid amount 229
+  ---
+  duration_ms: 0.609458
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount 231
+ok 122 - rejects incomplete, excess or invalid amount 231
+  ---
+  duration_ms: 0.34725
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount 0
+ok 123 - rejects incomplete, excess or invalid amount 0
+  ---
+  duration_ms: 0.140125
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount -230
+ok 124 - rejects incomplete, excess or invalid amount -230
+  ---
+  duration_ms: 0.113083
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount 230.5
+ok 125 - rejects incomplete, excess or invalid amount 230.5
+  ---
+  duration_ms: 0.103042
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount 230e0
+ok 126 - rejects incomplete, excess or invalid amount 230e0
+  ---
+  duration_ms: 0.103917
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount
+ok 127 - rejects incomplete, excess or invalid amount
+  ---
+  duration_ms: 0.130791
+  type: 'test'
+  ...
+# Subtest: rejects incomplete, excess or invalid amount invalid
+ok 128 - rejects incomplete, excess or invalid amount invalid
+  ---
+  duration_ms: 0.152583
+  type: 'test'
+  ...
+# Subtest: rejects unverified income, missing bank reference and invalid payer
+ok 129 - rejects unverified income, missing bank reference and invalid payer
+  ---
+  duration_ms: 1.352208
+  type: 'test'
+  ...
+# Subtest: external payer does not invent a member ID and deposit has a different method
+ok 130 - external payer does not invent a member ID and deposit has a different method
+  ---
+  duration_ms: 0.576083
+  type: 'test'
+  ...
+# Subtest: rejects future and nonexistent dates
+ok 131 - rejects future and nonexistent dates
+  ---
+  duration_ms: 1.139583
+  type: 'test'
+  ...
+# Subtest: does not skip unpaid months or exceed current plus three months
+ok 132 - does not skip unpaid months or exceed current plus three months
+  ---
+  duration_ms: 0.676084
+  type: 'test'
+  ...
+# Subtest: rejects duplicate, missing, settled and mixed-pricing quotas
+ok 133 - rejects duplicate, missing, settled and mixed-pricing quotas
+  ---
+  duration_ms: 0.511625
+  type: 'test'
+  ...
+# Subtest: does not register an inactive or unenrolled member implicitly
+ok 134 - does not register an inactive or unenrolled member implicitly
+  ---
+  duration_ms: 0.671042
+  type: 'test'
+  ...
+# Subtest: reuses the request key after an uncertain response; changes require a new identity
+ok 135 - reuses the request key after an uncertain response; changes require a new identity
+  ---
+  duration_ms: 0.325916
+  type: 'test'
+  ...
+# Subtest: history labels distinguish banking from Mercado Pago
+ok 136 - history labels distinguish banking from Mercado Pago
+  ---
+  duration_ms: 0.044834
+  type: 'test'
+  ...
+# Subtest: October through January is four inclusive periods, independent of timezone
+ok 137 - October through January is four inclusive periods, independent of timezone
+  ---
+  duration_ms: 3.51125
+  type: 'test'
+  ...
+# Subtest: single month, inverted range and malformed months are handled explicitly
+ok 138 - single month, inverted range and malformed months are handled explicitly
+  ---
+  duration_ms: 55.33425
+  type: 'test'
+  ...
+# Subtest: return without a provider payment shows incomplete, never a confirmed cancellation
+ok 139 - return without a provider payment shows incomplete, never a confirmed cancellation
+  ---
+  duration_ms: 1.391292
+  type: 'test'
+  ...
+# Subtest: an actual pending provider payment is distinct from leaving checkout
+ok 140 - an actual pending provider payment is distinct from leaving checkout
+  ---
+  duration_ms: 0.092
+  type: 'test'
+  ...
+# Subtest: only confirmed backend status can display paid and only cancelled backend status displays cancelled
+ok 141 - only confirmed backend status can display paid and only cancelled backend status displays cancelled
+  ---
+  duration_ms: 0.071291
+  type: 'test'
+  ...
+# Subtest: a completed payment does not trigger reconciliation or create another checkout
+ok 142 - a completed payment does not trigger reconciliation or create another checkout
+  ---
+  duration_ms: 1.479084
+  type: 'test'
+  ...
+# Subtest: the initial return reconciles the existing attempt and accepts only the server result
+ok 143 - the initial return reconciles the existing attempt and accepts only the server result
+  ---
+  duration_ms: 0.164791
+  type: 'test'
+  ...
+# Subtest: background reads do not repeatedly reconcile the provider
+ok 144 - background reads do not repeatedly reconcile the provider
+  ---
+  duration_ms: 0.075041
+  type: 'test'
+  ...
+# Subtest: wrong references, invalid amounts and malformed status never claim a payment result
+ok 145 - wrong references, invalid amounts and malformed status never claim a payment result
+  ---
+  duration_ms: 0.336208
+  type: 'test'
+  ...
+# Subtest: a provider outage propagates as unverifiable, never as cancelled
+ok 146 - a provider outage propagates as unverifiable, never as cancelled
+  ---
+  duration_ms: 0.106
+  type: 'test'
+  ...
+# Subtest: restricted login preserves the dedicated return instead of redirecting to the generic portal
+ok 147 - restricted login preserves the dedicated return instead of redirecting to the generic portal
+  ---
+  duration_ms: 2.055041
+  type: 'test'
+  ...
+# Subtest: restricted login also migrates an old provider return without trusting its status
+ok 148 - restricted login also migrates an old provider return without trusting its status
+  ---
+  duration_ms: 0.55575
+  type: 'test'
+  ...
+# Subtest: unsafe login destinations and unrelated restricted paths go only to the portal
+ok 149 - unsafe login destinations and unrelated restricted paths go only to the portal
+  ---
+  duration_ms: 11.857417
+  type: 'test'
+  ...
+# Subtest: restricted sessions can render the result and portal, while anonymous login remains accessible
+ok 150 - restricted sessions can render the result and portal, while anonymous login remains accessible
+  ---
+  duration_ms: 0.380083
+  type: 'test'
+  ...
+# Subtest: restricted sessions may read their reservation return without regaining booking access
+ok 151 - restricted sessions may read their reservation return without regaining booking access
+  ---
+  duration_ms: 1.958125
+  type: 'test'
+  ...
+# (node:84084) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: typing searches automatically after 250ms without submitting the form
+ok 152 - typing searches automatically after 250ms without submitting the form
+  ---
+  duration_ms: 102.185917
+  type: 'test'
+  ...
+# Subtest: rapid typing cancels intermediate searches and sends only the latest value
+ok 153 - rapid typing cancels intermediate searches and sends only the latest value
+  ---
+  duration_ms: 17.494292
+  type: 'test'
+  ...
+# Subtest: clearing the search restores all results immediately
+ok 154 - clearing the search restores all results immediately
+  ---
+  duration_ms: 82.4135
+  type: 'test'
+  ...
+# Subtest: a new search returns to page one and preserves the selected month
+ok 155 - a new search returns to page one and preserves the selected month
+  ---
+  duration_ms: 10.435291
+  type: 'test'
+  ...
+# Subtest: Enter or the search button submits immediately without a duplicate delayed request
+ok 156 - Enter or the search button submits immediately without a duplicate delayed request
+  ---
+  duration_ms: 5.410625
+  type: 'test'
+  ...
+# Subtest: a slower obsolete response cannot overwrite the latest search results
+ok 157 - a slower obsolete response cannot overwrite the latest search results
+  ---
+  duration_ms: 18.562208
+  type: 'test'
+  ...
+# Subtest: leaving dues cancels a pending search
+ok 158 - leaving dues cancels a pending search
+  ---
+  duration_ms: 10.101458
+  type: 'test'
+  ...
+# Subtest: unmounting before the delay cancels the pending search
+ok 159 - unmounting before the delay cancels the pending search
+  ---
+  duration_ms: 2.373041
+  type: 'test'
+  ...
+# Subtest: opening payment only reads existing dues; it never prepares months
+ok 160 - opening payment only reads existing dues; it never prepares months
+  ---
+  duration_ms: 7.121209
+  type: 'test'
+  ...
+# Subtest: public recovery mentions the waiting restriction, while admin recovery specifies the link lifetime
+ok 161 - public recovery mentions the waiting restriction, while admin recovery specifies the link lifetime
+  ---
+  duration_ms: 0.811916
+  type: 'test'
+  ...
+# Subtest: public recovery works without a JWT and sends only the normalized email to the new route
+ok 162 - public recovery works without a JWT and sends only the normalized email to the new route
+  ---
+  duration_ms: 0.608125
+  type: 'test'
+  ...
+# Subtest: admin recovery uses the protected route and session JWT
+ok 163 - admin recovery uses the protected route and session JWT
+  ---
+  duration_ms: 0.9495
+  type: 'test'
+  ...
+# Subtest: an admin request without a session makes no request
+ok 164 - an admin request without a session makes no request
+  ---
+  duration_ms: 0.393417
+  type: 'test'
+  ...
+# Subtest: invalid email ("") makes no request
+ok 165 - invalid email ("") makes no request
+  ---
+  duration_ms: 0.189708
+  type: 'test'
+  ...
+# Subtest: invalid email ("invalid") makes no request
+ok 166 - invalid email ("invalid") makes no request
+  ---
+  duration_ms: 0.06625
+  type: 'test'
+  ...
+# Subtest: invalid email ("a@") makes no request
+ok 167 - invalid email ("a@") makes no request
+  ---
+  duration_ms: 0.117
+  type: 'test'
+  ...
+# Subtest: invalid email ("a@b") makes no request
+ok 168 - invalid email ("a@b") makes no request
+  ---
+  duration_ms: 0.056625
+  type: 'test'
+  ...
+# Subtest: invalid email ("a b@test.cl") makes no request
+ok 169 - invalid email ("a b@test.cl") makes no request
+  ---
+  duration_ms: 0.660041
+  type: 'test'
+  ...
+# Subtest: the token is read from the fragment, not a page query or persistent storage
+ok 170 - the token is read from the fragment, not a page query or persistent storage
+  ---
+  duration_ms: 12.052042
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate token fragment (0 characters) is rejected
+ok 171 - malformed or duplicate token fragment (0 characters) is rejected
+  ---
+  duration_ms: 0.150625
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate token fragment (14 characters) is rejected
+ok 172 - malformed or duplicate token fragment (14 characters) is rejected
+  ---
+  duration_ms: 0.10125
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate token fragment (7 characters) is rejected
+ok 173 - malformed or duplicate token fragment (7 characters) is rejected
+  ---
+  duration_ms: 0.03825
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate token fragment (142 characters) is rejected
+ok 174 - malformed or duplicate token fragment (142 characters) is rejected
+  ---
+  duration_ms: 0.039
+  type: 'test'
+  ...
+# Subtest: malformed or duplicate token fragment (72 characters) is rejected
+ok 175 - malformed or duplicate token fragment (72 characters) is rejected
+  ---
+  duration_ms: 0.036125
+  type: 'test'
+  ...
+# Subtest: valid matching passwords use the existing minimum length and bcrypt byte limit
+ok 176 - valid matching passwords use the existing minimum length and bcrypt byte limit
+  ---
+  duration_ms: 0.117125
+  type: 'test'
+  ...
+# Subtest: invalid password pair (5/5) makes no confirmation request
+ok 177 - invalid password pair (5/5) makes no confirmation request
+  ---
+  duration_ms: 0.105167
+  type: 'test'
+  ...
+# Subtest: invalid password pair (7/7) makes no confirmation request
+ok 178 - invalid password pair (7/7) makes no confirmation request
+  ---
+  duration_ms: 0.047041
+  type: 'test'
+  ...
+# Subtest: invalid password pair (73/73) makes no confirmation request
+ok 179 - invalid password pair (73/73) makes no confirmation request
+  ---
+  duration_ms: 0.107542
+  type: 'test'
+  ...
+# Subtest: invalid password pair (40/40) makes no confirmation request
+ok 180 - invalid password pair (40/40) makes no confirmation request
+  ---
+  duration_ms: 0.049
+  type: 'test'
+  ...
+# Subtest: confirmation sends only the one-use token and matching passwords, never an email or role
+ok 181 - confirmation sends only the one-use token and matching passwords, never an email or role
+  ---
+  duration_ms: 0.142375
+  type: 'test'
+  ...
+# Subtest: a missing token never submits the password
+ok 182 - a missing token never submits the password
+  ---
+  duration_ms: 0.067584
+  type: 'test'
+  ...
+# Subtest: failed mail requests are reported, not presented as confirmed delivery
+ok 183 - failed mail requests are reported, not presented as confirmed delivery
+  ---
+  duration_ms: 0.071834
+  type: 'test'
+  ...
+# Subtest: a rejected or expired token does not produce a successful confirmation
+ok 184 - a rejected or expired token does not produce a successful confirmation
+  ---
+  duration_ms: 0.066458
+  type: 'test'
+  ...
+# Subtest: acquires a hold with the session and without requesting a preference
+ok 185 - acquires a hold with the session and without requesting a preference
+  ---
+  duration_ms: 57.360792
+  type: 'test'
+  ...
+# Subtest: a free slot does not acquire a hold
+ok 186 - a free slot does not acquire a hold
+  ---
+  duration_ms: 6.344375
+  type: 'test'
+  ...
+# Subtest: StrictMode setup-cleanup-setup does not create competing holds
+ok 187 - StrictMode setup-cleanup-setup does not create competing holds
+  ---
+  duration_ms: 8.612917
+  type: 'test'
+  ...
+# Subtest: closing before the create response releases the acquired hold as soon as its ID is known
+ok 188 - closing before the create response releases the acquired hold as soon as its ID is known
+  ---
+  duration_ms: 6.000333
+  type: 'test'
+  ...
+# Subtest: switching slots waits for the old cancellation before acquiring the next hold
+ok 189 - switching slots waits for the old cancellation before acquiring the next hold
+  ---
+  duration_ms: 3.365958
+  type: 'test'
+  ...
+# Subtest: closing after checkout starts does not cancel the in-flight payment
+ok 190 - closing after checkout starts does not cancel the in-flight payment
+  ---
+  duration_ms: 1.592417
+  type: 'test'
+  ...
+# Subtest: explicit cancellation releases the same reservation
+ok 191 - explicit cancellation releases the same reservation
+  ---
+  duration_ms: 1.906459
+  type: 'test'
+  ...
+# Subtest: changing visitor participants in an already held night slot does not extend its deadline
+ok 192 - changing visitor participants in an already held night slot does not extend its deadline
+  ---
+  duration_ms: 3.166708
+  type: 'test'
+  ...
+# Subtest: a failed hold request keeps payment unavailable and reports the backend message
+ok 193 - a failed hold request keeps payment unavailable and reports the backend message
+  ---
+  duration_ms: 9.956959
+  type: 'test'
+  ...
+# Subtest: night payment uses the backend rate, not a hardcoded amount
+ok 194 - night payment uses the backend rate, not a hardcoded amount
+  ---
+  duration_ms: 2.282833
+  type: 'test'
+  ...
+# Subtest: visitor payment uses the backend rate
+ok 195 - visitor payment uses the backend rate
+  ---
+  duration_ms: 0.211084
+  type: 'test'
+  ...
+# Subtest: combined payment uses the independently configured backend rate, not the sum
+ok 196 - combined payment uses the independently configured backend rate, not the sum
+  ---
+  duration_ms: 0.069209
+  type: 'test'
+  ...
+# Subtest: a free reservation does not require rates
+ok 197 - a free reservation does not require rates
+  ---
+  duration_ms: 0.056791
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: null
+ok 198 - rejects a missing or malformed rates response: null
+  ---
+  duration_ms: 0.699667
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: undefined
+ok 199 - rejects a missing or malformed rates response: undefined
+  ---
+  duration_ms: 0.208209
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: {}
+ok 200 - rejects a missing or malformed rates response: {}
+  ---
+  duration_ms: 21.268
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: []
+ok 201 - rejects a missing or malformed rates response: []
+  ---
+  duration_ms: 0.325791
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: "invalid"
+ok 202 - rejects a missing or malformed rates response: "invalid"
+  ---
+  duration_ms: 1.007
+  type: 'test'
+  ...
+# Subtest: rejects a missing or malformed rates response: {"currency":"USD","nightAmount":5000,"visitAmount":8000,"nightVisitAmount":12000}
+ok 203 - rejects a missing or malformed rates response: {"currency":"USD","nightAmount":5000,"visitAmount":8000,"nightVisitAmount":12000}
+  ---
+  duration_ms: 1.631416
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=0
+ok 204 - rejects an invalid backend rate nightAmount=0
+  ---
+  duration_ms: 0.830084
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=-1
+ok 205 - rejects an invalid backend rate nightAmount=-1
+  ---
+  duration_ms: 0.068625
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=1.5
+ok 206 - rejects an invalid backend rate nightAmount=1.5
+  ---
+  duration_ms: 0.379334
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=5000
+ok 207 - rejects an invalid backend rate nightAmount=5000
+  ---
+  duration_ms: 0.922875
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=undefined
+ok 208 - rejects an invalid backend rate nightAmount=undefined
+  ---
+  duration_ms: 0.123709
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=NaN
+ok 209 - rejects an invalid backend rate nightAmount=NaN
+  ---
+  duration_ms: 0.111708
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=Infinity
+ok 210 - rejects an invalid backend rate nightAmount=Infinity
+  ---
+  duration_ms: 0.139167
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightAmount=9007199254740992
+ok 211 - rejects an invalid backend rate nightAmount=9007199254740992
+  ---
+  duration_ms: 0.078875
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=0
+ok 212 - rejects an invalid backend rate visitAmount=0
+  ---
+  duration_ms: 0.043875
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=-1
+ok 213 - rejects an invalid backend rate visitAmount=-1
+  ---
+  duration_ms: 0.039208
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=1.5
+ok 214 - rejects an invalid backend rate visitAmount=1.5
+  ---
+  duration_ms: 0.039125
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=5000
+ok 215 - rejects an invalid backend rate visitAmount=5000
+  ---
+  duration_ms: 0.037917
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=undefined
+ok 216 - rejects an invalid backend rate visitAmount=undefined
+  ---
+  duration_ms: 0.030875
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=NaN
+ok 217 - rejects an invalid backend rate visitAmount=NaN
+  ---
+  duration_ms: 0.035584
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=Infinity
+ok 218 - rejects an invalid backend rate visitAmount=Infinity
+  ---
+  duration_ms: 0.029125
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate visitAmount=9007199254740992
+ok 219 - rejects an invalid backend rate visitAmount=9007199254740992
+  ---
+  duration_ms: 0.028417
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=0
+ok 220 - rejects an invalid backend rate nightVisitAmount=0
+  ---
+  duration_ms: 0.029291
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=-1
+ok 221 - rejects an invalid backend rate nightVisitAmount=-1
+  ---
+  duration_ms: 0.029
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=1.5
+ok 222 - rejects an invalid backend rate nightVisitAmount=1.5
+  ---
+  duration_ms: 0.030125
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=5000
+ok 223 - rejects an invalid backend rate nightVisitAmount=5000
+  ---
+  duration_ms: 0.029917
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=undefined
+ok 224 - rejects an invalid backend rate nightVisitAmount=undefined
+  ---
+  duration_ms: 0.027959
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=NaN
+ok 225 - rejects an invalid backend rate nightVisitAmount=NaN
+  ---
+  duration_ms: 0.028042
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=Infinity
+ok 226 - rejects an invalid backend rate nightVisitAmount=Infinity
+  ---
+  duration_ms: 0.036958
+  type: 'test'
+  ...
+# Subtest: rejects an invalid backend rate nightVisitAmount=9007199254740992
+ok 227 - rejects an invalid backend rate nightVisitAmount=9007199254740992
+  ---
+  duration_ms: 0.029208
+  type: 'test'
+  ...
+# Subtest: upload and profile update both send the JWT, with an encoded owner email
+ok 228 - upload and profile update both send the JWT, with an encoded owner email
+  ---
+  duration_ms: 2.037209
+  type: 'test'
+  ...
+# Subtest: missing session (null) makes no upload or profile request
+ok 229 - missing session (null) makes no upload or profile request
+  ---
+  duration_ms: 0.467791
+  type: 'test'
+  ...
+# Subtest: missing session ("") makes no upload or profile request
+ok 230 - missing session ("") makes no upload or profile request
+  ---
+  duration_ms: 0.337625
+  type: 'test'
+  ...
+# Subtest: missing session ("   ") makes no upload or profile request
+ok 231 - missing session ("   ") makes no upload or profile request
+  ---
+  duration_ms: 0.120084
+  type: 'test'
+  ...
+# Subtest: a missing owner email makes no HTTP request
+ok 232 - a missing owner email makes no HTTP request
+  ---
+  duration_ms: 0.188666
+  type: 'test'
+  ...
+# Subtest: failed upload never attempts the profile update
+ok 233 - failed upload never attempts the profile update
+  ---
+  duration_ms: 0.612834
+  type: 'test'
+  ...
+# Subtest: a failed profile update is reported instead of showing success
+ok 234 - a failed profile update is reported instead of showing success
+  ---
+  duration_ms: 0.664417
+  type: 'test'
+  ...
+# Subtest: a malformed upload response never updates the profile
+ok 235 - a malformed upload response never updates the profile
+  ---
+  duration_ms: 0.252708
+  type: 'test'
+  ...
+# Subtest: profile layout preserves complete names and only reads the existing three endpoints
+ok 236 - profile layout preserves complete names and only reads the existing three endpoints
+  ---
+  duration_ms: 30.096917
+  type: 'test'
+  ...
+# Subtest: Singles/Dobles preserves filtering of categories, matches and statistics
+ok 237 - Singles/Dobles preserves filtering of categories, matches and statistics
+  ---
+  duration_ms: 1.808709
+  type: 'test'
+  ...
+# Subtest: mode keyboard navigation updates focus, selection and panel label
+ok 238 - mode keyboard navigation updates focus, selection and panel label
+  ---
+  duration_ms: 1.533667
+  type: 'test'
+  ...
+# Subtest: empty profile keeps zero statistics and both empty sections
+ok 239 - empty profile keeps zero statistics and both empty sections
+  ---
+  duration_ms: 2.980834
+  type: 'test'
+  ...
+# Subtest: doubles-only membership still opens in doubles by default
+ok 240 - doubles-only membership still opens in doubles by default
+  ---
+  duration_ms: 1.142375
+  type: 'test'
+  ...
+# Subtest: new and historical provider returns use only a validated reservation reference
+ok 241 - new and historical provider returns use only a validated reservation reference
+  ---
+  duration_ms: 5.368042
+  type: 'test'
+  ...
+# Subtest: success/failure/pending restore identity after login, not browser payment claims
+ok 242 - success/failure/pending restore identity after login, not browser payment claims
+  ---
+  duration_ms: 1.182375
+  type: 'test'
+  ...
+# Subtest: only a response for the requested reservation and known authoritative states is accepted
+ok 243 - only a response for the requested reservation and known authoritative states is accepted
+  ---
+  duration_ms: 0.516
+  type: 'test'
+  ...
+# Subtest: initial HTML identifies CTQ in Spanish before React or authentication
+ok 244 - initial HTML identifies CTQ in Spanish before React or authentication
+  ---
+  duration_ms: 0.6895
+  type: 'test'
+  ...
+# Subtest: Open Graph has one complete institutional value per field in the original head
+ok 245 - Open Graph has one complete institutional value per field in the original head
+  ---
+  duration_ms: 3.665791
+  type: 'test'
+  ...
+# Subtest: shared URLs use the public HTTPS origin without private path, query, credentials or fragment
+ok 246 - shared URLs use the public HTTPS origin without private path, query, credentials or fragment
+  ---
+  duration_ms: 8.17075
+  type: 'test'
+  ...
+# Subtest: icon alternatives form one CTQ family, with correct formats and no competing legacy links
+ok 247 - icon alternatives form one CTQ family, with correct formats and no competing legacy links
+  ---
+  duration_ms: 5.454708
+  type: 'test'
+  ...
+# Subtest: ctq-favicon-v1-32.png is an actual PNG with the declared dimensions
+ok 248 - ctq-favicon-v1-32.png is an actual PNG with the declared dimensions
+  ---
+  duration_ms: 13.281125
+  type: 'test'
+  ...
+# Subtest: ctq-apple-touch-v1.png is an actual PNG with the declared dimensions
+ok 249 - ctq-apple-touch-v1.png is an actual PNG with the declared dimensions
+  ---
+  duration_ms: 2.315958
+  type: 'test'
+  ...
+# Subtest: images/ctq-compartir-v1.png is an actual PNG with the declared dimensions
+ok 250 - images/ctq-compartir-v1.png is an actual PNG with the declared dimensions
+  ---
+  duration_ms: 9.511334
+  type: 'test'
+  ...
+# Subtest: ICO contains all three correctly bounded PNG frames, identical to the standalone 32px asset
+ok 251 - ICO contains all three correctly bounded PNG frames, identical to the standalone 32px asset
+  ---
+  duration_ms: 6.034792
+  type: 'test'
+  ...
+# Subtest: asset provenance hashes match outputs and unchanged official source images
+ok 252 - asset provenance hashes match outputs and unchanged official source images
+  ---
+  duration_ms: 15.00175
+  type: 'test'
+  ...
+# Subtest: each image/icon reference resolves to a real public asset, independent of SPA routing
+ok 253 - each image/icon reference resolves to a real public asset, independent of SPA routing
+  ---
+  duration_ms: 3.792458
+  type: 'test'
+  ...
+# Subtest: cancelling the SweetAlert keeps the draft and prevents navigation
+ok 254 - cancelling the SweetAlert keeps the draft and prevents navigation
+  ---
+  duration_ms: 2.450458
+  type: 'test'
+  ...
+# Subtest: repeated navigation attempts share one decision and only the first proceeds
+ok 255 - repeated navigation attempts share one decision and only the first proceeds
+  ---
+  duration_ms: 1.526833
+  type: 'test'
+  ...
+# Subtest: programmatic Back proceeds only after confirmation without a second dialog
+ok 256 - programmatic Back proceeds only after confirmation without a second dialog
+  ---
+  duration_ms: 0.741292
+  type: 'test'
+  ...
+# Subtest: browser Back restores the editor before prompting and cancellation stays there
+ok 257 - browser Back restores the editor before prompting and cancellation stays there
+  ---
+  duration_ms: 0.676333
+  type: 'test'
+  ...
+# Subtest: confirmed browser Back replays exactly the original history delta
+ok 258 - confirmed browser Back replays exactly the original history delta
+  ---
+  duration_ms: 0.796833
+  type: 'test'
+  ...
+# Subtest: navigation remains blocked while a save is in flight without another dialog
+ok 259 - navigation remains blocked while a save is in flight without another dialog
+  ---
+  duration_ms: 1.171709
+  type: 'test'
+  ...
+# Subtest: unmounting during a pending dialog cannot execute stale navigation
+ok 260 - unmounting during a pending dialog cannot execute stale navigation
+  ---
+  duration_ms: 1.784958
+  type: 'test'
+  ...
+# Subtest: native tab unload stays protected, but confirmed in-app reload does not prompt twice
+ok 261 - native tab unload stays protected, but confirmed in-app reload does not prompt twice
+  ---
+  duration_ms: 1.080208
+  type: 'test'
+  ...
+# Subtest: reload confirmation is SweetAlert and simultaneous requests cannot open two dialogs
+ok 262 - reload confirmation is SweetAlert and simultaneous requests cannot open two dialogs
+  ---
+  duration_ms: 0.390083
+  type: 'test'
+  ...
+1..262
+# tests 262
+# suites 0
+# pass 262
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1385.144792

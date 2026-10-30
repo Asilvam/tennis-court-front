@@ -62,15 +62,27 @@ interface MatchResult {
 const formatDate = (dateStr: string): string => {
     try {
         const [year, month, day] = dateStr.split('-');
-        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const months = [
+            'Ene',
+            'Feb',
+            'Mar',
+            'Abr',
+            'May',
+            'Jun',
+            'Jul',
+            'Ago',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dic',
+        ];
         return `${parseInt(day)} ${months[parseInt(month) - 1]} ${year}`;
     } catch {
         return dateStr;
     }
 };
 
-const isDoublesCategory = (cat: string): boolean =>
-    cat.toLowerCase().includes('doble');
+const isDoublesCategory = (cat: string): boolean => cat.toLowerCase().includes('doble');
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -82,7 +94,7 @@ const PlayerProfile: React.FC = () => {
     // Profile
     const [player, setPlayer] = useState<PlayerProfileData | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>('/images/profile-avatar.png');
+    const [imagePreview, setImagePreview] = useState<string | null>('/images/avatar-fantasma.png');
     const [uploading, setUploading] = useState(false);
 
     // Ranking
@@ -118,7 +130,7 @@ const PlayerProfile: React.FC = () => {
                 const cats: CategoryRank[] = [];
 
                 Object.entries(rankingsData).forEach(([categoryName, players]) => {
-                    const found = players.find(p => p.id === emailPlayer);
+                    const found = players.find((p) => p.id === emailPlayer);
                     if (found) {
                         cats.push({
                             category: categoryName,
@@ -133,9 +145,8 @@ const PlayerProfile: React.FC = () => {
                 setMatchHistory(historyRes.data || []);
 
                 // Default tab: if player only has doubles categories, open doubles
-                const hasSingles = cats.some(c => !isDoublesCategory(c.category));
+                const hasSingles = cats.some((c) => !isDoublesCategory(c.category));
                 if (!hasSingles && cats.length > 0) setActiveTab('doubles');
-
             } catch (error) {
                 logger.error('Error fetching player profile:', error);
                 Swal.fire('Error', 'No se pudo cargar la información del perfil.', 'error');
@@ -171,9 +182,14 @@ const PlayerProfile: React.FC = () => {
 
         setUploading(true);
         try {
-            const imageUrlProfile = await updateProfileImage(apiUrl, emailPlayer, imageFile, getTokenFromLocalStorage());
+            const imageUrlProfile = await updateProfileImage(
+                apiUrl,
+                emailPlayer,
+                imageFile,
+                getTokenFromLocalStorage(),
+            );
 
-            setPlayer(prev => prev ? { ...prev, imageUrlProfile } : null);
+            setPlayer((prev) => (prev ? { ...prev, imageUrlProfile } : null));
             Swal.fire('¡Éxito!', 'Tu foto de perfil ha sido actualizada.', 'success');
             setImageFile(null);
         } catch (error) {
@@ -186,17 +202,32 @@ const PlayerProfile: React.FC = () => {
 
     // ─── Derived stats ───────────────────────────────────────────────────────
 
-    const singlesCategories = allCategories.filter(c => !isDoublesCategory(c.category));
-    const doublesCategories = allCategories.filter(c => isDoublesCategory(c.category));
+    const singlesCategories = allCategories.filter((c) => !isDoublesCategory(c.category));
+    const doublesCategories = allCategories.filter((c) => isDoublesCategory(c.category));
     const activeCategories = activeTab === 'singles' ? singlesCategories : doublesCategories;
 
-    const filteredHistory = matchHistory.filter(m =>
-        activeTab === 'singles' ? !m.isDouble : m.isDouble
+    const filteredHistory = matchHistory.filter((m) =>
+        activeTab === 'singles' ? !m.isDouble : m.isDouble,
     );
     const played = filteredHistory.length;
-    const won = filteredHistory.filter(m => m.ganador).length;
+    const won = filteredHistory.filter((m) => m.ganador).length;
     const lost = played - won;
     const winRate = played > 0 ? Math.round((won / played) * 100) : 0;
+
+    const handleModeKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next =
+            event.key === 'Home'
+                ? 'singles'
+                : event.key === 'End'
+                  ? 'doubles'
+                  : activeTab === 'singles'
+                    ? 'doubles'
+                    : 'singles';
+        setActiveTab(next);
+        document.getElementById(`profile-tab-${next}`)?.focus();
+    };
 
     // ─── Render ──────────────────────────────────────────────────────────────
 
@@ -211,12 +242,11 @@ const PlayerProfile: React.FC = () => {
     return (
         <div className="profile-container">
             <div className="profile-card">
-
                 {/* ── Header ─────────────────────────────────────────────── */}
                 <div className="profile-header">
                     <div className="profile-image-wrapper">
                         <img
-                            src={imagePreview || '/images/fantasma-avatar.png'}
+                            src={imagePreview || '/images/avatar-fantasma.png'}
                             alt="Perfil"
                             className="profile-image"
                         />
@@ -232,7 +262,7 @@ const PlayerProfile: React.FC = () => {
                         />
                     </div>
                     <div className="profile-header-info">
-                        <h2>{player.namePlayer}</h2>
+                        <h1>{player.namePlayer}</h1>
                         <p className="player-email">{player.email}</p>
 
                         {imageFile && (
@@ -241,18 +271,29 @@ const PlayerProfile: React.FC = () => {
                                 disabled={uploading}
                                 className="save-btn"
                             >
-                                {uploading
-                                    ? <><LoadingSpinner size={24} label="Subiendo" /> Subiendo...</>
-                                    : 'Guardar Foto'}
+                                {uploading ? (
+                                    <>
+                                        <LoadingSpinner size={24} label="Subiendo" /> Subiendo...
+                                    </>
+                                ) : (
+                                    'Guardar Foto'
+                                )}
                             </button>
                         )}
                     </div>
                 </div>
 
                 {/* ── Tabs ───────────────────────────────────────────────── */}
-                <div className="profile-tabs">
+                <div className="profile-tabs" role="tablist" aria-label="Modalidad del perfil">
                     <button
                         className={`tab-btn ${activeTab === 'singles' ? 'active' : ''}`}
+                        id="profile-tab-singles"
+                        type="button"
+                        role="tab"
+                        aria-selected={activeTab === 'singles'}
+                        tabIndex={activeTab === 'singles' ? 0 : -1}
+                        onKeyDown={handleModeKeyDown}
+                        aria-controls="profile-mode-content"
                         onClick={() => setActiveTab('singles')}
                     >
                         <FontAwesomeIcon icon={faUser} />
@@ -260,6 +301,13 @@ const PlayerProfile: React.FC = () => {
                     </button>
                     <button
                         className={`tab-btn ${activeTab === 'doubles' ? 'active' : ''}`}
+                        id="profile-tab-doubles"
+                        type="button"
+                        role="tab"
+                        aria-selected={activeTab === 'doubles'}
+                        tabIndex={activeTab === 'doubles' ? 0 : -1}
+                        onKeyDown={handleModeKeyDown}
+                        aria-controls="profile-mode-content"
                         onClick={() => setActiveTab('doubles')}
                     >
                         <FontAwesomeIcon icon={faUserGroup} />
@@ -268,111 +316,139 @@ const PlayerProfile: React.FC = () => {
                 </div>
 
                 {/* ── Stats ──────────────────────────────────────────────── */}
-                <div className="profile-section">
-                    <div className="stats-grid">
-                        <div className="stat-card">
-                            <div className="stat-icon-wrapper neutral">
-                                <FontAwesomeIcon icon={faCalendarAlt} />
+                <div
+                    id="profile-mode-content"
+                    className="profile-mode-content"
+                    role="tabpanel"
+                    aria-labelledby={`profile-tab-${activeTab}`}
+                >
+                    <div className="profile-section profile-section--summary">
+                        <div className="stats-grid">
+                            <div className="stat-card">
+                                <div className="stat-icon-wrapper neutral">
+                                    <FontAwesomeIcon icon={faCalendarAlt} />
+                                </div>
+                                <span className="stat-number">{played}</span>
+                                <span className="stat-label">Jugados</span>
                             </div>
-                            <span className="stat-number">{played}</span>
-                            <span className="stat-label">Jugados</span>
-                        </div>
-                        <div className="stat-card">
-                            <div className="stat-icon-wrapper win">
-                                <FontAwesomeIcon icon={faCheckCircle} />
+                            <div className="stat-card">
+                                <div className="stat-icon-wrapper win">
+                                    <FontAwesomeIcon icon={faCheckCircle} />
+                                </div>
+                                <span className="stat-number won">{won}</span>
+                                <span className="stat-label">Ganados</span>
                             </div>
-                            <span className="stat-number won">{won}</span>
-                            <span className="stat-label">Ganados</span>
-                        </div>
-                        <div className="stat-card">
-                            <div className="stat-icon-wrapper loss">
-                                <FontAwesomeIcon icon={faTimesCircle} />
+                            <div className="stat-card">
+                                <div className="stat-icon-wrapper loss">
+                                    <FontAwesomeIcon icon={faTimesCircle} />
+                                </div>
+                                <span className="stat-number lost">{lost}</span>
+                                <span className="stat-label">Perdidos</span>
                             </div>
-                            <span className="stat-number lost">{lost}</span>
-                            <span className="stat-label">Perdidos</span>
                         </div>
+
+                        {played > 0 && (
+                            <div className="winrate-container">
+                                <div className="winrate-header">
+                                    <span className="winrate-label">Win Rate</span>
+                                    <span className="winrate-value">{winRate}%</span>
+                                </div>
+                                <div className="winrate-track">
+                                    <div
+                                        className="winrate-fill"
+                                        style={{ width: `${winRate}%` }}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    {played > 0 && (
-                        <div className="winrate-container">
-                            <div className="winrate-header">
-                                <span className="winrate-label">Win Rate</span>
-                                <span className="winrate-value">{winRate}%</span>
-                            </div>
-                            <div className="winrate-track">
-                                <div
-                                    className="winrate-fill"
-                                    style={{ width: `${winRate}%` }}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
+                    {/* ── Categorías ─────────────────────────────────────────── */}
+                    <section
+                        className="profile-section profile-section--categories"
+                        aria-labelledby="profile-categories-title"
+                    >
+                        <h2 id="profile-categories-title" className="section-title">
+                            <FontAwesomeIcon icon={faTrophy} />
+                            {activeTab === 'singles' ? 'Categorías Singles' : 'Categorías Dobles'}
+                        </h2>
 
-                {/* ── Categorías ─────────────────────────────────────────── */}
-                <div className="profile-section">
-                    <h4 className="section-title">
-                        <FontAwesomeIcon icon={faTrophy} />
-                        {activeTab === 'singles' ? 'Categorías Singles' : 'Categorías Dobles'}
-                    </h4>
-
-                    {activeCategories.length === 0 ? (
-                        <p className="empty-state">Sin categorías en este modo.</p>
-                    ) : (
-                        <div className="pp-categories-grid">
-                            {activeCategories.map(cat => (
-                                <div key={cat.category} className={`pp-category-card ${cat.isActive ? 'active' : 'inactive'}`}>
-                                    <div className="pp-category-name-wrapper">
-                                        <span className="pp-category-label-text">Categoría</span>
-                                        <div className="pp-category-name">{cat.category}</div>
-                                    </div>
-                                    <div className="pp-category-stats">
-                                        <div className="pp-category-rank">
-                                            <FontAwesomeIcon icon={faRankingStar} />
-                                            <span className="pp-stat-detail-label">Ranking</span>
-                                            <span className="pp-stat-detail-value">#{cat.rank}</span>
+                        {activeCategories.length === 0 ? (
+                            <p className="empty-state">Sin categorías en este modo.</p>
+                        ) : (
+                            <div className="pp-categories-grid">
+                                {activeCategories.map((cat) => (
+                                    <div
+                                        key={cat.category}
+                                        className={`pp-category-card ${cat.isActive ? 'active' : 'inactive'}`}
+                                    >
+                                        <div className="pp-category-name-wrapper">
+                                            <span className="pp-category-label-text">
+                                                Categoría
+                                            </span>
+                                            <div className="pp-category-name">{cat.category}</div>
                                         </div>
-                                        <div className="pp-category-points">
-                                            <FontAwesomeIcon icon={faStar} />
-                                            <span className="pp-stat-detail-label">Puntos</span>
-                                            <span className="pp-stat-detail-value">{cat.points.toLocaleString('es-CL')}</span>
+                                        <div className="pp-category-stats">
+                                            <div className="pp-category-rank">
+                                                <FontAwesomeIcon icon={faRankingStar} />
+                                                <span className="pp-stat-detail-label">
+                                                    Ranking
+                                                </span>
+                                                <span className="pp-stat-detail-value">
+                                                    #{cat.rank}
+                                                </span>
+                                            </div>
+                                            <div className="pp-category-points">
+                                                <FontAwesomeIcon icon={faStar} />
+                                                <span className="pp-stat-detail-label">Puntos</span>
+                                                <span className="pp-stat-detail-value">
+                                                    {cat.points.toLocaleString('es-CL')}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                                ))}
+                            </div>
+                        )}
+                    </section>
+
+                    {/* ── Historial de partidos ──────────────────────────────── */}
+                    <section
+                        className="profile-section profile-section--history"
+                        aria-labelledby="profile-history-title"
+                    >
+                        <h2 id="profile-history-title" className="section-title">
+                            <FontAwesomeIcon icon={faCalendarAlt} />
+                            Historial de Partidos
+                        </h2>
+
+                        {filteredHistory.length === 0 ? (
+                            <p className="empty-state">Sin partidos registrados.</p>
+                        ) : (
+                            <div className="match-history-list">
+                                {filteredHistory.map((match) => (
+                                    <div
+                                        key={match.id}
+                                        className={`match-row ${match.ganador ? 'win' : 'loss'}`}
+                                    >
+                                        <div className="match-date">{formatDate(match.fecha)}</div>
+                                        <div className="match-rival">
+                                            vs <strong>{match.rival}</strong>
+                                        </div>
+                                        <div className="match-score">
+                                            {match.score !== 'N/A' ? match.score : '—'}
+                                        </div>
+                                        <div
+                                            className={`match-result-pill ${match.ganador ? 'win' : 'loss'}`}
+                                        >
+                                            {match.ganador ? 'Ganado' : 'Perdido'}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </section>
                 </div>
-
-                {/* ── Historial de partidos ──────────────────────────────── */}
-                <div className="profile-section">
-                    <h4 className="section-title">
-                        <FontAwesomeIcon icon={faCalendarAlt} />
-                        Historial de Partidos
-                    </h4>
-
-                    {filteredHistory.length === 0 ? (
-                        <p className="empty-state">Sin partidos registrados.</p>
-                    ) : (
-                        <div className="match-history-list">
-                            {filteredHistory.map(match => (
-                                <div key={match.id} className={`match-row ${match.ganador ? 'win' : 'loss'}`}>
-                                    <div className="match-date">{formatDate(match.fecha)}</div>
-                                    <div className="match-rival">
-                                        vs <strong>{match.rival}</strong>
-                                    </div>
-                                    <div className="match-score">
-                                        {match.score !== 'N/A' ? match.score : '—'}
-                                    </div>
-                                    <div className={`match-result-pill ${match.ganador ? 'win' : 'loss'}`}>
-                                        {match.ganador ? 'Ganado' : 'Perdido'}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
             </div>
         </div>
     );

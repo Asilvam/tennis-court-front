@@ -1,8 +1,8 @@
 /* Dashboard Container */
 .dashboard-container {
-    padding: 20px 10px 32px;
-    max-width: 1400px;
-    width: 98%;
+    padding: 20px var(--ctq-page-gutter) 32px;
+    max-width: var(--ctq-page-max);
+    width: 100%;
     margin: 0 auto;
     font-family: 'Outfit', sans-serif;
     color: var(--ctq-text);

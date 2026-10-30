@@ -1,0 +1,1318 @@
+{
+  "date": "2026-10-29",
+  "scope": "Local React build, mocked session/news; no live club API",
+  "passed": [
+    "chromium/390: no page horizontal overflow",
+    "chromium/390: mobile title and hamburger do not overlap",
+    "chromium/390: mobile menu opens",
+    "chromium/390: no page errors or unexpected APIs",
+    "chromium/820: no page horizontal overflow",
+    "chromium/820: mobile title and hamburger do not overlap",
+    "chromium/820: mobile menu opens",
+    "chromium/820: no page errors or unexpected APIs",
+    "chromium/992: no page horizontal overflow",
+    "chromium/992: mobile title and hamburger do not overlap",
+    "chromium/992: mobile menu opens",
+    "chromium/992: no page errors or unexpected APIs",
+    "chromium/993: no page horizontal overflow",
+    "chromium/993: navigation shell matches home shell",
+    "chromium/993: title aligns with content left edge",
+    "chromium/993: menu aligns with content right edge",
+    "chromium/993: open menu stays within content width",
+    "chromium/993: no page errors or unexpected APIs",
+    "chromium/1024: no page horizontal overflow",
+    "chromium/1024: navigation shell matches home shell",
+    "chromium/1024: title aligns with content left edge",
+    "chromium/1024: menu aligns with content right edge",
+    "chromium/1024: open menu stays within content width",
+    "chromium/1024: no page errors or unexpected APIs",
+    "chromium/1280: no page horizontal overflow",
+    "chromium/1280: navigation shell matches home shell",
+    "chromium/1280: title aligns with content left edge",
+    "chromium/1280: menu aligns with content right edge",
+    "chromium/1280: open menu stays within content width",
+    "chromium/1280: no page errors or unexpected APIs",
+    "chromium/1399: no page horizontal overflow",
+    "chromium/1399: navigation shell matches home shell",
+    "chromium/1399: title aligns with content left edge",
+    "chromium/1399: menu aligns with content right edge",
+    "chromium/1399: open menu stays within content width",
+    "chromium/1399: no page errors or unexpected APIs",
+    "chromium/1400: no page horizontal overflow",
+    "chromium/1400: navigation shell matches home shell",
+    "chromium/1400: title aligns with content left edge",
+    "chromium/1400: menu aligns with content right edge",
+    "chromium/1400: open menu stays within content width",
+    "chromium/1400: no page errors or unexpected APIs",
+    "chromium/1440: no page horizontal overflow",
+    "chromium/1440: navigation shell matches home shell",
+    "chromium/1440: title aligns with content left edge",
+    "chromium/1440: menu aligns with content right edge",
+    "chromium/1440: open menu stays within content width",
+    "chromium/1440: no page errors or unexpected APIs",
+    "chromium/2068: no page horizontal overflow",
+    "chromium/2068: navigation shell matches home shell",
+    "chromium/2068: title aligns with content left edge",
+    "chromium/2068: menu aligns with content right edge",
+    "chromium/2068: open menu stays within content width",
+    "chromium/2068: no page errors or unexpected APIs",
+    "chromium/2560: no page horizontal overflow",
+    "chromium/2560: navigation shell matches home shell",
+    "chromium/2560: title aligns with content left edge",
+    "chromium/2560: menu aligns with content right edge",
+    "chromium/2560: open menu stays within content width",
+    "chromium/2560: no page errors or unexpected APIs",
+    "webkit/390: no page horizontal overflow",
+    "webkit/390: mobile title and hamburger do not overlap",
+    "webkit/390: mobile menu opens",
+    "webkit/390: no page errors or unexpected APIs",
+    "webkit/820: no page horizontal overflow",
+    "webkit/820: mobile title and hamburger do not overlap",
+    "webkit/820: mobile menu opens",
+    "webkit/820: no page errors or unexpected APIs",
+    "webkit/992: no page horizontal overflow",
+    "webkit/992: mobile title and hamburger do not overlap",
+    "webkit/992: mobile menu opens",
+    "webkit/992: no page errors or unexpected APIs",
+    "webkit/993: no page horizontal overflow",
+    "webkit/993: navigation shell matches home shell",
+    "webkit/993: title aligns with content left edge",
+    "webkit/993: menu aligns with content right edge",
+    "webkit/993: open menu stays within content width",
+    "webkit/993: no page errors or unexpected APIs",
+    "webkit/1024: no page horizontal overflow",
+    "webkit/1024: navigation shell matches home shell",
+    "webkit/1024: title aligns with content left edge",
+    "webkit/1024: menu aligns with content right edge",
+    "webkit/1024: open menu stays within content width",
+    "webkit/1024: no page errors or unexpected APIs",
+    "webkit/1280: no page horizontal overflow",
+    "webkit/1280: navigation shell matches home shell",
+    "webkit/1280: title aligns with content left edge",
+    "webkit/1280: menu aligns with content right edge",
+    "webkit/1280: open menu stays within content width",
+    "webkit/1280: no page errors or unexpected APIs",
+    "webkit/1399: no page horizontal overflow",
+    "webkit/1399: navigation shell matches home shell",
+    "webkit/1399: title aligns with content left edge",
+    "webkit/1399: menu aligns with content right edge",
+    "webkit/1399: open menu stays within content width",
+    "webkit/1399: no page errors or unexpected APIs",
+    "webkit/1400: no page horizontal overflow",
+    "webkit/1400: navigation shell matches home shell",
+    "webkit/1400: title aligns with content left edge",
+    "webkit/1400: menu aligns with content right edge",
+    "webkit/1400: open menu stays within content width",
+    "webkit/1400: no page errors or unexpected APIs",
+    "webkit/1440: no page horizontal overflow",
+    "webkit/1440: navigation shell matches home shell",
+    "webkit/1440: title aligns with content left edge",
+    "webkit/1440: menu aligns with content right edge",
+    "webkit/1440: open menu stays within content width",
+    "webkit/1440: no page errors or unexpected APIs",
+    "webkit/2068: no page horizontal overflow",
+    "webkit/2068: navigation shell matches home shell",
+    "webkit/2068: title aligns with content left edge",
+    "webkit/2068: menu aligns with content right edge",
+    "webkit/2068: open menu stays within content width",
+    "webkit/2068: no page errors or unexpected APIs",
+    "webkit/2560: no page horizontal overflow",
+    "webkit/2560: navigation shell matches home shell",
+    "webkit/2560: title aligns with content left edge",
+    "webkit/2560: menu aligns with content right edge",
+    "webkit/2560: open menu stays within content width",
+    "webkit/2560: no page errors or unexpected APIs"
+  ],
+  "views": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 390,
+      "metrics": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "wrapper": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 56,
+          "width": 390,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 72,
+          "right": 233.40625,
+          "top": 0,
+          "bottom": 56,
+          "width": 161.40625,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 390,
+          "top": 80,
+          "bottom": 690.46875,
+          "width": 390,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 56,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 820,
+      "metrics": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "wrapper": {
+          "left": 0,
+          "right": 820,
+          "top": 0,
+          "bottom": 64,
+          "width": 820,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 329.2109375,
+          "right": 510.7890625,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 820,
+          "top": 88,
+          "bottom": 617.046875,
+          "width": 820,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 64,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 992,
+      "metrics": {
+        "viewport": 992,
+        "documentWidth": 992,
+        "wrapper": {
+          "left": 0,
+          "right": 992,
+          "top": 0,
+          "bottom": 64,
+          "width": 992,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 415.2109375,
+          "right": 596.7890625,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 992,
+          "top": 287.984375,
+          "bottom": 882.796875,
+          "width": 992,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 64,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 993,
+      "metrics": {
+        "viewport": 993,
+        "documentWidth": 993,
+        "wrapper": {
+          "left": 0,
+          "right": 993,
+          "top": 0,
+          "bottom": 64,
+          "width": 993,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "brand": {
+          "left": 16,
+          "right": 197.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 872.640625,
+          "right": 977,
+          "top": 0,
+          "bottom": 64,
+          "width": 104.359375,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 993,
+          "top": 287.625,
+          "bottom": 882.796875,
+          "width": 993,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1024,
+      "metrics": {
+        "viewport": 1024,
+        "documentWidth": 1024,
+        "wrapper": {
+          "left": 0,
+          "right": 1024,
+          "top": 0,
+          "bottom": 64,
+          "width": 1024,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 24,
+          "right": 205.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 895.640625,
+          "right": 1000,
+          "top": 0,
+          "bottom": 64,
+          "width": 104.359375,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 1024,
+          "top": 92,
+          "bottom": 580.703125,
+          "width": 1024,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1280,
+      "metrics": {
+        "viewport": 1280,
+        "documentWidth": 1280,
+        "wrapper": {
+          "left": 120,
+          "right": 1160,
+          "top": 0,
+          "bottom": 64,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 144,
+          "right": 325.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1030.421875,
+          "right": 1136,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 120,
+          "right": 1160,
+          "top": 92,
+          "bottom": 656.046875,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1399,
+      "metrics": {
+        "viewport": 1399,
+        "documentWidth": 1399,
+        "wrapper": {
+          "left": 179.5,
+          "right": 1219.5,
+          "top": 0,
+          "bottom": 64,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 203.5,
+          "right": 385.078125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1089.921875,
+          "right": 1195.5,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 179.5,
+          "right": 1219.5,
+          "top": 92,
+          "bottom": 683.25,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1400,
+      "metrics": {
+        "viewport": 1400,
+        "documentWidth": 1400,
+        "wrapper": {
+          "left": 140,
+          "right": 1260,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 164,
+          "right": 345.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1130.421875,
+          "right": 1236,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 140,
+          "right": 1260,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1440,
+      "metrics": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "wrapper": {
+          "left": 160,
+          "right": 1280,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 184,
+          "right": 365.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1150.421875,
+          "right": 1256,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 160,
+          "right": 1280,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 2068,
+      "metrics": {
+        "viewport": 2068,
+        "documentWidth": 2068,
+        "wrapper": {
+          "left": 474,
+          "right": 1594,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 498,
+          "right": 679.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1464.421875,
+          "right": 1570,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 474,
+          "right": 1594,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 2560,
+      "metrics": {
+        "viewport": 2560,
+        "documentWidth": 2560,
+        "wrapper": {
+          "left": 720,
+          "right": 1840,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 744,
+          "right": 925.578125,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1710.421875,
+          "right": 1816,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 720,
+          "right": 1840,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 390,
+      "metrics": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "wrapper": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 56,
+          "width": 390,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 72,
+          "right": 233.65625,
+          "top": 0,
+          "bottom": 56,
+          "width": 161.65625,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 390,
+          "top": 80,
+          "bottom": 690.46875,
+          "width": 390,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 56,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 820,
+      "metrics": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "wrapper": {
+          "left": 0,
+          "right": 820,
+          "top": 0,
+          "bottom": 64,
+          "width": 820,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 329,
+          "right": 510.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 820,
+          "top": 88,
+          "bottom": 617.03125,
+          "width": 820,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 64,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 992,
+      "metrics": {
+        "viewport": 992,
+        "documentWidth": 992,
+        "wrapper": {
+          "left": 0,
+          "right": 992,
+          "top": 0,
+          "bottom": 64,
+          "width": 992,
+          "paddingLeft": 14,
+          "paddingRight": 14
+        },
+        "brand": {
+          "left": 415,
+          "right": 596.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 992,
+          "top": 288,
+          "bottom": 882.796875,
+          "width": 992,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 32,
+          "right": 56,
+          "top": 0,
+          "bottom": 64,
+          "width": 24,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 993,
+      "metrics": {
+        "viewport": 993,
+        "documentWidth": 993,
+        "wrapper": {
+          "left": 0,
+          "right": 993,
+          "top": 0,
+          "bottom": 64,
+          "width": 993,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "brand": {
+          "left": 16,
+          "right": 197.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 872.640625,
+          "right": 977,
+          "top": 0,
+          "bottom": 64,
+          "width": 104.359375,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 993,
+          "top": 287.640625,
+          "bottom": 882.796875,
+          "width": 993,
+          "paddingLeft": 16,
+          "paddingRight": 16
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1024,
+      "metrics": {
+        "viewport": 1024,
+        "documentWidth": 1024,
+        "wrapper": {
+          "left": 0,
+          "right": 1024,
+          "top": 0,
+          "bottom": 64,
+          "width": 1024,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 24,
+          "right": 205.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 895.640625,
+          "right": 1000,
+          "top": 0,
+          "bottom": 64,
+          "width": 104.359375,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 0,
+          "right": 1024,
+          "top": 92,
+          "bottom": 580.6875,
+          "width": 1024,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1280,
+      "metrics": {
+        "viewport": 1280,
+        "documentWidth": 1280,
+        "wrapper": {
+          "left": 120,
+          "right": 1160,
+          "top": 0,
+          "bottom": 64,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 144,
+          "right": 325.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1030.421875,
+          "right": 1136,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 120,
+          "right": 1160,
+          "top": 92,
+          "bottom": 656.046875,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1399,
+      "metrics": {
+        "viewport": 1399,
+        "documentWidth": 1399,
+        "wrapper": {
+          "left": 179.5,
+          "right": 1219.5,
+          "top": 0,
+          "bottom": 64,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 203.5,
+          "right": 385.375,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1089.921875,
+          "right": 1195.5,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 179.5,
+          "right": 1219.5,
+          "top": 92,
+          "bottom": 683.25,
+          "width": 1040,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1400,
+      "metrics": {
+        "viewport": 1400,
+        "documentWidth": 1400,
+        "wrapper": {
+          "left": 140,
+          "right": 1260,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 164,
+          "right": 345.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1130.421875,
+          "right": 1236,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 140,
+          "right": 1260,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1440,
+      "metrics": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "wrapper": {
+          "left": 160,
+          "right": 1280,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 184,
+          "right": 365.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1150.421875,
+          "right": 1256,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 160,
+          "right": 1280,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 2068,
+      "metrics": {
+        "viewport": 2068,
+        "documentWidth": 2068,
+        "wrapper": {
+          "left": 474,
+          "right": 1594,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 498,
+          "right": 679.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1464.421875,
+          "right": 1570,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 474,
+          "right": 1594,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 2560,
+      "metrics": {
+        "viewport": 2560,
+        "documentWidth": 2560,
+        "wrapper": {
+          "left": 720,
+          "right": 1840,
+          "top": 0,
+          "bottom": 64,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "brand": {
+          "left": 744,
+          "right": 925.875,
+          "top": 0,
+          "bottom": 64,
+          "width": 181.875,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "links": {
+          "left": 1710.421875,
+          "right": 1816,
+          "top": 0,
+          "bottom": 64,
+          "width": 105.578125,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        },
+        "hero": {
+          "left": 720,
+          "right": 1840,
+          "top": 92,
+          "bottom": 703.25,
+          "width": 1120,
+          "paddingLeft": 24,
+          "paddingRight": 24
+        },
+        "menu": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0
+        }
+      }
+    }
+  ],
+  "navigationCssSha256": "3b642428caa75b5f74ad4ae370f49603df8b5f0aa573e39843f027c908c51b30",
+  "status": "passed"
+}

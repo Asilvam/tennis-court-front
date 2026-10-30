@@ -14,6 +14,9 @@
     "test:member-editing": "node --experimental-strip-types --test tests/memberEditing.test.ts",
     "test:membership-payments": "node --experimental-strip-types --test tests/membershipPayments.test.ts tests/membershipNavigation.test.ts tests/memberPayments.test.ts tests/membershipReturn.test.ts tests/membershipReturnBoundary.test.mjs tests/membershipAdminNavigation.test.mjs tests/membershipAccessSession.test.mjs tests/authSessionBoundary.test.mjs tests/membershipSearch.test.mjs tests/membershipEnrollment.test.mjs tests/membershipActivation.test.mjs",
     "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
+    "test:profile-layout": "node --test tests/profileLayout.test.mjs",
+    "test:admin-reserves": "node --test tests/adminReserves.test.mjs",
+    "test:multibooking": "node --test tests/multibooking.test.mjs",
     "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
     "test:category-editor": "node --test tests/categoryEditor.test.mjs tests/unsavedCategoryChanges.test.mjs",
     "test:inactivity": "node --test tests/inactivityLogout.test.mjs",
@@ -25,6 +28,8 @@
     "npm": "10.x"
   },
   "dependencies": {
+    "@floating-ui/react": "0.27.20",
+    "date-fns": "4.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/react-router-dom": "^5.3.3",

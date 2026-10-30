@@ -1,7 +1,7 @@
 .member-categories {
-    width: min(100%, 1000px);
+    width: min(100%, var(--ctq-page-max));
     margin: 0 auto;
-    padding: 24px 24px 40px;
+    padding: 24px var(--ctq-page-gutter) 40px;
     color: var(--ctq-text);
     box-sizing: border-box;
     letter-spacing: 0;

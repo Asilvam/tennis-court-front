@@ -1,0 +1,2422 @@
+{
+  "scope": "UI review only, actual build and mocked access; no booking submissions or source changes",
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 320,
+      "initial": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1022.0625,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.3125,
+          "width": 266,
+          "height": 44,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 944.0625,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 49,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1027.0625,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.3125,
+          "width": 266,
+          "height": 49,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 949.0625,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 49,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 54,
+          "y": 436,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 18,
+          "width": 320,
+          "height": 1204.828125,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 291.953125,
+          "width": 266,
+          "height": 49,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 1088.828125,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 49,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 320,
+        "documentWidth": 716,
+        "form": {
+          "x": 0,
+          "y": 18,
+          "width": 320,
+          "height": 1204.828125,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 291.953125,
+          "width": 266,
+          "height": 49,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 1088.828125,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 49,
+            "width": 83.34375
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 49,
+            "width": 83.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 49,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "initial": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1001.0625,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.3125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 923.0625,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1001.0625,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.3125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 923.0625,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 89,
+          "y": 431,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 44,
+          "width": 390,
+          "height": 1178.828125,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 317.953125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 1088.828125,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 390,
+        "documentWidth": 716,
+        "form": {
+          "x": 0,
+          "y": 44,
+          "width": 390,
+          "height": 1178.828125,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 317.953125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 1088.828125,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 820,
+      "initial": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 956.6875,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.9375,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 934.6875,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 956.6875,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.9375,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 934.6875,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 304,
+          "y": 438,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 1070.4375,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.9375,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 1048.4375,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 1086.8125,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.9375,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 1064.8125,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "initial": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 982.15625,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.359375,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 960.15625,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 982.15625,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.359375,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 960.15625,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 606,
+          "y": 445,
+          "width": 227.28125,
+          "height": 221.390625
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 1098.25,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.359375,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 1076.25,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 1098.25,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.359375,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 1076.25,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "initial": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1021.75,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.28125,
+          "width": 266,
+          "height": 44,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 943.75,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 48.9375,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1026.6875,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.28125,
+          "width": 266,
+          "height": 48.9375,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 948.6875,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 48.9375,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 54,
+          "y": 436,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 320,
+        "documentWidth": 320,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1204.390625,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 329.90625,
+          "width": 266,
+          "height": 48.9375,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 1126.390625,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 48.9375,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 320,
+        "documentWidth": 716,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 320,
+          "height": 1204.390625,
+          "right": 320
+        },
+        "courts": {
+          "x": 27,
+          "y": 329.90625,
+          "width": 266,
+          "height": 48.9375,
+          "right": 293
+        },
+        "actions": {
+          "x": 10,
+          "y": 1126.390625,
+          "width": 300,
+          "height": 102,
+          "right": 310
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 48.9375,
+            "width": 83.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 48.9375,
+            "width": 83.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "initial": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1000.9375,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.28125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 922.9375,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1000.9375,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 282.28125,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 922.9375,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 89,
+          "y": 431,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 390,
+        "documentWidth": 390,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1178.640625,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 329.90625,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 1100.640625,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 390,
+        "documentWidth": 716,
+        "form": {
+          "x": 0,
+          "y": 56,
+          "width": 390,
+          "height": 1178.640625,
+          "right": 390
+        },
+        "courts": {
+          "x": 27,
+          "y": 329.90625,
+          "width": 336,
+          "height": 44,
+          "right": 363
+        },
+        "actions": {
+          "x": 10,
+          "y": 1100.640625,
+          "width": 370,
+          "height": 102,
+          "right": 380
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 106.671875
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 106.65625
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 106.671875
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 820,
+      "initial": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 956.546875,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.890625,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 934.546875,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 956.546875,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.890625,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 934.546875,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 304,
+          "y": 438,
+          "width": 212.140625,
+          "height": 207.25
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 1070.265625,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.890625,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 1048.265625,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 820,
+        "documentWidth": 820,
+        "form": {
+          "x": 0,
+          "y": 64,
+          "width": 820,
+          "height": 1086.625,
+          "right": 820
+        },
+        "courts": {
+          "x": 37,
+          "y": 289.890625,
+          "width": 746,
+          "height": 44,
+          "right": 783
+        },
+        "actions": {
+          "x": 16,
+          "y": 1064.625,
+          "width": 788,
+          "height": 46,
+          "right": 804
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 243.34375
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 243.328125
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 243.328125
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "initial": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 982.0625,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.3125,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 960.0625,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "selectedCourt": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 982.0625,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.3125,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 960.0625,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "calendar": {
+        "month": "October 2026",
+        "bounds": {
+          "x": 606,
+          "y": 445,
+          "width": 227.28125,
+          "height": 221.375
+        }
+      },
+      "markedDates": 0,
+      "dateChip": {
+        "role": null,
+        "tabIndex": -1,
+        "text": "2026-10-29×"
+      },
+      "filled": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 1098.125,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.3125,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 1076.125,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "unbrokenDetail": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "form": {
+          "x": 160,
+          "y": 64,
+          "width": 1120,
+          "height": 1098.125,
+          "right": 1280
+        },
+        "courts": {
+          "x": 205,
+          "y": 295.3125,
+          "width": 1030,
+          "height": 44,
+          "right": 1235
+        },
+        "actions": {
+          "x": 184,
+          "y": 1076.125,
+          "width": 1072,
+          "height": 46,
+          "right": 1256
+        },
+        "dateInputTabIndex": -1,
+        "turns": [
+          {
+            "text": "✓08:15-10:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓10:15-12:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓12:15-14:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓14:15-16:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓16:15-18:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓18:15-20:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓20:15-22:00",
+            "height": 42,
+            "width": 338
+          },
+          {
+            "text": "✓22:15-00:00",
+            "height": 42,
+            "width": 338
+          }
+        ],
+        "cardBackground": "linear-gradient(rgba(17, 37, 68, 0.94), rgba(10, 27, 51, 0.98))"
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "status": "reviewed"
+}

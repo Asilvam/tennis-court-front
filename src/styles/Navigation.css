@@ -67,6 +67,29 @@
   white-space: nowrap;
 }
 
+@media (min-width: 993px) {
+  .ctq-nav .ctq-nav__wrapper {
+    width: min(100%, var(--ctq-page-max));
+    margin: 0 auto;
+    padding: 0 var(--ctq-page-gutter);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ctq-nav .ctq-nav__brand {
+    position: static;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .ctq-nav .ctq-nav__links {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+}
+
 @media (max-width: 400px) {
   .ctq-nav .ctq-nav__brand {
     left: 72px;

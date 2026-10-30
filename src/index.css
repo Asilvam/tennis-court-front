@@ -11,11 +11,25 @@
   --ctq-accent-strong: #1c3c73;
   --ctq-accent-deep: #112544;
   --ctq-yellow: #f4e85a;
+  --ctq-page-max: 1120px;
+  --ctq-page-gutter: 16px;
   --ctq-z-modal: 9000;
   --ctq-z-alert: 11000;
   --ctq-page-gradient:
     radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 30%, rgba(255, 255, 255, 0) 62%),
     linear-gradient(180deg, var(--ctq-bg-top) 0%, var(--ctq-bg-mid) 48%, var(--ctq-bg-bottom) 100%);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --ctq-page-gutter: 24px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1399.98px) {
+  :root {
+    --ctq-page-max: 1040px;
+  }
 }
 
 body {

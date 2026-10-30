@@ -9,16 +9,18 @@
 }
 
 .profile-container {
+    width: min(100%, var(--ctq-page-max));
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 28px 14px 52px;
+    padding: 28px var(--ctq-page-gutter) 52px;
     min-height: calc(100vh - 64px);
 }
 
 .profile-card {
     width: 100%;
-    max-width: 760px;
+    max-width: 100%;
     overflow: hidden;
     border-radius: 22px;
     border: 1px solid rgba(148, 163, 184, 0.18);
@@ -92,12 +94,13 @@
     min-width: 0;
 }
 
-.profile-header-info h2 {
+.profile-header-info h1 {
     margin: 0;
     font-size: 1.7rem;
     font-weight: 800;
     line-height: 1.1;
     color: var(--ctq-text);
+    overflow-wrap: anywhere;
 }
 
 .player-email {
@@ -511,7 +514,7 @@
         align-items: center;
     }
 
-    .profile-header-info h2 {
+    .profile-header-info h1 {
         font-size: 1.45rem;
     }
 
@@ -576,5 +579,142 @@
         grid-row: 1;
         grid-column: 2;
         align-self: center;
+    }
+}
+
+@media (min-width: 1024px) {
+    .profile-container .profile-card {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .profile-container .profile-header {
+        padding: 16px 0 24px;
+        background: transparent;
+    }
+
+    .profile-container .profile-image-wrapper {
+        width: 88px;
+        height: 88px;
+    }
+
+    .profile-container .profile-tabs {
+        grid-template-columns: repeat(2, 144px);
+        padding: 12px 0;
+        background: transparent;
+    }
+
+    .profile-container .tab-btn {
+        border-radius: 6px;
+    }
+
+    .profile-mode-content {
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr);
+        grid-template-areas: "summary summary" "categories history";
+        align-items: start;
+    }
+
+    .profile-mode-content > .profile-section {
+        min-width: 0;
+    }
+
+    .profile-container .profile-section--summary {
+        grid-area: summary;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: center;
+        gap: 24px;
+        padding: 20px 0;
+    }
+
+    .profile-container .profile-section--summary:has(.winrate-container) {
+        grid-template-columns: minmax(0, 2fr) minmax(200px, 1fr);
+    }
+
+    .profile-container .stats-grid {
+        margin: 0;
+    }
+
+    .profile-container .stat-card {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 12px;
+        row-gap: 4px;
+        padding: 14px;
+        border-radius: 8px;
+        align-items: center;
+    }
+
+    .profile-container .stat-icon-wrapper {
+        grid-row: 1 / 3;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+    }
+
+    .profile-container .stat-number {
+        font-size: 24px;
+        text-align: left;
+    }
+
+    .profile-container .stat-label {
+        font-size: 11px;
+        text-align: left;
+        letter-spacing: 0;
+    }
+
+    .profile-container .profile-section--categories {
+        grid-area: categories;
+        align-self: stretch;
+        padding: 24px 24px 24px 0;
+        border-bottom: 0;
+        border-right: 1px solid var(--ctq-border-soft);
+    }
+
+    .profile-container .profile-section--history {
+        grid-area: history;
+        padding: 24px 0 24px 24px;
+    }
+
+    .profile-container .pp-category-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .profile-container .pp-category-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .profile-container .match-row {
+        grid-template-columns: 84px minmax(0, 1fr) auto;
+        border-radius: 6px;
+        gap: 8px 12px;
+    }
+
+    .profile-container .match-rival {
+        grid-column: 2;
+        grid-row: 1 / 3;
+    }
+
+    .profile-container .match-score {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .profile-container .match-result-pill {
+        grid-column: 3;
+        grid-row: 1 / 3;
+    }
+
+    .profile-container .section-title {
+        letter-spacing: 0;
     }
 }

@@ -1,9 +1,9 @@
 /* --- Main Container --- */
 .admin-register-container {
     width: 100%;
-    max-width: 1300px;
+    max-width: var(--ctq-page-max);
     margin: 0 auto;
-    padding: 12px 8px 24px;
+    padding: 12px var(--ctq-page-gutter) 24px;
 }
 
 .admin-register-hero {
@@ -321,7 +321,7 @@
 }
 
 .admin-users-page {
-    padding: 20px 10px 36px;
+    padding: 20px var(--ctq-page-gutter) 36px;
     color: var(--ctq-text);
 }
 

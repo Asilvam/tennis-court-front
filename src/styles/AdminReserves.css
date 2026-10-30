@@ -1,277 +1,223 @@
-/* ============================================================
-   AdminReserves — prefijo ar-
-   Design system: Dashboard / AdminRegister
-   ============================================================ */
-
 .ar-container {
-  max-width: 960px !important;
-  margin: 2rem auto !important;
-  padding: 0 1rem 3rem !important;
-  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  width: min(100%, var(--ctq-page-max));
+  margin: 24px auto 40px;
+  padding: 0 var(--ctq-page-gutter);
+  color: var(--ctq-text);
+  box-sizing: border-box;
 }
 
-/* ── Hero ─────────────────────────────────────────────────── */
+.ar-container *,
+.ar-container *::before,
+.ar-container *::after {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
 .ar-hero {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
-  border-radius: 24px !important;
-  padding: 2rem 2rem 1.6rem !important;
-  margin-bottom: 1.75rem !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 1rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--ctq-border-soft);
 }
 
-.ar-hero-text h2 {
-  margin: 0 0 0.25rem !important;
-  font-size: 1.6rem !important;
-  font-weight: 700 !important;
-  color: #fff !important;
+.ar-hero-text {
+  min-width: 0;
+}
+
+.ar-hero-text h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
 .ar-hero-text p {
-  margin: 0 !important;
-  font-size: 0.9rem !important;
-  color: rgba(255, 255, 255, 0.75) !important;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ctq-text-muted);
 }
 
 .ar-hero-badge {
-  background: rgba(255, 255, 255, 0.18) !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 50px !important;
-  padding: 0.45rem 1.1rem !important;
-  color: #fff !important;
-  font-size: 0.88rem !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
+  padding: 7px 12px;
+  border: 1px solid var(--ctq-border-soft);
+  border-radius: 4px;
+  background: rgba(125, 211, 252, 0.1);
+  color: var(--ctq-accent);
+  font-size: 14px;
+  white-space: nowrap;
 }
 
-/* ── Card ─────────────────────────────────────────────────── */
-.ar-card {
-  background: rgba(255, 255, 255, 0.84) !important;
-  backdrop-filter: blur(10px) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 4px 24px rgba(30, 58, 138, 0.08) !important;
-  border: 1px solid rgba(203, 213, 225, 0.5) !important;
-  overflow: visible !important;
-}
-
-/* ── Empty state ──────────────────────────────────────────── */
-.ar-empty {
-  padding: 3rem 2rem !important;
-  text-align: center !important;
-  color: #94a3b8 !important;
-  font-size: 0.95rem !important;
-}
-
-.ar-empty-icon {
-  font-size: 2.5rem !important;
-  margin-bottom: 0.75rem !important;
-  display: block !important;
-}
-
-/* ── Table ────────────────────────────────────────────────── */
 .ar-table-wrapper {
-  overflow-x: auto !important;
-  border-radius: 20px !important;
+  width: 100%;
 }
 
 .ar-table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  min-width: 360px !important;
-  table-layout: fixed !important;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
 
-.ar-table thead tr {
-  background: #f1f5f9 !important;
-  border-bottom: 2px solid #e2e8f0 !important;
-}
-
-.ar-table tbody tr:last-child td {
-  border-bottom: none !important;
-}
-
-.ar-table tbody tr:hover td {
-  background: #f8fafc !important;
+.ar-table th,
+.ar-table td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--ctq-border-soft);
+  line-height: 1.5;
 }
 
 .ar-table th {
-  padding: 0.85rem 0.5rem !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.07em !important;
-  color: #475569 !important;
-  text-align: left !important;
-  white-space: nowrap !important;
+  background: var(--ctq-surface-top);
+  color: var(--ctq-accent);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .ar-table td {
-  padding: 0.85rem 0.5rem !important;
-  font-size: 0.88rem !important;
-  color: #334155 !important;
-  border-bottom: 1px solid #f1f5f9 !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-  background: #fff !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-/* col widths: jugador flex, fecha fixed, turno fixed, cancha fixed, accion fixed */
-.ar-table th:nth-child(1),
-.ar-table td:nth-child(1) {
-  width: 90px !important;
-  white-space: normal !important;
-  word-break: break-word !important;
-  line-height: 1.35 !important;
-}
-
-.ar-table th:nth-child(2),
-.ar-table td:nth-child(2) {
-  width: 68px !important;
-  text-align: center !important;
-}
-
-.ar-table th:nth-child(3),
-.ar-table td:nth-child(3) {
-  width: 68px !important;
-  text-align: center !important;
-}
-
-.ar-table th:nth-child(4),
-.ar-table td:nth-child(4) {
-  width: 62px !important;
-  text-align: center !important;
-}
-
-.ar-table th:last-child,
-.ar-table td:last-child {
-  width: 62px !important;
-  text-align: center !important;
-}
-
-.ar-table thead tr {
-  background: #f1f5f9 !important;
-  border-bottom: 2px solid #e2e8f0 !important;
-}
-
-.ar-table th {
-  padding: 0.85rem 0.6rem !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.07em !important;
-  color: #475569 !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-}
-
-/* cancha column narrow */
-.ar-table th:nth-child(4),
-.ar-table td:nth-child(4) {
-  width: 55px !important;
-  max-width: 55px !important;
-  text-align: left !important;
-  padding-left: 0.4rem !important;
-  padding-right: 0.2rem !important;
-}
-
-/* acción column narrow */
-.ar-table th:last-child,
-.ar-table td:last-child {
-  width: 55px !important;
-  max-width: 55px !important;
-  text-align: center !important;
-  padding-left: 0.2rem !important;
-  padding-right: 0.4rem !important;
-}
-
-/* jugador column wraps instead of expanding */
-.ar-table td:first-child {
-  white-space: normal !important;
-  min-width: 80px !important;
-  max-width: 100px !important;
-  word-break: break-word !important;
-  line-height: 1.35 !important;
-}
-
-.ar-table td {
-  padding: 0.85rem 0.6rem !important;
-  font-size: 0.9rem !important;
-  color: #334155 !important;
-  border-bottom: 1px solid #f1f5f9 !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-  background: #fff !important;
-}
-
-.ar-table tbody tr:last-child td {
-  border-bottom: none !important;
+  background: var(--ctq-surface-bottom);
+  color: var(--ctq-text);
+  font-size: 15px;
 }
 
 .ar-table tbody tr:hover td {
-  background: #f8fafc !important;
+  background: rgba(125, 211, 252, 0.06);
 }
 
-/* ── State badge ──────────────────────────────────────────── */
-.ar-badge {
-  display: inline-flex !important;
-  align-items: center !important;
-  padding: 0.2rem 0.7rem !important;
-  border-radius: 20px !important;
-  font-size: 0.75rem !important;
-  font-weight: 700 !important;
+.ar-table th:nth-child(2) { width: 132px; }
+.ar-table th:nth-child(3) { width: 154px; }
+.ar-table th:nth-child(4) { width: 110px; }
+.ar-table th:last-child { width: 80px; }
+
+.ar-player-name {
+  display: block;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
-.ar-badge--active {
-  background: #dcfce7 !important;
-  color: #15803d !important;
+.ar-cell-date,
+.ar-cell-turn {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-.ar-badge--inactive {
-  background: #fee2e2 !important;
-  color: #b91c1c !important;
+.ar-cell-court {
+  overflow-wrap: anywhere;
 }
 
-/* ── Delete button ────────────────────────────────────────── */
-.ar-btn-delete {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 34px !important;
-  height: 34px !important;
-  min-width: 34px !important;
-  min-height: 34px !important;
-  border-radius: 8px !important;
-  border: none !important;
-  background: #fee2e2 !important;
-  color: #dc2626 !important;
-  cursor: pointer !important;
-  transition: background 0.15s !important;
-  padding: 0 !important;
-  line-height: 1 !important;
-  box-shadow: none !important;
+.ar-table .ar-cell-action {
+  text-align: right;
 }
 
-.ar-btn-delete:hover {
-  background: #fecaca !important;
-  color: #b91c1c !important;
-  box-shadow: none !important;
+.ar-container .ar-btn-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid rgba(252, 165, 165, 0.24);
+  border-radius: 6px;
+  background: rgba(252, 165, 165, 0.08);
+  color: #fca5a5;
+  cursor: pointer;
+  box-shadow: none;
 }
 
-/* ── Responsive ───────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .ar-hero {
-    flex-direction: column !important;
-    align-items: flex-start !important;
+.ar-container .ar-btn-delete:hover:not(:disabled) {
+  background: rgba(252, 165, 165, 0.16);
+  border-color: #fca5a5;
+}
+
+.ar-container .ar-btn-delete:focus-visible {
+  outline: 2px solid var(--ctq-accent);
+  outline-offset: 3px;
+}
+
+.ar-container .ar-btn-delete:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+
+.ar-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--ctq-text-muted);
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+
+.ar-empty-icon {
+  display: block;
+  margin: 0 auto 12px;
+  font-size: 26px;
+  color: var(--ctq-accent);
+}
+
+.ar-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .ar-table th, .ar-table td { padding: 12px 10px; }
+  .ar-table th:nth-child(2) { width: 116px; }
+  .ar-table th:nth-child(3) { width: 134px; }
+  .ar-table th:nth-child(4) { width: 98px; }
+  .ar-table th:last-child { width: 66px; }
+}
+
+@media (max-width: 767.98px) {
+  .ar-container { margin-top: 18px; }
+  .ar-hero { gap: 12px; margin-bottom: 12px; padding-bottom: 16px; }
+  .ar-hero-text h1 { font-size: 21px; }
+  .ar-table, .ar-table tbody { display: block; }
+  .ar-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
-
-  .ar-table th,
-  .ar-table td {
-    padding: 0.65rem 0.6rem !important;
-    font-size: 0.82rem !important;
+  .ar-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: 14px 12px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ctq-border-soft);
+  }
+  .ar-table td, .ar-table tbody tr:hover td {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+  }
+  .ar-table .ar-cell-player { grid-column: 1 / 3; grid-row: 1; }
+  .ar-player-name { font-size: 16px; }
+  .ar-table .ar-cell-action { grid-column: 3; grid-row: 1; justify-self: end; }
+  .ar-cell-date, .ar-cell-turn, .ar-cell-court { grid-row: 2; }
+  .ar-cell-date { grid-column: 1; }
+  .ar-cell-turn { grid-column: 2; }
+  .ar-cell-court { grid-column: 3; }
+  .ar-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: var(--ctq-text-muted);
+    font-size: 12px;
+    font-weight: 400;
   }
 }

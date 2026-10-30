@@ -1,6 +1,6 @@
 .ranking-wrapper {
-    padding: 24px 12px 40px;
-    max-width: 980px;
+    padding: 24px var(--ctq-page-gutter) 40px;
+    max-width: var(--ctq-page-max);
     margin: 0 auto;
     animation: fadeIn 0.4s ease-out;
 }
