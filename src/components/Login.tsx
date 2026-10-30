@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useAuth} from "./AuthContext.tsx";
-import {Link, useNavigate} from 'react-router-dom';
+import {useAuth} from "./useAuth.ts";
+import {Link, useNavigate, useLocation} from 'react-router-dom';
+import { paymentLoginReturn } from '../utils/memberPayments';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner, faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import { LoadingSpinner } from './LoadingSpinner';
 import Swal from 'sweetalert2';
 import '../styles/Login.css';
 
@@ -12,6 +14,7 @@ export interface LoginResponse {
     username: string;
     namePlayer: string;
     role: string;
+    financiallyRestricted?: boolean;
 }
 
 const Login: React.FC = () => {
@@ -22,6 +25,7 @@ const Login: React.FC = () => {
     const [generateLoading, setGenerateLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,8 +33,8 @@ const Login: React.FC = () => {
         setError(null); // Clear previous errors
         try {
             const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, {username, password});
-            const { accessToken, namePlayer, role } = response.data;
-            login({ name: namePlayer, email: username, role }, accessToken);
+            const { accessToken, namePlayer, role, financiallyRestricted } = response.data;
+            login({ name: namePlayer, email: username, role, financiallyRestricted }, accessToken);
             
             const Toast = Swal.mixin({
                 toast: true,
@@ -49,7 +53,8 @@ const Login: React.FC = () => {
                 title: `¡Bienvenido(a) ${namePlayer}!`
             })
             
-            navigate('/');
+            const returnTo = paymentLoginReturn(location.state?.from);
+            navigate(financiallyRestricted && returnTo === '/' ? '/monthlypayments' : returnTo);
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
@@ -120,7 +125,7 @@ const Login: React.FC = () => {
                     >
                         {generateLoading ? (
                             <>
-                                <FontAwesomeIcon icon={faSpinner} spin className="mr-2" style={{marginRight: '8px'}} />
+                                <LoadingSpinner size={24} label="Iniciando sesion" className="ctq-spinner--spaced" />
                                 Procesando...
                             </>
                         ) : (
@@ -130,6 +135,7 @@ const Login: React.FC = () => {
                 </form>
 
                 <div className="login-footer">
+                    <p><Link to="/recuperar-contrasena">¿Olvidaste tu contraseña?</Link></p>
                     <h6>¿Nuevo en el Club?</h6>
                     <p>Regístrate para reservar canchas y participar en torneos.</p>
                     <Link to="/register">Crear una cuenta</Link>

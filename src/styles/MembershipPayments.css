@@ -1,0 +1,72 @@
+.member-payments { width: min(100%, var(--ctq-page-max)); margin: 0 auto; padding: 24px var(--ctq-page-gutter) 40px; color: var(--ctq-text); }
+.member-payments, .member-payments * { box-sizing: border-box; letter-spacing: 0; }
+.member-payments h1 { margin: 0; font-size: 24px; line-height: 1.3; }
+.member-payments h2 { margin: 0; font-size: 18px; line-height: 1.4; overflow-wrap: anywhere; }
+.member-payments p { margin: 8px 0; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.member-payments small { color: var(--ctq-text-muted); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.mp-header { display: flex; align-items: center; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--ctq-border-soft); }
+.mp-header > div { min-width: 0; }
+.mp-header p { margin: 4px 0 0; color: var(--ctq-text-muted); }
+.member-payments button, .member-payments .mp-button, .member-payments .mp-icon { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid var(--ctq-border-soft); border-radius: 6px; padding: 10px 14px; color: var(--ctq-text); background: transparent; font: inherit; font-size: 15px; line-height: 1.4; cursor: pointer; text-align: center; }
+.member-payments button:hover:not(:disabled), .member-payments a:hover { border-color: var(--ctq-accent); color: var(--ctq-accent); }
+.member-payments .mp-icon { flex: 0 0 44px; width: 44px; height: 44px; padding: 0; }
+.member-payments button:disabled { opacity: .45; cursor: not-allowed; }
+.member-payments :focus-visible { outline: 2px solid var(--ctq-accent); outline-offset: 3px; }
+.member-payments .mp-refresh { margin-left: auto; }
+.member-payments .mp-primary { background: var(--ctq-yellow); border-color: var(--ctq-yellow); color: #102b31; font-weight: 600; }
+.member-payments .mp-primary:hover:not(:disabled) { color: #102b31; }
+.mp-access { padding: 12px 0; color: #fcd34d; border-bottom: 1px solid var(--ctq-border-soft); }
+.mp-tabs { display: flex; gap: 8px; margin: 18px 0; border-bottom: 1px solid var(--ctq-border-soft); }
+.mp-tabs button { border: 0; border-bottom: 3px solid transparent; border-radius: 0; color: var(--ctq-text-muted); }
+.mp-tabs button[aria-selected='true'] { color: var(--ctq-accent); border-bottom-color: var(--ctq-accent); }
+.mp-filters { display: flex; gap: 20px; align-items: end; flex-wrap: wrap; margin-bottom: 22px; }
+.mp-filters > .ap-field { width: min(100%, 320px); }
+.mp-filters > span { padding-bottom: 12px; color: var(--ctq-text-muted); font-size: 14px; }
+.mp-beneficiary { border-top: 1px solid var(--ctq-border-soft); padding: 18px 0; }
+.mp-beneficiary h2 small { margin-left: 8px; font-weight: 400; }
+.mp-dues { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin-top: 10px; }
+.mp-due { display: flex; gap: 12px; align-items: center; min-height: 62px; padding: 12px 0; border-bottom: 1px solid var(--ctq-border-soft); cursor: pointer; color: var(--ctq-text); }
+.mp-due > span { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 16px; line-height: 1.4; }
+.mp-due > strong { font-size: 16px; flex-shrink: 0; }
+.mp-due small { display: block; }
+.member-payments input[type='checkbox'] { position: static; opacity: 1; pointer-events: auto; appearance: auto; width: 22px; height: 22px; min-width: 22px; margin: 0; accent-color: var(--ctq-accent); }
+.member-payments input[type='checkbox'] + span { padding: 0; height: auto; }
+.member-payments input[type='checkbox'] + span::before, .member-payments input[type='checkbox'] + span::after { display: none; }
+.member-payments .mp-test { color: var(--ctq-accent); }
+.mp-checkout { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-top: 1px solid var(--ctq-border-soft); }
+.mp-checkout > div { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--ctq-text-muted); }
+.mp-checkout strong { font-size: 26px; color: var(--ctq-yellow); }
+.mp-attempt { padding: 20px 0; border-bottom: 1px solid var(--ctq-border-soft); }
+.mp-attempt h2 { color: var(--ctq-accent); }
+.mp-attempt small { display: block; }
+.mp-attempt-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.mp-receipt { padding: 18px 0; border-top: 1px solid var(--ctq-border-soft); }
+.mp-receipt-summary { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 16px; }
+.mp-receipt-summary > div:last-child { display: flex; flex-direction: column; align-items: end; gap: 6px; }
+.mp-receipt-summary small { display: block; margin-top: 4px; }
+.mp-status { display: inline-block; border-radius: 4px; padding: 4px 8px; background: rgba(255,255,255,.06); color: var(--ctq-text-muted); font-size: 12px; }
+.mp-status--CONFIRMED { color: #86efac; background: rgba(134,239,172,.1); }
+.mp-status--REVIEW_REQUIRED, .mp-status--REJECTED { color: #fca5a5; background: rgba(252,165,165,.08); }
+.mp-receipt details { margin-top: 12px; }
+.mp-receipt summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: var(--ctq-accent); font-size: 14px; }
+.mp-reference { color: var(--ctq-text-muted); }
+.mp-receipt ul { margin: 8px 0 16px; }
+.mp-receipt li { display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--ctq-border-soft); padding: 10px 0; font-size: 14px; }
+.mp-receipt li span { overflow-wrap: anywhere; }
+.mp-receipt li strong { flex-shrink: 0; }
+.mp-pagination { display: flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 14px; }
+.mp-pagination > span:first-child { margin-right: auto; color: var(--ctq-text-muted); }
+.mp-empty { color: var(--ctq-text-muted); padding: 12px 0; }
+.mp-loading { min-height: 180px; display: grid; place-items: center; }
+@media (max-width: 650px) {
+  .member-payments { padding: 16px 12px 28px; }
+  .member-payments h1 { font-size: 21px; }
+  .mp-header { gap: 10px; }
+  .mp-dues { grid-template-columns: minmax(0,1fr); gap: 0; }
+  .mp-filters { gap: 8px; }
+  .mp-filters > span { padding-bottom: 0; }
+  .mp-checkout { flex-direction: column; align-items: stretch; gap: 14px; }
+  .mp-checkout > div { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+  .mp-checkout strong { font-size: 24px; }
+  .mp-receipt-summary { gap: 10px; }
+}

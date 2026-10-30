@@ -1,0 +1,4142 @@
+{
+  "date": "2026-10-29",
+  "scope": "Actual React build; mocked club APIs; no live data or writes",
+  "views": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 8,
+        "right": 382,
+        "width": 374,
+        "paddingLeft": 0,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 10,
+        "right": 380,
+        "width": 370,
+        "paddingLeft": 14,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 390,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 11,
+            "y": 600.546875,
+            "right": 379,
+            "bottom": 952.03125,
+            "height": 351.484375
+          },
+          "history": {
+            "x": 11,
+            "y": 952.03125,
+            "right": 379,
+            "bottom": 1437.796875,
+            "height": 485.765625
+          },
+          "stats": {
+            "x": 11,
+            "y": 383.5625,
+            "right": 379,
+            "bottom": 600.546875,
+            "height": 216.984375
+          }
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 820,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 17,
+            "y": 556.890625,
+            "right": 803,
+            "bottom": 807.34375,
+            "height": 250.453125
+          },
+          "history": {
+            "x": 17,
+            "y": 807.34375,
+            "right": 803,
+            "bottom": 1102.796875,
+            "height": 295.453125
+          },
+          "stats": {
+            "x": 17,
+            "y": 323,
+            "right": 803,
+            "bottom": 556.890625,
+            "height": 233.890625
+          }
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1024,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 24,
+            "y": 409.5,
+            "right": 349.328125,
+            "bottom": 788.125,
+            "height": 378.625
+          },
+          "history": {
+            "x": 349.328125,
+            "y": 409.5,
+            "right": 1000,
+            "bottom": 788.125,
+            "height": 378.625
+          },
+          "stats": {
+            "x": 24,
+            "y": 294,
+            "right": 1000,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/ranking",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1280,
+      "path": "/profile",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 144,
+            "y": 409.5,
+            "right": 474.65625,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "history": {
+            "x": 474.65625,
+            "y": 409.5,
+            "right": 1136,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "stats": {
+            "x": 144,
+            "y": 294,
+            "right": 1136,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/ranking",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 1440,
+      "path": "/profile",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 184,
+            "y": 409.5,
+            "right": 541.328125,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "history": {
+            "x": 541.328125,
+            "y": 409.5,
+            "right": 1256,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "stats": {
+            "x": 184,
+            "y": 294,
+            "right": 1256,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/ranking",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "viewport": 2068,
+      "path": "/profile",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 498,
+            "y": 409.5,
+            "right": 855.328125,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "history": {
+            "x": 855.328125,
+            "y": 409.5,
+            "right": 1570,
+            "bottom": 793.3125,
+            "height": 383.8125
+          },
+          "stats": {
+            "x": 498,
+            "y": 294,
+            "right": 1570,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 8,
+        "right": 382,
+        "width": 374,
+        "paddingLeft": 0,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 12,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 10,
+        "right": 380,
+        "width": 370,
+        "paddingLeft": 14,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 16,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 390,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 390,
+        "width": 390,
+        "paddingLeft": 10,
+        "documentWidth": 390,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 11,
+            "y": 600.546875,
+            "right": 379,
+            "bottom": 952.015625,
+            "height": 351.46875
+          },
+          "history": {
+            "x": 11,
+            "y": 952.015625,
+            "right": 379,
+            "bottom": 1437.703125,
+            "height": 485.6875
+          },
+          "stats": {
+            "x": 11,
+            "y": 383.5625,
+            "right": 379,
+            "bottom": 600.546875,
+            "height": 216.984375
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 820,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 820,
+        "width": 820,
+        "paddingLeft": 16,
+        "documentWidth": 820,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 17,
+            "y": 556.875,
+            "right": 803,
+            "bottom": 807.3125,
+            "height": 250.4375
+          },
+          "history": {
+            "x": 17,
+            "y": 807.3125,
+            "right": 803,
+            "bottom": 1102.75,
+            "height": 295.4375
+          },
+          "stats": {
+            "x": 17,
+            "y": 323,
+            "right": 803,
+            "bottom": 556.875,
+            "height": 233.875
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/ranking",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1024,
+      "path": "/profile",
+      "metrics": {
+        "x": 0,
+        "right": 1024,
+        "width": 1024,
+        "paddingLeft": 24,
+        "documentWidth": 1024,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 24,
+            "y": 409.5,
+            "right": 349.328125,
+            "bottom": 787.9375,
+            "height": 378.4375
+          },
+          "history": {
+            "x": 349.328125,
+            "y": 409.5,
+            "right": 1000,
+            "bottom": 787.9375,
+            "height": 378.4375
+          },
+          "stats": {
+            "x": 24,
+            "y": 294,
+            "right": 1000,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/ranking",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1280,
+      "path": "/profile",
+      "metrics": {
+        "x": 120,
+        "right": 1160,
+        "width": 1040,
+        "paddingLeft": 24,
+        "documentWidth": 1280,
+        "cap": "1040px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 144,
+            "y": 409.5,
+            "right": 474.65625,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "history": {
+            "x": 474.65625,
+            "y": 409.5,
+            "right": 1136,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "stats": {
+            "x": 144,
+            "y": 294,
+            "right": 1136,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/ranking",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 1440,
+      "path": "/profile",
+      "metrics": {
+        "x": 160,
+        "right": 1280,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 1440,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 184,
+            "y": 409.5,
+            "right": 541.328125,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "history": {
+            "x": 541.328125,
+            "y": 409.5,
+            "right": 1256,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "stats": {
+            "x": 184,
+            "y": 294,
+            "right": 1256,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/dashboard",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/adminregister",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/adminreserves",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/ranking",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/myhistory",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/multibooking",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/adminpayments",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/adminpayments?memberId=111111111111111111111111",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/monthlypayments",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/updatematch",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/admincategories?email=fixture@example.invalid",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "viewport": 2068,
+      "path": "/profile",
+      "metrics": {
+        "x": 474,
+        "right": 1594,
+        "width": 1120,
+        "paddingLeft": 24,
+        "documentWidth": 2068,
+        "cap": "1120px",
+        "palette": [
+          "#07152a",
+          "#f8fafc",
+          "#7dd3fc",
+          "#f4e85a"
+        ],
+        "profile": {
+          "categories": {
+            "x": 498,
+            "y": 409.5,
+            "right": 855.328125,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "history": {
+            "x": 855.328125,
+            "y": 409.5,
+            "right": 1570,
+            "bottom": 793.234375,
+            "height": 383.734375
+          },
+          "stats": {
+            "x": 498,
+            "y": 294,
+            "right": 1570,
+            "bottom": 409.5,
+            "height": 115.5
+          }
+        }
+      }
+    }
+  ],
+  "passed": [
+    "chromium/390/: no wider than Home",
+    "chromium/390/: no page horizontal overflow",
+    "chromium/390/: CTQ color tokens unchanged",
+    "chromium/390/dashboard: no wider than Home",
+    "chromium/390/dashboard: no page horizontal overflow",
+    "chromium/390/dashboard: CTQ color tokens unchanged",
+    "chromium/390/adminregister: no wider than Home",
+    "chromium/390/adminregister: no page horizontal overflow",
+    "chromium/390/adminregister: CTQ color tokens unchanged",
+    "chromium/390/adminreserves: no wider than Home",
+    "chromium/390/adminreserves: no page horizontal overflow",
+    "chromium/390/adminreserves: CTQ color tokens unchanged",
+    "chromium/390/ranking: no wider than Home",
+    "chromium/390/ranking: no page horizontal overflow",
+    "chromium/390/ranking: CTQ color tokens unchanged",
+    "chromium/390/myhistory: no wider than Home",
+    "chromium/390/myhistory: no page horizontal overflow",
+    "chromium/390/myhistory: CTQ color tokens unchanged",
+    "chromium/390/multibooking: no wider than Home",
+    "chromium/390/multibooking: no page horizontal overflow",
+    "chromium/390/multibooking: CTQ color tokens unchanged",
+    "chromium/390/adminpayments: no wider than Home",
+    "chromium/390/adminpayments: no page horizontal overflow",
+    "chromium/390/adminpayments: CTQ color tokens unchanged",
+    "chromium/390/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/390/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/390/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/390/monthlypayments: no wider than Home",
+    "chromium/390/monthlypayments: no page horizontal overflow",
+    "chromium/390/monthlypayments: CTQ color tokens unchanged",
+    "chromium/390/updatematch: no wider than Home",
+    "chromium/390/updatematch: no page horizontal overflow",
+    "chromium/390/updatematch: CTQ color tokens unchanged",
+    "chromium/390/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/390/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/390/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/390/profile: no wider than Home",
+    "chromium/390/profile: no page horizontal overflow",
+    "chromium/390/profile: CTQ color tokens unchanged",
+    "chromium/390/profile: desktop two columns / mobile-tablet one column",
+    "chromium/390/profile: complete name retained",
+    "chromium/390/profile: keyboard modality and history work",
+    "chromium/390/profile: singles statistics and matches restored",
+    "chromium/390/profile: empty profile has zero statistics",
+    "chromium/390/profile: existing fallback avatar renders without a missing asset",
+    "chromium/390/profile: doubles-only default preserved",
+    "chromium/390/profile: photo selection still available; no upload submitted",
+    "chromium/390: shared width survives SPA navigation and accumulated styles",
+    "chromium/390: profile state resets correctly after returning from ranking",
+    "chromium/390: no page errors, unexpected APIs or submitted writes",
+    "chromium/820/: no wider than Home",
+    "chromium/820/: no page horizontal overflow",
+    "chromium/820/: CTQ color tokens unchanged",
+    "chromium/820/dashboard: no wider than Home",
+    "chromium/820/dashboard: no page horizontal overflow",
+    "chromium/820/dashboard: CTQ color tokens unchanged",
+    "chromium/820/adminregister: no wider than Home",
+    "chromium/820/adminregister: no page horizontal overflow",
+    "chromium/820/adminregister: CTQ color tokens unchanged",
+    "chromium/820/adminreserves: no wider than Home",
+    "chromium/820/adminreserves: no page horizontal overflow",
+    "chromium/820/adminreserves: CTQ color tokens unchanged",
+    "chromium/820/ranking: no wider than Home",
+    "chromium/820/ranking: no page horizontal overflow",
+    "chromium/820/ranking: CTQ color tokens unchanged",
+    "chromium/820/myhistory: no wider than Home",
+    "chromium/820/myhistory: no page horizontal overflow",
+    "chromium/820/myhistory: CTQ color tokens unchanged",
+    "chromium/820/multibooking: no wider than Home",
+    "chromium/820/multibooking: no page horizontal overflow",
+    "chromium/820/multibooking: CTQ color tokens unchanged",
+    "chromium/820/adminpayments: no wider than Home",
+    "chromium/820/adminpayments: no page horizontal overflow",
+    "chromium/820/adminpayments: CTQ color tokens unchanged",
+    "chromium/820/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/820/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/820/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/820/monthlypayments: no wider than Home",
+    "chromium/820/monthlypayments: no page horizontal overflow",
+    "chromium/820/monthlypayments: CTQ color tokens unchanged",
+    "chromium/820/updatematch: no wider than Home",
+    "chromium/820/updatematch: no page horizontal overflow",
+    "chromium/820/updatematch: CTQ color tokens unchanged",
+    "chromium/820/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/820/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/820/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/820/profile: no wider than Home",
+    "chromium/820/profile: no page horizontal overflow",
+    "chromium/820/profile: CTQ color tokens unchanged",
+    "chromium/820/profile: desktop two columns / mobile-tablet one column",
+    "chromium/820/profile: complete name retained",
+    "chromium/820/profile: keyboard modality and history work",
+    "chromium/820/profile: singles statistics and matches restored",
+    "chromium/820/profile: empty profile has zero statistics",
+    "chromium/820/profile: existing fallback avatar renders without a missing asset",
+    "chromium/820/profile: doubles-only default preserved",
+    "chromium/820/profile: photo selection still available; no upload submitted",
+    "chromium/820: shared width survives SPA navigation and accumulated styles",
+    "chromium/820: profile state resets correctly after returning from ranking",
+    "chromium/820: no page errors, unexpected APIs or submitted writes",
+    "chromium/1024/: no wider than Home",
+    "chromium/1024/: no page horizontal overflow",
+    "chromium/1024/: desktop shell and gutter align with Home",
+    "chromium/1024/: CTQ color tokens unchanged",
+    "chromium/1024/dashboard: no wider than Home",
+    "chromium/1024/dashboard: no page horizontal overflow",
+    "chromium/1024/dashboard: desktop shell and gutter align with Home",
+    "chromium/1024/dashboard: CTQ color tokens unchanged",
+    "chromium/1024/adminregister: no wider than Home",
+    "chromium/1024/adminregister: no page horizontal overflow",
+    "chromium/1024/adminregister: desktop shell and gutter align with Home",
+    "chromium/1024/adminregister: CTQ color tokens unchanged",
+    "chromium/1024/adminreserves: no wider than Home",
+    "chromium/1024/adminreserves: no page horizontal overflow",
+    "chromium/1024/adminreserves: desktop shell and gutter align with Home",
+    "chromium/1024/adminreserves: CTQ color tokens unchanged",
+    "chromium/1024/ranking: no wider than Home",
+    "chromium/1024/ranking: no page horizontal overflow",
+    "chromium/1024/ranking: desktop shell and gutter align with Home",
+    "chromium/1024/ranking: CTQ color tokens unchanged",
+    "chromium/1024/myhistory: no wider than Home",
+    "chromium/1024/myhistory: no page horizontal overflow",
+    "chromium/1024/myhistory: desktop shell and gutter align with Home",
+    "chromium/1024/myhistory: CTQ color tokens unchanged",
+    "chromium/1024/multibooking: no wider than Home",
+    "chromium/1024/multibooking: no page horizontal overflow",
+    "chromium/1024/multibooking: desktop shell and gutter align with Home",
+    "chromium/1024/multibooking: CTQ color tokens unchanged",
+    "chromium/1024/adminpayments: no wider than Home",
+    "chromium/1024/adminpayments: no page horizontal overflow",
+    "chromium/1024/adminpayments: desktop shell and gutter align with Home",
+    "chromium/1024/adminpayments: CTQ color tokens unchanged",
+    "chromium/1024/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/1024/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/1024/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "chromium/1024/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/1024/monthlypayments: no wider than Home",
+    "chromium/1024/monthlypayments: no page horizontal overflow",
+    "chromium/1024/monthlypayments: desktop shell and gutter align with Home",
+    "chromium/1024/monthlypayments: CTQ color tokens unchanged",
+    "chromium/1024/updatematch: no wider than Home",
+    "chromium/1024/updatematch: no page horizontal overflow",
+    "chromium/1024/updatematch: desktop shell and gutter align with Home",
+    "chromium/1024/updatematch: CTQ color tokens unchanged",
+    "chromium/1024/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/1024/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/1024/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "chromium/1024/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/1024/profile: no wider than Home",
+    "chromium/1024/profile: no page horizontal overflow",
+    "chromium/1024/profile: desktop shell and gutter align with Home",
+    "chromium/1024/profile: CTQ color tokens unchanged",
+    "chromium/1024/profile: desktop two columns / mobile-tablet one column",
+    "chromium/1024/profile: complete name retained",
+    "chromium/1024/profile: keyboard modality and history work",
+    "chromium/1024/profile: singles statistics and matches restored",
+    "chromium/1024/profile: empty profile has zero statistics",
+    "chromium/1024/profile: existing fallback avatar renders without a missing asset",
+    "chromium/1024/profile: doubles-only default preserved",
+    "chromium/1024/profile: photo selection still available; no upload submitted",
+    "chromium/1024: shared width survives SPA navigation and accumulated styles",
+    "chromium/1024: profile state resets correctly after returning from ranking",
+    "chromium/1024: no page errors, unexpected APIs or submitted writes",
+    "chromium/1280/: no wider than Home",
+    "chromium/1280/: no page horizontal overflow",
+    "chromium/1280/: desktop shell and gutter align with Home",
+    "chromium/1280/: CTQ color tokens unchanged",
+    "chromium/1280/dashboard: no wider than Home",
+    "chromium/1280/dashboard: no page horizontal overflow",
+    "chromium/1280/dashboard: desktop shell and gutter align with Home",
+    "chromium/1280/dashboard: CTQ color tokens unchanged",
+    "chromium/1280/adminregister: no wider than Home",
+    "chromium/1280/adminregister: no page horizontal overflow",
+    "chromium/1280/adminregister: desktop shell and gutter align with Home",
+    "chromium/1280/adminregister: CTQ color tokens unchanged",
+    "chromium/1280/adminreserves: no wider than Home",
+    "chromium/1280/adminreserves: no page horizontal overflow",
+    "chromium/1280/adminreserves: desktop shell and gutter align with Home",
+    "chromium/1280/adminreserves: CTQ color tokens unchanged",
+    "chromium/1280/ranking: no wider than Home",
+    "chromium/1280/ranking: no page horizontal overflow",
+    "chromium/1280/ranking: desktop shell and gutter align with Home",
+    "chromium/1280/ranking: CTQ color tokens unchanged",
+    "chromium/1280/myhistory: no wider than Home",
+    "chromium/1280/myhistory: no page horizontal overflow",
+    "chromium/1280/myhistory: desktop shell and gutter align with Home",
+    "chromium/1280/myhistory: CTQ color tokens unchanged",
+    "chromium/1280/multibooking: no wider than Home",
+    "chromium/1280/multibooking: no page horizontal overflow",
+    "chromium/1280/multibooking: desktop shell and gutter align with Home",
+    "chromium/1280/multibooking: CTQ color tokens unchanged",
+    "chromium/1280/adminpayments: no wider than Home",
+    "chromium/1280/adminpayments: no page horizontal overflow",
+    "chromium/1280/adminpayments: desktop shell and gutter align with Home",
+    "chromium/1280/adminpayments: CTQ color tokens unchanged",
+    "chromium/1280/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/1280/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/1280/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "chromium/1280/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/1280/monthlypayments: no wider than Home",
+    "chromium/1280/monthlypayments: no page horizontal overflow",
+    "chromium/1280/monthlypayments: desktop shell and gutter align with Home",
+    "chromium/1280/monthlypayments: CTQ color tokens unchanged",
+    "chromium/1280/updatematch: no wider than Home",
+    "chromium/1280/updatematch: no page horizontal overflow",
+    "chromium/1280/updatematch: desktop shell and gutter align with Home",
+    "chromium/1280/updatematch: CTQ color tokens unchanged",
+    "chromium/1280/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/1280/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/1280/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "chromium/1280/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/1280/profile: no wider than Home",
+    "chromium/1280/profile: no page horizontal overflow",
+    "chromium/1280/profile: desktop shell and gutter align with Home",
+    "chromium/1280/profile: CTQ color tokens unchanged",
+    "chromium/1280/profile: desktop two columns / mobile-tablet one column",
+    "chromium/1280/profile: complete name retained",
+    "chromium/1280/profile: keyboard modality and history work",
+    "chromium/1280/profile: singles statistics and matches restored",
+    "chromium/1280/profile: empty profile has zero statistics",
+    "chromium/1280/profile: existing fallback avatar renders without a missing asset",
+    "chromium/1280/profile: doubles-only default preserved",
+    "chromium/1280/profile: photo selection still available; no upload submitted",
+    "chromium/1280: shared width survives SPA navigation and accumulated styles",
+    "chromium/1280: profile state resets correctly after returning from ranking",
+    "chromium/1280: no page errors, unexpected APIs or submitted writes",
+    "chromium/1440/: no wider than Home",
+    "chromium/1440/: no page horizontal overflow",
+    "chromium/1440/: desktop shell and gutter align with Home",
+    "chromium/1440/: CTQ color tokens unchanged",
+    "chromium/1440/dashboard: no wider than Home",
+    "chromium/1440/dashboard: no page horizontal overflow",
+    "chromium/1440/dashboard: desktop shell and gutter align with Home",
+    "chromium/1440/dashboard: CTQ color tokens unchanged",
+    "chromium/1440/adminregister: no wider than Home",
+    "chromium/1440/adminregister: no page horizontal overflow",
+    "chromium/1440/adminregister: desktop shell and gutter align with Home",
+    "chromium/1440/adminregister: CTQ color tokens unchanged",
+    "chromium/1440/adminreserves: no wider than Home",
+    "chromium/1440/adminreserves: no page horizontal overflow",
+    "chromium/1440/adminreserves: desktop shell and gutter align with Home",
+    "chromium/1440/adminreserves: CTQ color tokens unchanged",
+    "chromium/1440/ranking: no wider than Home",
+    "chromium/1440/ranking: no page horizontal overflow",
+    "chromium/1440/ranking: desktop shell and gutter align with Home",
+    "chromium/1440/ranking: CTQ color tokens unchanged",
+    "chromium/1440/myhistory: no wider than Home",
+    "chromium/1440/myhistory: no page horizontal overflow",
+    "chromium/1440/myhistory: desktop shell and gutter align with Home",
+    "chromium/1440/myhistory: CTQ color tokens unchanged",
+    "chromium/1440/multibooking: no wider than Home",
+    "chromium/1440/multibooking: no page horizontal overflow",
+    "chromium/1440/multibooking: desktop shell and gutter align with Home",
+    "chromium/1440/multibooking: CTQ color tokens unchanged",
+    "chromium/1440/adminpayments: no wider than Home",
+    "chromium/1440/adminpayments: no page horizontal overflow",
+    "chromium/1440/adminpayments: desktop shell and gutter align with Home",
+    "chromium/1440/adminpayments: CTQ color tokens unchanged",
+    "chromium/1440/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/1440/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/1440/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "chromium/1440/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/1440/monthlypayments: no wider than Home",
+    "chromium/1440/monthlypayments: no page horizontal overflow",
+    "chromium/1440/monthlypayments: desktop shell and gutter align with Home",
+    "chromium/1440/monthlypayments: CTQ color tokens unchanged",
+    "chromium/1440/updatematch: no wider than Home",
+    "chromium/1440/updatematch: no page horizontal overflow",
+    "chromium/1440/updatematch: desktop shell and gutter align with Home",
+    "chromium/1440/updatematch: CTQ color tokens unchanged",
+    "chromium/1440/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/1440/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/1440/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "chromium/1440/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/1440/profile: no wider than Home",
+    "chromium/1440/profile: no page horizontal overflow",
+    "chromium/1440/profile: desktop shell and gutter align with Home",
+    "chromium/1440/profile: CTQ color tokens unchanged",
+    "chromium/1440/profile: desktop two columns / mobile-tablet one column",
+    "chromium/1440/profile: complete name retained",
+    "chromium/1440/profile: keyboard modality and history work",
+    "chromium/1440/profile: singles statistics and matches restored",
+    "chromium/1440/profile: empty profile has zero statistics",
+    "chromium/1440/profile: existing fallback avatar renders without a missing asset",
+    "chromium/1440/profile: doubles-only default preserved",
+    "chromium/1440/profile: photo selection still available; no upload submitted",
+    "chromium/1440: shared width survives SPA navigation and accumulated styles",
+    "chromium/1440: profile state resets correctly after returning from ranking",
+    "chromium/1440: no page errors, unexpected APIs or submitted writes",
+    "chromium/2068/: no wider than Home",
+    "chromium/2068/: no page horizontal overflow",
+    "chromium/2068/: desktop shell and gutter align with Home",
+    "chromium/2068/: CTQ color tokens unchanged",
+    "chromium/2068/dashboard: no wider than Home",
+    "chromium/2068/dashboard: no page horizontal overflow",
+    "chromium/2068/dashboard: desktop shell and gutter align with Home",
+    "chromium/2068/dashboard: CTQ color tokens unchanged",
+    "chromium/2068/adminregister: no wider than Home",
+    "chromium/2068/adminregister: no page horizontal overflow",
+    "chromium/2068/adminregister: desktop shell and gutter align with Home",
+    "chromium/2068/adminregister: CTQ color tokens unchanged",
+    "chromium/2068/adminreserves: no wider than Home",
+    "chromium/2068/adminreserves: no page horizontal overflow",
+    "chromium/2068/adminreserves: desktop shell and gutter align with Home",
+    "chromium/2068/adminreserves: CTQ color tokens unchanged",
+    "chromium/2068/ranking: no wider than Home",
+    "chromium/2068/ranking: no page horizontal overflow",
+    "chromium/2068/ranking: desktop shell and gutter align with Home",
+    "chromium/2068/ranking: CTQ color tokens unchanged",
+    "chromium/2068/myhistory: no wider than Home",
+    "chromium/2068/myhistory: no page horizontal overflow",
+    "chromium/2068/myhistory: desktop shell and gutter align with Home",
+    "chromium/2068/myhistory: CTQ color tokens unchanged",
+    "chromium/2068/multibooking: no wider than Home",
+    "chromium/2068/multibooking: no page horizontal overflow",
+    "chromium/2068/multibooking: desktop shell and gutter align with Home",
+    "chromium/2068/multibooking: CTQ color tokens unchanged",
+    "chromium/2068/adminpayments: no wider than Home",
+    "chromium/2068/adminpayments: no page horizontal overflow",
+    "chromium/2068/adminpayments: desktop shell and gutter align with Home",
+    "chromium/2068/adminpayments: CTQ color tokens unchanged",
+    "chromium/2068/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "chromium/2068/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "chromium/2068/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "chromium/2068/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "chromium/2068/monthlypayments: no wider than Home",
+    "chromium/2068/monthlypayments: no page horizontal overflow",
+    "chromium/2068/monthlypayments: desktop shell and gutter align with Home",
+    "chromium/2068/monthlypayments: CTQ color tokens unchanged",
+    "chromium/2068/updatematch: no wider than Home",
+    "chromium/2068/updatematch: no page horizontal overflow",
+    "chromium/2068/updatematch: desktop shell and gutter align with Home",
+    "chromium/2068/updatematch: CTQ color tokens unchanged",
+    "chromium/2068/admincategories?email=fixture@example.invalid: no wider than Home",
+    "chromium/2068/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "chromium/2068/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "chromium/2068/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "chromium/2068/profile: no wider than Home",
+    "chromium/2068/profile: no page horizontal overflow",
+    "chromium/2068/profile: desktop shell and gutter align with Home",
+    "chromium/2068/profile: CTQ color tokens unchanged",
+    "chromium/2068/profile: desktop two columns / mobile-tablet one column",
+    "chromium/2068/profile: complete name retained",
+    "chromium/2068/profile: keyboard modality and history work",
+    "chromium/2068/profile: singles statistics and matches restored",
+    "chromium/2068/profile: empty profile has zero statistics",
+    "chromium/2068/profile: existing fallback avatar renders without a missing asset",
+    "chromium/2068/profile: doubles-only default preserved",
+    "chromium/2068/profile: photo selection still available; no upload submitted",
+    "chromium/2068: shared width survives SPA navigation and accumulated styles",
+    "chromium/2068: profile state resets correctly after returning from ranking",
+    "chromium/2068: no page errors, unexpected APIs or submitted writes",
+    "webkit/390/: no wider than Home",
+    "webkit/390/: no page horizontal overflow",
+    "webkit/390/: CTQ color tokens unchanged",
+    "webkit/390/dashboard: no wider than Home",
+    "webkit/390/dashboard: no page horizontal overflow",
+    "webkit/390/dashboard: CTQ color tokens unchanged",
+    "webkit/390/adminregister: no wider than Home",
+    "webkit/390/adminregister: no page horizontal overflow",
+    "webkit/390/adminregister: CTQ color tokens unchanged",
+    "webkit/390/adminreserves: no wider than Home",
+    "webkit/390/adminreserves: no page horizontal overflow",
+    "webkit/390/adminreserves: CTQ color tokens unchanged",
+    "webkit/390/ranking: no wider than Home",
+    "webkit/390/ranking: no page horizontal overflow",
+    "webkit/390/ranking: CTQ color tokens unchanged",
+    "webkit/390/myhistory: no wider than Home",
+    "webkit/390/myhistory: no page horizontal overflow",
+    "webkit/390/myhistory: CTQ color tokens unchanged",
+    "webkit/390/multibooking: no wider than Home",
+    "webkit/390/multibooking: no page horizontal overflow",
+    "webkit/390/multibooking: CTQ color tokens unchanged",
+    "webkit/390/adminpayments: no wider than Home",
+    "webkit/390/adminpayments: no page horizontal overflow",
+    "webkit/390/adminpayments: CTQ color tokens unchanged",
+    "webkit/390/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/390/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/390/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/390/monthlypayments: no wider than Home",
+    "webkit/390/monthlypayments: no page horizontal overflow",
+    "webkit/390/monthlypayments: CTQ color tokens unchanged",
+    "webkit/390/updatematch: no wider than Home",
+    "webkit/390/updatematch: no page horizontal overflow",
+    "webkit/390/updatematch: CTQ color tokens unchanged",
+    "webkit/390/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/390/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/390/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/390/profile: no wider than Home",
+    "webkit/390/profile: no page horizontal overflow",
+    "webkit/390/profile: CTQ color tokens unchanged",
+    "webkit/390/profile: desktop two columns / mobile-tablet one column",
+    "webkit/390/profile: complete name retained",
+    "webkit/390/profile: keyboard modality and history work",
+    "webkit/390/profile: singles statistics and matches restored",
+    "webkit/390/profile: empty profile has zero statistics",
+    "webkit/390/profile: existing fallback avatar renders without a missing asset",
+    "webkit/390/profile: doubles-only default preserved",
+    "webkit/390/profile: photo selection still available; no upload submitted",
+    "webkit/390: shared width survives SPA navigation and accumulated styles",
+    "webkit/390: profile state resets correctly after returning from ranking",
+    "webkit/390: no page errors, unexpected APIs or submitted writes",
+    "webkit/820/: no wider than Home",
+    "webkit/820/: no page horizontal overflow",
+    "webkit/820/: CTQ color tokens unchanged",
+    "webkit/820/dashboard: no wider than Home",
+    "webkit/820/dashboard: no page horizontal overflow",
+    "webkit/820/dashboard: CTQ color tokens unchanged",
+    "webkit/820/adminregister: no wider than Home",
+    "webkit/820/adminregister: no page horizontal overflow",
+    "webkit/820/adminregister: CTQ color tokens unchanged",
+    "webkit/820/adminreserves: no wider than Home",
+    "webkit/820/adminreserves: no page horizontal overflow",
+    "webkit/820/adminreserves: CTQ color tokens unchanged",
+    "webkit/820/ranking: no wider than Home",
+    "webkit/820/ranking: no page horizontal overflow",
+    "webkit/820/ranking: CTQ color tokens unchanged",
+    "webkit/820/myhistory: no wider than Home",
+    "webkit/820/myhistory: no page horizontal overflow",
+    "webkit/820/myhistory: CTQ color tokens unchanged",
+    "webkit/820/multibooking: no wider than Home",
+    "webkit/820/multibooking: no page horizontal overflow",
+    "webkit/820/multibooking: CTQ color tokens unchanged",
+    "webkit/820/adminpayments: no wider than Home",
+    "webkit/820/adminpayments: no page horizontal overflow",
+    "webkit/820/adminpayments: CTQ color tokens unchanged",
+    "webkit/820/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/820/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/820/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/820/monthlypayments: no wider than Home",
+    "webkit/820/monthlypayments: no page horizontal overflow",
+    "webkit/820/monthlypayments: CTQ color tokens unchanged",
+    "webkit/820/updatematch: no wider than Home",
+    "webkit/820/updatematch: no page horizontal overflow",
+    "webkit/820/updatematch: CTQ color tokens unchanged",
+    "webkit/820/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/820/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/820/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/820/profile: no wider than Home",
+    "webkit/820/profile: no page horizontal overflow",
+    "webkit/820/profile: CTQ color tokens unchanged",
+    "webkit/820/profile: desktop two columns / mobile-tablet one column",
+    "webkit/820/profile: complete name retained",
+    "webkit/820/profile: keyboard modality and history work",
+    "webkit/820/profile: singles statistics and matches restored",
+    "webkit/820/profile: empty profile has zero statistics",
+    "webkit/820/profile: existing fallback avatar renders without a missing asset",
+    "webkit/820/profile: doubles-only default preserved",
+    "webkit/820/profile: photo selection still available; no upload submitted",
+    "webkit/820: shared width survives SPA navigation and accumulated styles",
+    "webkit/820: profile state resets correctly after returning from ranking",
+    "webkit/820: no page errors, unexpected APIs or submitted writes",
+    "webkit/1024/: no wider than Home",
+    "webkit/1024/: no page horizontal overflow",
+    "webkit/1024/: desktop shell and gutter align with Home",
+    "webkit/1024/: CTQ color tokens unchanged",
+    "webkit/1024/dashboard: no wider than Home",
+    "webkit/1024/dashboard: no page horizontal overflow",
+    "webkit/1024/dashboard: desktop shell and gutter align with Home",
+    "webkit/1024/dashboard: CTQ color tokens unchanged",
+    "webkit/1024/adminregister: no wider than Home",
+    "webkit/1024/adminregister: no page horizontal overflow",
+    "webkit/1024/adminregister: desktop shell and gutter align with Home",
+    "webkit/1024/adminregister: CTQ color tokens unchanged",
+    "webkit/1024/adminreserves: no wider than Home",
+    "webkit/1024/adminreserves: no page horizontal overflow",
+    "webkit/1024/adminreserves: desktop shell and gutter align with Home",
+    "webkit/1024/adminreserves: CTQ color tokens unchanged",
+    "webkit/1024/ranking: no wider than Home",
+    "webkit/1024/ranking: no page horizontal overflow",
+    "webkit/1024/ranking: desktop shell and gutter align with Home",
+    "webkit/1024/ranking: CTQ color tokens unchanged",
+    "webkit/1024/myhistory: no wider than Home",
+    "webkit/1024/myhistory: no page horizontal overflow",
+    "webkit/1024/myhistory: desktop shell and gutter align with Home",
+    "webkit/1024/myhistory: CTQ color tokens unchanged",
+    "webkit/1024/multibooking: no wider than Home",
+    "webkit/1024/multibooking: no page horizontal overflow",
+    "webkit/1024/multibooking: desktop shell and gutter align with Home",
+    "webkit/1024/multibooking: CTQ color tokens unchanged",
+    "webkit/1024/adminpayments: no wider than Home",
+    "webkit/1024/adminpayments: no page horizontal overflow",
+    "webkit/1024/adminpayments: desktop shell and gutter align with Home",
+    "webkit/1024/adminpayments: CTQ color tokens unchanged",
+    "webkit/1024/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/1024/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/1024/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "webkit/1024/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/1024/monthlypayments: no wider than Home",
+    "webkit/1024/monthlypayments: no page horizontal overflow",
+    "webkit/1024/monthlypayments: desktop shell and gutter align with Home",
+    "webkit/1024/monthlypayments: CTQ color tokens unchanged",
+    "webkit/1024/updatematch: no wider than Home",
+    "webkit/1024/updatematch: no page horizontal overflow",
+    "webkit/1024/updatematch: desktop shell and gutter align with Home",
+    "webkit/1024/updatematch: CTQ color tokens unchanged",
+    "webkit/1024/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/1024/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/1024/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "webkit/1024/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/1024/profile: no wider than Home",
+    "webkit/1024/profile: no page horizontal overflow",
+    "webkit/1024/profile: desktop shell and gutter align with Home",
+    "webkit/1024/profile: CTQ color tokens unchanged",
+    "webkit/1024/profile: desktop two columns / mobile-tablet one column",
+    "webkit/1024/profile: complete name retained",
+    "webkit/1024/profile: keyboard modality and history work",
+    "webkit/1024/profile: singles statistics and matches restored",
+    "webkit/1024/profile: empty profile has zero statistics",
+    "webkit/1024/profile: existing fallback avatar renders without a missing asset",
+    "webkit/1024/profile: doubles-only default preserved",
+    "webkit/1024/profile: photo selection still available; no upload submitted",
+    "webkit/1024: shared width survives SPA navigation and accumulated styles",
+    "webkit/1024: profile state resets correctly after returning from ranking",
+    "webkit/1024: no page errors, unexpected APIs or submitted writes",
+    "webkit/1280/: no wider than Home",
+    "webkit/1280/: no page horizontal overflow",
+    "webkit/1280/: desktop shell and gutter align with Home",
+    "webkit/1280/: CTQ color tokens unchanged",
+    "webkit/1280/dashboard: no wider than Home",
+    "webkit/1280/dashboard: no page horizontal overflow",
+    "webkit/1280/dashboard: desktop shell and gutter align with Home",
+    "webkit/1280/dashboard: CTQ color tokens unchanged",
+    "webkit/1280/adminregister: no wider than Home",
+    "webkit/1280/adminregister: no page horizontal overflow",
+    "webkit/1280/adminregister: desktop shell and gutter align with Home",
+    "webkit/1280/adminregister: CTQ color tokens unchanged",
+    "webkit/1280/adminreserves: no wider than Home",
+    "webkit/1280/adminreserves: no page horizontal overflow",
+    "webkit/1280/adminreserves: desktop shell and gutter align with Home",
+    "webkit/1280/adminreserves: CTQ color tokens unchanged",
+    "webkit/1280/ranking: no wider than Home",
+    "webkit/1280/ranking: no page horizontal overflow",
+    "webkit/1280/ranking: desktop shell and gutter align with Home",
+    "webkit/1280/ranking: CTQ color tokens unchanged",
+    "webkit/1280/myhistory: no wider than Home",
+    "webkit/1280/myhistory: no page horizontal overflow",
+    "webkit/1280/myhistory: desktop shell and gutter align with Home",
+    "webkit/1280/myhistory: CTQ color tokens unchanged",
+    "webkit/1280/multibooking: no wider than Home",
+    "webkit/1280/multibooking: no page horizontal overflow",
+    "webkit/1280/multibooking: desktop shell and gutter align with Home",
+    "webkit/1280/multibooking: CTQ color tokens unchanged",
+    "webkit/1280/adminpayments: no wider than Home",
+    "webkit/1280/adminpayments: no page horizontal overflow",
+    "webkit/1280/adminpayments: desktop shell and gutter align with Home",
+    "webkit/1280/adminpayments: CTQ color tokens unchanged",
+    "webkit/1280/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/1280/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/1280/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "webkit/1280/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/1280/monthlypayments: no wider than Home",
+    "webkit/1280/monthlypayments: no page horizontal overflow",
+    "webkit/1280/monthlypayments: desktop shell and gutter align with Home",
+    "webkit/1280/monthlypayments: CTQ color tokens unchanged",
+    "webkit/1280/updatematch: no wider than Home",
+    "webkit/1280/updatematch: no page horizontal overflow",
+    "webkit/1280/updatematch: desktop shell and gutter align with Home",
+    "webkit/1280/updatematch: CTQ color tokens unchanged",
+    "webkit/1280/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/1280/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/1280/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "webkit/1280/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/1280/profile: no wider than Home",
+    "webkit/1280/profile: no page horizontal overflow",
+    "webkit/1280/profile: desktop shell and gutter align with Home",
+    "webkit/1280/profile: CTQ color tokens unchanged",
+    "webkit/1280/profile: desktop two columns / mobile-tablet one column",
+    "webkit/1280/profile: complete name retained",
+    "webkit/1280/profile: keyboard modality and history work",
+    "webkit/1280/profile: singles statistics and matches restored",
+    "webkit/1280/profile: empty profile has zero statistics",
+    "webkit/1280/profile: existing fallback avatar renders without a missing asset",
+    "webkit/1280/profile: doubles-only default preserved",
+    "webkit/1280/profile: photo selection still available; no upload submitted",
+    "webkit/1280: shared width survives SPA navigation and accumulated styles",
+    "webkit/1280: profile state resets correctly after returning from ranking",
+    "webkit/1280: no page errors, unexpected APIs or submitted writes",
+    "webkit/1440/: no wider than Home",
+    "webkit/1440/: no page horizontal overflow",
+    "webkit/1440/: desktop shell and gutter align with Home",
+    "webkit/1440/: CTQ color tokens unchanged",
+    "webkit/1440/dashboard: no wider than Home",
+    "webkit/1440/dashboard: no page horizontal overflow",
+    "webkit/1440/dashboard: desktop shell and gutter align with Home",
+    "webkit/1440/dashboard: CTQ color tokens unchanged",
+    "webkit/1440/adminregister: no wider than Home",
+    "webkit/1440/adminregister: no page horizontal overflow",
+    "webkit/1440/adminregister: desktop shell and gutter align with Home",
+    "webkit/1440/adminregister: CTQ color tokens unchanged",
+    "webkit/1440/adminreserves: no wider than Home",
+    "webkit/1440/adminreserves: no page horizontal overflow",
+    "webkit/1440/adminreserves: desktop shell and gutter align with Home",
+    "webkit/1440/adminreserves: CTQ color tokens unchanged",
+    "webkit/1440/ranking: no wider than Home",
+    "webkit/1440/ranking: no page horizontal overflow",
+    "webkit/1440/ranking: desktop shell and gutter align with Home",
+    "webkit/1440/ranking: CTQ color tokens unchanged",
+    "webkit/1440/myhistory: no wider than Home",
+    "webkit/1440/myhistory: no page horizontal overflow",
+    "webkit/1440/myhistory: desktop shell and gutter align with Home",
+    "webkit/1440/myhistory: CTQ color tokens unchanged",
+    "webkit/1440/multibooking: no wider than Home",
+    "webkit/1440/multibooking: no page horizontal overflow",
+    "webkit/1440/multibooking: desktop shell and gutter align with Home",
+    "webkit/1440/multibooking: CTQ color tokens unchanged",
+    "webkit/1440/adminpayments: no wider than Home",
+    "webkit/1440/adminpayments: no page horizontal overflow",
+    "webkit/1440/adminpayments: desktop shell and gutter align with Home",
+    "webkit/1440/adminpayments: CTQ color tokens unchanged",
+    "webkit/1440/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/1440/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/1440/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "webkit/1440/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/1440/monthlypayments: no wider than Home",
+    "webkit/1440/monthlypayments: no page horizontal overflow",
+    "webkit/1440/monthlypayments: desktop shell and gutter align with Home",
+    "webkit/1440/monthlypayments: CTQ color tokens unchanged",
+    "webkit/1440/updatematch: no wider than Home",
+    "webkit/1440/updatematch: no page horizontal overflow",
+    "webkit/1440/updatematch: desktop shell and gutter align with Home",
+    "webkit/1440/updatematch: CTQ color tokens unchanged",
+    "webkit/1440/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/1440/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/1440/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "webkit/1440/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/1440/profile: no wider than Home",
+    "webkit/1440/profile: no page horizontal overflow",
+    "webkit/1440/profile: desktop shell and gutter align with Home",
+    "webkit/1440/profile: CTQ color tokens unchanged",
+    "webkit/1440/profile: desktop two columns / mobile-tablet one column",
+    "webkit/1440/profile: complete name retained",
+    "webkit/1440/profile: keyboard modality and history work",
+    "webkit/1440/profile: singles statistics and matches restored",
+    "webkit/1440/profile: empty profile has zero statistics",
+    "webkit/1440/profile: existing fallback avatar renders without a missing asset",
+    "webkit/1440/profile: doubles-only default preserved",
+    "webkit/1440/profile: photo selection still available; no upload submitted",
+    "webkit/1440: shared width survives SPA navigation and accumulated styles",
+    "webkit/1440: profile state resets correctly after returning from ranking",
+    "webkit/1440: no page errors, unexpected APIs or submitted writes",
+    "webkit/2068/: no wider than Home",
+    "webkit/2068/: no page horizontal overflow",
+    "webkit/2068/: desktop shell and gutter align with Home",
+    "webkit/2068/: CTQ color tokens unchanged",
+    "webkit/2068/dashboard: no wider than Home",
+    "webkit/2068/dashboard: no page horizontal overflow",
+    "webkit/2068/dashboard: desktop shell and gutter align with Home",
+    "webkit/2068/dashboard: CTQ color tokens unchanged",
+    "webkit/2068/adminregister: no wider than Home",
+    "webkit/2068/adminregister: no page horizontal overflow",
+    "webkit/2068/adminregister: desktop shell and gutter align with Home",
+    "webkit/2068/adminregister: CTQ color tokens unchanged",
+    "webkit/2068/adminreserves: no wider than Home",
+    "webkit/2068/adminreserves: no page horizontal overflow",
+    "webkit/2068/adminreserves: desktop shell and gutter align with Home",
+    "webkit/2068/adminreserves: CTQ color tokens unchanged",
+    "webkit/2068/ranking: no wider than Home",
+    "webkit/2068/ranking: no page horizontal overflow",
+    "webkit/2068/ranking: desktop shell and gutter align with Home",
+    "webkit/2068/ranking: CTQ color tokens unchanged",
+    "webkit/2068/myhistory: no wider than Home",
+    "webkit/2068/myhistory: no page horizontal overflow",
+    "webkit/2068/myhistory: desktop shell and gutter align with Home",
+    "webkit/2068/myhistory: CTQ color tokens unchanged",
+    "webkit/2068/multibooking: no wider than Home",
+    "webkit/2068/multibooking: no page horizontal overflow",
+    "webkit/2068/multibooking: desktop shell and gutter align with Home",
+    "webkit/2068/multibooking: CTQ color tokens unchanged",
+    "webkit/2068/adminpayments: no wider than Home",
+    "webkit/2068/adminpayments: no page horizontal overflow",
+    "webkit/2068/adminpayments: desktop shell and gutter align with Home",
+    "webkit/2068/adminpayments: CTQ color tokens unchanged",
+    "webkit/2068/adminpayments?memberId=111111111111111111111111: no wider than Home",
+    "webkit/2068/adminpayments?memberId=111111111111111111111111: no page horizontal overflow",
+    "webkit/2068/adminpayments?memberId=111111111111111111111111: desktop shell and gutter align with Home",
+    "webkit/2068/adminpayments?memberId=111111111111111111111111: CTQ color tokens unchanged",
+    "webkit/2068/monthlypayments: no wider than Home",
+    "webkit/2068/monthlypayments: no page horizontal overflow",
+    "webkit/2068/monthlypayments: desktop shell and gutter align with Home",
+    "webkit/2068/monthlypayments: CTQ color tokens unchanged",
+    "webkit/2068/updatematch: no wider than Home",
+    "webkit/2068/updatematch: no page horizontal overflow",
+    "webkit/2068/updatematch: desktop shell and gutter align with Home",
+    "webkit/2068/updatematch: CTQ color tokens unchanged",
+    "webkit/2068/admincategories?email=fixture@example.invalid: no wider than Home",
+    "webkit/2068/admincategories?email=fixture@example.invalid: no page horizontal overflow",
+    "webkit/2068/admincategories?email=fixture@example.invalid: desktop shell and gutter align with Home",
+    "webkit/2068/admincategories?email=fixture@example.invalid: CTQ color tokens unchanged",
+    "webkit/2068/profile: no wider than Home",
+    "webkit/2068/profile: no page horizontal overflow",
+    "webkit/2068/profile: desktop shell and gutter align with Home",
+    "webkit/2068/profile: CTQ color tokens unchanged",
+    "webkit/2068/profile: desktop two columns / mobile-tablet one column",
+    "webkit/2068/profile: complete name retained",
+    "webkit/2068/profile: keyboard modality and history work",
+    "webkit/2068/profile: singles statistics and matches restored",
+    "webkit/2068/profile: empty profile has zero statistics",
+    "webkit/2068/profile: existing fallback avatar renders without a missing asset",
+    "webkit/2068/profile: doubles-only default preserved",
+    "webkit/2068/profile: photo selection still available; no upload submitted",
+    "webkit/2068: shared width survives SPA navigation and accumulated styles",
+    "webkit/2068: profile state resets correctly after returning from ranking",
+    "webkit/2068: no page errors, unexpected APIs or submitted writes"
+  ],
+  "captures": [
+    "profile-chromium-390.png",
+    "profile-chromium-820.png",
+    "dashboard-chromium-1440.png",
+    "adminregister-chromium-1440.png",
+    "adminpayments-chromium-1440.png",
+    "profile-chromium-1440.png",
+    "profile-chromium-2068.png",
+    "profile-webkit-390.png",
+    "profile-webkit-820.png",
+    "dashboard-webkit-1440.png",
+    "adminregister-webkit-1440.png",
+    "adminpayments-webkit-1440.png",
+    "profile-webkit-1440.png",
+    "profile-webkit-2068.png"
+  ],
+  "sourceHashes": {
+    "src/index.css": "55a6f967c8960483a907ff5ff06ea7aae2fe1756b7433bfb96480b0a0bd41752",
+    "src/components/PlayerProfile.tsx": "ea98eeed3f05914b1489492c170a4d62de1812af005049b39dd8e88fab3a6f42",
+    "src/styles/Home.css": "23051706fac5fffa80f1b1ba7884d89bfdd1f7621a50a1077c382dca34954f4e",
+    "src/styles/Navigation.css": "3b642428caa75b5f74ad4ae370f49603df8b5f0aa573e39843f027c908c51b30",
+    "src/styles/Dashboard.css": "f4a17d39e0671f1f89591d6f3b9e6851c4137845ca8dab67a25210ad33aeb05c",
+    "src/styles/AdminRegister.css": "5ec6b937fa14d45fab94f0c6bb2992035f7294d1846e36d0168f7071cf3325d6",
+    "src/styles/AdminReserves.css": "aea44e35ffaf7c279ea9505556ef9b110187c731e5b984325a3d1ea12c1325f5",
+    "src/styles/AdminMembershipPayments.css": "285d57e5c5dd0a0718182d5a01d27a6b692ecc383f16e94e03a9713f9ac4c8a3",
+    "src/styles/MembershipPayments.css": "4fe61d5b93db9c33f022cee4df774eb43b2f15feceb30d6ba17bf59abd5b1353",
+    "src/styles/Ranking.css": "0e7abd87009993fac05878a9c2fcd0ac0d115f4cf3f7066d55b0bbba21ab37a3",
+    "src/styles/MyHistoryReserve.css": "4fd6541897c3b5928078387c1e91291e9de4f6e0a5c1152ca4afdcab0e63ec90",
+    "src/styles/MultipleBookingForm.css": "4adc6deeec23be70f3c65d2b340731704fed13f35f6750846950e99f1c82ee56",
+    "src/styles/MemberCategories.css": "9da420dc00318291289d5d66fb8902b82b456af4b6afbaf4124fb899854711f9",
+    "src/styles/MatchResult.css": "96d65da1bd13442e4943dd1d3a7fc8cbdb3e2e26fb59777fa5639d4098f92413",
+    "src/styles/PlayerProfile.css": "63c002d80fb6471ba266777b5faf20ebb9d42db7ce3beca5fef8a5938a61ea7b"
+  },
+  "status": "passed"
+}

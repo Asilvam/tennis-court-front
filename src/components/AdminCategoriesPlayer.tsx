@@ -1,389 +1,519 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { customStyles } from '../utils/customStyles';
-import { categoryOptions } from '../constants/playerConstants';
-import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faArrowLeft, faSave, faPlusCircle, faTrashAlt, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
-import '../styles/AdminRegister.css';
+import {
+    faArrowLeft,
+    faPen,
+    faRotateRight,
+    faSave,
+} from '@fortawesome/free-solid-svg-icons';
+import { LoadingSpinner } from './LoadingSpinner';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import {
+    additionalCategories,
+    categoryDraftChanged,
+    categoryLabel,
+    categorySavePayload,
+    createCategoryDraft,
+    mainCategories,
+} from '../utils/categoryEditor';
+import type {
+    CategoryDraft,
+    CategoryEditorData,
+} from '../utils/categoryEditor';
+import { useUnsavedCategoryChanges } from '../hooks/useUnsavedCategoryChanges';
+import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
+import '../styles/MemberCategories.css';
 
-type CategoryOption = { value: string; label: string };
-
-interface PlayerCategoryPoints {
-    id?: string;
-    playerEmail: string;
-    category: string;
-    points: number;
-    isActive?: boolean;
+function errorMessage(error: unknown): string {
+    if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401)
+            return 'Tu sesión venció. Inicia sesión nuevamente.';
+        if (error.response?.status === 403)
+            return 'Solo un administrador puede modificar categorías.';
+        const message = error.response?.data?.message;
+        if (typeof message === 'string') return message;
+        if (Array.isArray(message)) return message.join(' ');
+    }
+    return error instanceof Error && !axios.isAxiosError(error)
+        ? error.message
+        : 'No se pudo completar la solicitud. Intenta nuevamente.';
 }
 
-interface PlayerOption {
-    value: string; // email
-    label: string; // name
-}
-
-const AdminCategoriesPlayer: React.FC = () => {
+export default function AdminCategoriesPlayer() {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const [params] = useSearchParams();
+    const email = params.get('email');
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const preselectedEmail = searchParams.get('email');
-
-    const [players, setPlayers] = useState<PlayerOption[]>([]);
-    const [selectedPlayer, setSelectedPlayer] = useState<PlayerOption | null>(null);
-    const [categories, setCategories] = useState<PlayerCategoryPoints[]>([]);
-    const [originalCategories, setOriginalCategories] = useState<PlayerCategoryPoints[]>([]);
-    const [loadingPlayers, setLoadingPlayers] = useState(false);
-    const [loadingCategories, setLoadingCategories] = useState(false);
+    const [data, setData] = useState<CategoryEditorData | null>(null);
+    const [draft, setDraft] = useState<CategoryDraft>({
+        activeCategories: [],
+        pointInputs: {},
+    });
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [adjusting, setAdjusting] = useState(false);
+    const [error, setError] = useState('');
+    const [conflict, setConflict] = useState(false);
+    const [saved, setSaved] = useState(false);
+    const dirty = data ? categoryDraftChanged(data.categories, draft) : false;
+    useUnsavedCategoryChanges(dirty, saving);
 
-    const modalSelectStyles: StylesConfig<CategoryOption, false> = {
-        ...customStyles,
-        menuPortal: (base) => ({ ...base, zIndex: 1200 }),
-        menu: (base) => ({ ...base, zIndex: 1200 }),
+    const applyData = (next: CategoryEditorData) => {
+        setData(next);
+        setDraft(createCategoryDraft(next.categories));
+        setConflict(false);
+        setAdjusting(false);
     };
-
-    useEffect(() => {
-        const loadPlayers = async () => {
-            setLoadingPlayers(true);
+    const load = useCallback(
+        async (signal?: AbortSignal) => {
+            setLoading(true);
+            setError('');
+            if (!email) {
+                setError('Selecciona un socio desde administración.');
+                setLoading(false);
+                return;
+            }
             try {
-                const { data } = await axios.get(`${apiUrl}/register`);
-                const options: PlayerOption[] = (data ?? []).map((u: { email: string; namePlayer: string }) => ({
-                    value: u.email,
-                    label: u.namePlayer,
-                }));
-                setPlayers(options);
-
-                if (preselectedEmail) {
-                    const match = options.find((o) => o.value === preselectedEmail);
-                    if (match) setSelectedPlayer(match);
+                const response = await axios.get<CategoryEditorData>(
+                    `${apiUrl}/player-category-points/${encodeURIComponent(email)}/editor`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                        },
+                        signal,
+                    },
+                );
+                if (!signal?.aborted) {
+                    applyData(response.data);
+                    setSaved(false);
                 }
-            } catch (error) {
-                console.error(error);
-                Swal.fire('Error', 'No se pudo cargar la lista de jugadores.', 'error');
+            } catch (failure) {
+                if (!axios.isCancel(failure)) setError(errorMessage(failure));
             } finally {
-                setLoadingPlayers(false);
+                if (!signal?.aborted) setLoading(false);
             }
-        };
-        void loadPlayers();
-    }, [apiUrl, preselectedEmail]);
-
-    const loadCategories = async () => {
-        if (!selectedPlayer) return;
-        setLoadingCategories(true);
-        try {
-            const { data } = await axios.get<PlayerCategoryPoints[]>(
-                `${apiUrl}/player-category-points/${selectedPlayer.value}`
-            );
-            setCategories(data ?? []);
-            setOriginalCategories(JSON.parse(JSON.stringify(data ?? [])));
-        } catch (error) {
-            console.error(error);
-            Swal.fire('Error', 'No se pudieron cargar las categorías.', 'error');
-        } finally {
-            setLoadingCategories(false);
-        }
-    };
+        },
+        [apiUrl, email],
+    );
 
     useEffect(() => {
-        void loadCategories();
-    }, [selectedPlayer]);
+        const controller = new AbortController();
+        setData(null);
+        setDraft({ activeCategories: [], pointInputs: {} });
+        void load(controller.signal);
+        return () => controller.abort();
+    }, [load]);
 
-    const hasChanges = useMemo(() => {
-        return JSON.stringify(categories) !== JSON.stringify(originalCategories);
-    }, [categories, originalCategories]);
-
-    const updatePoints = (category: string, value: string) => {
-        const parsed = value === '' ? 0 : Number(value);
-        setCategories((prev) =>
-            prev.map((row) =>
-                row.category === category
-                    ? { ...row, points: parsed }
-                    : row
-            )
-        );
-    };
-
-    const toggleCategoryState = (category: string, isActive: boolean) => {
-        setCategories((prev) =>
-            prev.map((row) =>
-                row.category === category
-                    ? { ...row, isActive } : row
-            )
-        );
-    };
-
-    const handleAddCategory = async (opt: SingleValue<CategoryOption>) => {
-        if (!opt || !selectedPlayer) return;
-        try {
-            setSaving(true);
-            await axios.post(`${apiUrl}/player-category-points/${selectedPlayer.value}/add-category`, {
-                category: opt.value
-            });
-            await loadCategories();
-            Swal.fire('Éxito', 'Categoría vinculada.', 'success');
-        } catch (error) {
-            console.error(error);
-            Swal.fire('Error', 'No se pudo vincular la categoría.', 'error');
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    const handleRemoveCategory = async (category: string) => {
-        if (!selectedPlayer) return;
-        const result = await Swal.fire({
-            title: '¿Remover categoría?',
-            text: `Se eliminarán los puntos de ${category}.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Sí, remover'
-        });
-
-        if (result.isConfirmed) {
-            try {
-                setSaving(true);
-                await axios.delete(`${apiUrl}/player-category-points/${selectedPlayer.value}/${category}`);
-                await loadCategories();
-                Swal.fire('Removida', 'Categoría eliminada.', 'success');
-            } catch (error) {
-                console.error(error);
-                Swal.fire('Error', 'No se pudo remover.', 'error');
-            } finally {
-                setSaving(false);
+    const changeActive = (category: string, active = true) => {
+        setSaved(false);
+        setDraft((previous) => {
+            const next = new Set(previous.activeCategories);
+            if (mainCategories.includes(category) || !category)
+                mainCategories.forEach((value) => next.delete(value));
+            if (category) {
+                if (active) next.add(category);
+                else next.delete(category);
             }
-        }
+            const pointInputs = { ...previous.pointInputs };
+            for (const key of Object.keys(pointInputs))
+                if (
+                    !next.has(key) &&
+                    !data?.categories.some((row) => row.category === key)
+                )
+                    delete pointInputs[key];
+            return { activeCategories: [...next], pointInputs };
+        });
     };
 
-    const handleSavePoints = async () => {
-        if (!selectedPlayer) return;
-        setSaving(true);
+    const save = async (event: FormEvent) => {
+        event.preventDefault();
+        if (!data || saving || !dirty || conflict) return;
+        setError('');
         try {
-            const payload = categories.map(c => ({
-                category: c.category,
-                points: c.points,
-                isActive: c.isActive
-            }));
-
-            await axios.put(`${apiUrl}/player-category-points/${selectedPlayer.value}/points`, {
-                categories: payload,
+            const payload = categorySavePayload(data, draft);
+            setSaving(true);
+            const response = await axios.put<CategoryEditorData>(
+                `${apiUrl}/player-category-points/${encodeURIComponent(data.player.email)}/assignments`,
+                payload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                    },
+                },
+            );
+            applyData(response.data);
+            setSaved(true);
+            void Swal.fire({
+                icon: 'success',
+                title: 'Cambios guardados',
+                text: 'Las categorías y los puntajes del socio se actualizaron correctamente.',
+                confirmButtonText: 'Aceptar',
             });
-            setOriginalCategories(structuredClone(categories));
-            Swal.fire('Éxito', 'Cambios guardados.', 'success');
-        } catch (error) {
-            console.error(error);
-            Swal.fire('Error', 'No se pudieron guardar los cambios.', 'error');
+        } catch (failure) {
+            setConflict(
+                axios.isAxiosError(failure) && failure.response?.status === 409,
+            );
+            setError(errorMessage(failure));
         } finally {
             setSaving(false);
         }
     };
+    const reload = async () => {
+        if (saving) return;
+        if (!dirty || (await confirmDiscardCategoryChanges('reload')))
+            await load();
+    };
+    const primary =
+        draft.activeCategories.find((category) =>
+            mainCategories.includes(category),
+        ) ?? '';
+    const points = (category: string) =>
+        draft.pointInputs[category] ??
+        String(
+            data?.categories.find((row) => row.category === category)?.points ??
+                0,
+        );
+    const inactive =
+        data?.categories.filter(
+            (row) => !draft.activeCategories.includes(row.category),
+        ) ?? [];
+    const pointCategories = [
+        ...new Set([
+            ...(data?.categories.map((row) => row.category) ?? []),
+            ...draft.activeCategories,
+        ]),
+    ].filter((category) =>
+        [...mainCategories, ...additionalCategories].includes(category),
+    );
 
     return (
-        <div className="container admin-register-container">
-            {/* ── Hero ──────────────────────────────────────────────────── */}
-            <div className="admin-register-hero">
+        <main className="member-categories">
+            <header className="mc-header">
+                <button
+                    type="button"
+                    className="mc-icon-button"
+                    aria-label="Volver a socios"
+                    title="Volver a socios"
+                    disabled={saving}
+                    onClick={() => navigate('/adminregister')}
+                >
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
                 <div>
-                    <h4>Administrar Categorías y Puntos</h4>
-                    <p>Gestiona el nivel competitivo y puntos de ranking.</p>
-                </div>
-                <div className="admin-register-badge hide-on-small-only">
-                    <FontAwesomeIcon icon={faLayerGroup} />
-                    <span>{categories.length} Categorías</span>
-                </div>
-            </div>
-
-            {/* ── Jugador seleccionado ───────────────────────────────────── */}
-            <div className="player-info-card">
-                <div className="player-info-avatar">
-                    <FontAwesomeIcon icon={faUser} />
-                </div>
-                <div className="player-info-details">
-                    <span className="player-info-name">
-                        {selectedPlayer ? selectedPlayer.label : 'Cargando...'}
-                    </span>
-                    {selectedPlayer && (
-                        <span className="player-info-email">{selectedPlayer.value}</span>
+                    <h1>Categorías del socio</h1>
+                    {data && (
+                        <p>
+                            {data.player.name}
+                            <span>{data.player.email}</span>
+                        </p>
                     )}
                 </div>
-            </div>
-
-            {/* ── Contenido ─────────────────────────────────────────────── */}
-            {loadingCategories ? (
-                <div className="center-align categories-loader">
-                    <div className="preloader-wrapper active">
-                        <div className="spinner-layer spinner-blue-only">
-                            <div className="circle-clipper left"><div className="circle"></div></div>
-                            <div className="gap-patch"><div className="circle"></div></div>
-                            <div className="circle-clipper right"><div className="circle"></div></div>
-                        </div>
-                    </div>
+            </header>
+            {loading ? (
+                <div className="mc-loading">
+                    <LoadingSpinner size={64} label="Cargando categorías" />
                 </div>
-            ) : selectedPlayer ? (
-                <div className="animate-fade-in">
-
-                    {/* VISTA DESKTOP */}
-                    <div className="hide-on-small-only">
-                        <div className="card admin-card categories-table-card">
-                            <div className="table-wrapper">
-                                <table className="highlight user-table">
-                                    <thead>
-                                        <tr>
-                                            <th className="category-th">Categoría</th>
-                                            <th className="points-th right-align">Puntos Ranking</th>
-                                            <th className="center-align state-th">Estado</th>
-                                            <th className="center-align actions-th">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {categories.map((row) => (
-                                            <tr key={row.category}>
-                                                <td className="category-td">
-                                                    <div className="category-label-group">
-                                                        <span className="category-badge">CAT</span>
-                                                        <span className="ar-category-name">{row.category}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="points-td right-align">
-                                                    <input
-                                                        type="text"
-                                                        inputMode="numeric"
-                                                        pattern="[0-9]*"
-                                                        className={`browser-default points-input${!row.isActive ? ' points-input--disabled' : ''}`}
-                                                        value={row.points}
-                                                        disabled={!row.isActive}
-                                                        onChange={(e) => updatePoints(row.category, e.target.value)}
-                                                    />
-                                                </td>
-                                                <td className="center-align state-td">
-                                                    <div className="state-switch-cell">
-                                                        <div className="switch">
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={row.isActive}
-                                                                    onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
-                                                                />
-                                                                <span className="lever"></span>
-                                                            </label>
-                                                        </div>
-                                                        <span className={`state-label${row.isActive ? ' state-label--active' : ''}`}>
-                                                            {row.isActive ? 'Activa' : 'Inactiva'}
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td className="center-align actions-td">
-                                                    <button
-                                                        className="btn-floating btn-small waves-effect waves-light red darken-2 btn-delete-compact"
-                                                        onClick={() => handleRemoveCategory(row.category)}
-                                                        title="Eliminar"
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrashAlt} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+            ) : (
+                <>
+                    {error && (
+                        <div className="mc-message mc-error" role="alert">
+                            <span>{error}</span>
+                            {(conflict || !data) && email && (
+                                <button
+                                    type="button"
+                                    onClick={reload}
+                                    disabled={saving}
+                                >
+                                    <FontAwesomeIcon icon={faRotateRight} />{' '}
+                                    Recargar datos
+                                </button>
+                            )}
                         </div>
-                    </div>
-
-                    {/* VISTA MOBILE */}
-                    <div className="show-on-small hide-on-med-and-up">
-                        {categories.map((row) => (
-                            <div key={row.category} className="category-mobile-card">
-                                <div className="category-mobile-header">
-                                    <div className="category-label-group">
-                                        <span className="category-badge">CAT</span>
-                                        <span className="ar-category-name">{row.category}</span>
+                    )}
+                    {data && (
+                        <form onSubmit={save}>
+                            <div className="mc-edit-content">
+                                {!data.player.active && (
+                                    <div className="mc-message mc-warning">
+                                        Socio inactivo. Actívalo desde
+                                        administración para modificar sus
+                                        categorías.
                                     </div>
+                                )}
+                                {data.categories.filter(
+                                    (row) =>
+                                        mainCategories.includes(row.category) &&
+                                        row.isActive,
+                                ).length > 1 && (
+                                    <div className="mc-message mc-warning">
+                                        Hay más de una categoría principal
+                                        activa. Selecciona la que corresponde
+                                        antes de guardar.
+                                    </div>
+                                )}
+                                <fieldset
+                                    className="mc-form-fields"
+                                    disabled={saving || !data.player.active}
+                                >
+                                    <div className="mc-groups">
+                                        <fieldset className="mc-group">
+                                            <legend>Categoría principal</legend>
+                                            {[...mainCategories, ''].map(
+                                                (category) => (
+                                                    <label
+                                                        className={`mc-choice${primary === category ? ' mc-choice-selected' : ''}`}
+                                                        key={category || 'none'}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="main-category"
+                                                            value={category}
+                                                            checked={
+                                                                primary ===
+                                                                category
+                                                            }
+                                                            onChange={() =>
+                                                                changeActive(
+                                                                    category,
+                                                                )
+                                                            }
+                                                        />
+                                                        <span>
+                                                            {category
+                                                                ? categoryLabel(
+                                                                      category,
+                                                                  )
+                                                                : 'Sin categoría'}
+                                                        </span>
+                                                        {category && (
+                                                            <small>
+                                                                {points(
+                                                                    category,
+                                                                )}{' '}
+                                                                pts
+                                                            </small>
+                                                        )}
+                                                    </label>
+                                                ),
+                                            )}
+                                        </fieldset>
+                                        <fieldset className="mc-group">
+                                            <legend>
+                                                Categorías adicionales
+                                            </legend>
+                                            {additionalCategories.map(
+                                                (category) => (
+                                                    <label
+                                                        className={`mc-choice${draft.activeCategories.includes(category) ? ' mc-choice-selected' : ''}`}
+                                                        key={category}
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={draft.activeCategories.includes(
+                                                                category,
+                                                            )}
+                                                            onChange={(event) =>
+                                                                changeActive(
+                                                                    category,
+                                                                    event.target
+                                                                        .checked,
+                                                                )
+                                                            }
+                                                        />
+                                                        <span>
+                                                            {categoryLabel(
+                                                                category,
+                                                            )}
+                                                        </span>
+                                                        <small>
+                                                            {points(category)}{' '}
+                                                            pts
+                                                        </small>
+                                                    </label>
+                                                ),
+                                            )}
+                                        </fieldset>
+                                    </div>
+                                    <section className="mc-points-section">
+                                        <div className="mc-section-heading">
+                                            <h2>Puntos de ranking</h2>
+                                            <button
+                                                type="button"
+                                                aria-expanded={adjusting}
+                                                onClick={() =>
+                                                    setAdjusting(
+                                                        (value) => !value,
+                                                    )
+                                                }
+                                            >
+                                                <FontAwesomeIcon icon={faPen} />{' '}
+                                                {adjusting
+                                                    ? 'Cerrar ajuste'
+                                                    : 'Ajustar puntos'}
+                                            </button>
+                                        </div>
+                                        {adjusting ? (
+                                            <div className="mc-points-list">
+                                                {pointCategories.length ? (
+                                                    pointCategories.map(
+                                                        (category) => (
+                                                            <label
+                                                                className="mc-point-row"
+                                                                key={category}
+                                                            >
+                                                                <span>
+                                                                    {categoryLabel(
+                                                                        category,
+                                                                    )}
+                                                                    <small>
+                                                                        {draft.activeCategories.includes(
+                                                                            category,
+                                                                        )
+                                                                            ? 'Activa'
+                                                                            : 'Inactiva'}
+                                                                    </small>
+                                                                </span>
+                                                                <input
+                                                                    className="browser-default"
+                                                                    type="text"
+                                                                    inputMode="numeric"
+                                                                    pattern="[0-9]+"
+                                                                    required
+                                                                    aria-label={`Puntos ${categoryLabel(category)}`}
+                                                                    value={points(
+                                                                        category,
+                                                                    )}
+                                                                    onChange={(
+                                                                        event,
+                                                                    ) => {
+                                                                        setSaved(
+                                                                            false,
+                                                                        );
+                                                                        setDraft(
+                                                                            (
+                                                                                previous,
+                                                                            ) => ({
+                                                                                ...previous,
+                                                                                pointInputs:
+                                                                                    {
+                                                                                        ...previous.pointInputs,
+                                                                                        [category]:
+                                                                                            event
+                                                                                                .target
+                                                                                                .value,
+                                                                                    },
+                                                                            }),
+                                                                        );
+                                                                    }}
+                                                                />
+                                                            </label>
+                                                        ),
+                                                    )
+                                                ) : (
+                                                    <p className="mc-empty">
+                                                        Sin categorías asignadas
+                                                    </p>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <div className="mc-ranking-list">
+                                                {draft.activeCategories
+                                                    .length ? (
+                                                    draft.activeCategories.map(
+                                                        (category) => (
+                                                            <div key={category}>
+                                                                <span>
+                                                                    {categoryLabel(
+                                                                        category,
+                                                                    )}
+                                                                </span>
+                                                                <strong>
+                                                                    {points(
+                                                                        category,
+                                                                    )}{' '}
+                                                                    <small>
+                                                                        pts
+                                                                    </small>
+                                                                </strong>
+                                                            </div>
+                                                        ),
+                                                    )
+                                                ) : (
+                                                    <p className="mc-empty">
+                                                        Sin categorías activas
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+                                    </section>
+                                </fieldset>
+                                {inactive.length > 0 && (
+                                    <details className="mc-history">
+                                        <summary>
+                                            Categorías anteriores e inactivas (
+                                            {inactive.length})
+                                        </summary>
+                                        {inactive.map((row) => (
+                                            <div key={row.category}>
+                                                <span>
+                                                    {categoryLabel(
+                                                        row.category,
+                                                    )}
+                                                </span>
+                                                <strong>
+                                                    {points(row.category)} pts
+                                                </strong>
+                                            </div>
+                                        ))}
+                                    </details>
+                                )}
+                            </div>
+                            <footer className="mc-actions">
+                                <span aria-live="polite">
+                                    {saving
+                                        ? 'Guardando…'
+                                        : dirty
+                                          ? 'Cambios sin guardar'
+                                          : saved
+                                            ? 'Guardado'
+                                            : 'Sin cambios pendientes'}
+                                </span>
+                                <div>
                                     <button
-                                        className="btn-delete-mobile"
-                                        onClick={() => handleRemoveCategory(row.category)}
+                                        className="mc-cancel"
+                                        type="button"
+                                        disabled={saving}
+                                        onClick={() =>
+                                            navigate('/adminregister')
+                                        }
                                     >
-                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        className="mc-save"
+                                        type="submit"
+                                        disabled={
+                                            !dirty ||
+                                            saving ||
+                                            conflict ||
+                                            !data.player.active
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faSave} />{' '}
+                                        {saving
+                                            ? 'Guardando…'
+                                            : 'Guardar cambios'}
                                     </button>
                                 </div>
-
-                                <div className="category-mobile-points">
-                                    <label className="category-mobile-points-label">Puntos de Ranking</label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        pattern="[0-9]*"
-                                        className={`browser-default category-mobile-points-input${!row.isActive ? ' points-input--disabled' : ''}`}
-                                        value={row.points}
-                                        disabled={!row.isActive}
-                                        onChange={(e) => updatePoints(row.category, e.target.value)}
-                                    />
-                                </div>
-
-                                <div className={`category-mobile-status${row.isActive ? ' category-mobile-status--active' : ''}`}>
-                                    <label className="status-switch">
-                                        <span className={row.isActive ? 'status-label--active' : 'status-label--inactive'}>
-                                            {row.isActive ? 'Categoría Activa' : 'Categoría Inactiva'}
-                                        </span>
-                                        <div className="switch">
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={row.isActive}
-                                                    onChange={(e) => toggleCategoryState(row.category, e.target.checked)}
-                                                />
-                                                <span className="lever"></span>
-                                            </label>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* ── Agregar categoría ──────────────────────────────── */}
-                    <div className="add-category-section">
-                        <p className="add-category-label">
-                            <FontAwesomeIcon icon={faPlusCircle} />
-                            Añadir una nueva categoría al jugador
-                        </p>
-                        <Select<CategoryOption, false>
-                            options={categoryOptions}
-                            onChange={handleAddCategory}
-                            styles={modalSelectStyles}
-                            menuPortalTarget={typeof document !== 'undefined' ? document.body : null}
-                            menuPosition="fixed"
-                            menuPlacement="top"
-                            maxMenuHeight={180}
-                            placeholder="Agregar categoría..."
-                        />
-                    </div>
-
-                    {/* ── Acciones ───────────────────────────────────────── */}
-                    <div className="profile-actions">
-                        <button
-                            className="admin-modal-btn-cancel"
-                            type="button"
-                            onClick={() => navigate(-1)}
-                        >
-                            <FontAwesomeIcon icon={faArrowLeft} />
-                            Volver
-                        </button>
-                        <button
-                            className={`admin-modal-btn-submit${!hasChanges ? ' admin-modal-btn-submit--disabled' : ''}`}
-                            type="button"
-                            onClick={handleSavePoints}
-                            disabled={!hasChanges || saving}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                            {saving ? 'Guardando...' : 'Actualizar'}
-                        </button>
-                    </div>
-
-                </div>
-            ) : null}
-        </div>
+                            </footer>
+                        </form>
+                    )}
+                </>
+            )}
+        </main>
     );
-};
-
-export default AdminCategoriesPlayer;
+}

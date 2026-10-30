@@ -1,7 +1,7 @@
 interface UserInfo {
     name: string;
     email: string;
-    role: 'admin' | 'user';
+    role: 'admin' | 'user' | 'profesor';
 }
 
 export const getUserInfoFromLocalStorage = (): UserInfo | null => {

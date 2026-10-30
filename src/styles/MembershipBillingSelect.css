@@ -1,0 +1,16 @@
+.ap-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: var(--ctq-text-muted); font-size: 14px; }
+.ap-field > label { color: var(--ctq-text-muted); font-size: 14px; }
+.ap-select { width: 100%; min-width: 0; font-size: 16px; }
+.ap-select .ap-select__control { min-height: 46px; background: rgba(255,255,255,.07); border: 1px solid var(--ctq-border-soft); border-radius: 8px; cursor: pointer; }
+.ap-select .ap-select__control--is-focused { border-color: var(--ctq-accent); box-shadow: 0 0 0 3px rgba(125,211,252,.14); }
+.ap-select .ap-select__control--is-disabled { opacity: .5; cursor: not-allowed; }
+.ap-select .ap-select__value-container { padding: 9px 12px; min-width: 0; }
+.ap-select .ap-select__single-value { color: var(--ctq-text); white-space: normal; overflow-wrap: anywhere; line-height: 1.4; }
+.ap-select .ap-select__indicator { padding: 10px; color: var(--ctq-text-muted); }
+.ap-select input[role='combobox'] { position: absolute; left: 12px; top: 50%; transform: none; width: 1px !important; height: 1px !important; font-size: 16px !important; min-height: 0; margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important; }
+.ap-select__menu-portal { z-index: 2000 !important; font-family: inherit; font-size: 16px; color: var(--ctq-text); letter-spacing: 0; }
+.ap-select__menu-portal .ap-select__menu { margin: 6px 0; background: var(--ctq-accent-deep); border: 1px solid var(--ctq-border-soft); border-radius: 8px; box-shadow: 0 12px 24px rgba(4,10,22,.28); overflow: hidden; }
+.ap-select__menu-portal .ap-select__menu-list { padding: 4px; }
+.ap-select__menu-portal .ap-select__option { min-height: 44px; padding: 11px 12px; line-height: 1.4; overflow-wrap: anywhere; cursor: pointer; }
+.ap-select__menu-portal .ap-select__option--is-focused { background: rgba(255,255,255,.08); }
+.ap-select__menu-portal .ap-select__option--is-selected { background: rgba(125,211,252,.18); color: var(--ctq-accent); }

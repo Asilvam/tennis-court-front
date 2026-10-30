@@ -1,61 +1,30 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // 1. Importar SweetAlert2
+import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import { ADMIN_PASSWORD_RECOVERY_MESSAGE, PASSWORD_RECOVERY_MESSAGE, requestPasswordRecovery } from '../utils/passwordRecovery';
 import '../styles/ResetPassword.css';
 
-const ResetPassword = () => {
+const ResetPassword = ({ adminRequest = false }: { adminRequest?: boolean }) => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-
-    // 2. El estado 'feedback' ya no es necesario, lo he eliminado.
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        if (!email) {
-            // 3. Reemplazar el feedback con SweetAlert2 para validaciones
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campo Requerido',
-                text: 'Por favor, ingresa un correo electrónico.',
-            });
-            return;
-        }
-
+        if (loading) return;
         setLoading(true);
 
         try {
-            const response = await axios.post(`${apiUrl}/register/resetpass`, { email });
-
-            if (response.data.success) {
-                // 4. Usar SweetAlert2 para el mensaje de éxito
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Enviado!',
-                    text: 'Se ha enviado un correo con la nueva contraseña al usuario.',
-                    timer: 2500,
-                    showConfirmButton: false,
-                });
-                setEmail(''); // Limpia el campo de email si fue exitoso
-            } else {
-                // 5. Usar SweetAlert2 para mostrar errores controlados del backend
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: response.data.message || 'No se pudo completar la solicitud.',
-                });
-            }
-
-        } catch (error) {
-            console.error('Error al intentar restablecer la contraseña:', error);
-            // 6. Usar SweetAlert2 para errores de conexión o inesperados
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de Conexión',
-                text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.',
-            });
+            await requestPasswordRecovery(apiUrl, email, { admin: adminRequest, token: adminRequest ? getTokenFromLocalStorage() : undefined });
+            await Swal.fire({ icon: 'warning', title: 'Solicitud recibida', text: adminRequest ? ADMIN_PASSWORD_RECOVERY_MESSAGE : PASSWORD_RECOVERY_MESSAGE, confirmButtonColor: '#fbbf24', customClass: { popup: 'password-recovery-popup' } });
+            setEmail('');
+        } catch (error: unknown) {
+            const message = axios.isAxiosError(error) ? 'No se pudo procesar la solicitud. Inténtalo nuevamente más tarde.'
+                : error instanceof Error ? error.message : 'No se pudo procesar la solicitud.';
+            await Swal.fire({ icon: 'error', title: 'Error', text: message });
         } finally {
             setLoading(false);
         }
@@ -63,15 +32,22 @@ const ResetPassword = () => {
 
     return (
         <div className="reset-password-container">
-            <h3>Restablecer Contraseña</h3>
-            <p>Ingresa el correo del usuario para enviarle una nueva contraseña.</p>
+            <div className="password-recovery-eyebrow"><span aria-hidden="true">⚠</span> Seguridad de tu cuenta</div>
+            <h3>{adminRequest ? 'Solicitar restablecimiento' : 'Recuperar contraseña'}</h3>
+            <p>Envía un enlace para elegir una nueva contraseña. La contraseña actual seguirá funcionando hasta confirmar el cambio.</p>
+            <div className="password-recovery-warning">
+                <strong>Antes de continuar</strong>
+                <p>{adminRequest ? 'Como administrador puedes solicitar otro enlace sin esperar 24 horas. El enlace nuevo invalida el anterior.' : 'Solo se permite una solicitud cada 24 horas, incluso si falla el envío.'} El correo debe pertenecer a una cuenta activa del club.</p>
+                <p>El enlace vence en 24 horas. Solicítalo solo si necesitas cambiar tu contraseña y tienes acceso a ese correo.</p>
+            </div>
 
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email-input">Correo Electrónico</label>
                     <input
                         id="email-input"
                         type="email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="ejemplo@correo.com"
@@ -81,11 +57,11 @@ const ResetPassword = () => {
                 </div>
 
                 <button type="submit" className="submit-button" disabled={loading}>
-                    {loading ? 'Enviando...' : 'Enviar Correo'}
+                    {loading ? 'Enviando...' : 'Enviar enlace'}
                 </button>
             </form>
 
-            {/* 7. El div para mostrar el feedback ha sido eliminado */}
+            {!adminRequest && <p><Link to="/login">Volver a iniciar sesión</Link></p>}
         </div>
     );
 };

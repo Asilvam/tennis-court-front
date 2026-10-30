@@ -12,22 +12,22 @@ const logOrder = {
 };
 
 const logger = {
-    debug: (...args: any[]) => {
+    debug: (...args: unknown[]) => {
         if (logOrder[currentLogLevel] <= logOrder[LogLevel.DEBUG]) {
             console.debug('[DEBUG]:', ...args);
         }
     },
-    info: (...args: any[]) => {
+    info: (...args: unknown[]) => {
         if (logOrder[currentLogLevel] <= logOrder[LogLevel.INFO]) {
             console.info('[INFO]:', ...args);
         }
     },
-    warn: (...args: any[]) => {
+    warn: (...args: unknown[]) => {
         if (logOrder[currentLogLevel] <= logOrder[LogLevel.WARN]) {
             console.warn('[WARN]:', ...args);
         }
     },
-    error: (...args: any[]) => {
+    error: (...args: unknown[]) => {
         if (logOrder[currentLogLevel] <= logOrder[LogLevel.ERROR]) {
             console.error('[ERROR]:', ...args);
         }

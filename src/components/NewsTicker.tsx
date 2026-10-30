@@ -11,8 +11,10 @@ interface Noticia {
 }
 // ApiResponse removed because backend may return either an array or { noticias: [...] }
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+const NEWS_CACHE_TTL_MS = 5 * 60 * 1000;
 const DEFAULT_LIMIT = 10;
 const CHARS_PER_SECOND = 15;
+const newsCache = new Map<string, { timestamp: number; data: Noticia[] }>();
 function formatShortDate(iso: string, locale = "es-CL") {
     try {
         const d = new Date(iso);
@@ -48,12 +50,21 @@ const NewsTicker: React.FC<Props> = ({
     useEffect(() => {
         let mounted = true;
         setLoading(true);
-// Reemplaza la llamada axios existente por esto:
+        const cacheKey = `${apiUrl}/news-ctq`;
+        const cachedNews = newsCache.get(cacheKey);
+
+        if (cachedNews && Date.now() - cachedNews.timestamp < NEWS_CACHE_TTL_MS) {
+            setNoticias(cachedNews.data);
+            setLoading(false);
+            return () => {
+                mounted = false;
+            };
+        }
+
         axios
             .get(`${apiUrl}/news-ctq`)
             .then((res) => {
                 if (!mounted) return;
-                // El backend puede devolver { noticias: [...] } o directamente un array [...]
                 const payload = res.data;
                 const data: Noticia[] = Array.isArray(payload)
                     ? payload
@@ -61,13 +72,13 @@ const NewsTicker: React.FC<Props> = ({
                         ? payload.noticias
                         : [];
 
-                // filter: only last 1 day (user requested)
                 const cutoff = Date.now() - ONE_DAY_MS;
                 const recent = data.filter((n) => {
                     if (!n?.fecha) return true;
                     return new Date(n.fecha).getTime() >= cutoff;
                 });
                 recent.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+                newsCache.set(cacheKey, { timestamp: Date.now(), data: recent });
                 setNoticias(recent);
             })
             .catch((err) => {
@@ -103,7 +114,27 @@ const NewsTicker: React.FC<Props> = ({
     // prepare dynamic CSS variable safely without using `any`
     const dynamicStyle = ({ ['--rt-duration' as unknown as string]: `${duration}s` } as unknown) as React.CSSProperties;
 
-    if (loading || noticias.length === 0) return null;
+    if (loading) {
+        return (
+            <div className="rt-wrapper rt-wrapper--placeholder" role="status" aria-live="polite">
+                <span className="rt-label">Noticias</span>
+                <div className="rt-track">
+                    <div className="rt-placeholder">Cargando noticias del club...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (noticias.length === 0) {
+        return (
+            <div className="rt-wrapper rt-wrapper--placeholder" role="status" aria-live="polite">
+                <span className="rt-label">Noticias</span>
+                <div className="rt-track">
+                    <div className="rt-placeholder">Sin noticias recientes por ahora.</div>
+                </div>
+            </div>
+        );
+    }
     if (variant === "stacked") {
         return (
             <section className="rt-stacked" role="region" aria-label="Últimas noticias">

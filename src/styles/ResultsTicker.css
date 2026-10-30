@@ -4,7 +4,7 @@
 
 .rt-wrapper {
   width: 100% !important;
-  background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%) !important;
+  background: linear-gradient(90deg, var(--ctq-accent-deep) 0%, var(--ctq-accent-strong) 56%, #28519a 100%) !important;
   border-radius: 12px !important;
   height: 38px !important;
   display: flex !important;
@@ -12,14 +12,14 @@
   overflow: hidden !important;
   margin-bottom: 1.25rem !important;
   position: relative !important;
-  box-shadow: 0 2px 12px rgba(30, 58, 138, 0.2) !important;
+  box-shadow: 0 8px 18px rgba(7, 17, 33, 0.18) !important;
 }
 
 /* Left label */
 .rt-label {
   flex-shrink: 0 !important;
-  background: rgba(255,255,255,0.15) !important;
-  color: #fff !important;
+  background: #465674 !important;
+  color: var(--ctq-text) !important;
   font-size: 0.7rem !important;
   font-weight: 800 !important;
   text-transform: uppercase !important;
@@ -29,7 +29,7 @@
   display: flex !important;
   align-items: center !important;
   white-space: nowrap !important;
-  border-right: 1px solid rgba(255,255,255,0.2) !important;
+  border-right: 1px solid rgba(255,255,255,0.12) !important;
   z-index: 2 !important;
 }
 
@@ -40,6 +40,17 @@
   height: 100% !important;
   display: flex !important;
   align-items: center !important;
+}
+
+.rt-wrapper--placeholder .rt-track {
+  padding: 0 0.9rem !important;
+}
+
+.rt-placeholder {
+  color: rgba(248, 250, 252, 0.92) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
 }
 
 .rt-inner {
@@ -65,7 +76,7 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 0.4rem !important;
-  color: #fff !important;
+  color: var(--ctq-text) !important;
   font-size: 0.82rem !important;
   font-weight: 500 !important;
   padding: 0 1.25rem !important;
@@ -74,7 +85,7 @@
 
 .rt-winner {
   font-weight: 700 !important;
-  color: #fde68a !important;
+  color: var(--ctq-yellow) !important;
 }
 
 .rt-looser {
@@ -82,12 +93,12 @@
 }
 
 .rt-result {
-  background: rgba(255,255,255,0.15) !important;
+  background: rgba(255,255,255,0.14) !important;
   border-radius: 6px !important;
   padding: 0.1rem 0.45rem !important;
   font-size: 0.78rem !important;
   font-weight: 700 !important;
-  color: #fff !important;
+  color: var(--ctq-text) !important;
 }
 
 .rt-sep {

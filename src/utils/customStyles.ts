@@ -21,7 +21,7 @@ export const customStyles: StylesConfig<OptionType> = {
     input: (base) => ({
         ...base,
         margin: '0px',
-        fontSize: '12px',
+        fontSize: '16px',
     }),
     indicatorSeparator: () => ({
         display: 'none',

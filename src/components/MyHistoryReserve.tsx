@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -39,12 +39,6 @@ const MyHistoryReserve: React.FC = () => {
     const currentTime = DateTime.now().setZone(timezone); // Current time in the specified timezone
     const today = currentTime.startOf('day');
 
-    useEffect(() => {
-        fetchReserves();
-        const elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems);
-    }, []);
-
     const isOkToDelete = (reserve: Reservation): boolean => {
         if (!reserve.state) {
             return false;
@@ -58,7 +52,7 @@ const MyHistoryReserve: React.FC = () => {
         return (isToday && isBeforeTimeRange) || isFutureDate;
     }
 
-    const fetchReserves = async () => {
+    const fetchReserves = useCallback(async () => {
         setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
@@ -72,7 +66,13 @@ const MyHistoryReserve: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [apiUrl, namePlayer, token]);
+
+    useEffect(() => {
+        void fetchReserves();
+        const elems = document.querySelectorAll('.modal');
+        M.Modal.init(elems);
+    }, [fetchReserves]);
 
     const handleView = (reserve: Reservation) => {
         const courtNumber = reserve.court.replace(/\D/g, '');
@@ -155,7 +155,6 @@ const MyHistoryReserve: React.FC = () => {
         return match ? parseInt(match[0], 10) : null;
     };
 
-    const upcomingReserves = reserves.filter(r => isOkToDelete(r)).length;
     const canceledReserves = reserves.filter(r => !r.state).length;
 
     if (loading) {
@@ -175,7 +174,6 @@ const MyHistoryReserve: React.FC = () => {
 
                     <div className="history-kpis">
                         <div className="history-kpi">Total Reservas: <strong>{reserves.length}</strong></div>
-                        <div className="history-kpi">Próximas: <strong>{upcomingReserves}</strong></div>
                         <div className="history-kpi">Canceladas: <strong>{canceledReserves}</strong></div>
                     </div>
 

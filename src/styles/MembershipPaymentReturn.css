@@ -1,0 +1,26 @@
+.membership-return { width: min(100%, 760px); margin: 0 auto; padding: 28px 24px 40px; color: var(--ctq-text); }
+.membership-return, .membership-return * { box-sizing: border-box; letter-spacing: 0; }
+.membership-return header { border-bottom: 1px solid var(--ctq-border-soft); padding-bottom: 20px; }
+.membership-return h1 { margin: 0; font-size: 23px; line-height: 1.4; }
+.mpr-result { padding: 36px 0 28px; text-align: center; }
+.mpr-symbol { display: grid; place-items: center; width: 80px; height: 80px; margin: 0 auto 20px; font-size: 58px; color: var(--ctq-accent); }
+.mpr-result--success .mpr-symbol { color: #86efac; }
+.mpr-result--danger .mpr-symbol { color: #fca5a5; }
+.mpr-result--warning .mpr-symbol { color: var(--ctq-yellow); }
+.membership-return h2 { margin: 0 0 12px; font-size: 26px; line-height: 1.3; overflow-wrap: anywhere; }
+.membership-return p { max-width: 540px; margin: 0 auto; font-size: 16px; line-height: 1.6; color: var(--ctq-text-muted); overflow-wrap: anywhere; }
+.mpr-amount { display: block; margin-top: 20px; font-size: 27px; color: var(--ctq-yellow); }
+.mpr-reference { display: block; margin: 16px auto 0; color: var(--ctq-text-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.mpr-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; padding-top: 22px; border-top: 1px solid var(--ctq-border-soft); }
+.mpr-actions button, .mpr-actions a { display: inline-flex; justify-content: center; align-items: center; gap: 10px; min-height: 46px; max-width: 100%; padding: 12px 18px; border: 1px solid var(--ctq-border-soft); border-radius: 6px; color: var(--ctq-text); background: transparent; font: inherit; font-size: 15px; line-height: 1.4; text-align: center; cursor: pointer; }
+.mpr-actions .mpr-primary { background: var(--ctq-yellow); border-color: var(--ctq-yellow); color: #102b31; font-weight: 600; }
+.mpr-actions a:hover, .mpr-actions button:hover:not(:disabled) { border-color: var(--ctq-accent); }
+.mpr-actions :focus-visible { outline: 2px solid var(--ctq-accent); outline-offset: 3px; }
+.mpr-actions button:disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 600px) {
+  .membership-return { padding: 20px 16px 28px; }
+  .membership-return h1 { font-size: 21px; }
+  .membership-return h2 { font-size: 24px; }
+  .mpr-result { padding-top: 28px; }
+  .mpr-actions { flex-direction: column; }
+}
