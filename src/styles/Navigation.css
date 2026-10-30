@@ -36,10 +36,29 @@
   color: #f8fafc !important;
 }
 
-.ctq-nav__dropdown-link:hover,
-.ctq-nav__sidenav-link:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #f4e85a !important;
+.ctq-nav__dropdown > li:not(.divider),
+.ctq-nav__sidenav > li {
+  background: transparent;
+  transition: none;
+}
+
+.ctq-nav__dropdown-link,
+.ctq-nav__sidenav-link {
+  transition: none;
+}
+
+.ctq-nav__dropdown > li:not(.divider):is(:hover, :focus, :focus-within, .active, .selected),
+.ctq-nav__sidenav > li:is(:hover, :focus, :focus-within, .active, .selected),
+.ctq-nav__dropdown > li:is(:hover, :focus, :focus-within, .active, .selected) > .ctq-nav__dropdown-link,
+.ctq-nav__sidenav > li:is(:hover, :focus, :focus-within, .active, .selected) > .ctq-nav__sidenav-link {
+  background: var(--ctq-pastel-blue) !important;
+  color: var(--ctq-pastel-ink) !important;
+}
+
+.ctq-nav__dropdown-link:focus-visible,
+.ctq-nav__sidenav-link:focus-visible {
+  outline: 2px solid var(--ctq-accent-strong);
+  outline-offset: -3px;
 }
 
 .ctq-nav__dropdown .divider {

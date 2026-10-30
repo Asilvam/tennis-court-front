@@ -103,7 +103,7 @@ const Navigation: React.FC = () => {
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="white-text ctq-nav__dropdown-link">{item.label}</Link>
+                                <Link to={item.to} className="ctq-nav__dropdown-link">{item.label}</Link>
                             </li>
                         )
                 )}
@@ -111,7 +111,7 @@ const Navigation: React.FC = () => {
                     <>
                         <li className="divider"></li>
                         <li>
-                            <a href="#!" onClick={handleLogout} className="white-text ctq-nav__dropdown-link">
+                            <a href="#!" onClick={handleLogout} className="ctq-nav__dropdown-link">
                                 Logout
                             </a>
                         </li>
@@ -134,7 +134,7 @@ const Navigation: React.FC = () => {
             >
                 {!tokenExists && (
                     <li>
-                        <Link to="/login" className="white-text ctq-nav__sidenav-link"
+                        <Link to="/login" className="ctq-nav__sidenav-link"
                               onClick={() => sidenavRef.current?.classList.remove('open')}>
                             Login
                         </Link>
@@ -144,7 +144,7 @@ const Navigation: React.FC = () => {
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="white-text ctq-nav__sidenav-link"
+                                <Link to={item.to} className="ctq-nav__sidenav-link"
                                       onClick={() => sidenavRef.current?.classList.remove('open')}>
                                     {item.label}
                                 </Link>
@@ -153,7 +153,7 @@ const Navigation: React.FC = () => {
                 )}
                 {tokenExists && (
                     <li>
-                        <a href="#!" className="white-text ctq-nav__sidenav-link" onClick={handleLogout}>
+                        <a href="#!" className="ctq-nav__sidenav-link" onClick={handleLogout}>
                             Logout
                         </a>
                     </li>

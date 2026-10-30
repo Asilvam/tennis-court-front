@@ -10,11 +10,13 @@ import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
 import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/AdminRegister.css';
+import '../styles/AdminUsersLayout.css';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { buildAdminMemberUpdate, memberType, memberTypeOptions, titularOptions, validateMemberAssociation, type EditableMember } from '../utils/memberEditing';
 import { ADMIN_PASSWORD_RECOVERY_MESSAGE, requestPasswordRecovery } from '../utils/passwordRecovery';
 import '../styles/ResetPassword.css';
 import { memberPaymentsRoute } from '../utils/membershipNavigation';
+import { useVisibleViewport } from '../hooks/useVisibleViewport';
 
 interface Register extends EditableMember {
     namePlayer: string;
@@ -68,6 +70,22 @@ const AdminRegister: React.FC = () => {
     const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const editViewport = useVisibleViewport(isEditModalOpen);
+    const editDialog = useRef<HTMLDivElement>(null);
+    const editTrigger = useRef<HTMLButtonElement | null>(null);
+
+    useEffect(() => {
+        if (!isEditModalOpen) return;
+        const previousFocus = editTrigger.current || document.activeElement;
+        const overflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const frame = requestAnimationFrame(() => editDialog.current?.focus({ preventScroll: true }));
+        return () => {
+            cancelAnimationFrame(frame);
+            document.body.style.overflow = overflow;
+            if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus({ preventScroll: true });
+        };
+    }, [isEditModalOpen]);
 
     const modalSelectStyles: StylesConfig<SelectOption, false> = {
         ...customStyles,
@@ -189,7 +207,8 @@ const AdminRegister: React.FC = () => {
         return () => cancelAnimationFrame(frame);
     }, [loading, location.state]);
 
-    const handleEdit = (user: Register) => {
+    const handleEdit = (user: Register, trigger: HTMLButtonElement) => {
+        editTrigger.current = trigger;
         setEditUser({ ...user });
         setOriginalEditUser({ ...user });
         setIsEditModalOpen(true);
@@ -198,6 +217,25 @@ const AdminRegister: React.FC = () => {
     const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
         setOriginalEditUser(null);
+    };
+
+    const handleEditKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Escape' && !event.defaultPrevented && !isSaving) {
+            event.preventDefault();
+            handleCloseEditModal();
+        }
+        if (event.key !== 'Tab') return;
+        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), [tabindex="0"]'))
+            .filter(element => element.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && (document.activeElement === first || document.activeElement === event.currentTarget)) {
+            event.preventDefault();
+            last?.focus();
+        } else if (!event.shiftKey && (document.activeElement === last || document.activeElement === event.currentTarget)) {
+            event.preventDefault();
+            first?.focus();
+        }
     };
 
     const hasChanges = useMemo(() => {
@@ -278,9 +316,7 @@ const AdminRegister: React.FC = () => {
             html: `Se solicitará un enlace para <strong>${user.email}</strong>, de un solo uso y válido por 24 horas. Solo se envía a cuentas activas. Como administrador no necesitas esperar para pedir otro; el enlace nuevo invalida el anterior.`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#fbbf24',
             customClass: { popup: 'password-recovery-popup' },
-            cancelButtonColor: '#6b7280',
             confirmButtonText: 'Sí, resetear',
             cancelButtonText: 'Cancelar',
         });
@@ -300,7 +336,7 @@ const AdminRegister: React.FC = () => {
         try {
             await requestPasswordRecovery(apiUrl, user.email, { admin: true, token: getTokenFromLocalStorage() });
             updateSearchTerm('');
-            Swal.fire({ icon: 'warning', title: 'Solicitud recibida', text: ADMIN_PASSWORD_RECOVERY_MESSAGE, confirmButtonColor: '#fbbf24', customClass: { popup: 'password-recovery-popup' } });
+            Swal.fire({ icon: 'warning', title: 'Solicitud recibida', text: ADMIN_PASSWORD_RECOVERY_MESSAGE, customClass: { popup: 'password-recovery-popup' } });
         } catch (error) {
             console.error('Error resetting password:', error);
             Swal.fire('Error', 'No se pudo enviar el correo de restablecimiento.', 'error');
@@ -317,11 +353,10 @@ const AdminRegister: React.FC = () => {
             <AppLoader text="Cargando usuarios..." />
         </div>
     ) : (
-        <div className="container admin-register-container admin-users-page">
+        <main className="admin-register-container admin-users-page">
             <div className="admin-register-hero">
                 <div>
-                    <h4>Administración de usuarios</h4>
-                    <p>Gestiona la información, el acceso y las categorías de los jugadores.</p>
+                    <h1>Administración de usuarios</h1>
                 </div>
                 <div className="admin-register-badge">
                     <FontAwesomeIcon icon={faUsersGear} />
@@ -329,7 +364,7 @@ const AdminRegister: React.FC = () => {
                 </div>
             </div>
 
-            <div className="card admin-card">
+            <div className="admin-card">
                 <div className="search-wrapper">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                     <input
@@ -348,11 +383,13 @@ const AdminRegister: React.FC = () => {
                 </div>
 
                 <div className="table-wrapper">
-                    <table className="highlight user-table">
+                    <table className="user-table" aria-label="Usuarios del club">
                         <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th className="center-align">Acciones</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col" className="admin-user-type">Tipo</th>
+                            <th scope="col" className="admin-user-state">Estado</th>
+                            <th scope="col" className="admin-user-actions-heading">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -369,12 +406,19 @@ const AdminRegister: React.FC = () => {
                                     title={!user.statePlayer ? 'Usuario inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Usuario activo'}
                                 >
                                     <span className="admin-user-name" title={user.namePlayer}>{user.namePlayer}</span>
+                                    <span className="admin-user-email">{user.email}</span>
+                                </td>
+                                <td className="admin-user-type">{memberType(user.partnerType) || '—'}</td>
+                                <td className="admin-user-state">
+                                    <span className={`admin-user-status ${!user.statePlayer ? 'is-inactive' : !user.updatePayment ? 'is-due' : 'is-active'}`}>
+                                        {!user.statePlayer ? 'Inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Activo'}
+                                    </span>
                                 </td>
                                 <td className="action-cell">
                                     <button
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light blue darken-4 action-edit-btn"
-                                        onClick={() => handleEdit(user)}
+                                        onClick={event => handleEdit(user, event.currentTarget)}
                                         title="Editar usuario"
                                         aria-label={`Editar a ${user.namePlayer}`}
                                     >
@@ -429,7 +473,7 @@ const AdminRegister: React.FC = () => {
                         ))}
                         {filteredUsers.length === 0 && (
                             <tr>
-                                <td colSpan={2} className="admin-users-empty">No encontramos usuarios con esa búsqueda.</td>
+                                <td colSpan={4} className="admin-users-empty">No encontramos usuarios con esa búsqueda.</td>
                             </tr>
                         )}
                         </tbody>
@@ -439,8 +483,8 @@ const AdminRegister: React.FC = () => {
 
             {/* Edit Modal */}
             {isEditModalOpen && (
-                <div className="edit-modal-backdrop" onClick={isSaving ? undefined : handleCloseEditModal}>
-                    <div id="editModal" className="modal edit-modal" role="dialog" aria-modal="true" aria-labelledby="edit-user-title" onClick={(e) => e.stopPropagation()}>
+                <div className="edit-modal-backdrop" style={{ top: editViewport.top, left: editViewport.left, width: editViewport.width, height: editViewport.height }} onClick={isSaving ? undefined : handleCloseEditModal}>
+                    <div ref={editDialog} tabIndex={-1} id="editModal" className="modal edit-modal" style={{ maxHeight: Math.max(0, editViewport.height - 32) }} role="dialog" aria-modal="true" aria-labelledby="edit-user-title" onKeyDown={handleEditKeyDown} onClick={(e) => e.stopPropagation()}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <FontAwesomeIcon icon={faEdit} />
@@ -448,7 +492,7 @@ const AdminRegister: React.FC = () => {
                             </div>
                             <div className="modal-body">
                                 {editUser && (
-                                    <form>
+                                    <form className="admin-edit-form">
                                         <div className="modal-form-section">
                                             <div className="input-field">
                                                 <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} disabled={isSaving} />
@@ -472,6 +516,7 @@ const AdminRegister: React.FC = () => {
                                             <div className="input-field">
                                                 <p className="select-label">Rol</p>
                                                 <Select<SelectOption, false>
+                                                    classNamePrefix="admin-member-select"
                                                     name="role"
                                                     value={roleOptions.find(option => option.value === editUser.role)}
                                                     onChange={(selectedOption: SingleValue<SelectOption>) =>
@@ -511,6 +556,7 @@ const AdminRegister: React.FC = () => {
                                             <div className="input-field">
                                                 <p className="select-label">Tipo de socio</p>
                                                 <Select<SelectOption, false>
+                                                    classNamePrefix="admin-member-select"
                                                     inputId="edit-member-type"
                                                     aria-label="Tipo de socio"
                                                     value={memberTypeOptions.find(option => option.value === memberType(editUser.partnerType)) ?? null}
@@ -530,6 +576,7 @@ const AdminRegister: React.FC = () => {
                                                 <div className="input-field">
                                                     <p className="select-label">Titular asociado</p>
                                                     <Select<SelectOption, false>
+                                                        classNamePrefix="admin-member-select"
                                                         inputId="edit-member-titular"
                                                         aria-label="Titular asociado"
                                                         value={availableTitulares.find(option => option.value === editUser.titularId) ?? null}
@@ -582,7 +629,7 @@ const AdminRegister: React.FC = () => {
                     </div>
                 </div>
             )}
-        </div>
+        </main>
     );
 };
 

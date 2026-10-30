@@ -48,6 +48,11 @@ de los colores renderizados:
 Multi-booking: distribucion escritorio/movil, calendario multiple en espanol y
 confirmacion SweetAlert2, con pruebas y evidencia tecnica:
 [mejora-grafica-multibooking.md](docs/mejora-grafica-multibooking.md).
+Usuarios, Mi historial, Reset Pass y Ranking: distribucion de escritorio, adaptacion
+movil/tablet, contratos conservados y evidencia de pruebas en
+[mejora-vistas-usuarios-historial-reset.md](docs/mejora-vistas-usuarios-historial-reset.md).
+Correccion posterior de hover/foco pastel y contraste de texto en filas y menu:
+[correccion-contraste-tabla-menu.md](docs/correccion-contraste-tabla-menu.md).
 
 ## Tech Stack
 

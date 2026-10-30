@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-// import {faTrash, faEye, faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { getUserInfoFromLocalStorage } from '../utils/userUtils';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
-import M from 'materialize-css';
 import Swal from 'sweetalert2';
-// import logger from "../utils/logger.ts";
 import AppLoader from './AppLoader';
-
 import '../styles/MyHistoryReserve.css';
 
 interface Reservation {
@@ -30,39 +26,42 @@ interface Reservation {
 
 const MyHistoryReserve: React.FC = () => {
     const [reserves, setReserves] = useState<Reservation[]>([]);
-    const userInfo = getUserInfoFromLocalStorage();
+    const [loading, setLoading] = useState(true);
+    const [deleting, setDeleting] = useState(false);
+    const deletingRef = useRef(false);
+    const namePlayer = getUserInfoFromLocalStorage()?.name || '';
     const token = getTokenFromLocalStorage();
-    const [loading, setLoading] = useState(false);
-    const namePlayer = userInfo?.name || '';
     const apiUrl = import.meta.env.VITE_API_URL;
-    const timezone = 'America/Santiago'; // Chile timezone
-    const currentTime = DateTime.now().setZone(timezone); // Current time in the specified timezone
+    const timezone = 'America/Santiago';
+    const currentTime = DateTime.now().setZone(timezone);
     const today = currentTime.startOf('day');
 
     const isOkToDelete = (reserve: Reservation): boolean => {
-        if (!reserve.state) {
-            return false;
-        }
+        if (!reserve.state) return false;
         const [start] = reserve.turn.split('-');
         const startTime = DateTime.fromFormat(start, 'HH:mm', { zone: timezone });
         const reservationDate = DateTime.fromISO(reserve.dateToPlay, { zone: timezone });
-        const isToday = reservationDate.hasSame(today, 'day');
-        const isBeforeTimeRange = currentTime < startTime;
-        const isFutureDate = reservationDate > today;
-        return (isToday && isBeforeTimeRange) || isFutureDate;
-    }
+        return (
+            (reservationDate.hasSame(today, 'day') && currentTime < startTime) ||
+            reservationDate > today
+        );
+    };
 
     const fetchReserves = useCallback(async () => {
         setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             setReserves(response.data);
         } catch (error) {
-            console.error('Error fetching reservation data:', error);
+            if (axios.isAxiosError(error) && error.response?.status === 401) return;
+            await Swal.fire({
+                icon: 'error',
+                title: 'No se pudo cargar el historial',
+                text: 'Inténtalo nuevamente más tarde.',
+                confirmButtonText: 'Aceptar',
+            });
         } finally {
             setLoading(false);
         }
@@ -70,165 +69,175 @@ const MyHistoryReserve: React.FC = () => {
 
     useEffect(() => {
         void fetchReserves();
-        const elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems);
     }, [fetchReserves]);
 
     const handleView = (reserve: Reservation) => {
-        const courtNumber = reserve.court.replace(/\D/g, '');
-        const isCanceled = !reserve.state;
-
-        const details = `
-    <div class="left-align swal-details">
-      <p>👤 <strong>Player 1:</strong> ${reserve.player1}</p>
-      <p>👤 <strong>Player 2:</strong> ${reserve.player2}</p>
-      ${reserve.player3 ? `<p>👤 <strong>Player 3:</strong> ${reserve.player3}</p>` : ''}
-      ${reserve.player4 ? `<p>👤 <strong>Player 4:</strong> ${reserve.player4}</p>` : ''}
-      <hr>
-      <p>📅 <strong>Fecha:</strong> ${DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</p>
-      <p>🏟️ <strong>Cancha:</strong> ${courtNumber}</p>
-      <p>⏰ <strong>Turno:</strong> ${reserve.turn.split('-')[0]}</p>
-      ${isCanceled ? `<p class="red-text">🚫 <strong>Estado:</strong> Reserva cancelada.</p>` : ''}
-      ${reserve.visitName ? `<p>🚶‍♂️ <strong>Visita:</strong> ${reserve.visitName}</p>` : ''}
-    </div>
-  `;
-
-        Swal.fire({
+        void Swal.fire({
             icon: 'info',
-            title: 'Detalle Reserva',
-            html: details,
+            title: 'Detalle de la reserva',
+            text: [
+                `Player 1: ${reserve.player1}`,
+                `Player 2: ${reserve.player2}`,
+                ...(reserve.player3 ? [`Player 3: ${reserve.player3}`] : []),
+                ...(reserve.player4 ? [`Player 4: ${reserve.player4}`] : []),
+                `Fecha: ${DateTime.fromISO(reserve.dateToPlay).toFormat('dd/MM/yyyy')}`,
+                `Cancha: ${reserve.court.replace(/\D/g, '')}`,
+                `Turno: ${reserve.turn}`,
+                `Estado: ${reserve.state ? 'Confirmada' : 'Cancelada'}`,
+                ...(reserve.visitName ? [`Visita: ${reserve.visitName}`] : []),
+            ].join('\n'),
+            customClass: { popup: 'history-detail-popup' },
             confirmButtonText: 'Cerrar',
-            confirmButtonColor: '#1a237e', // Azul rey para el botón
         });
     };
 
-    // const handleEdit = () => {
-    //     Swal.fire({
-    //         icon: 'info',
-    //         title: 'En Desarrollo',
-    //         text: 'La funcionalidad para editar la reserva aún no está implementada.',
-    //         confirmButtonText: 'Entendido',
-    //     });
-    // };
-
     const handleDelete = async (id: string) => {
+        if (deletingRef.current) return;
+        deletingRef.current = true;
+        setDeleting(true);
         try {
             const result = await Swal.fire({
-                title: 'Estas seguro?',
-                text: 'Deseas eliminar tu reserva?',
+                title: '¿Eliminar reserva?',
+                text: 'Esta acción cancelará tu reserva.',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'SI',
-                cancelButtonText: 'NO',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Volver',
+                focusCancel: true,
+                allowOutsideClick: false,
             });
-            if (result.isConfirmed) {
-                const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+            if (!result.isConfirmed) return;
+            const response = await axios.delete(`${apiUrl}/court-reserve/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (response.status === 200) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Reserva eliminada',
+                    text: 'Tu reserva ha sido eliminada.',
+                    confirmButtonText: 'Aceptar',
                 });
-                if (response.status === 200) {
-                    // Show a success message if deletion is successful
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Eliminada!',
-                        text: 'Tu reserva ha sido eliminada',
-                        confirmButtonText: 'OK',
-                    });
-                }
+                await fetchReserves();
             }
         } catch (error) {
-            console.error('Error annulling reservation:', error);
-            Swal.fire({
+            if (axios.isAxiosError(error) && error.response?.status === 401) return;
+            await Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'There was an error annulling the reservation. Please try again.',
-                confirmButtonText: 'OK',
+                title: 'No se pudo eliminar la reserva',
+                text: 'Revisa tu historial antes de volver a intentarlo.',
+                confirmButtonText: 'Aceptar',
             });
         } finally {
-            fetchReserves();
+            deletingRef.current = false;
+            setDeleting(false);
         }
     };
 
-    const extractNumber = (text: string): number | null => {
-        const match = text.match(/\d+/);
-        return match ? parseInt(match[0], 10) : null;
-    };
-
-    const canceledReserves = reserves.filter(r => !r.state).length;
-
-    if (loading) {
-        return <AppLoader text="Cargando tu historial..." />;
-    }
+    if (loading) return <AppLoader text="Cargando tu historial..." />;
 
     return (
-        <div className="history-page">
-            <div className="history-card">
-                <div className="history-card-content">
-                    <div className="history-header">
-                        <div>
-                            <h5 className="history-title">Mi Historial de Reservas</h5>
-                            <p className="history-subtitle">Revisa y gestiona tus partidos pasados y futuros.</p>
-                        </div>
-                    </div>
-
-                    <div className="history-kpis">
-                        <div className="history-kpi">Total Reservas: <strong>{reserves.length}</strong></div>
-                        <div className="history-kpi">Canceladas: <strong>{canceledReserves}</strong></div>
-                    </div>
-
-                    {reserves.length > 0 ? (
-                        <div className="history-table-wrap">
-                            <table className="history-table striped">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Cancha</th>
-                                        <th>Turno</th>
-                                        <th className="center-align">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {reserves.map((reserve) => (
-                                        <tr key={reserve.idCourtReserve} className={!reserve.state ? 'history-row-canceled' : ''}>
-                                            <td>{DateTime.fromISO(reserve.dateToPlay).toFormat('dd-MM-yy')}</td>
-                                            <td className="center-align">{extractNumber(reserve.court)}</td>
-                                            <td>{reserve.turn.split('-')[0]}</td>
-
-                                            <td className="center-align">
-                                                <button className="btn-floating btn-small waves-effect waves-light blue history-btn"
-                                                    onClick={() => handleView(reserve)} title="Ver detalle">
-                                                    <FontAwesomeIcon icon={faEye} />
-                                                </button>
-                                                {isOkToDelete(reserve) ? (
-                                                    <button
-                                                        className="btn-floating btn-small waves-effect waves-light red darken-4 history-btn"
-                                                        onClick={() => handleDelete(reserve.idCourtReserve)}
-                                                        title="Eliminar reserva">
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn-floating btn-small waves-effect waves-light history-btn"
-                                                        disabled title="No se puede eliminar">
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                    </button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <div className="history-empty">
-                            <h6>No tienes reservas</h6>
-                            <p>Cuando realices una reserva, aparecerá aquí.</p>
-                        </div>
-                    )}
+        <main className="history-page">
+            <header className="history-header">
+                <div>
+                    <h1 className="history-title">Mi historial de reservas</h1>
+                    <p className="history-subtitle">{namePlayer}</p>
                 </div>
-            </div>
-        </div>
+                <dl className="history-kpis">
+                    <div>
+                        <dt>Reservas</dt>
+                        <dd>{reserves.length}</dd>
+                    </div>
+                    <div>
+                        <dt>Canceladas</dt>
+                        <dd>{reserves.filter((reserve) => !reserve.state).length}</dd>
+                    </div>
+                </dl>
+            </header>
+            {reserves.length > 0 ? (
+                <div className="history-table-wrap">
+                    <table
+                        className="history-table"
+                        role="table"
+                        aria-label="Historial de reservas"
+                    >
+                        <thead role="rowgroup">
+                            <tr role="row">
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Cancha</th>
+                                <th scope="col">Turno</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col" className="history-action-heading">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody role="rowgroup">
+                            {reserves.map((reserve) => {
+                                const date = DateTime.fromISO(reserve.dateToPlay).toFormat(
+                                    'dd/MM/yyyy',
+                                );
+                                return (
+                                    <tr
+                                        role="row"
+                                        key={reserve.idCourtReserve}
+                                        className={!reserve.state ? 'history-row-canceled' : ''}
+                                    >
+                                        <td role="cell" className="history-date">
+                                            <time dateTime={reserve.dateToPlay}>{date}</time>
+                                        </td>
+                                        <td role="cell" className="history-court">
+                                            Cancha {reserve.court.replace(/\D/g, '')}
+                                        </td>
+                                        <td role="cell" className="history-turn">
+                                            {reserve.turn}
+                                        </td>
+                                        <td role="cell" className="history-state">
+                                            <span
+                                                className={`history-status-chip ${reserve.state ? 'ok' : 'cancel'}`}
+                                            >
+                                                {reserve.state ? 'Confirmada' : 'Cancelada'}
+                                            </span>
+                                        </td>
+                                        <td role="cell" className="history-row-actions">
+                                            <button
+                                                type="button"
+                                                className="history-btn history-view-btn"
+                                                onClick={() => handleView(reserve)}
+                                                title="Ver detalle"
+                                                aria-label={`Ver reserva del ${date}, ${reserve.court}`}
+                                            >
+                                                <FontAwesomeIcon icon={faEye} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="history-btn history-delete-btn"
+                                                disabled={deleting || !isOkToDelete(reserve)}
+                                                onClick={() =>
+                                                    void handleDelete(reserve.idCourtReserve)
+                                                }
+                                                title={
+                                                    isOkToDelete(reserve)
+                                                        ? 'Eliminar reserva'
+                                                        : 'No se puede eliminar'
+                                                }
+                                                aria-label={`Eliminar reserva del ${date}, ${reserve.court}`}
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <div className="history-empty">
+                    <h2>No tienes reservas</h2>
+                    <p>Cuando realices una reserva, aparecerá aquí.</p>
+                </div>
+            )}
+        </main>
     );
 };
 

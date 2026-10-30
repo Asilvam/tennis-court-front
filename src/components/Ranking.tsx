@@ -26,9 +26,11 @@ const Ranking: React.FC = () => {
     useEffect(() => {
         const fetchRankings = async () => {
             try {
-                const response = await axios.get<Record<string, RankingPlayer[]>>(`${apiUrl}/match-ranking/ranking`);
+                const response = await axios.get<Record<string, RankingPlayer[]>>(
+                    `${apiUrl}/match-ranking/ranking`,
+                );
                 const sortedCategories = Object.keys(response.data)
-                    .filter(category => category.toLowerCase() !== 'menores')
+                    .filter((category) => category.toLowerCase() !== 'menores')
                     .sort((a, b) => {
                         const aIsNum = !isNaN(Number(a));
                         const bIsNum = !isNaN(Number(b));
@@ -48,8 +50,8 @@ const Ranking: React.FC = () => {
                     setActiveCategory(sortedCategories[0]);
                 }
             } catch (err) {
-                logger.error("Error fetching rankings:", err);
-                setError("No se pudo cargar el ranking. Inténtalo de nuevo más tarde.");
+                logger.error('Error fetching rankings:', err);
+                setError('No se pudo cargar el ranking. Inténtalo de nuevo más tarde.');
             } finally {
                 setLoading(false);
             }
@@ -63,74 +65,162 @@ const Ranking: React.FC = () => {
     }
 
     if (error) {
-        return <div className="container center-align red-text glass-card error-container">{error}</div>;
+        return (
+            <main className="ranking-wrapper">
+                <h1 className="ranking-main-title">Escalerilla CTQ</h1>
+                <p className="ranking-error" role="alert">
+                    {error}
+                </p>
+            </main>
+        );
     }
 
     return (
-        <div className="ranking-wrapper">
-            <div className="ranking-header-section">
-                <h4 className="ranking-main-title">
+        <main className="ranking-wrapper">
+            <header className="ranking-header-section">
+                <h1 className="ranking-main-title">
                     <FontAwesomeIcon icon={faTrophy} className="title-icon" />
                     Escalerilla <span>CTQ</span>
-                </h4>
-                <p className="ranking-subtitle">Ranking actualizado por categoría</p>
-            </div>
+                </h1>
+                <span className="ranking-category-count">
+                    {Object.keys(rankings || {}).length} categorías
+                </span>
+            </header>
 
-            <div className="categories-grid">
-                {rankings && Object.keys(rankings).map((category) => (
-                    <div
-                        key={category}
-                        className={`category-card glass-card ${activeCategory === category ? 'active' : ''}`}
-                        onClick={() => setActiveCategory(activeCategory === category ? null : category)}
-                    >
-                        <div className="category-header">
-                            <div className="category-info">
-                                <span className="category-label">Categoría</span>
-                                <h3 className="category-name">{category}</h3>
-                            </div>
-                            <FontAwesomeIcon
-                                icon={activeCategory === category ? faChevronUp : faChevronDown}
-                                className="toggle-icon"
-                            />
-                        </div>
-
-                        {activeCategory === category && (
-                            <div className="category-content animate-in">
-                                <div className="ranking-list">
-                                    {rankings[category].map((player) => (
-                                        <div key={player.id} className={`player-row ${player.rank <= 8 ? 'master-zone' : ''}`}>
-                                            <div className="rank-indicator">
-                                                <span className="rank-number">{player.rank}</span>
-                                            </div>
-
+            <div className="ranking-layout">
+                <nav className="categories-grid" aria-label="Categorías del ranking">
+                    {rankings &&
+                        Object.keys(rankings).map((category) => (
+                            <button
+                                type="button"
+                                key={category}
+                                className={`category-card ${activeCategory === category ? 'active' : ''}`}
+                                aria-expanded={activeCategory === category}
+                                aria-controls="ranking-category-panel"
+                                onClick={() =>
+                                    setActiveCategory(activeCategory === category ? null : category)
+                                }
+                            >
+                                <span className="category-header">
+                                    <span className="category-info">
+                                        <span className="category-name">{category}</span>
+                                        <span className="category-label">
+                                            {rankings[category].length} jugadores
+                                        </span>
+                                    </span>
+                                    <FontAwesomeIcon
+                                        icon={
+                                            activeCategory === category
+                                                ? faChevronUp
+                                                : faChevronDown
+                                        }
+                                        className="toggle-icon"
+                                    />
+                                </span>
+                            </button>
+                        ))}
+                </nav>
+                <section
+                    id="ranking-category-panel"
+                    className="ranking-panel"
+                    aria-labelledby="ranking-category-title"
+                >
+                    <header className="ranking-panel-header">
+                        <h2 id="ranking-category-title">
+                            {activeCategory || 'Sin categoría seleccionada'}
+                        </h2>
+                        {activeCategory && (
+                            <span>{rankings?.[activeCategory].length} jugadores</span>
+                        )}
+                    </header>
+                    {activeCategory && rankings?.[activeCategory].length ? (
+                        <table
+                            className="ranking-table"
+                            aria-label={`Ranking de ${activeCategory}`}
+                        >
+                            <colgroup>
+                                <col className="ranking-position" />
+                                <col className="ranking-avatar-column" />
+                                <col />
+                                <col className="ranking-points" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="ranking-position">
+                                        Pos.
+                                    </th>
+                                    <th scope="col" colSpan={2}>
+                                        Jugador
+                                    </th>
+                                    <th scope="col" className="ranking-points">
+                                        Puntos
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {rankings[activeCategory].map((player) => (
+                                    <tr
+                                        key={player.id}
+                                        className={`player-row ${player.rank <= 8 ? 'master-zone' : ''}`}
+                                    >
+                                        <td className="rank-indicator">
+                                            <span className="rank-number">{player.rank}</span>
+                                        </td>
+                                        <td className="ranking-avatar-cell">
                                             <div className="player-avatar-wrapper">
                                                 <img
-                                                    src={player.imageUrlProfile || '/images/avatar-fantasma.png'}
-                                                    alt={player.nombre}
+                                                    src={
+                                                        player.imageUrlProfile ||
+                                                        '/images/avatar-fantasma.png'
+                                                    }
+                                                    alt=""
                                                     className="player-avatar"
+                                                    onError={(event) => {
+                                                        const fallback =
+                                                            '/images/avatar-fantasma.png';
+                                                        if (
+                                                            !event.currentTarget.src.endsWith(
+                                                                fallback,
+                                                            )
+                                                        )
+                                                            event.currentTarget.src = fallback;
+                                                    }}
                                                 />
                                                 {player.rank <= 8 && (
-                                                    <div className="master-badge">M</div>
+                                                    <span
+                                                        className="master-badge"
+                                                        title="Zona Masters"
+                                                        aria-label="Zona Masters"
+                                                    >
+                                                        M
+                                                    </span>
                                                 )}
                                             </div>
-
-                                            <div className="player-info">
-                                                <span className="player-name">{player.nombre}</span>
-                                            </div>
-
-                                            <div className="player-score">
-                                                <span className="points-value">{player.puntos.toLocaleString('es-CL')}</span>
-                                                <span className="points-label">PTS</span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                                        </td>
+                                        <th scope="row" className="player-info">
+                                            <span className="player-name">{player.nombre}</span>
+                                        </th>
+                                        <td className="player-score">
+                                            <span className="points-value">
+                                                {player.puntos.toLocaleString('es-CL')}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p className="ranking-empty">
+                            {activeCategory
+                                ? 'Sin jugadores en esta categoría.'
+                                : Object.keys(rankings || {}).length
+                                  ? 'Sin categoría seleccionada.'
+                                  : 'No hay categorías disponibles.'}
+                        </p>
+                    )}
+                </section>
             </div>
-        </div>
+        </main>
     );
 };
 
