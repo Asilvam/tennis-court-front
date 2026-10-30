@@ -13,6 +13,30 @@ consultan el estado persistido por propietario; la URL no confirma el pago.
 Cambio local, pendiente de commit/despliegue y validacion publicada.
 Sin variables de entorno nuevas; se reutiliza `VITE_API_URL`.
 
+## Identidad del sitio: favicon y vista previa
+
+Implementado localmente: titulo `Club de Tenis Quintero`, idioma `es-CL`,
+favicon ICO/PNG, icono iOS y metadatos Open Graph estaticos en `index.html`.
+Imagen publica prevista para compartir: `/images/ctq-compartir-v1.png`,
+1200 x 630, derivada del logo existente sin redibujarlo.
+Informe tecnico, procedencia de activos, hashes, etapas y resultados:
+[plan-identidad-web-ctq.md](docs/plan-identidad-web-ctq.md).
+
+Validacion local: 251 pruebas, 55 controles HTTP/navegador, lint, tipos y build
+aprobados. No esta desplegado y aun no se ha comprobado una miniatura real de
+WhatsApp ni un acceso directo en un iPhone/iPad fisico.
+No requiere variables nuevas ni cambios en backend, correo o Mercado Pago;
+`parse5` es solo una dependencia de desarrollo para validar HTML estructurado.
+
+```bash
+npm run test:site-metadata
+```
+
+Para renovar los activos, conservar las fuentes, generar un nombre versionado,
+actualizar referencias y pruebas y registrar hashes nuevos. El generador
+`scripts/build-site-identity.mjs` recibe la ruta al modulo `sharp` del runtime
+de herramientas; no agrega ese modulo al bundle de la aplicacion.
+
 ## Tech Stack
 
 | Layer | Technology |

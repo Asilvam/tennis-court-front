@@ -10,6 +10,7 @@
     "test:payment-rates": "node --experimental-strip-types --test tests/paymentRates.test.ts",
     "test:payment-holds": "node --test tests/paymentHold.test.mjs",
     "test:reservation-return": "node --experimental-strip-types --test tests/reservationPaymentReturn.test.ts",
+    "test:site-metadata": "node --test tests/siteMetadata.test.mjs",
     "test:member-editing": "node --experimental-strip-types --test tests/memberEditing.test.ts",
     "test:membership-payments": "node --experimental-strip-types --test tests/membershipPayments.test.ts tests/membershipNavigation.test.ts tests/memberPayments.test.ts tests/membershipReturn.test.ts tests/membershipReturnBoundary.test.mjs tests/membershipAdminNavigation.test.mjs tests/membershipAccessSession.test.mjs tests/authSessionBoundary.test.mjs tests/membershipSearch.test.mjs tests/membershipEnrollment.test.mjs tests/membershipActivation.test.mjs",
     "test:profile-image": "node --experimental-strip-types --test tests/profileImage.test.ts",
@@ -59,6 +60,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "parse5": "8.0.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.3.1"

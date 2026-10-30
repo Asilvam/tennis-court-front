@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-29",
+  "mode": "Local build and serve-handler; public origins emulated; no live CTQ APIs",
+  "deployed": false,
+  "passed": [
+    "HTML initial metadata without JS or login: CTQ-fixture-check /",
+    "HTML initial metadata without JS or login: CTQ-fixture-check /login",
+    "HTML initial metadata without JS or login: CTQ-fixture-check /profile?private-marker=never-in-metadata",
+    "HTML initial metadata without JS or login: CTQ-fixture-check /monthlypayments/return?reference=private-marker&payment_id=private-marker",
+    "HTML initial metadata without JS or login: WhatsApp/2.24 CTQ-fixture /",
+    "HTML initial metadata without JS or login: WhatsApp/2.24 CTQ-fixture /login",
+    "HTML initial metadata without JS or login: WhatsApp/2.24 CTQ-fixture /profile?private-marker=never-in-metadata",
+    "HTML initial metadata without JS or login: WhatsApp/2.24 CTQ-fixture /monthlypayments/return?reference=private-marker&payment_id=private-marker",
+    "HTML initial metadata without JS or login: facebookexternalhit/1.1 CTQ-fixture /",
+    "HTML initial metadata without JS or login: facebookexternalhit/1.1 CTQ-fixture /login",
+    "HTML initial metadata without JS or login: facebookexternalhit/1.1 CTQ-fixture /profile?private-marker=never-in-metadata",
+    "HTML initial metadata without JS or login: facebookexternalhit/1.1 CTQ-fixture /monthlypayments/return?reference=private-marker&payment_id=private-marker",
+    "Public binary GET/HEAD, MIME and hash: ctq-favicon-v1.ico",
+    "Public binary GET/HEAD, MIME and hash: ctq-favicon-v1-32.png",
+    "Public binary GET/HEAD, MIME and hash: ctq-apple-touch-v1.png",
+    "Public binary GET/HEAD, MIME and hash: images/ctq-compartir-v1.png",
+    "chromium/390/0: app login retains institutional metadata",
+    "chromium/390/0: all four image formats decode with brand pixels",
+    "chromium/390/0: no overflow, page errors or API requests",
+    "chromium/390/1: app login retains institutional metadata",
+    "chromium/390/1: all four image formats decode with brand pixels",
+    "chromium/390/1: no overflow, page errors or API requests",
+    "chromium/820/0: app login retains institutional metadata",
+    "chromium/820/0: all four image formats decode with brand pixels",
+    "chromium/820/0: no overflow, page errors or API requests",
+    "chromium/820/1: app login retains institutional metadata",
+    "chromium/820/1: all four image formats decode with brand pixels",
+    "chromium/820/1: no overflow, page errors or API requests",
+    "chromium/1440/0: app login retains institutional metadata",
+    "chromium/1440/0: all four image formats decode with brand pixels",
+    "chromium/1440/0: no overflow, page errors or API requests",
+    "chromium/1440/1: app login retains institutional metadata",
+    "chromium/1440/1: all four image formats decode with brand pixels",
+    "chromium/1440/1: no overflow, page errors or API requests",
+    "chromium: initial metadata exists with JavaScript disabled",
+    "webkit/390/0: app login retains institutional metadata",
+    "webkit/390/0: all four image formats decode with brand pixels",
+    "webkit/390/0: no overflow, page errors or API requests",
+    "webkit/390/1: app login retains institutional metadata",
+    "webkit/390/1: all four image formats decode with brand pixels",
+    "webkit/390/1: no overflow, page errors or API requests",
+    "webkit/820/0: app login retains institutional metadata",
+    "webkit/820/0: all four image formats decode with brand pixels",
+    "webkit/820/0: no overflow, page errors or API requests",
+    "webkit/820/1: app login retains institutional metadata",
+    "webkit/820/1: all four image formats decode with brand pixels",
+    "webkit/820/1: no overflow, page errors or API requests",
+    "webkit/1440/0: app login retains institutional metadata",
+    "webkit/1440/0: all four image formats decode with brand pixels",
+    "webkit/1440/0: no overflow, page errors or API requests",
+    "webkit/1440/1: app login retains institutional metadata",
+    "webkit/1440/1: all four image formats decode with brand pixels",
+    "webkit/1440/1: no overflow, page errors or API requests",
+    "webkit: initial metadata exists with JavaScript disabled",
+    "No writes or live CTQ/provider API traffic"
+  ],
+  "captures": [
+    "login-chromium-390.png",
+    "assets-chromium-390.png",
+    "assets-chromium-820.png",
+    "assets-chromium-1440.png",
+    "login-webkit-390.png",
+    "assets-webkit-390.png",
+    "assets-webkit-820.png",
+    "assets-webkit-1440.png"
+  ],
+  "http": [
+    {
+      "path": "/",
+      "userAgent": "CTQ-fixture-check",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/login",
+      "userAgent": "CTQ-fixture-check",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/profile?private-marker=never-in-metadata",
+      "userAgent": "CTQ-fixture-check",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/monthlypayments/return?reference=private-marker&payment_id=private-marker",
+      "userAgent": "CTQ-fixture-check",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/",
+      "userAgent": "WhatsApp/2.24 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/login",
+      "userAgent": "WhatsApp/2.24 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/profile?private-marker=never-in-metadata",
+      "userAgent": "WhatsApp/2.24 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/monthlypayments/return?reference=private-marker&payment_id=private-marker",
+      "userAgent": "WhatsApp/2.24 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/",
+      "userAgent": "facebookexternalhit/1.1 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/login",
+      "userAgent": "facebookexternalhit/1.1 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/profile?private-marker=never-in-metadata",
+      "userAgent": "facebookexternalhit/1.1 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/monthlypayments/return?reference=private-marker&payment_id=private-marker",
+      "userAgent": "facebookexternalhit/1.1 CTQ-fixture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/ctq-favicon-v1.ico",
+      "status": 200,
+      "headStatus": 200,
+      "contentType": "image/x-icon",
+      "bytes": 5988,
+      "sha256": "e61420992a0323469aee55ddf52a0991ee84c8892619b9452f8746da60b2d6f9"
+    },
+    {
+      "path": "/ctq-favicon-v1-32.png",
+      "status": 200,
+      "headStatus": 200,
+      "contentType": "image/png",
+      "bytes": 1817,
+      "sha256": "57d35cd79d17cc1d12f658d51c4411a324ea9e1e620d350c1770c3e58215b842"
+    },
+    {
+      "path": "/ctq-apple-touch-v1.png",
+      "status": 200,
+      "headStatus": 200,
+      "contentType": "image/png",
+      "bytes": 33462,
+      "sha256": "681918a074072624f65cb744195d167e2741fa6ddcf004a22a5cabf559ad5b06"
+    },
+    {
+      "path": "/images/ctq-compartir-v1.png",
+      "status": 200,
+      "headStatus": 200,
+      "contentType": "image/png",
+      "bytes": 743112,
+      "sha256": "f0af723222a91ccf0890a95a294b99108682f67c50850932787d5dde7f8e37cb"
+    }
+  ],
+  "browsers": {
+    "chromium": "156.0.8078.48",
+    "webkit": "26.5"
+  },
+  "bundleSha256": "8007d4f91dbabd37cf8525718348fa7d27a1afe98e55ba0f0b481178c8b1c4f3",
+  "status": "passed"
+}

@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-29",
+  "baseHead": "934499a5dc30cb3dd28e0c2aa78a4f394478a4c9",
+  "deployed": false,
+  "realWhatsAppPreviewVerified": false,
+  "runtime": {
+    "node": "v22.22.2",
+    "npm": "10.9.7",
+    "vite": "7.3.7",
+    "parse5": "8.0.1"
+  },
+  "regression": {
+    "tests": 251,
+    "passed": 251,
+    "failed": 0,
+    "skipped": 0,
+    "tapSha256": "e0996d5389a606e2275834d51058dbdcecd822f2c9c00a9a7aff83ebf6f8c72e"
+  },
+  "checks": {
+    "lint": {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    "types": {
+      "command": "npx tsc -b --noEmit",
+      "exitCode": 0
+    },
+    "build": {
+      "command": "VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-site-identity-dist",
+      "exitCode": 0,
+      "bundleIndexSha256": "8007d4f91dbabd37cf8525718348fa7d27a1afe98e55ba0f0b481178c8b1c4f3"
+    }
+  },
+  "e2e": {
+    "checkpoints": 55,
+    "report": "browser-http.json",
+    "sha256": "3f0f41d12521912e92c71129b557e58aede594cd5509d963e48488909a66229b"
+  },
+  "captures": [
+    {
+      "file": "assets-webkit-390.png",
+      "sha256": "90255968d229a8e161f199121d8858333fa148720af2ab911f0d936f1e1ae8bf"
+    },
+    {
+      "file": "assets-chromium-1440.png",
+      "sha256": "116fb3acdbdf97e4cb6a347e1ee6a3b171f9577a4666cbba6148ae727a89518a"
+    },
+    {
+      "file": "login-webkit-390.png",
+      "sha256": "1dbdeb7f3bbae261e4d5f0bec42d27849d98338495b69644bad70cef01a8de7f"
+    }
+  ],
+  "sourceHashes": {
+    "index.html": "ce44c900a27f7b5dd8df1a4c6b8f3983a362ba3e6ea0acb1ae0e3bc95ac61d47",
+    "package.json": "10a74a61cfc532e79eb2c732cbfd35d8e0dae916d86131db3778f4533290d5b4",
+    "scripts/build-site-identity.mjs": "61cb442b07f0217f82f8bee67074c8a1d5e3469b80d5c4aff5635c14da123116",
+    "tests/siteMetadata.test.mjs": "2e2e76918710d57e4a7f1c794d5e29427439c1e51bf138b83d652067e6f45b46",
+    "tests/e2e/siteMetadata.mjs": "9ccfddc4fdaf861af0fab91d95b2016b493e2ff5647450a37ab5bba255a25768"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "method": "Deterministic crop/resize of existing CTQ identity; no generated or redrawn logo",
+  "tool": {
+    "sharp": "0.35.5",
+    "vips": "8.18.7"
+  },
+  "sources": {
+    "images/logo_circ_ctq.jpeg": "50010ec380a62635556e70d2884ce5c6929ba9f08bfbc24cc37d95fa91b3d73b",
+    "images/new_logo_ctq.png": "9338cbe3ddef0fddc6f441d73047956dccd719a8a71cfa5616b6081238577c6d"
+  },
+  "emblemCrop": {
+    "left": 132,
+    "top": 132,
+    "width": 304,
+    "height": 304
+  },
+  "emblemMask": {
+    "centre": 152,
+    "radius": 148
+  },
+  "background": "#f8f8f6",
+  "icoSizes": [
+    16,
+    32,
+    48
+  ],
+  "outputs": {
+    "ctq-favicon-v1.ico": {
+      "format": "ico",
+      "sizes": [
+        16,
+        32,
+        48
+      ],
+      "bytes": 5988,
+      "sha256": "e61420992a0323469aee55ddf52a0991ee84c8892619b9452f8746da60b2d6f9"
+    },
+    "ctq-favicon-v1-32.png": {
+      "format": "png",
+      "width": 32,
+      "height": 32,
+      "hasAlpha": false,
+      "bytes": 1817,
+      "sha256": "57d35cd79d17cc1d12f658d51c4411a324ea9e1e620d350c1770c3e58215b842"
+    },
+    "ctq-apple-touch-v1.png": {
+      "format": "png",
+      "width": 180,
+      "height": 180,
+      "hasAlpha": false,
+      "bytes": 33462,
+      "sha256": "681918a074072624f65cb744195d167e2741fa6ddcf004a22a5cabf559ad5b06"
+    },
+    "images/ctq-compartir-v1.png": {
+      "format": "png",
+      "width": 1200,
+      "height": 630,
+      "hasAlpha": false,
+      "bytes": 743112,
+      "sha256": "f0af723222a91ccf0890a95a294b99108682f67c50850932787d5dde7f8e37cb"
+    }
+  }
+}
