@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +6,9 @@ import { faCheck, faClipboardCheck, faUserCheck } from "@fortawesome/free-solid-
 import { getTokenFromLocalStorage } from "../utils/tokenUtils";
 import { billingMoney, billingPeriodLabel, billingToday } from "../utils/membershipPayments";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { MembershipBillingSelect } from "./MembershipBillingSelect";
+import { billingPeriodRange, shiftBillingPeriod } from "../utils/membershipPeriods";
+import { useUnsavedEditorChanges } from "../hooks/useUnsavedCategoryChanges";
 
 interface Candidate {
   memberId: string;
@@ -17,6 +20,7 @@ interface Candidate {
 }
 interface Preview {
   startPeriod: string;
+  throughPeriod: string;
   minimumStartPeriod: string;
   currentPeriod: string;
   items: Candidate[];
@@ -27,7 +31,7 @@ interface Result {
 }
 interface Payload {
   startPeriod: string;
-  reason: string;
+  throughPeriod: string;
   items: { memberId: string; approvalHash: string }[];
 }
 const labels = {
@@ -51,8 +55,8 @@ export function MembershipBatchEnrollment({
 }) {
   const [expanded, setExpanded] = useState(false),
     [period, setPeriod] = useState(currentPeriod || billingToday().slice(0, 7));
-  const [reason, setReason] = useState(""),
-    [preview, setPreview] = useState<Preview | null>(null);
+  const [throughPeriod, setThroughPeriod] = useState(period);
+  const [preview, setPreview] = useState<Preview | null>(null);
   const [selected, setSelected] = useState<string[]>([]),
     [busy, setBusy] = useState(false),
     [locked, setLocked] = useState(false);
@@ -62,11 +66,16 @@ export function MembershipBatchEnrollment({
   const api = `${import.meta.env.VITE_API_URL}/membership-billing/admin/enrollment`;
   const headers = () => ({ Authorization: `Bearer ${getTokenFromLocalStorage()}` });
   const title = familyMemberId ? "Habilitar titular y cargas" : "Habilitar socios";
+  useUnsavedEditorChanges(false, busy || locked, "membership-payment");
+  useEffect(() => {
+    onBusyChange?.(busy || locked);
+    return () => onBusyChange?.(false);
+  }, [busy, locked, onBusyChange]);
   const working = (value: boolean) => {
     setBusy(value);
-    onBusyChange?.(value);
   };
   const failure = (error: unknown) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) return;
     const message = axios.isAxiosError(error) ? error.response?.data?.message : null;
     return Swal.fire({
       icon: "error",
@@ -79,14 +88,14 @@ export function MembershipBatchEnrollment({
     });
   };
   const review = async () => {
-    if (submitting.current) return;
+    if (submitting.current || locked) return;
     submitting.current = true;
     working(true);
     setExpanded(true);
     try {
       const { data } = await axios.post<Preview>(
         `${api}/preview`,
-        { startPeriod: period, ...(familyMemberId ? { familyMemberId } : {}) },
+        { startPeriod: period, throughPeriod, ...(familyMemberId ? { familyMemberId } : {}) },
         { headers: headers(), timeout: 30000 },
       );
       setPreview(data);
@@ -107,15 +116,6 @@ export function MembershipBatchEnrollment({
   const total = chosen.reduce((sum, row) => sum + (row.plan?.total || 0), 0);
   const apply = async () => {
     if (submitting.current || (!locked && !chosen.length)) return;
-    if (!locked && reason.trim().length < 5) {
-      await Swal.fire({
-        icon: "warning",
-        title: "Motivo de habilitación",
-        text: "Indica un motivo de al menos 5 caracteres.",
-        confirmButtonText: "Aceptar",
-      });
-      return;
-    }
     submitting.current = true;
     working(true);
     try {
@@ -123,7 +123,7 @@ export function MembershipBatchEnrollment({
         const answer = await Swal.fire({
           icon: "question",
           title: "Confirmar habilitación",
-          text: `${chosen.length} socio(s), desde ${billingPeriodLabel(period)}, cuotas por ${billingMoney(total)}. Los ya habilitados se omiten. Esto no registra pagos ni reactiva cuentas inactivas.`,
+          text: `${chosen.length} socio(s), desde ${billingPeriodLabel(preview!.startPeriod)} hasta ${billingPeriodLabel(preview!.throughPeriod)}, cuotas por ${billingMoney(total)}. Los ya habilitados se omiten. Esto no registra pagos ni reactiva cuentas inactivas.`,
           showCancelButton: true,
           confirmButtonText: "Habilitar seleccionados",
           cancelButtonText: "Revisar",
@@ -132,8 +132,8 @@ export function MembershipBatchEnrollment({
         });
         if (!answer.isConfirmed) return;
         const payload = {
-          startPeriod: period,
-          reason: reason.trim(),
+          startPeriod: preview!.startPeriod,
+          throughPeriod: preview!.throughPeriod,
           items: chosen
             .map((row) => ({ memberId: row.memberId, approvalHash: row.plan!.approvalHash }))
             .sort((a, b) => a.memberId.localeCompare(b.memberId)),
@@ -177,9 +177,10 @@ export function MembershipBatchEnrollment({
         await onSaved();
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 409) {
+      if (axios.isAxiosError(error) && error.response && error.response.status < 500) {
         setLocked(false);
         setPreview(null);
+        request.current = undefined;
       }
       await failure(error);
     } finally {
@@ -204,31 +205,34 @@ export function MembershipBatchEnrollment({
         <>
           <h2>{title}</h2>
           <div className="ap-form-grid">
-            <label>
-              Inicio de facturación
-              <input
-                type="month"
-                value={period}
-                min={preview?.minimumStartPeriod}
-                max={currentPeriod || billingToday().slice(0, 7)}
-                disabled={busy || locked}
-                onChange={(event) => {
-                  setPeriod(event.target.value);
-                  setPreview(null);
-                  setSelected([]);
-                }}
-              />
-            </label>
-            <label>
-              Motivo de habilitación
-              <input
-                value={reason}
-                minLength={5}
-                maxLength={1000}
-                disabled={busy || locked}
-                onChange={(event) => setReason(event.target.value)}
-              />
-            </label>
+            <MembershipBillingSelect
+              label="Desde el mes"
+              value={period}
+              options={billingPeriodRange(
+                preview?.minimumStartPeriod || period,
+                currentPeriod || billingToday().slice(0, 7),
+              ).map((value) => ({ value, label: billingPeriodLabel(value) }))}
+              disabled={busy || locked}
+              onChange={(value) => {
+                setPeriod(value);
+                setPreview(null);
+                setSelected([]);
+              }}
+            />
+            <MembershipBillingSelect
+              label="Hasta el mes"
+              value={throughPeriod}
+              options={billingPeriodRange(
+                currentPeriod || billingToday().slice(0, 7),
+                shiftBillingPeriod(currentPeriod || billingToday().slice(0, 7), 3),
+              ).map((value) => ({ value, label: billingPeriodLabel(value) }))}
+              disabled={busy || locked}
+              onChange={(value) => {
+                setThroughPeriod(value);
+                setPreview(null);
+                setSelected([]);
+              }}
+            />
           </div>
           {busy && <LoadingSpinner size={24} />}
           {preview && (
@@ -296,15 +300,23 @@ export function MembershipBatchEnrollment({
                 ))}
               </ul>
               <div className="ap-total">
-                <span>Cuotas seleccionadas</span>
+                <span>
+                  {chosen.reduce((sum, row) => sum + (row.plan?.rows.length || 0), 0)} cuota(s)
+                  nuevas
+                </span>
                 <strong>{billingMoney(total)}</strong>
               </div>
             </>
           )}
-          <div className="ap-form-actions">
+          {locked && !busy && (
+            <p className="ap-muted" role="status">
+              La respuesta no se confirmó. Reintenta el mismo lote para evitar duplicados.
+            </p>
+          )}
+          <div className="ap-form-actions ap-generation-actions">
             <button
               type="button"
-              disabled={busy}
+              disabled={busy || locked}
               onClick={() => {
                 setExpanded(false);
                 setPreview(null);

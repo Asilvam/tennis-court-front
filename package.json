@@ -17,6 +17,7 @@
     "test:profile-layout": "node --test tests/profileLayout.test.mjs",
     "test:admin-reserves": "node --test tests/adminReserves.test.mjs",
     "test:multibooking": "node --test tests/multibooking.test.mjs",
+    "test:membership-periods": "node --experimental-strip-types --test tests/membershipPeriods.test.ts",
     "test:password-recovery": "node --experimental-strip-types --test tests/passwordRecovery.test.ts",
     "test:category-editor": "node --test tests/categoryEditor.test.mjs tests/unsavedCategoryChanges.test.mjs",
     "test:inactivity": "node --test tests/inactivityLogout.test.mjs",

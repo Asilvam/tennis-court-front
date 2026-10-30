@@ -1,0 +1,1410 @@
+{
+  "date": "2026-10-29",
+  "scope": "React production build with stateful mocked API; no Nest/Mongo or live services",
+  "deployed": false,
+  "views": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 320,
+      "previewMetrics": {
+        "width": 320,
+        "documentWidth": 320,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "c516ab11-64bd-4d24-8447-44db39730683"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "bd4ddc7c-94c2-44a6-bc1b-c60343e0c592"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "bd4ddc7c-94c2-44a6-bc1b-c60343e0c592"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 390,
+      "previewMetrics": {
+        "width": 390,
+        "documentWidth": 390,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "cd0993dc-3161-461d-a4d5-579682de6ec0"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "652c2308-7a24-4677-b3db-c52e96380ace"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "652c2308-7a24-4677-b3db-c52e96380ace"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 820,
+      "previewMetrics": {
+        "width": 820,
+        "documentWidth": 820,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "53e022a3-3d80-4659-ae10-c50acac32b5f"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "3937f063-4de9-4666-93bf-c5ded8fdda21"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "3937f063-4de9-4666-93bf-c5ded8fdda21"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1440,
+      "previewMetrics": {
+        "width": 1440,
+        "documentWidth": 1440,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "985078d6-0184-4ee6-a283-42dfffcbe0e7"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "bd9e0988-302c-4422-8fb4-c5aa828495af"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "bd9e0988-302c-4422-8fb4-c5aa828495af"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 320,
+      "previewMetrics": {
+        "width": 320,
+        "documentWidth": 320,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "1a87025a-ed38-46ee-afba-bc4020baffaa"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "b5ecb3b8-3b66-4691-ab12-99b7dd0c6f41"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "b5ecb3b8-3b66-4691-ab12-99b7dd0c6f41"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 390,
+      "previewMetrics": {
+        "width": 390,
+        "documentWidth": 390,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "25add00b-6735-4dc6-ba53-35a11b180287"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "04a48427-ee61-4ba0-abc4-6732e3a336d7"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "04a48427-ee61-4ba0-abc4-6732e3a336d7"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 820,
+      "previewMetrics": {
+        "width": 820,
+        "documentWidth": 820,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "6c64f856-1c4d-4d00-bf1b-e5a31654f6a7"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "e4617f6e-213b-40af-b46f-64c240922533"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "e4617f6e-213b-40af-b46f-64c240922533"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1440,
+      "previewMetrics": {
+        "width": 1440,
+        "documentWidth": 1440,
+        "scale": 1,
+        "overflow": false,
+        "overlaps": false
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/enrollment",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01",
+            "approvalHash": "4f33fd89dfb3efacb571bc2040f454671e4e06cfaf786bf8f64bf82394809732"
+          },
+          "key": "c104d321-28e6-456c-8a18-922061101624"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/payments",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "ba787479-34d2-48e0-81bd-73f9552381f4"
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues",
+          "body": {
+            "throughPeriod": "2027-01",
+            "approvalHash": "a3869966f9b3ba672b765af51a8fb62745e10d189bd15ebeb7440612a4054b9a"
+          },
+          "key": "ba787479-34d2-48e0-81bd-73f9552381f4"
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2026-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/enrollment/preview",
+          "body": {
+            "startPeriod": "2026-10",
+            "throughPeriod": "2027-01"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/me/access",
+          "body": null
+        },
+        {
+          "method": "GET",
+          "path": "/membership-billing/admin/members/111111111111111111111111",
+          "body": null
+        },
+        {
+          "method": "POST",
+          "path": "/membership-billing/admin/members/111111111111111111111111/dues/preview",
+          "body": {
+            "throughPeriod": "2026-10"
+          }
+        }
+      ],
+      "pageErrors": []
+    }
+  ],
+  "passed": [
+    "chromium/320: no payment without dues",
+    "chromium/320: ordinary generation has no reason field",
+    "chromium/320: disconnected external range removed",
+    "chromium/320: October to January reviews four dues",
+    "chromium/320: four titular test dues total 720",
+    "chromium/320/preview: no horizontal overflow or overlapping controls",
+    "chromium/320: cancelling SweetAlert does not create dues",
+    "chromium/320: explicit confirmation creates four mock dues once",
+    "chromium/320: opening payment is read only",
+    "chromium/320/payment: no horizontal overflow or overlapping controls",
+    "chromium/320: history has labelled Spanish month filter",
+    "chromium/320/history: no horizontal overflow or overlapping controls",
+    "chromium/320: existing dues are not charged as new",
+    "chromium/320: uncertain response locks editing and navigation",
+    "chromium/320: retry keeps identical payload and idempotency key",
+    "chromium/320: retry preserves paid month and creates no duplicate",
+    "chromium/320: only eligible carga selected, four test dues total 200",
+    "chromium/320: batch preserves enabled titular",
+    "chromium/320/batch: no horizontal overflow or overlapping controls",
+    "chromium/320: expired session goes to login and clears token",
+    "chromium/320: no page errors or unexpected/provider API calls",
+    "chromium/390: no payment without dues",
+    "chromium/390: ordinary generation has no reason field",
+    "chromium/390: disconnected external range removed",
+    "chromium/390: October to January reviews four dues",
+    "chromium/390: four titular test dues total 720",
+    "chromium/390/preview: no horizontal overflow or overlapping controls",
+    "chromium/390: cancelling SweetAlert does not create dues",
+    "chromium/390: explicit confirmation creates four mock dues once",
+    "chromium/390: opening payment is read only",
+    "chromium/390/payment: no horizontal overflow or overlapping controls",
+    "chromium/390: history has labelled Spanish month filter",
+    "chromium/390/history: no horizontal overflow or overlapping controls",
+    "chromium/390: existing dues are not charged as new",
+    "chromium/390: uncertain response locks editing and navigation",
+    "chromium/390: retry keeps identical payload and idempotency key",
+    "chromium/390: retry preserves paid month and creates no duplicate",
+    "chromium/390: only eligible carga selected, four test dues total 200",
+    "chromium/390: batch preserves enabled titular",
+    "chromium/390/batch: no horizontal overflow or overlapping controls",
+    "chromium/390: expired session goes to login and clears token",
+    "chromium/390: no page errors or unexpected/provider API calls",
+    "chromium/820: no payment without dues",
+    "chromium/820: ordinary generation has no reason field",
+    "chromium/820: disconnected external range removed",
+    "chromium/820: October to January reviews four dues",
+    "chromium/820: four titular test dues total 720",
+    "chromium/820/preview: no horizontal overflow or overlapping controls",
+    "chromium/820: cancelling SweetAlert does not create dues",
+    "chromium/820: explicit confirmation creates four mock dues once",
+    "chromium/820: opening payment is read only",
+    "chromium/820/payment: no horizontal overflow or overlapping controls",
+    "chromium/820: history has labelled Spanish month filter",
+    "chromium/820/history: no horizontal overflow or overlapping controls",
+    "chromium/820: existing dues are not charged as new",
+    "chromium/820: uncertain response locks editing and navigation",
+    "chromium/820: retry keeps identical payload and idempotency key",
+    "chromium/820: retry preserves paid month and creates no duplicate",
+    "chromium/820: only eligible carga selected, four test dues total 200",
+    "chromium/820: batch preserves enabled titular",
+    "chromium/820/batch: no horizontal overflow or overlapping controls",
+    "chromium/820: expired session goes to login and clears token",
+    "chromium/820: no page errors or unexpected/provider API calls",
+    "chromium/1440: no payment without dues",
+    "chromium/1440: ordinary generation has no reason field",
+    "chromium/1440: disconnected external range removed",
+    "chromium/1440: October to January reviews four dues",
+    "chromium/1440: four titular test dues total 720",
+    "chromium/1440/preview: no horizontal overflow or overlapping controls",
+    "chromium/1440: cancelling SweetAlert does not create dues",
+    "chromium/1440: explicit confirmation creates four mock dues once",
+    "chromium/1440: opening payment is read only",
+    "chromium/1440/payment: no horizontal overflow or overlapping controls",
+    "chromium/1440: history has labelled Spanish month filter",
+    "chromium/1440/history: no horizontal overflow or overlapping controls",
+    "chromium/1440: existing dues are not charged as new",
+    "chromium/1440: uncertain response locks editing and navigation",
+    "chromium/1440: retry keeps identical payload and idempotency key",
+    "chromium/1440: retry preserves paid month and creates no duplicate",
+    "chromium/1440: only eligible carga selected, four test dues total 200",
+    "chromium/1440: batch preserves enabled titular",
+    "chromium/1440/batch: no horizontal overflow or overlapping controls",
+    "chromium/1440: expired session goes to login and clears token",
+    "chromium/1440: no page errors or unexpected/provider API calls",
+    "webkit/320: no payment without dues",
+    "webkit/320: ordinary generation has no reason field",
+    "webkit/320: disconnected external range removed",
+    "webkit/320: October to January reviews four dues",
+    "webkit/320: four titular test dues total 720",
+    "webkit/320/preview: no horizontal overflow or overlapping controls",
+    "webkit/320: cancelling SweetAlert does not create dues",
+    "webkit/320: explicit confirmation creates four mock dues once",
+    "webkit/320: opening payment is read only",
+    "webkit/320/payment: no horizontal overflow or overlapping controls",
+    "webkit/320: history has labelled Spanish month filter",
+    "webkit/320/history: no horizontal overflow or overlapping controls",
+    "webkit/320: existing dues are not charged as new",
+    "webkit/320: uncertain response locks editing and navigation",
+    "webkit/320: retry keeps identical payload and idempotency key",
+    "webkit/320: retry preserves paid month and creates no duplicate",
+    "webkit/320: only eligible carga selected, four test dues total 200",
+    "webkit/320: batch preserves enabled titular",
+    "webkit/320/batch: no horizontal overflow or overlapping controls",
+    "webkit/320: expired session goes to login and clears token",
+    "webkit/320: no page errors or unexpected/provider API calls",
+    "webkit/390: no payment without dues",
+    "webkit/390: ordinary generation has no reason field",
+    "webkit/390: disconnected external range removed",
+    "webkit/390: October to January reviews four dues",
+    "webkit/390: four titular test dues total 720",
+    "webkit/390/preview: no horizontal overflow or overlapping controls",
+    "webkit/390: cancelling SweetAlert does not create dues",
+    "webkit/390: explicit confirmation creates four mock dues once",
+    "webkit/390: opening payment is read only",
+    "webkit/390/payment: no horizontal overflow or overlapping controls",
+    "webkit/390: history has labelled Spanish month filter",
+    "webkit/390/history: no horizontal overflow or overlapping controls",
+    "webkit/390: existing dues are not charged as new",
+    "webkit/390: uncertain response locks editing and navigation",
+    "webkit/390: retry keeps identical payload and idempotency key",
+    "webkit/390: retry preserves paid month and creates no duplicate",
+    "webkit/390: only eligible carga selected, four test dues total 200",
+    "webkit/390: batch preserves enabled titular",
+    "webkit/390/batch: no horizontal overflow or overlapping controls",
+    "webkit/390: expired session goes to login and clears token",
+    "webkit/390: no page errors or unexpected/provider API calls",
+    "webkit/820: no payment without dues",
+    "webkit/820: ordinary generation has no reason field",
+    "webkit/820: disconnected external range removed",
+    "webkit/820: October to January reviews four dues",
+    "webkit/820: four titular test dues total 720",
+    "webkit/820/preview: no horizontal overflow or overlapping controls",
+    "webkit/820: cancelling SweetAlert does not create dues",
+    "webkit/820: explicit confirmation creates four mock dues once",
+    "webkit/820: opening payment is read only",
+    "webkit/820/payment: no horizontal overflow or overlapping controls",
+    "webkit/820: history has labelled Spanish month filter",
+    "webkit/820/history: no horizontal overflow or overlapping controls",
+    "webkit/820: existing dues are not charged as new",
+    "webkit/820: uncertain response locks editing and navigation",
+    "webkit/820: retry keeps identical payload and idempotency key",
+    "webkit/820: retry preserves paid month and creates no duplicate",
+    "webkit/820: only eligible carga selected, four test dues total 200",
+    "webkit/820: batch preserves enabled titular",
+    "webkit/820/batch: no horizontal overflow or overlapping controls",
+    "webkit/820: expired session goes to login and clears token",
+    "webkit/820: no page errors or unexpected/provider API calls",
+    "webkit/1440: no payment without dues",
+    "webkit/1440: ordinary generation has no reason field",
+    "webkit/1440: disconnected external range removed",
+    "webkit/1440: October to January reviews four dues",
+    "webkit/1440: four titular test dues total 720",
+    "webkit/1440/preview: no horizontal overflow or overlapping controls",
+    "webkit/1440: cancelling SweetAlert does not create dues",
+    "webkit/1440: explicit confirmation creates four mock dues once",
+    "webkit/1440: opening payment is read only",
+    "webkit/1440/payment: no horizontal overflow or overlapping controls",
+    "webkit/1440: history has labelled Spanish month filter",
+    "webkit/1440/history: no horizontal overflow or overlapping controls",
+    "webkit/1440: existing dues are not charged as new",
+    "webkit/1440: uncertain response locks editing and navigation",
+    "webkit/1440: retry keeps identical payload and idempotency key",
+    "webkit/1440: retry preserves paid month and creates no duplicate",
+    "webkit/1440: only eligible carga selected, four test dues total 200",
+    "webkit/1440: batch preserves enabled titular",
+    "webkit/1440/batch: no horizontal overflow or overlapping controls",
+    "webkit/1440: expired session goes to login and clears token",
+    "webkit/1440: no page errors or unexpected/provider API calls"
+  ],
+  "sourceHashes": {
+    "src/components/MembershipEnrollment.tsx": "1f412ad95526b97df840bf64cc14d1c5726745c324ddee46a03bd7ecc817f99a",
+    "src/components/MembershipBatchEnrollment.tsx": "96cbb3736379d48f2cf3ecce7fe9dbffba42e8ea3c3063886db7a20582d56e0f",
+    "src/components/AdminMembershipPayments.tsx": "a10e6cc456a955a439bd5e4f56114d70284f3db2b996c9638c6ed3f876291596",
+    "src/components/AdminMembershipMember.tsx": "7b1af2cf85b3531e2ed35cf40a1e4383788a02b3cfaad997ab5dda7d69a7effe",
+    "src/utils/membershipPeriods.ts": "30d977bc7c851611919a67707e5ce4ecfec5e5deb68635148d3b98da160682b7",
+    "src/styles/AdminMembershipPayments.css": "ca842cf94849d5f782a76f2471620ef7c596cd93b06e1e03fa491940e5ff08ff"
+  },
+  "status": "passed"
+}

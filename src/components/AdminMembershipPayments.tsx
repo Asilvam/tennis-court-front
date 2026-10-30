@@ -19,9 +19,9 @@ import { LoadingSpinner } from './LoadingSpinner';
 import { MembershipBatchEnrollment } from './MembershipBatchEnrollment';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
+import { billingPeriodRange, shiftBillingPeriod } from '../utils/membershipPeriods';
 import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
 import {
-  advancePeriods,
   bankPaymentPayload,
   bankRequestIdentity,
   billingMoney,
@@ -354,7 +354,6 @@ export default function AdminMembershipPayments() {
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [period, setPeriod] = useState(memberId ? '' : billingToday().slice(0, 7));
-  const [through, setThrough] = useState(advancePeriods()[0]);
   const [method, setMethod] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
@@ -368,6 +367,7 @@ export default function AdminMembershipPayments() {
   const [enrollmentBusy, setEnrollmentBusy] = useState(false);
   const reversalRequest = useRef<{ id: string; reason: string; key: string }>();
   const requestVersion = useRef(0);
+  const opening = useRef(false);
   useEffect(() => {
     const nextSearch = searchInput.trim();
     if (memberId || view !== 'dues' || nextSearch === search) return;
@@ -452,21 +452,28 @@ export default function AdminMembershipPayments() {
     return () => controller.abort();
   }, [load]);
   const open = async (id: string) => {
-    if (enrollmentBusy) return;
-    if (loading) return;
+    if (enrollmentBusy || loading || opening.current) return;
+    opening.current = true;
+    const version = requestVersion.current;
     setLoading(true);
     try {
-      const response = await axios.post<BillingContext>(
-        `${endpoint}/members/${id}/dues`,
-        { throughPeriod: through },
+      const response = await axios.get<BillingContext>(
+        `${endpoint}/members/${id}`,
         { headers: auth() },
       );
+      if (version !== requestVersion.current) return;
+      const person = response.data.members.find(member => member.id === id);
+      if (!person?.active || !person.enrolled || !response.data.dues.some(due => due.status === 'OPEN' && response.data.members.some(member => member.id === due.beneficiaryId && member.active && member.enrolled))) {
+        await Swal.fire({ icon: 'info', title: 'Sin cuotas disponibles', text: 'Revisa las cuotas del socio antes de registrar un pago.', confirmButtonText: 'Aceptar' });
+        return;
+      }
       setContext(response.data);
       if (memberId) setMemberDetails(response.data);
     } catch (error) {
-      await notice('No se pudieron preparar las cuotas', error);
+      if (version === requestVersion.current) await notice('No se pudieron consultar las cuotas', error);
     } finally {
-      setLoading(false);
+      opening.current = false;
+      if (version === requestVersion.current) setLoading(false);
     }
   };
   const reverse = async (payment: BillingPayment) => {
@@ -624,33 +631,23 @@ export default function AdminMembershipPayments() {
               </form>
             )}
             {(view === 'history' || !memberId) && (
-              <label>
-                Mes
-                <input
-                  type="month"
+              <MembershipBillingSelect
+                  label="Mes"
                   disabled={enrollmentBusy}
                   value={period}
-                  onChange={(event) => {
+                  options={[
+                    ...(view === 'history' ? [{ value: '', label: 'Todos los meses' }] : []),
+                    ...billingPeriodRange(memberDetails?.billing?.minimumStartPeriod || '2026-10', shiftBillingPeriod(memberDetails?.billing?.currentPeriod || billingToday().slice(0, 7), 3)).map(value => ({ value, label: billingPeriodLabel(value) })),
+                  ]}
+                  onChange={(value) => {
                     setPeriod(
-                      event.target.value || (view === 'dues' ? billingToday().slice(0, 7) : ''),
+                      value || (view === 'dues' ? billingToday().slice(0, 7) : ''),
                     );
                     setPage(1);
                   }}
                 />
-              </label>
             )}
-            {view === 'dues' ? (
-              <MembershipBillingSelect
-                label="Preparar cuotas hasta"
-                value={through}
-                options={advancePeriods().map((value) => ({
-                  value,
-                  label: billingPeriodLabel(value),
-                }))}
-                onChange={setThrough}
-                disabled={loading || enrollmentBusy}
-              />
-            ) : (
+            {view === 'history' && (
               <>
                 <MembershipBillingSelect
                   label="Medio"
@@ -746,6 +743,7 @@ export default function AdminMembershipPayments() {
                             </span>
                           </td>
                           <td className="ap-row-actions">
+                            <button type="button" className="ap-icon" title="Ver cuotas del socio" aria-label={`Ver cuotas de ${member.name}`} disabled={enrollmentBusy || loading} onClick={() => navigate(`/adminpayments?memberId=${member.id}`)}><FontAwesomeIcon icon={faEye} /></button>
                             {member.canReenroll ? <button type="button" className="ap-icon" title="Reinscribir socio" aria-label={`Reinscribir a ${member.name}`} onClick={() => navigate(`/adminpayments?memberId=${member.id}`)}><FontAwesomeIcon icon={faUserCheck} /></button> : member.active && !member.enrolled ? <button type="button" className="ap-icon" title="Habilitar mensualidades" aria-label={`Habilitar mensualidades de ${member.name}`} onClick={() => navigate(`/adminpayments?memberId=${member.id}`)}><FontAwesomeIcon icon={faUserCheck} /></button> :
                             <button
                               type="button"
