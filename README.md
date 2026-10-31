@@ -69,6 +69,9 @@ movil/tablet, contratos conservados y evidencia de pruebas en
 [mejora-vistas-usuarios-historial-reset.md](docs/mejora-vistas-usuarios-historial-reset.md).
 Correccion posterior de hover/foco pastel y contraste de texto en filas y menu:
 [correccion-contraste-tabla-menu.md](docs/correccion-contraste-tabla-menu.md).
+Selector de titular de una carga: busqueda adaptativa y recuperacion de foco con
+teclado movil, pruebas y capturas en
+[correccion-selector-titular-ios.md](docs/correccion-selector-titular-ios.md).
 
 ## Tech Stack
 

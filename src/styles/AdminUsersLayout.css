@@ -188,6 +188,52 @@
     overflow-y: auto;
     overscroll-behavior: contain;
 }
+.admin-users-page .edit-modal.edit-modal--picking {
+    height: 100%;
+}
+.admin-users-page .edit-modal--picking .modal-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+}
+.admin-users-page .edit-modal--picking .option-picker {
+    min-height: 0;
+}
+.admin-users-page .edit-modal--picking .option-picker-header {
+    padding-top: max(8px, env(safe-area-inset-top));
+}
+.admin-users-page .admin-titular-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.admin-users-page .admin-titular-control .adaptive-select {
+    flex: 1;
+}
+.admin-users-page .admin-titular-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--ctq-border-soft);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ctq-text);
+    cursor: pointer;
+}
+.admin-users-page .admin-titular-clear:focus-visible {
+    outline: 2px solid var(--ctq-accent);
+    outline-offset: 2px;
+}
+.admin-users-page .admin-titular-clear:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 .admin-users-page .edit-modal .modal-header {
     padding: 16px 24px;
 }

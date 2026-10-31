@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faMoneyBillTransfer, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faMoneyBillTransfer, faTimes, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
@@ -17,6 +17,8 @@ import { ADMIN_PASSWORD_RECOVERY_MESSAGE, requestPasswordRecovery } from '../uti
 import '../styles/ResetPassword.css';
 import { memberPaymentsRoute } from '../utils/membershipNavigation';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
+import { AdaptiveSelect } from './AdaptiveSelect';
+import { OptionPicker } from './OptionPicker';
 
 interface Register extends EditableMember {
     namePlayer: string;
@@ -70,9 +72,33 @@ const AdminRegister: React.FC = () => {
     const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [titularPickerQuery, setTitularPickerQuery] = useState<string | null>(null);
     const editViewport = useVisibleViewport(isEditModalOpen);
     const editDialog = useRef<HTMLDivElement>(null);
+    const editContent = useRef<HTMLDivElement>(null);
+    const titularReturnScroll = useRef(0);
     const editTrigger = useRef<HTMLButtonElement | null>(null);
+    const pickingTitular = titularPickerQuery !== null;
+
+    const openTitularPicker = useCallback((query: string) => {
+        titularReturnScroll.current = editContent.current?.scrollTop ?? 0;
+        setTitularPickerQuery(query);
+    }, []);
+
+    const closeTitularPicker = () => {
+        setTitularPickerQuery(null);
+        requestAnimationFrame(() => {
+            const content = editContent.current;
+            const trigger = document.getElementById('edit-member-titular-trigger');
+            if (!content || !trigger) return;
+            content.scrollTop = titularReturnScroll.current;
+            const bounds = content.getBoundingClientRect();
+            const control = trigger.getBoundingClientRect();
+            if (control.bottom > bounds.bottom) content.scrollTop += control.bottom - bounds.bottom + 12;
+            if (control.top < bounds.top) content.scrollTop -= bounds.top - control.top + 12;
+            trigger.focus({ preventScroll: true });
+        });
+    };
 
     useEffect(() => {
         if (!isEditModalOpen) return;
@@ -115,6 +141,7 @@ const AdminRegister: React.FC = () => {
         input: (base) => ({
             ...base,
             color: 'var(--ctq-text)',
+            fontSize: '16px',
         }),
         dropdownIndicator: (base) => ({
             ...base,
@@ -215,11 +242,13 @@ const AdminRegister: React.FC = () => {
     };
 
     const handleCloseEditModal = () => {
+        setTitularPickerQuery(null);
         setIsEditModalOpen(false);
         setOriginalEditUser(null);
     };
 
     const handleEditKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (pickingTitular) return;
         if (event.key === 'Escape' && !event.defaultPrevented && !isSaving) {
             event.preventDefault();
             handleCloseEditModal();
@@ -483,9 +512,25 @@ const AdminRegister: React.FC = () => {
 
             {/* Edit Modal */}
             {isEditModalOpen && (
-                <div className="edit-modal-backdrop" style={{ top: editViewport.top, left: editViewport.left, width: editViewport.width, height: editViewport.height }} onClick={isSaving ? undefined : handleCloseEditModal}>
-                    <div ref={editDialog} tabIndex={-1} id="editModal" className="modal edit-modal" style={{ maxHeight: Math.max(0, editViewport.height - 32) }} role="dialog" aria-modal="true" aria-labelledby="edit-user-title" onKeyDown={handleEditKeyDown} onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-content">
+                <div className="edit-modal-backdrop" style={{ top: editViewport.top, left: editViewport.left, width: editViewport.width, height: editViewport.height }} onClick={isSaving ? undefined : pickingTitular ? closeTitularPicker : handleCloseEditModal}>
+                    <div ref={editDialog} tabIndex={-1} id="editModal" className={`modal edit-modal${pickingTitular ? ' edit-modal--picking' : ''}`} style={{ maxHeight: Math.max(0, editViewport.height - 32) }} role="dialog" aria-modal="true" aria-label={pickingTitular ? 'Titular asociado' : undefined} aria-labelledby={pickingTitular ? undefined : 'edit-user-title'} onKeyDown={handleEditKeyDown} onClick={(e) => e.stopPropagation()}>
+                        <div ref={editContent} className="modal-content">
+                            {pickingTitular ? (
+                                <OptionPicker
+                                    id="edit-titular-search"
+                                    title="Titular asociado"
+                                    placeholder="Buscar titular por nombre o correo"
+                                    options={availableTitulares}
+                                    value={editUser.titularId ?? ''}
+                                    initialQuery={titularPickerQuery ?? ''}
+                                    onSelect={option => {
+                                        setEditUser(prev => ({ ...prev, titularId: option.value }));
+                                        closeTitularPicker();
+                                    }}
+                                    onCancel={closeTitularPicker}
+                                />
+                            ) : (
+                            <>
                             <div className="modal-header">
                                 <FontAwesomeIcon icon={faEdit} />
                                 <h5 id="edit-user-title">Editar usuario</h5>
@@ -575,23 +620,27 @@ const AdminRegister: React.FC = () => {
                                             {memberType(editUser.partnerType) === 'Carga' && (
                                                 <div className="input-field">
                                                     <p className="select-label">Titular asociado</p>
-                                                    <Select<SelectOption, false>
+                                                    <div className="admin-titular-control">
+                                                    <AdaptiveSelect
                                                         classNamePrefix="admin-member-select"
                                                         inputId="edit-member-titular"
                                                         aria-label="Titular asociado"
                                                         value={availableTitulares.find(option => option.value === editUser.titularId) ?? null}
                                                         options={availableTitulares}
                                                         placeholder="Buscar y seleccionar titular..."
+                                                        viewport={editViewport}
+                                                        label="Titular asociado"
                                                         onChange={option => setEditUser(prev => ({ ...prev, titularId: option?.value ?? null }))}
+                                                        onOpenPicker={openTitularPicker}
                                                         styles={modalSelectStyles}
-                                                        isSearchable
-                                                        isClearable
                                                         isDisabled={isSaving}
-                                                        blurInputOnSelect
-                                                        menuPortalTarget={document.body}
-                                                        menuPosition="fixed"
-                                                        menuPlacement="auto"
                                                     />
+                                                    {editUser.titularId && (
+                                                        <button type="button" className="admin-titular-clear" aria-label="Quitar titular asociado" title="Quitar titular asociado" disabled={isSaving} onClick={() => setEditUser(prev => ({ ...prev, titularId: null }))}>
+                                                            <FontAwesomeIcon icon={faTimes} />
+                                                        </button>
+                                                    )}
+                                                    </div>
                                                     {!editUser.titularId && <p className="membership-help">Carga sin titular asociado. Selecciona uno para completar la asociación.</p>}
                                                 </div>
                                             )}
@@ -625,6 +674,8 @@ const AdminRegister: React.FC = () => {
                                     </form>
                                 )}
                             </div>
+                            </>
+                            )}
                         </div>
                     </div>
                 </div>

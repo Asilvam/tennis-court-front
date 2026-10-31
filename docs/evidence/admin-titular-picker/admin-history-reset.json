@@ -1,0 +1,1840 @@
+{
+  "executedAt": "2026-10-31T02:35:56.055Z",
+  "scope": "Actual React build, fixture APIs only; no real email, member or reservation writes",
+  "passed": [
+    "chromium/390x1000/users: no horizontal page overflow",
+    "chromium/390x1000/users: shared Home maximum width",
+    "chromium/390x1000/users: descriptive heading",
+    "chromium/390x1000/users: five stable non-overlapping action targets",
+    "chromium/390x1000/users: name and actions share a row without overlap",
+    "chromium/390x1000/users: inactive actions remain disabled except edit",
+    "chromium/390x1000/users: desktop metadata, compact mobile/tablet columns",
+    "chromium/390x1000/users/0: default text and enabled icons contrast >= 4.5",
+    "chromium/390x1000/users/0: opaque pastel hover with readable text/icons",
+    "chromium/390x1000/users/0: keyboard focus retains text/icon contrast",
+    "chromium/390x1000/users/1: default text and enabled icons contrast >= 4.5",
+    "chromium/390x1000/users/1: opaque pastel hover with readable text/icons",
+    "chromium/390x1000/users/1: keyboard focus retains text/icon contrast",
+    "chromium/390x1000/users/2: default text and enabled icons contrast >= 4.5",
+    "chromium/390x1000/users/2: opaque pastel hover with readable text/icons",
+    "chromium/390x1000/users/2: keyboard focus retains text/icon contrast",
+    "chromium/390x1000/users/3: default text and enabled icons contrast >= 4.5",
+    "chromium/390x1000/users/3: opaque pastel hover with readable text/icons",
+    "chromium/390x1000/users/3: keyboard focus retains text/icon contrast",
+    "chromium/390x1000/menu: pastel hover uses dark readable text [{\"text\":\"Mi Perfil\",\"color\":\"rgb(23, 50, 74)\",\"ownBackground\":\"rgb(217, 238, 246)\",\"background\":[217,238,246],\"ratio\":11.002397747498255}]",
+    "chromium/390x1000/menu: keyboard focus is readable",
+    "chromium/390x1000/menu: Materialize active keeps contrast",
+    "chromium/390x1000/menu: Materialize selected keeps contrast",
+    "chromium/390x1000/users: quick search and URL state preserved",
+    "chromium/390x1000/users: empty search",
+    "chromium/390x1000/editor: dialog stays inside viewport",
+    "chromium/390x1000/editor: desktop/tablet columns and mobile stack",
+    "chromium/390x1000/editor: 16px controls and email stays readonly",
+    "chromium/390x1000/editor: selector menu fits viewport",
+    "chromium/390x1000/editor: choosing unchanged role keeps dialog and unchanged state",
+    "chromium/390x1000/editor: resized visible area remains contained",
+    "chromium/390x1000/editor: keyboard focus enters editor",
+    "chromium/390x1000/editor: cancel restores focus and makes no write",
+    "chromium/390x1000/history: no horizontal page overflow",
+    "chromium/390x1000/history: shared Home maximum width",
+    "chromium/390x1000/history: complete turn and four-digit year",
+    "chromium/390x1000/history: canceled/past reservation stays non-deletable",
+    "chromium/390x1000/history: data cells do not overlap",
+    "chromium/390x1000/history: CTQ action color",
+    "chromium/390x1000/history: full names are plain text, not injected HTML",
+    "chromium/390x1000/history: cancel does not delete",
+    "chromium/390x1000/history: exact authenticated delete and refreshed status",
+    "chromium/390x1000/history: empty state",
+    "chromium/390x1000/reset: no horizontal page overflow",
+    "chromium/390x1000/reset: shared Home maximum width",
+    "chromium/390x1000/reset: two desktop columns, form-first compact layout",
+    "chromium/390x1000/reset: lifetime and admin policy retained",
+    "chromium/390x1000/reset: readable input and CTQ yellow action",
+    "chromium/390x1000/reset: single-flight and pending controls",
+    "chromium/390x1000/reset: normalized email and existing admin contract",
+    "chromium/390x1000/reset: error keeps email",
+    "chromium/390x1000/public-recovery: no horizontal page overflow",
+    "chromium/390x1000/public-recovery: shared Home maximum width",
+    "chromium/390x1000/public: unchanged public limit and login return",
+    "chromium/390x1000/confirm: shared CSS keeps invalid-link view contained",
+    "chromium/390x1000/confirm: valid-token password fields retain 16px and fit",
+    "chromium/390x1000/ranking: no horizontal page overflow",
+    "chromium/390x1000/ranking: shared Home maximum width",
+    "chromium/390x1000/ranking: desktop category rail and compact top categories",
+    "chromium/390x1000/ranking: no inherited red navbar or fixed-height clipping; labels contained",
+    "chromium/390x1000/ranking: existing category order/filter and initial selection",
+    "chromium/390x1000/ranking: unchanged points, Masters top eight and complete names",
+    "chromium/390x1000/ranking: missing/broken image fallback renders",
+    "chromium/390x1000/ranking: position, avatar, name and points do not overlap",
+    "chromium/390x1000/ranking: player row does not collapse category",
+    "chromium/390x1000/ranking: category selection updates panel",
+    "chromium/390x1000/ranking: repeated category collapses as before",
+    "chromium/390x1000/ranking: native keyboard and no extra API requests",
+    "chromium/390x1000/reset: 401 forces login",
+    "chromium/390x1000: no runtime errors or unexpected/live APIs",
+    "webkit/390x1000/users: no horizontal page overflow",
+    "webkit/390x1000/users: shared Home maximum width",
+    "webkit/390x1000/users: descriptive heading",
+    "webkit/390x1000/users: five stable non-overlapping action targets",
+    "webkit/390x1000/users: name and actions share a row without overlap",
+    "webkit/390x1000/users: inactive actions remain disabled except edit",
+    "webkit/390x1000/users: desktop metadata, compact mobile/tablet columns",
+    "webkit/390x1000/users/0: default text and enabled icons contrast >= 4.5",
+    "webkit/390x1000/users/0: opaque pastel hover with readable text/icons",
+    "webkit/390x1000/users/0: keyboard focus retains text/icon contrast",
+    "webkit/390x1000/users/1: default text and enabled icons contrast >= 4.5",
+    "webkit/390x1000/users/1: opaque pastel hover with readable text/icons",
+    "webkit/390x1000/users/1: keyboard focus retains text/icon contrast",
+    "webkit/390x1000/users/2: default text and enabled icons contrast >= 4.5",
+    "webkit/390x1000/users/2: opaque pastel hover with readable text/icons",
+    "webkit/390x1000/users/2: keyboard focus retains text/icon contrast",
+    "webkit/390x1000/users/3: default text and enabled icons contrast >= 4.5",
+    "webkit/390x1000/users/3: opaque pastel hover with readable text/icons",
+    "webkit/390x1000/users/3: keyboard focus retains text/icon contrast",
+    "webkit/390x1000/menu: pastel hover uses dark readable text [{\"text\":\"Mi Perfil\",\"color\":\"rgb(23, 50, 74)\",\"ownBackground\":\"rgb(217, 238, 246)\",\"background\":[217,238,246],\"ratio\":11.002397747498255}]",
+    "webkit/390x1000/menu: keyboard focus is readable",
+    "webkit/390x1000/menu: Materialize active keeps contrast",
+    "webkit/390x1000/menu: Materialize selected keeps contrast",
+    "webkit/390x1000/users: quick search and URL state preserved",
+    "webkit/390x1000/users: empty search",
+    "webkit/390x1000/editor: dialog stays inside viewport",
+    "webkit/390x1000/editor: desktop/tablet columns and mobile stack",
+    "webkit/390x1000/editor: 16px controls and email stays readonly",
+    "webkit/390x1000/editor: selector menu fits viewport",
+    "webkit/390x1000/editor: choosing unchanged role keeps dialog and unchanged state",
+    "webkit/390x1000/editor: resized visible area remains contained",
+    "webkit/390x1000/editor: keyboard focus enters editor",
+    "webkit/390x1000/editor: cancel restores focus and makes no write",
+    "webkit/390x1000/history: no horizontal page overflow",
+    "webkit/390x1000/history: shared Home maximum width",
+    "webkit/390x1000/history: complete turn and four-digit year",
+    "webkit/390x1000/history: canceled/past reservation stays non-deletable",
+    "webkit/390x1000/history: data cells do not overlap",
+    "webkit/390x1000/history: CTQ action color",
+    "webkit/390x1000/history: full names are plain text, not injected HTML",
+    "webkit/390x1000/history: cancel does not delete",
+    "webkit/390x1000/history: exact authenticated delete and refreshed status",
+    "webkit/390x1000/history: empty state",
+    "webkit/390x1000/reset: no horizontal page overflow",
+    "webkit/390x1000/reset: shared Home maximum width",
+    "webkit/390x1000/reset: two desktop columns, form-first compact layout",
+    "webkit/390x1000/reset: lifetime and admin policy retained",
+    "webkit/390x1000/reset: readable input and CTQ yellow action",
+    "webkit/390x1000/reset: single-flight and pending controls",
+    "webkit/390x1000/reset: normalized email and existing admin contract",
+    "webkit/390x1000/reset: error keeps email",
+    "webkit/390x1000/public-recovery: no horizontal page overflow",
+    "webkit/390x1000/public-recovery: shared Home maximum width",
+    "webkit/390x1000/public: unchanged public limit and login return",
+    "webkit/390x1000/confirm: shared CSS keeps invalid-link view contained",
+    "webkit/390x1000/confirm: valid-token password fields retain 16px and fit",
+    "webkit/390x1000/ranking: no horizontal page overflow",
+    "webkit/390x1000/ranking: shared Home maximum width",
+    "webkit/390x1000/ranking: desktop category rail and compact top categories",
+    "webkit/390x1000/ranking: no inherited red navbar or fixed-height clipping; labels contained",
+    "webkit/390x1000/ranking: existing category order/filter and initial selection",
+    "webkit/390x1000/ranking: unchanged points, Masters top eight and complete names",
+    "webkit/390x1000/ranking: missing/broken image fallback renders",
+    "webkit/390x1000/ranking: position, avatar, name and points do not overlap",
+    "webkit/390x1000/ranking: player row does not collapse category",
+    "webkit/390x1000/ranking: category selection updates panel",
+    "webkit/390x1000/ranking: repeated category collapses as before",
+    "webkit/390x1000/ranking: native keyboard and no extra API requests",
+    "webkit/390x1000/reset: 401 forces login",
+    "webkit/390x1000: no runtime errors or unexpected/live APIs"
+  ],
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 1000,
+      "caption": "users",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      },
+      "contrast": {
+        "rows": [
+          {
+            "row": 0,
+            "normal": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(248, 250, 252)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 16.506052062894945
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 1,
+            "normal": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(248, 250, 252)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 16.506052062894945
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 2,
+            "normal": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(252, 165, 165)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 9.099143801374677
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(138, 48, 70)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.756082533942622
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(138, 48, 70)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.756082533942622
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 3,
+            "normal": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 13.599540564418982
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.310374938546368
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.310374938546368
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          }
+        ],
+        "menu": [
+          {
+            "state": "hover",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "focus",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "active",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "selected",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 1000,
+      "caption": "history",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 1000,
+      "caption": "reset",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 1000,
+      "caption": "public-recovery",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 1000,
+      "caption": "ranking",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 1000,
+      "caption": "users",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      },
+      "contrast": {
+        "rows": [
+          {
+            "row": 0,
+            "normal": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(248, 250, 252)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 16.506052062894945
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio Nombre Completo Apellido Compuesto",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 1,
+            "normal": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(248, 250, 252)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 16.506052062894945
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "NombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombreNombre",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 2,
+            "normal": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(252, 165, 165)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 9.099143801374677
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(138, 48, 70)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.756082533942622
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio inactivo",
+                "color": "rgb(138, 48, 70)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.756082533942622
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          },
+          {
+            "row": 3,
+            "normal": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  9.940000000000001,
+                  26.880000000000003,
+                  50.82
+                ],
+                "ratio": 13.599540564418982
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(134, 239, 172)",
+                "ownBackground": "rgba(74, 222, 128, 0.12)",
+                "background": [
+                  17.627200000000002,
+                  50.2944,
+                  60.0816
+                ],
+                "ratio": 9.638319645678518
+              },
+              {
+                "text": "",
+                "color": "rgb(244, 232, 90)",
+                "ownBackground": "rgba(244, 232, 90, 0.12)",
+                "background": [
+                  38.0272,
+                  51.4944,
+                  55.5216
+                ],
+                "ratio": 10.202247741721843
+              },
+              {
+                "text": "",
+                "color": "rgb(125, 211, 252)",
+                "ownBackground": "rgba(125, 211, 252, 0.12)",
+                "background": [
+                  23.7472,
+                  48.9744,
+                  74.9616
+                ],
+                "ratio": 7.9787485340004185
+              }
+            ],
+            "hover": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.310374938546368
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgba(255, 255, 255, 0.13)",
+                "background": [
+                  221.94,
+                  240.21,
+                  247.17000000000002
+                ],
+                "ratio": 6.3210219950080155
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ],
+            "focus": [
+              {
+                "text": "Socio con pago pendiente",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgba(0, 0, 0, 0)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 6.310374938546368
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(24, 86, 59)",
+                "ownBackground": "rgb(204, 232, 215)",
+                "background": [
+                  204,
+                  232,
+                  215
+                ],
+                "ratio": 6.61351085596085
+              },
+              {
+                "text": "",
+                "color": "rgb(102, 82, 7)",
+                "ownBackground": "rgb(246, 233, 174)",
+                "background": [
+                  246,
+                  233,
+                  174
+                ],
+                "ratio": 6.193042281031543
+              },
+              {
+                "text": "",
+                "color": "rgb(36, 91, 119)",
+                "ownBackground": "rgb(196, 226, 238)",
+                "background": [
+                  196,
+                  226,
+                  238
+                ],
+                "ratio": 5.447932438765344
+              }
+            ]
+          }
+        ],
+        "menu": [
+          {
+            "state": "hover",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "focus",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "active",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          },
+          {
+            "state": "selected",
+            "samples": [
+              {
+                "text": "Mi Perfil",
+                "color": "rgb(23, 50, 74)",
+                "ownBackground": "rgb(217, 238, 246)",
+                "background": [
+                  217,
+                  238,
+                  246
+                ],
+                "ratio": 11.002397747498255
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 1000,
+      "caption": "history",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 1000,
+      "caption": "reset",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 1000,
+      "caption": "public-recovery",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 1000,
+      "caption": "ranking",
+      "metrics": {
+        "x": 0,
+        "width": 390,
+        "right": 390,
+        "documentWidth": 390,
+        "cap": "1120px"
+      }
+    }
+  ],
+  "sourceHashes": {
+    "src/index.css": "1c8f2abfcb01bdd3f7544a97f1e6fc2bf4dd56131329ea419266f9b3bf269444",
+    "src/components/Navigation.tsx": "51beb067719d0a5626b6a19c93554d75d702ecb9f7cfa8abbf21a804529c54c3",
+    "src/styles/Navigation.css": "71572002c8e2972078c41b3575e65bfcf02c0f9c53ac7abe44207d664720596f",
+    "src/components/AdminRegister.tsx": "f4b6f17d7849002f72ebfc7a469a1ec7614a4245d82d6148a84030e37a0f861f",
+    "src/styles/AdminUsersLayout.css": "55a2f05256572794b9b05ecccdae09da7907ca5af1ae4140420770aa1d061e3d",
+    "src/components/MyHistoryReserve.tsx": "e93fb14126c4019c58d7e999bfe077c27a8b81d549f5bc7b5164c98583db16ba",
+    "src/styles/MyHistoryReserve.css": "f8f9ad3cc897e107720a55b493e8cd027068026739b88c2f527e790190d360c7",
+    "src/components/ResetPassword.tsx": "e74370fd432c0d92bac9f9489c2c18f7df6d1a24ae94e935743a3cfab4def246",
+    "src/styles/ResetPassword.css": "7ee941c12b2fe9ec331e34b0d4ca8f49ce4ffa88e0ad566d01f0143983afa6cc",
+    "src/components/Ranking.tsx": "4126c8ab91e86558427fc3e8590cb41373d2b880d689b6893ff5685c99741952",
+    "src/styles/Ranking.css": "f216cfe7f32fa1016f4d41fbbd4554d53080b718f54af3cea05ece401b19717f"
+  },
+  "captures": [
+    "users-chromium-390.png",
+    "users-hover-chromium-390.png",
+    "menu-hover-chromium-390.png",
+    "editor-chromium-390.png",
+    "history-chromium-390.png",
+    "reset-chromium-390.png",
+    "ranking-chromium-390.png",
+    "users-webkit-390.png",
+    "users-hover-webkit-390.png",
+    "menu-hover-webkit-390.png",
+    "editor-webkit-390.png",
+    "history-webkit-390.png",
+    "reset-webkit-390.png",
+    "ranking-webkit-390.png"
+  ],
+  "status": "passed"
+}

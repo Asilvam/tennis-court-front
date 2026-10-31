@@ -1,0 +1,341 @@
+{
+  "executedAt": "2026-10-31T02:36:14.893Z",
+  "scope": "React build with intercepted APIs; visualViewport reduction/pan simulated, not physical iOS keyboard",
+  "passed": [
+    "chromium/320: title, search and results remain visible above simulated keyboard",
+    "chromium/320: readable search and contained long scrollable list",
+    "chromium/320: scrolling results does not pan the page or hide search",
+    "chromium/320: name search ignores accents",
+    "chromium/320: picker traps reverse keyboard navigation",
+    "chromium/320: email search and unbroken long name fit",
+    "chromium/320: no-results state",
+    "chromium/320: Escape returns to draft without saving",
+    "chromium/320: selection retains draft and does not PATCH",
+    "chromium/320: explicit save sends only reviewed changes with bearer",
+    "chromium/320: no page errors or unexpected real requests",
+    "chromium/390: title, search and results remain visible above simulated keyboard",
+    "chromium/390: readable search and contained long scrollable list",
+    "chromium/390: scrolling results does not pan the page or hide search",
+    "chromium/390: name search ignores accents",
+    "chromium/390: picker traps reverse keyboard navigation",
+    "chromium/390: email search and unbroken long name fit",
+    "chromium/390: no-results state",
+    "chromium/390: Escape returns to draft without saving",
+    "chromium/390: selection retains draft and does not PATCH",
+    "chromium/390: explicit save sends only reviewed changes with bearer",
+    "chromium/390: no page errors or unexpected real requests",
+    "chromium/768: title, search and results remain visible above simulated keyboard",
+    "chromium/768: readable search and contained long scrollable list",
+    "chromium/768: scrolling results does not pan the page or hide search",
+    "chromium/768: name search ignores accents",
+    "chromium/768: picker traps reverse keyboard navigation",
+    "chromium/768: email search and unbroken long name fit",
+    "chromium/768: no-results state",
+    "chromium/768: Escape returns to draft without saving",
+    "chromium/768: selection retains draft and does not PATCH",
+    "chromium/768: explicit save sends only reviewed changes with bearer",
+    "chromium/768: no page errors or unexpected real requests",
+    "chromium/820: title, search and results remain visible above simulated keyboard",
+    "chromium/820: readable search and contained long scrollable list",
+    "chromium/820: scrolling results does not pan the page or hide search",
+    "chromium/820: name search ignores accents",
+    "chromium/820: picker traps reverse keyboard navigation",
+    "chromium/820: email search and unbroken long name fit",
+    "chromium/820: no-results state",
+    "chromium/820: Escape returns to draft without saving",
+    "chromium/820: selection retains draft and does not PATCH",
+    "chromium/820: explicit save sends only reviewed changes with bearer",
+    "chromium/820: no page errors or unexpected real requests",
+    "chromium/1024: iPad keeps typed query when keyboard removes dropdown space",
+    "chromium/1024: title, search and results remain visible above simulated keyboard",
+    "chromium/1024: readable search and contained long scrollable list",
+    "chromium/1024: scrolling results does not pan the page or hide search",
+    "chromium/1024: name search ignores accents",
+    "chromium/1024: picker traps reverse keyboard navigation",
+    "chromium/1024: email search and unbroken long name fit",
+    "chromium/1024: no-results state",
+    "chromium/1024: Escape returns to draft without saving",
+    "chromium/1024: selection retains draft and does not PATCH",
+    "chromium/1024: explicit save sends only reviewed changes with bearer",
+    "chromium/1024: no page errors or unexpected real requests",
+    "chromium/1440: desktop retains floating searchable control",
+    "chromium/1440: selection retains draft and does not PATCH",
+    "chromium/1440: explicit save sends only reviewed changes with bearer",
+    "chromium/1440: no page errors or unexpected real requests",
+    "webkit/320: title, search and results remain visible above simulated keyboard",
+    "webkit/320: readable search and contained long scrollable list",
+    "webkit/320: scrolling results does not pan the page or hide search",
+    "webkit/320: name search ignores accents",
+    "webkit/320: picker traps reverse keyboard navigation",
+    "webkit/320: email search and unbroken long name fit",
+    "webkit/320: no-results state",
+    "webkit/320: Escape returns to draft without saving",
+    "webkit/320: selection retains draft and does not PATCH",
+    "webkit/320: explicit save sends only reviewed changes with bearer",
+    "webkit/320: no page errors or unexpected real requests",
+    "webkit/390: title, search and results remain visible above simulated keyboard",
+    "webkit/390: readable search and contained long scrollable list",
+    "webkit/390: scrolling results does not pan the page or hide search",
+    "webkit/390: name search ignores accents",
+    "webkit/390: picker traps reverse keyboard navigation",
+    "webkit/390: email search and unbroken long name fit",
+    "webkit/390: no-results state",
+    "webkit/390: Escape returns to draft without saving",
+    "webkit/390: selection retains draft and does not PATCH",
+    "webkit/390: explicit save sends only reviewed changes with bearer",
+    "webkit/390: no page errors or unexpected real requests",
+    "webkit/768: title, search and results remain visible above simulated keyboard",
+    "webkit/768: readable search and contained long scrollable list",
+    "webkit/768: scrolling results does not pan the page or hide search",
+    "webkit/768: name search ignores accents",
+    "webkit/768: picker traps reverse keyboard navigation",
+    "webkit/768: email search and unbroken long name fit",
+    "webkit/768: no-results state",
+    "webkit/768: Escape returns to draft without saving",
+    "webkit/768: selection retains draft and does not PATCH",
+    "webkit/768: explicit save sends only reviewed changes with bearer",
+    "webkit/768: no page errors or unexpected real requests",
+    "webkit/820: title, search and results remain visible above simulated keyboard",
+    "webkit/820: readable search and contained long scrollable list",
+    "webkit/820: scrolling results does not pan the page or hide search",
+    "webkit/820: name search ignores accents",
+    "webkit/820: picker traps reverse keyboard navigation",
+    "webkit/820: email search and unbroken long name fit",
+    "webkit/820: no-results state",
+    "webkit/820: Escape returns to draft without saving",
+    "webkit/820: selection retains draft and does not PATCH",
+    "webkit/820: explicit save sends only reviewed changes with bearer",
+    "webkit/820: no page errors or unexpected real requests",
+    "webkit/1024: iPad keeps typed query when keyboard removes dropdown space",
+    "webkit/1024: title, search and results remain visible above simulated keyboard",
+    "webkit/1024: readable search and contained long scrollable list",
+    "webkit/1024: scrolling results does not pan the page or hide search",
+    "webkit/1024: name search ignores accents",
+    "webkit/1024: picker traps reverse keyboard navigation",
+    "webkit/1024: email search and unbroken long name fit",
+    "webkit/1024: no-results state",
+    "webkit/1024: Escape returns to draft without saving",
+    "webkit/1024: selection retains draft and does not PATCH",
+    "webkit/1024: explicit save sends only reviewed changes with bearer",
+    "webkit/1024: no page errors or unexpected real requests",
+    "webkit/1440: desktop retains floating searchable control",
+    "webkit/1440: selection retains draft and does not PATCH",
+    "webkit/1440: explicit save sends only reviewed changes with bearer",
+    "webkit/1440: no page errors or unexpected real requests"
+  ],
+  "views": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 320,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 390,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 768,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 820,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1024,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "width": 1440,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 320,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 390,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 768,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 820,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1024,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "26.5",
+      "width": 1440,
+      "writes": [
+        {
+          "body": {
+            "namePlayer": "Carga fixture editada",
+            "partnerType": "Carga",
+            "titularId": "000000000000000000000003"
+          },
+          "authenticated": true
+        }
+      ]
+    }
+  ],
+  "captures": [
+    "search-chromium-320.png",
+    "keyboard-chromium-320.png",
+    "search-chromium-390.png",
+    "keyboard-chromium-390.png",
+    "search-chromium-768.png",
+    "keyboard-chromium-768.png",
+    "search-chromium-820.png",
+    "keyboard-chromium-820.png",
+    "search-chromium-1024.png",
+    "keyboard-chromium-1024.png",
+    "desktop-chromium-1440.png",
+    "search-webkit-320.png",
+    "keyboard-webkit-320.png",
+    "search-webkit-390.png",
+    "keyboard-webkit-390.png",
+    "search-webkit-768.png",
+    "keyboard-webkit-768.png",
+    "search-webkit-820.png",
+    "keyboard-webkit-820.png",
+    "search-webkit-1024.png",
+    "keyboard-webkit-1024.png",
+    "desktop-webkit-1440.png"
+  ],
+  "sourceHashes": {
+    "src/components/AdminRegister.tsx": "f4b6f17d7849002f72ebfc7a469a1ec7614a4245d82d6148a84030e37a0f861f",
+    "src/styles/AdminUsersLayout.css": "55a2f05256572794b9b05ecccdae09da7907ca5af1ae4140420770aa1d061e3d",
+    "src/components/AdaptiveSelect.tsx": "89ccbee7a8ad6c2b1c13574204bd44a0692dc40e8e8d68ec75dd47d83d7feac8",
+    "src/components/OptionPicker.tsx": "00d58e22d11779a0a395eb0079a367b7e9583bb4e68d3a6326f6b0f1cf06449e",
+    "src/hooks/useVisibleViewport.ts": "fcc3356cff868fa1aa61997156995e1c7b8acf613fcbaedb89c6cfdc1d58a3c7",
+    "src/utils/memberEditing.ts": "412b586822fccdee998bf18f441f53e433ec0a714e47827168e7d64140c8590d"
+  },
+  "status": "passed"
+}

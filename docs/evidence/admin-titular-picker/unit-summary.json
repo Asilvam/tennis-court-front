@@ -1,0 +1,14 @@
+{
+  "executedAt": "2026-10-31T02:38:24.739Z",
+  "scope": "Full frontend unit regression after titular picker correction",
+  "tests": 308,
+  "passed": 308,
+  "failed": 0,
+  "skipped": 0,
+  "sourceHashes": {
+    "src/components/AdminRegister.tsx": "f4b6f17d7849002f72ebfc7a469a1ec7614a4245d82d6148a84030e37a0f861f",
+    "src/styles/AdminUsersLayout.css": "55a2f05256572794b9b05ecccdae09da7907ca5af1ae4140420770aa1d061e3d",
+    "tests/adminTitularPicker.test.mjs": "ad83bc4d5b7a5ec97fa0ca2bb8f7ec108bae84737c14829017627d4b5c030cd1",
+    "tests/e2e/adminTitularPicker.mjs": "46f38f21edf823d78a5cbaf833978dfd6c290772041819f5e38704db96c79ebf"
+  }
+}

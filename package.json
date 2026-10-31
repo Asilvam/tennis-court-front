@@ -17,6 +17,7 @@
     "test:profile-layout": "node --test tests/profileLayout.test.mjs",
     "test:admin-reserves": "node --test tests/adminReserves.test.mjs",
     "test:history-recovery-layout": "node --test tests/historyRecoveryLayout.test.mjs",
+    "test:admin-titular": "node --test tests/adminTitularPicker.test.mjs",
     "test:ranking-layout": "node --test tests/rankingLayout.test.mjs",
     "test:multibooking": "node --test tests/multibooking.test.mjs",
     "test:membership-periods": "node --experimental-strip-types --test tests/membershipPeriods.test.ts",
