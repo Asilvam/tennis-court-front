@@ -173,14 +173,19 @@ test('unmounting during a pending dialog cannot execute stale navigation', async
 test('native tab unload stays protected, but confirmed in-app reload does not prompt twice', async () => {
     useUnsavedCategoryChanges(true, false);
     const blocked = new Event('beforeunload', { cancelable: true });
+    // Browser BeforeUnloadEvent has a writable returnValue; Node's base Event does not.
+    Object.defineProperty(blocked, 'returnValue', { value: 'unchanged', writable: true });
     window.dispatchEvent(blocked);
     assert.equal(blocked.defaultPrevented, true);
+    assert.equal(blocked.returnValue, '');
     harness.navigator.go(0);
     harness.answer({ isConfirmed: true });
     await settle();
     const approved = new Event('beforeunload', { cancelable: true });
+    Object.defineProperty(approved, 'returnValue', { value: 'unchanged', writable: true });
     window.dispatchEvent(approved);
     assert.equal(approved.defaultPrevented, false);
+    assert.equal(approved.returnValue, 'unchanged');
     assert.deepEqual(harness.calls, [{ method: 'go', args: [0] }]);
 });
 test('reload confirmation is SweetAlert and simultaneous requests cannot open two dialogs', async () => {

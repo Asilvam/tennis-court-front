@@ -4,6 +4,12 @@ Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform tha
 
 ---
 
+## Runtime original
+
+Restaurado Node 22 por solicitud del usuario: `.nvmrc=v22`, con los engines
+originales Node 22.x y npm 10.x. La copia Node24 queda separada.
+Alcance y evidencia: [restauracion coordinada](../tennis-app-backend/docs/restauracion-node22-sin-apm.md).
+
 ## Correccion del retorno de reservas (2026-10-29)
 
 Especificacion, contrato, plan y evidencias en
