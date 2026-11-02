@@ -59,6 +59,17 @@ test('history confirmed deletion keeps API and Bearer, then refreshes state',asy
 test('history double clicks share confirmation and one in-flight request',async()=>{
   await load();let confirm,send;h.confirmWait=new Promise(resolve=>confirm=resolve);h.sendWait=new Promise(resolve=>send=resolve);const action=deletes()[0].props.onClick;action();action();await flush();assert.equal(h.dialogs.length,1);assert.ok(deletes()[0].props.disabled);confirm({isConfirmed:true});await flush();action();assert.equal(h.writes.length,1);send();await flush();
 });
+test('history deletion shows a spinner only on the selected row while all deletes are locked', async () => {
+  h.rows.push({ ...h.rows[0], idCourtReserve: 'other' }); await load();
+  let release; h.sendWait = new Promise(resolve => { release = resolve; });
+  deletes()[0].props.onClick(); await flush();
+  assert.equal(deletes()[0].props['aria-busy'], true);
+  assert.ok(nodes(deletes()[0]).some(node => node.type === 'Spinner'));
+  assert.equal(deletes()[1].props['aria-busy'], false);
+  assert.ok(!nodes(deletes()[1]).some(node => node.type === 'Spinner'));
+  assert.ok(deletes().every(node => node.props.disabled));
+  release(); await flush();
+});
 test('history failure preserves data and releases the deletion guard',async()=>{
   await load();h.error=new Error('Fixture network failure');deletes()[0].props.onClick();await flush();assert.equal(h.rows[0].state,true);assert.equal(h.dialogs.at(-1).icon,'error');assert.equal(deletes()[0].props.disabled,false);assert.equal(h.reads.length,1);
 });

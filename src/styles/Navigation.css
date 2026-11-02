@@ -1,10 +1,19 @@
 .ctq-nav {
+  --ctq-nav-height: 64px;
+  height: calc(var(--ctq-nav-height) + env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
+  box-sizing: border-box;
   background: linear-gradient(180deg, #112544 0%, #0a1b33 100%);
   box-shadow: 0 10px 24px rgba(4, 10, 22, 0.22);
 }
 
 .ctq-nav__wrapper {
+  height: var(--ctq-nav-height);
   padding: 0 14px;
+}
+
+@media (max-width: 600px) {
+  .ctq-nav { --ctq-nav-height: 56px; }
 }
 
 .ctq-nav__brand {

@@ -81,7 +81,7 @@ export default function MembershipPaymentReturn() {
     </section>
     <div className="mpr-actions">
       <Link to="/monthlypayments" className="mpr-primary"><FontAwesomeIcon icon={faArrowLeft} />Volver a mis mensualidades</Link>
-      {valid && payment?.status !== 'CONFIRMED' && <button type="button" disabled={loading} onClick={() => setRefresh(value => value + 1)}><FontAwesomeIcon icon={faRotateRight} />Consultar estado</button>}
+      {valid && payment?.status !== 'CONFIRMED' && <button type="button" disabled={loading} aria-busy={loading} onClick={() => setRefresh(value => value + 1)}>{loading ? <LoadingSpinner size={24} label="Consultando estado" /> : <FontAwesomeIcon icon={faRotateRight} />}Consultar estado</button>}
     </div>
   </main>;
 }

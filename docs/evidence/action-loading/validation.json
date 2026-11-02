@@ -1,0 +1,57 @@
+{
+  "executedAt": "2026-11-02T16:40:22.494Z",
+  "scope": "Loading feedback and safe-area; real frontend build with synthetic deferred APIs",
+  "node": "v22.19.0",
+  "unit": {
+    "tests": 347,
+    "pass": 347,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "status": "passed",
+    "cases": 48,
+    "checks": 171,
+    "engines": [
+      "webkit",
+      "chromium"
+    ],
+    "widths": [
+      390,
+      820,
+      1440
+    ],
+    "runtimeErrors": []
+  },
+  "typescript": "passed",
+  "eslint": "passed",
+  "viteBuild": "passed",
+  "realDatabaseWrites": 0,
+  "realPayments": 0,
+  "realEmails": 0,
+  "backendChanged": false,
+  "newEnvVariables": 0,
+  "userEnvEdited": false,
+  "physicalIOSAcceptance": false,
+  "safeAreaMethod": "CSS-only injection of 47px into the real navigation stylesheet; not native device emulation",
+  "deployment": false,
+  "sourceHashes": {
+    "src/components/AdminCategoriesPlayer.tsx": "c7fa8d972d303dfbfb29af2385584bc31abe32aa46ef18564714d48fd9761327",
+    "src/components/AdminMatchHistory.tsx": "c103f463023258f4e9a61919a3dfaad34a85741b0eb35d1f054f3976459209ca",
+    "src/components/AdminMembershipPayments.tsx": "744cb5d0df86f17ab232756ae058c13219d25269428e2dc8da574d588c6352f9",
+    "src/components/ConfirmPasswordReset.tsx": "6cde0cd54d3126a7073d0029a3a5c3ab6287ad8be00f7f5070867a041ad43015",
+    "src/components/MatchResultUpdate.tsx": "957d93d7fbb399bdbcd5ba6e20c0849a262a8b10c0bb8e7a0cba12f55baca34f",
+    "src/components/MembershipAutomationSettings.tsx": "54f1b965a14e2fb52d79a81a23a90a15a3b814c4e210c0ee2eb67a0f9ecd0af0",
+    "src/components/MembershipBatchEnrollment.tsx": "4a04b7281cf69f30755918e54831b9c948d31f558e74d29a0db19980c37ef108",
+    "src/components/MembershipEnrollment.tsx": "6fd02aaae895b3999b5eea26d44c525669ec862b4cfab515c2f2029a3948a99d",
+    "src/components/MembershipHistoryReview.tsx": "424b5204d9731b7aead946a3e441e8097a2f21e5ccfd70e1352d2dce8ed793ff",
+    "src/components/MembershipPaymentReturn.tsx": "c7e6b622041671691ba502c39ac0dfd59c26a691e1c680fa44facfdabf4e86db",
+    "src/components/MembershipPayments.tsx": "a0006de7dcf785d09beab8cbcf6f9d5249981f0b0f33050a451c80a21b8eb785",
+    "src/components/Modal.tsx": "ea6efda17b563e9ad532cd24144f052846620a10a245dda08c4531c12b13dd92",
+    "src/components/MyHistoryReserve.tsx": "ae5caeb6069a7dcdd87d86cc7df7721e763693a2c1caf3d5ff1a4354d8157b5e",
+    "src/styles/AdminMembershipPayments.css": "b938b9038b696ad9e15c2de35c31476270c79d4ec24b8d882af806909e5c3486",
+    "src/styles/Navigation.css": "b6daa08054b8cba5c6d79c508b8479d2c56529f31f86dba871337d597bbae0ae",
+    "tests/e2e/actionLoading.mjs": "d018bfb50c56c1172fd49b1ab751ed110e67bdfbe5d49cc7a901574e278f908f",
+    "tests/reservationLoading.test.mjs": "b2858a8e1e675de07e83b12a4c9e49f58e1eab186a82f4c480dc52de8e82f99b"
+  }
+}

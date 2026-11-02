@@ -496,6 +496,7 @@ export default function AdminCategoriesPlayer() {
                                     <button
                                         className="mc-save"
                                         type="submit"
+                                        aria-busy={saving}
                                         disabled={
                                             !dirty ||
                                             saving ||
@@ -503,7 +504,7 @@ export default function AdminCategoriesPlayer() {
                                             !data.player.active
                                         }
                                     >
-                                        <FontAwesomeIcon icon={faSave} />{' '}
+                                        {saving ? <LoadingSpinner size={24} label="Guardando categorías" /> : <FontAwesomeIcon icon={faSave} />}{' '}
                                         {saving
                                             ? 'Guardando…'
                                             : 'Guardar cambios'}

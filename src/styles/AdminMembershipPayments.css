@@ -68,6 +68,12 @@
   padding: 0;
   flex: 0 0 44px;
 }
+.ap-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ctq-text-muted);
+}
 .admin-membership-payments .ap-primary {
   background: var(--ctq-yellow);
   border-color: var(--ctq-yellow);

@@ -17,6 +17,7 @@ const compiled = await build({
       '@fortawesome/react-fontawesome': `export const FontAwesomeIcon='Icon';`,
       '@fortawesome/free-solid-svg-icons': `export const faRotateRight=0;`,
       '../utils/tokenUtils': `export const getTokenFromLocalStorage=()=> 'fixture-token';`,
+      './LoadingSpinner': `export const LoadingSpinner='Spinner';`,
     };
     builder.onResolve({ filter: /.*/ }, args => args.path in modules ? { path: args.path, namespace: 'test' } : undefined);
     builder.onLoad({ filter: /.*/, namespace: 'test' }, args => ({ loader: 'js', contents: modules[args.path] }));

@@ -11,7 +11,7 @@ const compiled = await build({
     const modules = {
       react: `export const useState = initial => { const h=globalThis.__enrollment, i=h.cursor++; if(!(i in h.states)) h.states[i]=typeof initial==='function'?initial():initial; return [h.states[i], value=>{h.states[i]=typeof value==='function'?value(h.states[i]):value;}]; }; export const useRef=initial=>{const h=globalThis.__enrollment,i=h.refCursor++;return h.refs[i] ||= {current:initial};};`,
       'react/jsx-runtime': `export const Fragment='Fragment'; export const jsx=(type,props)=>({type,props}); export const jsxs=jsx;`,
-      axios: `export default { isAxiosError:error=>!!error?.response, post:async(url,payload,options)=>{const h=globalThis.__enrollment;h.requests.push({url,payload,options});if(url.endsWith('/preview'))return {data:h.preview};if(h.recordError)throw h.recordError;return {data:{duplicate:false}};} };`,
+      axios: `export default { isAxiosError:error=>!!error?.response, post:async(url,payload,options)=>{const h=globalThis.__enrollment;h.requests.push({url,payload,options});if(h.wait)await h.wait;if(url.endsWith('/preview'))return {data:h.preview};if(h.recordError)throw h.recordError;return {data:{duplicate:false}};} };`,
       sweetalert2: `export default {fire:async options=>{const h=globalThis.__enrollment;h.dialogs.push(options);return {isConfirmed:options.icon==='question'?h.confirmed:true};}};`,
       '@fortawesome/react-fontawesome': `export const FontAwesomeIcon='Icon';`,
       '@fortawesome/free-solid-svg-icons': `export const faCheck=0,faClipboardCheck=0;`,
@@ -155,4 +155,18 @@ test('reenrollment cancellation leaves the inactive member and history unchanged
   await click('Reinscribir socio');reason('Nueva vigencia aprobada');await click('Revisar cuotas');
   h.confirmed=false;await click('Confirmar reinscripción');
   assert.equal(h.requests.length,1);assert.equal(h.context.members[0].active,false);assert.equal(h.saved,0);
+});
+test('slow generation keeps its button busy through the HTTP response, then releases on error', async () => {
+  await review();
+  let release; h.wait = new Promise(resolve => { release = resolve; });
+  const action = button('Confirmar generación').props.onClick;
+  action(); await flush();
+  const pending = button('Reintentar generación');
+  assert.equal(pending.props.disabled, true);
+  assert.equal(pending.props['aria-busy'], true);
+  assert.ok(nodes(pending).some(node => node.type === 'Spinner'));
+  action(); await flush(); assert.equal(h.requests.length, 2);
+  h.recordError = new Error('timeout'); release(); await flush();
+  assert.equal(button('Reintentar generación').props.disabled, false);
+  assert.equal(button('Reintentar generación').props['aria-busy'], false);
 });

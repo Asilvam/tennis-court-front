@@ -179,15 +179,16 @@ export function MembershipEnrollment({
   };
   const rows = preview?.newRows || preview?.rows || [];
   return (
-    <section className="ap-enrollment" aria-label={title}>
+    <section className="ap-enrollment" aria-label={title} aria-busy={busy}>
       {!expanded ? (
         <button
           type="button"
           className="ap-primary"
-          disabled={!person.active && !reenroll}
+          disabled={busy || (!person.active && !reenroll)}
+          aria-busy={busy}
           onClick={() => setExpanded(true)}
         >
-          <FontAwesomeIcon icon={faCheck} /> {title}
+          {busy ? <LoadingSpinner size={24} label="Actualizando cuotas" /> : <FontAwesomeIcon icon={faCheck} />} {title}
         </button>
       ) : (
         <>
@@ -303,6 +304,7 @@ export function MembershipEnrollment({
                 type="button"
                 className="ap-primary"
                 disabled={busy}
+                aria-busy={busy}
                 onClick={() => void enroll()}
               >
                 {busy ? <LoadingSpinner size={20} /> : <FontAwesomeIcon icon={faCheck} />}{" "}
@@ -313,7 +315,7 @@ export function MembershipEnrollment({
                     : "Confirmar generación"}
               </button>
             ) : (
-              <button type="button" disabled={busy} onClick={() => void review()}>
+              <button type="button" disabled={busy} aria-busy={busy} onClick={() => void review()}>
                 {busy ? <LoadingSpinner size={20} /> : <FontAwesomeIcon icon={faClipboardCheck} />}{" "}
                 Revisar cuotas
               </button>

@@ -21,6 +21,7 @@ import { OptionPicker } from './OptionPicker';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
 import { getReservationPaymentAmount } from '../utils/paymentRates';
 import { usePaymentHold } from '../hooks/usePaymentHold';
+import { LoadingSpinner } from './LoadingSpinner';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { useAuth } from './useAuth';
 import { reservationAllowed } from '../utils/memberPayments';
@@ -86,6 +87,7 @@ const Modal: React.FC<ModalProps> = ({
 
     const [formData, setFormData] = useState<ReserveFormData>(initialFormData);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [closing, setClosing] = useState(false);
     const submissionInProgress = useRef(false);
     const visibleViewport = useVisibleViewport(isOpen);
     const [activePicker, setActivePicker] = useState<{ field: PlayerField; query: string } | null>(null);
@@ -105,6 +107,7 @@ const Modal: React.FC<ModalProps> = ({
         if (submissionInProgress.current) return;
         submissionInProgress.current = true;
         setIsSubmitting(true);
+        setClosing(true);
         try {
             await paymentHold.release();
             onClose();
@@ -114,6 +117,7 @@ const Modal: React.FC<ModalProps> = ({
         } finally {
             submissionInProgress.current = false;
             setIsSubmitting(false);
+            setClosing(false);
         }
     };
 
@@ -525,8 +529,8 @@ const Modal: React.FC<ModalProps> = ({
                         <FontAwesomeIcon icon={faCalendarCheck} className="header-icon" />
                         <h3>{title}</h3>
                     </div>
-                    <button className="close-button" onClick={() => void closeReservation()} disabled={isSubmitting}>
-                        <FontAwesomeIcon icon={faTimes} />
+                    <button className="close-button" onClick={() => void closeReservation()} disabled={isSubmitting} aria-busy={closing}>
+                        {closing ? <LoadingSpinner size={24} label="Cerrando reserva" /> : <FontAwesomeIcon icon={faTimes} />}
                     </button>
                 </div>
 
@@ -684,15 +688,16 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
 
                 <div className="modal-footer-modern">
-                    <button className="btn-cancel" onClick={() => void closeReservation()} disabled={isSubmitting}>
-                        Cancelar
+                    <button className="btn-cancel" onClick={() => void closeReservation()} disabled={isSubmitting} aria-busy={closing}>
+                        {closing && <LoadingSpinner size={24} label="Liberando horario" />} Cancelar
                     </button>
                     <button
                         className={`btn-confirm ${formData.isPaidNight || formData.isVisit ? 'btn-pay' : 'btn-reserve'}`}
                         onClick={handleReserve}
                         disabled={isSubmitting || (requiresPayment && (paymentHold.loading || !paymentHold.hold || paymentHold.remainingSeconds <= 0))}
+                        aria-busy={isSubmitting && !closing}
                     >
-                        {isSubmitting ? 'Procesando...' : formData.isPaidNight || formData.isVisit ? (
+                        {isSubmitting && !closing ? <><LoadingSpinner size={24} label="Procesando reserva" /> Procesando...</> : formData.isPaidNight || formData.isVisit ? (
                             <>
                                 Pagar
                             </>

@@ -44,7 +44,8 @@ Vite, TypeScript y ESLint verificados en Node 22.19.0. Ese total incluye cambios
 locales de loading pendientes, no 345 pruebas exclusivas de esta eliminacion.
 [Resumen verificable](evidence/retired-carousel/validation.json).
 
-La validacion final del trabajo de loading sigue separada: el intento de navegador
-anterior quedo incompleto por un comando de emulacion de safe-area no soportado
-por el navegador instalado. No se declara aprobado ese recorrido completo ni
-la revision fisica en iPhone/iPad por retirar esta pantalla.
+La validacion del trabajo de loading es separada de esta retirada. El primer
+intento de navegador quedo incompleto por un comando de emulacion de safe-area
+no soportado. Posteriormente se ajusto ese arnes y se completo la validacion
+automatizada, documentada en [la auditoria de loading](action-loading-audit.md).
+La revision fisica en iPhone/iPad sigue pendiente.

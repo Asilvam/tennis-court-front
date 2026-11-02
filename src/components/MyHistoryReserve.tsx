@@ -7,6 +7,7 @@ import { getUserInfoFromLocalStorage } from '../utils/userUtils';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import Swal from 'sweetalert2';
 import AppLoader from './AppLoader';
+import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/MyHistoryReserve.css';
 
 interface Reservation {
@@ -27,7 +28,8 @@ interface Reservation {
 const MyHistoryReserve: React.FC = () => {
     const [reserves, setReserves] = useState<Reservation[]>([]);
     const [loading, setLoading] = useState(true);
-    const [deleting, setDeleting] = useState(false);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+    const deleting = deletingId !== null;
     const deletingRef = useRef(false);
     const namePlayer = getUserInfoFromLocalStorage()?.name || '';
     const token = getTokenFromLocalStorage();
@@ -94,7 +96,7 @@ const MyHistoryReserve: React.FC = () => {
     const handleDelete = async (id: string) => {
         if (deletingRef.current) return;
         deletingRef.current = true;
-        setDeleting(true);
+        setDeletingId(id);
         try {
             const result = await Swal.fire({
                 title: '¿Eliminar reserva?',
@@ -129,7 +131,7 @@ const MyHistoryReserve: React.FC = () => {
             });
         } finally {
             deletingRef.current = false;
-            setDeleting(false);
+            setDeletingId(null);
         }
     };
 
@@ -211,6 +213,7 @@ const MyHistoryReserve: React.FC = () => {
                                             <button
                                                 type="button"
                                                 className="history-btn history-delete-btn"
+                                                aria-busy={deletingId === reserve.idCourtReserve}
                                                 disabled={deleting || !isOkToDelete(reserve)}
                                                 onClick={() =>
                                                     void handleDelete(reserve.idCourtReserve)
@@ -222,7 +225,7 @@ const MyHistoryReserve: React.FC = () => {
                                                 }
                                                 aria-label={`Eliminar reserva del ${date}, ${reserve.court}`}
                                             >
-                                                <FontAwesomeIcon icon={faTrash} />
+                                                {deletingId === reserve.idCourtReserve ? <LoadingSpinner size={24} label="Eliminando reserva" /> : <FontAwesomeIcon icon={faTrash} />}
                                             </button>
                                         </td>
                                     </tr>

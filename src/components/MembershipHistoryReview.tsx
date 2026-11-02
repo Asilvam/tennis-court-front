@@ -113,9 +113,9 @@ export function MembershipHistoryReview({
     }
   };
   return (
-    <section className="ap-enrollment" aria-label="Revisar vigencia anterior">
+    <section className="ap-enrollment" aria-label="Revisar vigencia anterior" aria-busy={busy}>
       {!plan ? (
-        <button type="button" disabled={busy} onClick={() => void review()}>
+        <button type="button" disabled={busy} aria-busy={busy} onClick={() => void review()}>
           {busy ? <LoadingSpinner size={20} /> : <FontAwesomeIcon icon={faClipboardCheck} />}{" "}
           Revisar vigencia
         </button>
@@ -143,9 +143,10 @@ export function MembershipHistoryReview({
               type="button"
               className="ap-primary"
               disabled={busy}
+              aria-busy={busy}
               onClick={() => void approve()}
             >
-              <FontAwesomeIcon icon={faCheck} /> Aprobar vigencia
+              {busy ? <LoadingSpinner size={24} label="Aprobando vigencia" /> : <FontAwesomeIcon icon={faCheck} />} Aprobar vigencia
             </button>
           </div>
         </>

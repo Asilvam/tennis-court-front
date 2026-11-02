@@ -246,7 +246,7 @@ export default function MatchResultUpdate() {
                     {(queue || adminReview) && <p className="results-member">{queue?.member.name || playerEmail}</p>}
                 </div>
                 {view === 'current' && <button type="button" className="results-refresh" onClick={() => void refresh()} disabled={loading || saving} aria-label="Actualizar pendientes" title="Actualizar pendientes">
-                    <FontAwesomeIcon icon={faArrowRotateRight} />
+                    {loading ? <LoadingSpinner size={24} label="Actualizando partidos" /> : <FontAwesomeIcon icon={faArrowRotateRight} />}
                 </button>}
             </header>
             {adminReview && <div className="results-tabs" role="tablist" aria-label="Vistas de partidos del socio">

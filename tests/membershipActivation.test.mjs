@@ -10,7 +10,7 @@ const compile = async name => {
       const modules = {
         react: `export const useState=initial=>{const h=globalThis.__activation,i=h.cursor++;if(!(i in h.states))h.states[i]=typeof initial==='function'?initial():initial;return [h.states[i],value=>h.states[i]=typeof value==='function'?value(h.states[i]):value];};export const useRef=initial=>{const h=globalThis.__activation,i=h.refCursor++;return h.refs[i]||={current:initial};};`,
         'react/jsx-runtime': `export const Fragment='Fragment';export const jsx=(type,props)=>({type,props});export const jsxs=jsx;`,
-        axios: `export default {isAxiosError:error=>!!error?.response,get:async(url,options)=>{const h=globalThis.__activation;h.requests.push({url,options});return {data:h.history};},post:async(url,payload,options)=>{const h=globalThis.__activation;h.requests.push({url,payload,options});if(url.endsWith('/preview'))return {data:h.preview};if(h.recordError)throw h.recordError;if(h.defer)await h.defer;return {data:h.result};}};`,
+        axios: `export default {isAxiosError:error=>!!error?.response,get:async(url,options)=>{const h=globalThis.__activation;h.requests.push({url,options});return {data:h.history};},post:async(url,payload,options)=>{const h=globalThis.__activation;h.requests.push({url,payload,options});if(url.endsWith('/preview')){if(h.previewWait)await h.previewWait;return {data:h.preview};}if(h.recordError)throw h.recordError;if(h.defer)await h.defer;return {data:h.result};}};`,
         sweetalert2: `export default {fire:async options=>{const h=globalThis.__activation;h.dialogs.push(options);return {isConfirmed:options.icon==='question'?h.confirmed:true};}};`,
         '@fortawesome/react-fontawesome': `export const FontAwesomeIcon='Icon';`,
         '@fortawesome/free-solid-svg-icons': `export const faCheck=0,faClipboardCheck=0,faUserCheck=0;`,
@@ -139,4 +139,44 @@ test('history cancellation makes no write and stale reviews cannot be applied tw
   h.confirmed=false;await click('Aprobar vigencia');assert.equal(h.requests.length,1);
   h.confirmed=true;h.recordError={response:{status:409,data:{message:'Historial cambio'}}};
   await click('Aprobar vigencia');assert.ok(button('Revisar vigencia'));assert.equal(h.saved,0);
+});
+
+test('slow batch review shows CTQ loading and disables its request button immediately', async () => {
+  let release;
+  h.previewWait = new Promise(resolve => { release = resolve; });
+  await click('Habilitar socios');
+  assert.equal(h.tree.props['aria-busy'], true);
+  const action = button('Revisar socios');
+  assert.equal(action.props.disabled, true);
+  assert.equal(action.props['aria-busy'], true);
+  assert.ok(nodes(action).some(n => n.type === 'Spinner'));
+  action.props.onClick(); await flush();
+  assert.equal(h.requests.length, 1);
+  release(); await flush();
+  assert.equal(h.tree.props['aria-busy'], false);
+});
+test('slow batch submission keeps a spinner inside the confirmation button and writes once', async () => {
+  await select();
+  let release; h.defer = new Promise(resolve => { release = resolve; });
+  await click('Confirmar habilitación');
+  const action = button('Reintentar mismo lote');
+  assert.equal(action.props.disabled, true);
+  assert.equal(action.props['aria-busy'], true);
+  assert.ok(nodes(action).some(n => n.type === 'Spinner'));
+  action.props.onClick(); await flush();
+  assert.equal(h.requests.length, 2);
+  release(); await flush();
+  assert.equal(h.tree.props['aria-busy'], false);
+  assert.equal(h.saved, 1);
+});
+test('history approval displays loading until its request settles and releases on failure', async () => {
+  h.historyMode = true; h.states = []; h.refs = []; render();
+  await click('Revisar vigencia'); reason('Revision valida');
+  let release; h.defer = new Promise(resolve => { release = resolve; });
+  await click('Aprobar vigencia');
+  const action = button('Aprobar vigencia');
+  assert.equal(action.props.disabled, true);
+  assert.ok(nodes(action).some(n => n.type === 'Spinner'));
+  release(); await flush();
+  assert.equal(h.tree.props['aria-busy'], false);
 });

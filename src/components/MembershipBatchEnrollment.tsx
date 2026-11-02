@@ -198,10 +198,10 @@ export function MembershipBatchEnrollment({
     ERROR: "Sin confirmar",
   };
   return (
-    <section className="ap-enrollment ap-batch" aria-label={title}>
+    <section className="ap-enrollment ap-batch" aria-label={title} aria-busy={busy}>
       {!expanded ? (
-        <button type="button" disabled={busy} onClick={() => void review()}>
-          <FontAwesomeIcon icon={faUserCheck} /> {title}
+        <button type="button" disabled={busy} aria-busy={busy} onClick={() => void review()}>
+          {busy ? <LoadingSpinner size={24} label="Consultando socios" /> : <FontAwesomeIcon icon={faUserCheck} />} {title}
         </button>
       ) : (
         <>
@@ -236,7 +236,7 @@ export function MembershipBatchEnrollment({
               }}
             />
           </div>
-          {busy && <LoadingSpinner size={24} />}
+          {busy && <p className="ap-progress" role="status"><LoadingSpinner size={32} label="Procesando habilitación" /> Procesando solicitud...</p>}
           {preview && (
             <>
               <div className="ap-batch-tools">
@@ -326,17 +326,18 @@ export function MembershipBatchEnrollment({
               Cerrar
             </button>
             {!preview ? (
-              <button type="button" disabled={busy || !period} onClick={() => void review()}>
-                <FontAwesomeIcon icon={faClipboardCheck} /> Revisar socios
+              <button type="button" disabled={busy || !period} aria-busy={busy} onClick={() => void review()}>
+                {busy ? <LoadingSpinner size={24} label="Consultando socios" /> : <FontAwesomeIcon icon={faClipboardCheck} />} Revisar socios
               </button>
             ) : (
               <button
                 type="button"
                 className="ap-primary"
                 disabled={busy || (!locked && !chosen.length)}
+                aria-busy={busy}
                 onClick={() => void apply()}
               >
-                <FontAwesomeIcon icon={faCheck} />{" "}
+                {busy ? <LoadingSpinner size={24} label="Habilitando socios" /> : <FontAwesomeIcon icon={faCheck} />}{" "}
                 {locked ? "Reintentar mismo lote" : "Confirmar habilitación"}
               </button>
             )}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LoadingSpinner } from './LoadingSpinner';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 
@@ -103,8 +104,8 @@ export function MembershipAutomationSettings() {
       <div className="ap-automation-heading">
         <h2 id="ap-automation-title">Automatización global</h2>
         <button type="button" className="ap-icon" title="Actualizar automatización" aria-label="Actualizar automatización"
-          disabled={loading || busy} onClick={() => void load()}>
-          <FontAwesomeIcon icon={faRotateRight} />
+          disabled={loading || busy} aria-busy={loading || busy} onClick={() => void load()}>
+          {loading || busy ? <LoadingSpinner size={24} label="Actualizando automatización" /> : <FontAwesomeIcon icon={faRotateRight} />}
         </button>
       </div>
       {unavailable && <p role="status" className="ap-muted">No se pudo consultar la configuración.</p>}

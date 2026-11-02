@@ -110,6 +110,11 @@ Correccion local del menu tactil:
 vacio sin login y evita su cierre antes del clic de Mi historial/Logout en iPad.
 Sin cambios de paleta, permisos, dependencias ni env. Pendiente aceptacion fisica.
 
+Loading y area segura de iPhone: [auditoria tecnica](docs/action-loading-audit.md).
+Las acciones asincronas muestran spinner de boton, panel o SweetAlert2; navegacion
+y seleccion local no agregan esperas artificiales. Validacion local automatizada
+completa; pendiente aceptacion en dispositivos fisicos y sin despliegue.
+
 ## Tech Stack
 
 | Layer | Technology |

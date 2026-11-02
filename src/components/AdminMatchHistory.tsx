@@ -87,7 +87,7 @@ export default function AdminMatchHistory({ playerEmail }: { playerEmail: string
             <form className="results-history-filters" noValidate onSubmit={event => { event.preventDefault(); void search(); }}>
                 <label htmlFor="history-from">Desde<input id="history-from" type="date" value={from} onChange={event => setFrom(event.target.value)} disabled={loading} /></label>
                 <label htmlFor="history-to">Hasta<input id="history-to" type="date" value={to} onChange={event => setTo(event.target.value)} disabled={loading} /></label>
-                <button type="submit" className="results-primary" disabled={loading}><FontAwesomeIcon icon={faMagnifyingGlass} /> Consultar</button>
+                <button type="submit" className="results-primary" disabled={loading} aria-busy={loading}>{loading ? <LoadingSpinner size={24} label="Consultando partidos" /> : <FontAwesomeIcon icon={faMagnifyingGlass} />} Consultar</button>
             </form>
             {loading && <div className="results-empty"><LoadingSpinner size={64} /></div>}
             {error && <button type="button" className="results-secondary" onClick={() => setRequest({ ...request })}>Reintentar consulta</button>}

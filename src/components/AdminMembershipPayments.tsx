@@ -333,8 +333,8 @@ function BankPaymentForm({
           <button type="button" onClick={() => void back()} disabled={saving}>
             Cancelar
           </button>
-          <button type="submit" className="ap-primary" disabled={saving || !selected.length}>
-            <FontAwesomeIcon icon={faSave} />
+          <button type="submit" className="ap-primary" disabled={saving || !selected.length} aria-busy={saving}>
+            {saving ? <LoadingSpinner size={24} label="Registrando pago" /> : <FontAwesomeIcon icon={faSave} />}
             {saving ? 'Registrando…' : 'Registrar pago'}
           </button>
         </div>
@@ -548,9 +548,10 @@ export default function AdminMembershipPayments() {
             aria-label="Actualizar mensualidades"
             title="Actualizar mensualidades"
             disabled={loading || reversing || enrollmentBusy}
+            aria-busy={loading}
             onClick={() => void load()}
           >
-            <FontAwesomeIcon icon={faRotateRight} />
+            {loading ? <LoadingSpinner size={24} label="Actualizando mensualidades" /> : <FontAwesomeIcon icon={faRotateRight} />}
           </button>
         )}
       </header>
@@ -627,8 +628,9 @@ export default function AdminMembershipPayments() {
                   aria-label="Buscar socio"
                   title="Buscar socio"
                   disabled={loading || enrollmentBusy}
+                  aria-busy={loading}
                 >
-                  <FontAwesomeIcon icon={faSearch} />
+                  {loading ? <LoadingSpinner size={24} label="Buscando socios" /> : <FontAwesomeIcon icon={faSearch} />}
                 </button>
               </form>
             )}
@@ -807,9 +809,10 @@ export default function AdminMembershipPayments() {
                               title={payment.method === 'CASH' ? 'Anular registro de efectivo' : 'Anular registro bancario'}
                               aria-label={`Anular registro de ${payment.payer.name}`}
                               disabled={reversing}
+                              aria-busy={reversing && reversalRequest.current?.id === payment.id}
                               onClick={() => void reverse(payment)}
                             >
-                              <FontAwesomeIcon icon={faRotateLeft} />
+                              {reversing && reversalRequest.current?.id === payment.id ? <LoadingSpinner size={24} label="Anulando registro" /> : <FontAwesomeIcon icon={faRotateLeft} />}
                             </button>
                           )}
                         </div>

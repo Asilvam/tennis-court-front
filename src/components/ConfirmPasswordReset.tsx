@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { LoadingSpinner } from './LoadingSpinner';
 import { confirmPasswordRecovery, readPasswordResetToken } from '../utils/passwordRecovery';
 import '../styles/ResetPassword.css';
 
@@ -70,7 +71,7 @@ const ConfirmPasswordReset = () => {
                         <input id="confirm-password" type="password" autoComplete="new-password" minLength={6} maxLength={72} value={confirmation} onChange={event => setConfirmation(event.target.value)} disabled={loading} required />
                     </div>
                     {error && <p role="alert">{error}</p>}
-                    <button className="submit-button" type="submit" disabled={loading}>{loading ? 'Guardando...' : 'Guardar nueva contraseña'}</button>
+                    <button className="submit-button" type="submit" disabled={loading} aria-busy={loading}>{loading ? <><LoadingSpinner size={24} label="Guardando contraseña" /> Guardando...</> : 'Guardar nueva contraseña'}</button>
                 </form>
                 <p><Link to="/recuperar-contrasena">Solicitar otro enlace</Link></p>
             </>}
