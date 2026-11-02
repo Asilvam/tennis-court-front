@@ -6,7 +6,6 @@ import { paymentLoginReturn } from '../utils/memberPayments';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCircle, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import { LoadingSpinner } from './LoadingSpinner';
-import Swal from 'sweetalert2';
 import '../styles/Login.css';
 
 export interface LoginResponse {
@@ -37,24 +36,8 @@ const Login: React.FC = () => {
             const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, {username, password});
             const { accessToken, namePlayer, role, financiallyRestricted, canReserve, reservationBlockReason } = response.data;
             login({ name: namePlayer, email: username, role, financiallyRestricted, canReserve, reservationBlockReason }, accessToken);
-            
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
 
-            Toast.fire({
-                icon: 'success',
-                title: `¡Bienvenido(a) ${namePlayer}!`
-            })
-            
+
             const returnTo = paymentLoginReturn(location.state?.from);
             navigate(returnTo);
         } catch (error: unknown) {
