@@ -18,7 +18,6 @@ const ReservationSummary = lazy(() => import("./components/ReservationSummary.ts
 const Unauthorized = lazy(() => import("./components/Unauthorized.tsx"));
 const NotFound = lazy(() => import("./components/NotFound.tsx"));
 const MyHistoryReserve = lazy(() => import("./components/MyHistoryReserve.tsx"));
-const ImageUploadForm = lazy(() => import("./components/ImageUploadForm.tsx"));
 const AdminReserves = lazy(() => import("./components/AdminReserves.tsx"));
 const MatchResultUpdate = lazy(() => import("./components/MatchResultUpdate.tsx"));
 const MultipleBookingForm = lazy(() => import("./components/MultipleBookingForm.tsx"));
@@ -73,8 +72,6 @@ const App: React.FC = () => {
                                                         <Route path="/adminregister"
                                                                element={<ProtectedRoute adminOnly={true}><AdminRegister /></ProtectedRoute>} />
                                                         <Route path="/adminpayments" element={<ProtectedRoute adminOnly={true}><AdminMembershipPayments /></ProtectedRoute>} />
-                                                        <Route path="/items"
-                                                               element={<ProtectedRoute adminOnly={true}><ImageUploadForm /></ProtectedRoute>} />
                                                         <Route path="/adminreserves"
                                                                element={<ProtectedRoute adminOnly={true}><AdminReserves /></ProtectedRoute>} />
                                                         <Route path="/multibooking"

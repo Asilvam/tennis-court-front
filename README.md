@@ -232,7 +232,6 @@ npm run test:membership-payments
 | `/myhistory` | MyHistoryReserve | Auth required |
 | `/updatematch` | MatchResultUpdate | Auth required |
 | `/adminregister` | AdminRegister | Admin only |
-| `/items` | ImageUploadForm | Admin only |
 | `/adminreserves` | AdminReserves | Admin only |
 | `/multibooking` | MultipleBookingForm | Admin only |
 | `/resetpassword` | ResetPassword | Admin only |
@@ -241,6 +240,10 @@ npm run test:membership-payments
 | `/payment/failure` | PaymentFailure | Public |
 | `/payment/pending` | PaymentPending | Public |
 | `*` | NotFound | Public |
+
+The unused image administration screen and its `/items` route were removed.
+Home keeps its static club images; backend storage and profile photos are unchanged.
+See the [technical removal report](docs/retired-carousel.md).
 
 ---
 
