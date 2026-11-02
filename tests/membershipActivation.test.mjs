@@ -61,6 +61,41 @@ test('family preview sends only its explicit family ID and month',async()=>{
   h.props.familyMemberId='titular-id';render();await click('Habilitar titular y cargas');
   assert.deepEqual(h.requests[0].payload,{startPeriod:'2026-10',throughPeriod:'2026-10',familyMemberId:'titular-id'});
 });
+test('select-all toggles back to no selection without submitting or changing ineligible members', async () => {
+  await select();
+  const boxes = () => nodes(h.tree).filter(n => n.type === 'input' && n.props.type === 'checkbox');
+  assert.equal(button('Deseleccionar pendientes').props['aria-pressed'], true);
+  assert.deepEqual(boxes().map(n => n.props.checked), [true, true, false, false]);
+  await click('Deseleccionar pendientes');
+  assert.deepEqual(boxes().map(n => n.props.checked), [false, false, false, false]);
+  assert.deepEqual(boxes().map(n => n.props.disabled), [false, false, true, true]);
+  assert.equal(button('Seleccionar pendientes').props['aria-pressed'], false);
+  assert.equal(button('Confirmar habilitación').props.disabled, true);
+  assert.ok(text(h.tree).includes('$0'));
+  assert.equal(h.requests.length, 1);
+  assert.equal(h.dialogs.length, 0);
+  await click('Seleccionar pendientes');
+  assert.deepEqual(boxes().map(n => n.props.checked), [true, true, false, false]);
+  assert.equal(button('Confirmar habilitación').props.disabled, false);
+});
+test('partial selection selects every eligible member before allowing a global clear', async () => {
+  await select();
+  nodes(h.tree).find(n => n.type === 'input' && n.props.type === 'checkbox').props.onChange();
+  render();
+  assert.equal(button('Seleccionar pendientes').props['aria-pressed'], false);
+  await click('Seleccionar pendientes');
+  assert.equal(button('Deseleccionar pendientes').props['aria-pressed'], true);
+  await click('Deseleccionar pendientes');
+  assert.equal(nodes(h.tree).filter(n => n.type === 'input' && n.props.checked).length, 0);
+  assert.equal(h.requests.length, 1);
+});
+test('bulk selection is disabled if every candidate is already enabled or requires review', async () => {
+  h.preview.items = h.preview.items.filter(row => row.status !== 'ELIGIBLE');
+  await click('Habilitar socios');
+  assert.equal(button('Seleccionar pendientes').props.disabled, true);
+  assert.equal(button('Seleccionar pendientes').props['aria-pressed'], false);
+  assert.equal(button('Confirmar habilitación').props.disabled, true);
+});
 test('confirmation submits reviewed selected IDs without prices, payments or activation flags',async()=>{
   await select();const b=button('Confirmar habilitación');b.props.onClick();b.props.onClick();await flush();
   assert.equal(h.requests.length,2);assert.equal(h.saved,1);

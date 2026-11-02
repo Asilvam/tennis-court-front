@@ -113,6 +113,8 @@ export function MembershipBatchEnrollment({
   const chosen =
     preview?.items.filter((row) => selected.includes(row.memberId) && row.status === "ELIGIBLE") ||
     [];
+  const eligibleIds = preview?.items.filter((row) => row.status === "ELIGIBLE").map((row) => row.memberId) || [];
+  const allSelected = eligibleIds.length > 0 && eligibleIds.every((id) => selected.includes(id));
   const total = chosen.reduce((sum, row) => sum + (row.plan?.total || 0), 0);
   const apply = async () => {
     if (submitting.current || (!locked && !chosen.length)) return;
@@ -240,16 +242,15 @@ export function MembershipBatchEnrollment({
               <div className="ap-batch-tools">
                 <button
                   type="button"
-                  disabled={busy || locked}
+                  disabled={busy || locked || !eligibleIds.length}
+                  aria-pressed={allSelected}
                   onClick={() =>
-                    setSelected(
-                      preview.items
-                        .filter((row) => row.status === "ELIGIBLE")
-                        .map((row) => row.memberId),
+                    setSelected((ids) =>
+                      eligibleIds.every((id) => ids.includes(id)) ? [] : eligibleIds,
                     )
                   }
                 >
-                  <FontAwesomeIcon icon={faCheck} /> Seleccionar pendientes
+                  <FontAwesomeIcon icon={faCheck} /> {allSelected ? "Deseleccionar pendientes" : "Seleccionar pendientes"}
                 </button>
                 <span>{selected.length} seleccionado(s)</span>
               </div>

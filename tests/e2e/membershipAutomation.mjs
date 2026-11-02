@@ -29,7 +29,16 @@ try {
       activePage = page;
       // A new dialog can place its transformed hover edge under the old pointer position.
       const confirm = async () => { await page.mouse.move(0, 0); await page.locator('.swal2-confirm').click(); };
-      let revision = 0, fail = false, conflict = false, settingsReads = 0;
+      let revision = 0, fail = false, conflict = false, settingsReads = 0, previewReads = 0;
+      const candidates = [
+        ...Array.from({ length: 102 }, (_, index) => ({
+          memberId: `fixture-${index}`, name: `Socio fixture ${index + 1}`, memberType: 'Titular',
+          status: 'ELIGIBLE', reason: 'Sin inicio aprobado',
+          plan: { approvalHash: 'a'.repeat(64), total: 18000, rows: [{ period: '2026-11', amount: 18000 }] },
+        })),
+        { memberId: 'inactive', name: 'Cuenta inactiva fixture', memberType: 'Titular', status: 'REVIEW_REQUIRED', reason: 'Cuenta inactiva' },
+        { memberId: 'enabled', name: 'Socio ya habilitado fixture', memberType: 'Titular', status: 'ALREADY_ENABLED', reason: 'Se conserva' },
+      ];
       let settings = { generationEnabled: true, autoBlockEnabled: false, terminationEnabled: true, migrationReviewed: true, revision: String(revision).padStart(64, '0') };
       page.on('pageerror', error => errors.push(error.message));
       await context.route('**/*', async route => {
@@ -39,6 +48,10 @@ try {
           const respond = json => route.fulfill({ headers, json });
           if (req.method() === 'OPTIONS') return route.fulfill({ headers, status: 204 });
           const p = url.pathname;
+          if (p.endsWith('/enrollment/preview') && req.method() === 'POST') {
+            previewReads++;
+            return respond({ startPeriod: '2026-11', throughPeriod: '2026-11', minimumStartPeriod: '2026-10', currentPeriod: '2026-11', items: candidates });
+          }
           if (p.endsWith('/automation/settings')) {
             if (req.method() === 'GET') {
               settingsReads++;
@@ -76,6 +89,29 @@ try {
       const autoBlock = page.getByRole('switch', { name: 'Bloqueo de reservas por mora', includeHidden: true });
       await page.waitForFunction(() => document.querySelector('[role=switch]')?.disabled === false);
       check(await generation.isChecked() && !await autoBlock.isChecked() && writes.length === 0, `${label}: initial flags read without mutations`);
+      await page.getByRole('button', { name: 'Habilitar socios', exact: true }).click();
+      const batch = page.locator('.ap-batch');
+      const boxes = batch.locator('input[type=checkbox]');
+      const checkedCount = () => batch.locator('input[type=checkbox]:checked').count();
+      await batch.getByRole('button', { name: 'Seleccionar pendientes', exact: true }).click();
+      check(await checkedCount() === 102, `${label}: select-all includes every eligible candidate, not inactive or enabled members`);
+      check(await batch.getByRole('button', { name: 'Deseleccionar pendientes', exact: true }).getAttribute('aria-pressed') === 'true', `${label}: bulk toggle exposes its selected state`);
+      await batch.getByRole('button', { name: 'Deseleccionar pendientes', exact: true }).click();
+      check(await checkedCount() === 0 && await batch.getByRole('button', { name: 'Confirmar habilitación', exact: true }).isDisabled(), `${label}: second click clears all selections and disables confirmation`);
+      await batch.getByRole('button', { name: 'Seleccionar pendientes', exact: true }).click();
+      await boxes.first().uncheck({ force: true });
+      await batch.getByRole('button', { name: 'Seleccionar pendientes', exact: true }).click();
+      check(await checkedCount() === 102, `${label}: partial selection can select all again`);
+      await batch.getByRole('button', { name: 'Deseleccionar pendientes', exact: true }).click();
+      check(await checkedCount() === 0 && previewReads === 1 && writes.length === 0, `${label}: reversible selection is local and never confirms a batch or payment`);
+      check(await boxes.nth(102).isDisabled() && await boxes.nth(103).isDisabled(), `${label}: inactive and already enabled candidates remain disabled`);
+      const batchFits = await batch.evaluate(section => {
+        const button = section.querySelector('[aria-pressed]'), box = button.getBoundingClientRect();
+        return document.documentElement.scrollWidth <= innerWidth + 1 && box.left >= 0 && box.right <= innerWidth;
+      });
+      check(batchFits, `${label}: bulk control stays inside mobile/tablet/desktop viewport`);
+      await batch.screenshot({ path: resolve(output, `batch-cleared-${engine}-${width}.png`), animations: 'disabled' });
+      await batch.getByRole('button', { name: 'Cerrar', exact: true }).click();
       const geometry = await page.locator('.ap-automation').evaluate(section => {
         const overlaps = [...section.querySelectorAll('label')].some(label => {
           const text = label.firstElementChild.getBoundingClientRect(), lever = label.lastElementChild.getBoundingClientRect();
@@ -90,7 +126,9 @@ try {
       check(!geometry.overlaps && !geometry.overflow, `${label}: labels and switches fit without overlap or horizontal scrolling`);
       await page.locator('.admin-membership-payments').screenshot({ path: resolve(output, `automation-${engine}-${width}.png`), animations: 'disabled' });
       check(geometry.levers.every(lever => lever.width === 44 && lever.height === 24 && lever.knobWidth === 16 && lever.knobHeight === 16), `${label}: full switch tracks and knobs survive Materialize CSS (${JSON.stringify(geometry.levers)})`);
-      await generation.click(); await page.locator('.swal2-cancel').click();
+      await generation.click();
+      check((await page.locator('.swal2-html-container').innerText()).includes('Solo queda disponible la generación manual administrativa'), `${label}: disabling automation correctly describes manual-only emission`);
+      await page.locator('.swal2-cancel').click();
       await page.waitForFunction(() => document.querySelector('[role=switch]')?.disabled === false);
       check(await generation.isChecked() && writes.length === 0, `${label}: cancellation preserves the flag`);
       await generation.click(); await confirm();

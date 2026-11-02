@@ -51,7 +51,8 @@ test('cancelling SweetAlert changes neither persisted settings nor the switch', 
   await change('generation', false);
   assert.equal(h.posts.length, 0); assert.equal(control('generation').props.checked, true);
   assert.equal(h.dialogs[0].focusCancel, true);
-  assert.match(h.dialogs[0].text, /bajo demanda/);
+  assert.match(h.dialogs[0].text, /Solo queda disponible la generación manual administrativa/);
+  assert.doesNotMatch(h.dialogs[0].text, /bajo demanda/);
 });
 test('confirms a single explicit flag with server revision, never review or termination', async () => {
   await mount(); await change('autoBlock', true);

@@ -57,7 +57,7 @@ export function MembershipAutomationSettings() {
       const text = setting === 'generation'
         ? enabled
           ? 'Se habilita el proceso recurrente para socios vigentes con inicio aprobado. No se ejecuta una generación masiva inmediata.'
-          : 'Se pausa el proceso recurrente. La generación manual y bajo demanda siguen disponibles. No se borran cuotas ni pagos.'
+          : 'Se pausa el proceso recurrente. Solo queda disponible la generación manual administrativa. No se borran cuotas ni pagos.'
         : enabled
           ? 'Los socios con cuotas vencidas no podrán crear reservas. Podrán iniciar sesión y consultar la app. Los administradores están exentos de este bloqueo por deuda.'
           : 'Se desactiva el bloqueo automático por deuda. No elimina deuda ni modifica restricciones manuales o cuentas inactivas.';

@@ -1,0 +1,297 @@
+{
+  "executedAt": "2026-11-02T00:50:16.090Z",
+  "scope": "React production build with isolated HTTP fixtures; no live requests",
+  "checks": [
+    "chromium/390: initial flags read without mutations",
+    "chromium/390: select-all includes every eligible candidate, not inactive or enabled members",
+    "chromium/390: bulk toggle exposes its selected state",
+    "chromium/390: second click clears all selections and disables confirmation",
+    "chromium/390: partial selection can select all again",
+    "chromium/390: reversible selection is local and never confirms a batch or payment",
+    "chromium/390: inactive and already enabled candidates remain disabled",
+    "chromium/390: bulk control stays inside mobile/tablet/desktop viewport",
+    "chromium/390: labels and switches fit without overlap or horizontal scrolling",
+    "chromium/390: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "chromium/390: disabling automation correctly describes manual-only emission",
+    "chromium/390: cancellation preserves the flag",
+    "chromium/390: generation disables only after server confirmation",
+    "chromium/390: controls remain locked while success dialog is open",
+    "chromium/390: automatic debt blocking is independent of generation and termination",
+    "chromium/390: conflict re-reads both flags without automatic retry",
+    "chromium/390: unavailable settings never become editable assumed defaults",
+    "chromium/390: pending migration leaves activation requests accessible",
+    "chromium/390: activation reaches backend and rejection preserves state",
+    "chromium/390: member detail never presents global controls as personal settings",
+    "chromium/390: no runtime errors, unrelated writes or unexpected requests",
+    "chromium/820: initial flags read without mutations",
+    "chromium/820: select-all includes every eligible candidate, not inactive or enabled members",
+    "chromium/820: bulk toggle exposes its selected state",
+    "chromium/820: second click clears all selections and disables confirmation",
+    "chromium/820: partial selection can select all again",
+    "chromium/820: reversible selection is local and never confirms a batch or payment",
+    "chromium/820: inactive and already enabled candidates remain disabled",
+    "chromium/820: bulk control stays inside mobile/tablet/desktop viewport",
+    "chromium/820: labels and switches fit without overlap or horizontal scrolling",
+    "chromium/820: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "chromium/820: disabling automation correctly describes manual-only emission",
+    "chromium/820: cancellation preserves the flag",
+    "chromium/820: generation disables only after server confirmation",
+    "chromium/820: controls remain locked while success dialog is open",
+    "chromium/820: automatic debt blocking is independent of generation and termination",
+    "chromium/820: conflict re-reads both flags without automatic retry",
+    "chromium/820: unavailable settings never become editable assumed defaults",
+    "chromium/820: pending migration leaves activation requests accessible",
+    "chromium/820: activation reaches backend and rejection preserves state",
+    "chromium/820: member detail never presents global controls as personal settings",
+    "chromium/820: no runtime errors, unrelated writes or unexpected requests",
+    "chromium/1440: initial flags read without mutations",
+    "chromium/1440: select-all includes every eligible candidate, not inactive or enabled members",
+    "chromium/1440: bulk toggle exposes its selected state",
+    "chromium/1440: second click clears all selections and disables confirmation",
+    "chromium/1440: partial selection can select all again",
+    "chromium/1440: reversible selection is local and never confirms a batch or payment",
+    "chromium/1440: inactive and already enabled candidates remain disabled",
+    "chromium/1440: bulk control stays inside mobile/tablet/desktop viewport",
+    "chromium/1440: labels and switches fit without overlap or horizontal scrolling",
+    "chromium/1440: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "chromium/1440: disabling automation correctly describes manual-only emission",
+    "chromium/1440: cancellation preserves the flag",
+    "chromium/1440: generation disables only after server confirmation",
+    "chromium/1440: controls remain locked while success dialog is open",
+    "chromium/1440: automatic debt blocking is independent of generation and termination",
+    "chromium/1440: conflict re-reads both flags without automatic retry",
+    "chromium/1440: unavailable settings never become editable assumed defaults",
+    "chromium/1440: pending migration leaves activation requests accessible",
+    "chromium/1440: activation reaches backend and rejection preserves state",
+    "chromium/1440: member detail never presents global controls as personal settings",
+    "chromium/1440: no runtime errors, unrelated writes or unexpected requests",
+    "webkit/390: initial flags read without mutations",
+    "webkit/390: select-all includes every eligible candidate, not inactive or enabled members",
+    "webkit/390: bulk toggle exposes its selected state",
+    "webkit/390: second click clears all selections and disables confirmation",
+    "webkit/390: partial selection can select all again",
+    "webkit/390: reversible selection is local and never confirms a batch or payment",
+    "webkit/390: inactive and already enabled candidates remain disabled",
+    "webkit/390: bulk control stays inside mobile/tablet/desktop viewport",
+    "webkit/390: labels and switches fit without overlap or horizontal scrolling",
+    "webkit/390: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "webkit/390: disabling automation correctly describes manual-only emission",
+    "webkit/390: cancellation preserves the flag",
+    "webkit/390: generation disables only after server confirmation",
+    "webkit/390: controls remain locked while success dialog is open",
+    "webkit/390: automatic debt blocking is independent of generation and termination",
+    "webkit/390: conflict re-reads both flags without automatic retry",
+    "webkit/390: unavailable settings never become editable assumed defaults",
+    "webkit/390: pending migration leaves activation requests accessible",
+    "webkit/390: activation reaches backend and rejection preserves state",
+    "webkit/390: member detail never presents global controls as personal settings",
+    "webkit/390: no runtime errors, unrelated writes or unexpected requests",
+    "webkit/820: initial flags read without mutations",
+    "webkit/820: select-all includes every eligible candidate, not inactive or enabled members",
+    "webkit/820: bulk toggle exposes its selected state",
+    "webkit/820: second click clears all selections and disables confirmation",
+    "webkit/820: partial selection can select all again",
+    "webkit/820: reversible selection is local and never confirms a batch or payment",
+    "webkit/820: inactive and already enabled candidates remain disabled",
+    "webkit/820: bulk control stays inside mobile/tablet/desktop viewport",
+    "webkit/820: labels and switches fit without overlap or horizontal scrolling",
+    "webkit/820: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "webkit/820: disabling automation correctly describes manual-only emission",
+    "webkit/820: cancellation preserves the flag",
+    "webkit/820: generation disables only after server confirmation",
+    "webkit/820: controls remain locked while success dialog is open",
+    "webkit/820: automatic debt blocking is independent of generation and termination",
+    "webkit/820: conflict re-reads both flags without automatic retry",
+    "webkit/820: unavailable settings never become editable assumed defaults",
+    "webkit/820: pending migration leaves activation requests accessible",
+    "webkit/820: activation reaches backend and rejection preserves state",
+    "webkit/820: member detail never presents global controls as personal settings",
+    "webkit/820: no runtime errors, unrelated writes or unexpected requests",
+    "webkit/1440: initial flags read without mutations",
+    "webkit/1440: select-all includes every eligible candidate, not inactive or enabled members",
+    "webkit/1440: bulk toggle exposes its selected state",
+    "webkit/1440: second click clears all selections and disables confirmation",
+    "webkit/1440: partial selection can select all again",
+    "webkit/1440: reversible selection is local and never confirms a batch or payment",
+    "webkit/1440: inactive and already enabled candidates remain disabled",
+    "webkit/1440: bulk control stays inside mobile/tablet/desktop viewport",
+    "webkit/1440: labels and switches fit without overlap or horizontal scrolling",
+    "webkit/1440: full switch tracks and knobs survive Materialize CSS ([{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16},{\"width\":44,\"height\":24,\"knobWidth\":16,\"knobHeight\":16}])",
+    "webkit/1440: disabling automation correctly describes manual-only emission",
+    "webkit/1440: cancellation preserves the flag",
+    "webkit/1440: generation disables only after server confirmation",
+    "webkit/1440: controls remain locked while success dialog is open",
+    "webkit/1440: automatic debt blocking is independent of generation and termination",
+    "webkit/1440: conflict re-reads both flags without automatic retry",
+    "webkit/1440: unavailable settings never become editable assumed defaults",
+    "webkit/1440: pending migration leaves activation requests accessible",
+    "webkit/1440: activation reaches backend and rejection preserves state",
+    "webkit/1440: member detail never presents global controls as personal settings",
+    "webkit/1440: no runtime errors, unrelated writes or unexpected requests"
+  ],
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "width": 820,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "width": 820,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "settingsReads": 6,
+      "writes": [
+        {
+          "setting": "generation",
+          "enabled": false,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "setting": "autoBlock",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "setting": "generation",
+          "enabled": true,
+          "revision": "0000000000000000000000000000000000000000000000000000000000000003"
+        }
+      ]
+    }
+  ],
+  "status": "passed"
+}

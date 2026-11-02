@@ -97,6 +97,14 @@ Detalle y evidencia: [controles administrativos](docs/membership-automation-cont
 Cierre local revisado de permisos, controles y editor, sin activar opciones reales:
 [reporte coordinado](../tennis-app-backend/docs/cierre-cambios-mensualidades.md).
 
+Etapa 2 consolidada en local: portal/cotizacion no emiten cuotas; el mensaje al
+apagar automatizacion conserva solo la generacion manual administrativa.
+En Habilitar socios, Seleccionar pendientes alterna con Deseleccionar pendientes,
+sin incluir inactivos, ya habilitados o casos en revision ni confirmar el lote.
+[Contrato y pruebas](../tennis-app-backend/docs/membership-generation-stage-2.md),
+[evidencia responsive](docs/evidence/generation-stage2/browser-validation.json).
+Sin nuevas env, activacion, pagos reales ni certificacion en dispositivos fisicos.
+
 ## Tech Stack
 
 | Layer | Technology |

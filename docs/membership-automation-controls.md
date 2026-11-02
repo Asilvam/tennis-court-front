@@ -26,9 +26,15 @@ relee configuracion y exige una nueva decision; no reenvia automaticamente.
 Error de lectura muestra estado no confirmado y switches no editables, con
 reintento mediante icono de actualizar. Las solicitudes tienen limite de 20s.
 
-La confirmacion al apagar generacion aclara que solo pausa el proceso recurrente:
-generacion manual y bajo demanda siguen disponibles. No se promete un modo
-estrictamente manual; su consolidacion corresponde a la siguiente etapa.
+Actualizacion aprobada de etapa 2: la confirmacion al apagar generacion indica
+que solo queda disponible la generacion manual administrativa. Consultar el portal
+o cotizar ya no emite meses. No cambia las reglas de los switches ni los pagos.
+Ver [implementacion y evidencia coordinada](../../tennis-app-backend/docs/membership-generation-stage-2.md).
+
+La correccion adicional de Habilitar socios hace reversible la seleccion global
+de pendientes, expone aria-pressed y no selecciona casos no elegibles. Las pruebas
+de etapa 2 cubren 102 candidatos ficticios, seleccion parcial, limpieza a cero y
+cero confirmaciones de lote: [reporte](evidence/generation-stage2/browser-validation.json).
 
 ## Pruebas y evidencia
 
