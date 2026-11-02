@@ -22,6 +22,8 @@ import { useVisibleViewport } from '../hooks/useVisibleViewport';
 import { getReservationPaymentAmount } from '../utils/paymentRates';
 import { usePaymentHold } from '../hooks/usePaymentHold';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
+import { useAuth } from './useAuth';
+import { reservationAllowed } from '../utils/memberPayments';
 
 type PlayerField = 'player2' | 'player3' | 'player4';
 const playerInputIds = { player2: 'reservation-player-2', player3: 'reservation-player-3', player4: 'reservation-player-4' };
@@ -385,7 +387,12 @@ const Modal: React.FC<ModalProps> = ({
         }
     };
 
+    const { user: sessionUser } = useAuth();
     const handleReserve = async () => {
+        if (!reservationAllowed(sessionUser)) {
+            await Swal.fire({ icon: 'warning', title: 'Reservas bloqueadas', text: 'Regulariza tu habilitación de pago para crear una nueva reserva.', confirmButtonText: 'Aceptar' });
+            return;
+        }
         if (submissionInProgress.current || !validateForm()) {
             return;
         }

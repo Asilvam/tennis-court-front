@@ -34,9 +34,9 @@ test('restricted login also migrates an old provider return without trusting its
   assert.equal(render('/login', `/monthlypayments?reference=${reference}&payment_id=null`).props.to,
     `/monthlypayments/return?reference=${reference}`);
 });
-test('unsafe login destinations and unrelated restricted paths go only to the portal', () => {
-  assert.equal(render('/login', 'https://attacker.invalid').props.to, '/monthlypayments');
-  assert.equal(render('/adminregister', `/monthlypayments/return?reference=${reference}`).props.to, '/monthlypayments');
+test('unsafe login destinations go home and financial restriction never redirects other pages', () => {
+  assert.equal(render('/login', 'https://attacker.invalid').props.to, '/');
+  assert.equal(render('/adminregister', `/monthlypayments/return?reference=${reference}`).props.children, 'page');
 });
 test('restricted sessions can render the result and portal, while anonymous login remains accessible', () => {
   for (const path of ['/monthlypayments', '/monthlypayments/return']) assert.equal(render(path).props.children, 'page');
@@ -47,6 +47,6 @@ test('restricted sessions may read their reservation return without regaining bo
   assert.equal(render('/payment/success').props.children, 'page');
   assert.equal(render('/payment/pending').props.children, 'page');
   assert.equal(render('/payment/failure').props.children, 'page');
-  assert.equal(render('/dashboard').props.to, '/monthlypayments');
+  assert.equal(render('/dashboard').props.children, 'page');
   assert.equal(render('/login', '/payment/failure?external_reference=abc123&status=approved').props.to, '/payment/failure?reservation=abc123');
 });

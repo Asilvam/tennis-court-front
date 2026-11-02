@@ -11,6 +11,8 @@ import { faCalendarAlt, faClock, faChevronLeft, faChevronRight, faLightbulb } fr
 import { useNavigate } from 'react-router-dom';
 import ResultsTicker from './ResultsTicker';
 import ActiveReservationTicker from './ActiveReservationTicker';
+import { useAuth } from './useAuth';
+import { reservationAllowed } from '../utils/memberPayments';
 
 interface CourtReserve {
     turn: string;
@@ -203,16 +205,21 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    const handleOpenModal = (timeSlot: React.SetStateAction<{
+    const { user: sessionUser } = useAuth();
+    const handleOpenModal = useCallback((timeSlot: React.SetStateAction<{
         courtId: string;
         time: string;
         date: string;
         player1: string | undefined;
         isPayed: boolean;
     } | null>) => {
+        if (!reservationAllowed(sessionUser)) {
+            void Swal.fire({ icon: 'warning', title: 'Reservas bloqueadas', text: 'Regulariza tu habilitación de pago para crear una nueva reserva.', confirmButtonText: 'Aceptar' });
+            return;
+        }
         setSelectedTimeSlot(timeSlot);
         setModalOpen(true);
-    };
+    }, [sessionUser]);
 
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -257,7 +264,7 @@ const Dashboard: React.FC = () => {
             setSelectedTimeSlot(timeSlot);
             handleOpenModal(timeSlot);
         },
-        [selectedDate, namePlayer, activeReserve]
+        [selectedDate, namePlayer, activeReserve, handleOpenModal]
     );
 
 

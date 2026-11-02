@@ -55,11 +55,16 @@ export function selectableMemberDues(dues: MembershipDue[], beneficiaryIds: stri
 
 export interface MembershipAccess {
   financiallyRestricted: boolean;
+  canReserve?: boolean;
   reason: string | null;
   mpEnabled: boolean;
   name: string;
   role: string;
   memberId: string;
+}
+
+export function reservationAllowed(user: { canReserve?: boolean; financiallyRestricted?: boolean } | null | undefined) {
+  return user?.canReserve !== false && !user?.financiallyRestricted;
 }
 export interface MemberPaymentState {
   reference: string;

@@ -1,0 +1,93 @@
+{
+  "executedAt": "2026-11-02T00:11:10.297Z",
+  "scope": "React build, fixture APIs and no live data",
+  "checks": [
+    "chromium/390: debtor can view /profile without forced payment redirect",
+    "chromium/390: debtor can view /ranking without forced payment redirect",
+    "chromium/390: debtor can view /myhistory without forced payment redirect",
+    "chromium/390: debtor can view /updatematch without forced payment redirect",
+    "chromium/390: booking click shows SweetAlert without creating hold or payment",
+    "chromium/390: full role menu remains present",
+    "chromium/390: multi-booking blocks before submitting",
+    "chromium/390: refreshed payment permission restores the reservation form without a charge or new login",
+    "chromium/390: no page errors or unexpected requests",
+    "chromium/820: debtor can view /profile without forced payment redirect",
+    "chromium/820: debtor can view /ranking without forced payment redirect",
+    "chromium/820: debtor can view /myhistory without forced payment redirect",
+    "chromium/820: debtor can view /updatematch without forced payment redirect",
+    "chromium/820: booking click shows SweetAlert without creating hold or payment",
+    "chromium/820: full role menu remains present",
+    "chromium/820: multi-booking blocks before submitting",
+    "chromium/820: refreshed payment permission restores the reservation form without a charge or new login",
+    "chromium/820: no page errors or unexpected requests",
+    "chromium/1440: debtor can view /profile without forced payment redirect",
+    "chromium/1440: debtor can view /ranking without forced payment redirect",
+    "chromium/1440: debtor can view /myhistory without forced payment redirect",
+    "chromium/1440: debtor can view /updatematch without forced payment redirect",
+    "chromium/1440: booking click shows SweetAlert without creating hold or payment",
+    "chromium/1440: full role menu remains present",
+    "chromium/1440: multi-booking blocks before submitting",
+    "chromium/1440: refreshed payment permission restores the reservation form without a charge or new login",
+    "chromium/1440: no page errors or unexpected requests",
+    "webkit/390: debtor can view /profile without forced payment redirect",
+    "webkit/390: debtor can view /ranking without forced payment redirect",
+    "webkit/390: debtor can view /myhistory without forced payment redirect",
+    "webkit/390: debtor can view /updatematch without forced payment redirect",
+    "webkit/390: booking click shows SweetAlert without creating hold or payment",
+    "webkit/390: full role menu remains present",
+    "webkit/390: multi-booking blocks before submitting",
+    "webkit/390: refreshed payment permission restores the reservation form without a charge or new login",
+    "webkit/390: no page errors or unexpected requests",
+    "webkit/820: debtor can view /profile without forced payment redirect",
+    "webkit/820: debtor can view /ranking without forced payment redirect",
+    "webkit/820: debtor can view /myhistory without forced payment redirect",
+    "webkit/820: debtor can view /updatematch without forced payment redirect",
+    "webkit/820: booking click shows SweetAlert without creating hold or payment",
+    "webkit/820: full role menu remains present",
+    "webkit/820: multi-booking blocks before submitting",
+    "webkit/820: refreshed payment permission restores the reservation form without a charge or new login",
+    "webkit/820: no page errors or unexpected requests",
+    "webkit/1440: debtor can view /profile without forced payment redirect",
+    "webkit/1440: debtor can view /ranking without forced payment redirect",
+    "webkit/1440: debtor can view /myhistory without forced payment redirect",
+    "webkit/1440: debtor can view /updatematch without forced payment redirect",
+    "webkit/1440: booking click shows SweetAlert without creating hold or payment",
+    "webkit/1440: full role menu remains present",
+    "webkit/1440: multi-booking blocks before submitting",
+    "webkit/1440: refreshed payment permission restores the reservation form without a charge or new login",
+    "webkit/1440: no page errors or unexpected requests"
+  ],
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "writes": []
+    },
+    {
+      "engine": "chromium",
+      "width": 820,
+      "writes": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "writes": []
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "writes": []
+    },
+    {
+      "engine": "webkit",
+      "width": 820,
+      "writes": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "writes": []
+    }
+  ],
+  "status": "passed"
+}

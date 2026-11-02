@@ -39,6 +39,15 @@ interface SelectOption {
     label: string;
 }
 
+interface MemberAccessSummary {
+    memberId: string;
+    canReserve: boolean;
+    hasOverdueDues: boolean;
+    overduePeriods: string[];
+    overdueAmount: number;
+    exempt: boolean;
+}
+
 let adminUsersCache: Register[] | null = null;
 
 const AdminRegister: React.FC = () => {
@@ -72,6 +81,8 @@ const AdminRegister: React.FC = () => {
     const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [memberAccess, setMemberAccess] = useState<MemberAccessSummary | null>(null);
+    const accessRequest = useRef(0);
     const [titularPickerQuery, setTitularPickerQuery] = useState<string | null>(null);
     const editViewport = useVisibleViewport(isEditModalOpen);
     const editDialog = useRef<HTMLDivElement>(null);
@@ -239,9 +250,20 @@ const AdminRegister: React.FC = () => {
         setEditUser({ ...user });
         setOriginalEditUser({ ...user });
         setIsEditModalOpen(true);
+        setMemberAccess(null);
+        const request = ++accessRequest.current;
+        if (user._id) void axios.get<MemberAccessSummary>(`${apiUrl}/membership-billing/admin/members/${user._id}/access`, {
+            headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }, timeout: 15000,
+        }).then(({ data }) => {
+            if (accessRequest.current === request && data.memberId === user._id) setMemberAccess(data);
+        }).catch(() => {
+            if (accessRequest.current === request) void Swal.fire({ icon: 'warning', title: 'Estado de mensualidades sin verificar', text: 'No se pudo consultar la deuda. Cambiar el interruptor no elimina cuotas vencidas ni registra un pago.', confirmButtonText: 'Aceptar' });
+        });
     };
 
     const handleCloseEditModal = () => {
+        accessRequest.current += 1;
+        setMemberAccess(null);
         setTitularPickerQuery(null);
         setIsEditModalOpen(false);
         setOriginalEditUser(null);
@@ -275,7 +297,10 @@ const AdminRegister: React.FC = () => {
         return Object.keys(buildAdminMemberUpdate(editUser, originalEditUser)).length > 0;
     }, [editUser, originalEditUser]);
 
-    const availableTitulares = useMemo(() => titularOptions(users, editUser._id), [users, editUser._id]);
+    const availableTitulares = useMemo(() => titularOptions(users.filter(user => user.statePlayer), editUser._id), [users, editUser._id]);
+    const associatedTitular = users.find(user => user._id === editUser.titularId);
+    const selectedTitular = availableTitulares.find(option => option.value === editUser.titularId)
+        ?? (associatedTitular ? { value: associatedTitular._id!, label: `${associatedTitular.namePlayer} — ${associatedTitular.email} (no vigente)` } : null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (editUser) {
@@ -539,15 +564,15 @@ const AdminRegister: React.FC = () => {
                                 {editUser && (
                                     <form className="admin-edit-form">
                                         <div className="modal-form-section">
-                                            <div className="input-field">
+                                            <div className="input-field admin-edit-name">
                                                 <input id="namePlayer" type="text" name="namePlayer" value={editUser.namePlayer} onChange={handleInputChange} disabled={isSaving} />
                                                 <label htmlFor="namePlayer" className="active">Nombre</label>
                                             </div>
-                                            <div className="input-field">
+                                            <div className="input-field admin-edit-email">
                                                 <input id="email" type="email" name="email" value={editUser.email} readOnly className="readonly-input" />
                                                 <label htmlFor="email" className="active">Correo</label>
                                             </div>
-                                            <div className="input-field">
+                                            <div className="input-field admin-edit-phone">
                                                 <input id="cellular" type="text" name="cellular" value={editUser.cellular} onChange={handleInputChange} disabled={isSaving} />
                                                 <label htmlFor="cellular" className="active">Celular</label>
                                             </div>
@@ -558,7 +583,7 @@ const AdminRegister: React.FC = () => {
                                             {/*    <input id="points" type="number" name="points" value={editUser.points} onChange={handleInputChange} />*/}
                                             {/*    <label htmlFor="points" className="active">Puntos</label>*/}
                                             {/*</div>*/}
-                                            <div className="input-field">
+                                            <div className="input-field admin-edit-role">
                                                 <p className="select-label">Rol</p>
                                                 <Select<SelectOption, false>
                                                     classNamePrefix="admin-member-select"
@@ -598,7 +623,7 @@ const AdminRegister: React.FC = () => {
                                         </div>
 
                                         <div className="modal-form-section">
-                                            <div className="input-field">
+                                            <div className="input-field admin-edit-type">
                                                 <p className="select-label">Tipo de socio</p>
                                                 <Select<SelectOption, false>
                                                     classNamePrefix="admin-member-select"
@@ -618,14 +643,14 @@ const AdminRegister: React.FC = () => {
                                                 />
                                             </div>
                                             {memberType(editUser.partnerType) === 'Carga' && (
-                                                <div className="input-field">
+                                                <div className="input-field admin-edit-titular">
                                                     <p className="select-label">Titular asociado</p>
                                                     <div className="admin-titular-control">
                                                     <AdaptiveSelect
                                                         classNamePrefix="admin-member-select"
                                                         inputId="edit-member-titular"
                                                         aria-label="Titular asociado"
-                                                        value={availableTitulares.find(option => option.value === editUser.titularId) ?? null}
+                                                        value={selectedTitular}
                                                         options={availableTitulares}
                                                         placeholder="Buscar y seleccionar titular..."
                                                         viewport={editViewport}
@@ -657,11 +682,16 @@ const AdminRegister: React.FC = () => {
                                             <div className="switch status-switch">
                                                 <label>
                                                     Pago al día
-                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment} onChange={handleSwitchChange} disabled={isSaving} />
+                                                    <input type="checkbox" name="updatePayment" checked={editUser.updatePayment && !(memberAccess?.hasOverdueDues && !memberAccess.exempt)} onChange={handleSwitchChange} disabled={isSaving || Boolean(memberAccess?.hasOverdueDues && !memberAccess.exempt)} />
                                                     <span className="lever"></span>
                                                 </label>
                                             </div>
                                         </div>
+
+                                        {memberAccess?.hasOverdueDues && <p className="admin-payment-status" role="status">
+                                            Mensualidades vencidas: {memberAccess.overduePeriods.join(', ')} · {new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(memberAccess.overdueAmount)}.
+                                            {memberAccess.exempt ? ' Administrador exento del bloqueo financiero.' : ' Registra o verifica el pago desde Pagos del socio.'}
+                                        </p>}
 
                                         <div className="admin-modal-actions">
                                             <button className="btn-flat waves-effect waves-light cancel-btn admin-modal-btn-cancel" type="button" onClick={handleCloseEditModal} disabled={isSaving}>

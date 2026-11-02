@@ -68,11 +68,11 @@ test('a current-session role change removes monthly administration immediately',
 test('an authenticated member sees the monthly portal without environment feature flags', () => {
   assert.equal(links(render('user'), '/monthlypayments').length, 2);
 });
-test('the backend payments-only restriction hides booking links but keeps the portal accessible', () => {
+test('reservation restriction preserves the full role-authorized navigation', () => {
   const tree = render('user', true, true);
   assert.equal(links(tree, '/monthlypayments').length, 2);
-  assert.equal(links(tree, '/dashboard').length, 0);
-  assert.equal(links(tree, '/profile').length, 0);
+  assert.equal(links(tree, '/dashboard').length, 2);
+  assert.equal(links(tree, '/profile').length, 2);
 });
 test('the monthly portal link is hidden before authentication', () => {
   assert.equal(links(render('user', false), '/monthlypayments').length, 0);

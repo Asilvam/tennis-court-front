@@ -246,11 +246,25 @@
 .admin-users-page .admin-edit-form {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+        "name role"
+        "email type"
+        "phone titular"
+        "status status"
+        "payment payment"
+        "actions actions";
+    align-items: start;
     gap: 0 28px;
 }
-.admin-users-page .admin-edit-form > .modal-form-section:first-child {
-    grid-row: span 2;
+.admin-users-page .admin-edit-form > .modal-form-section:not(.switch-group) {
+    display: contents;
 }
+.admin-users-page .admin-edit-name { grid-area: name; }
+.admin-users-page .admin-edit-email { grid-area: email; }
+.admin-users-page .admin-edit-phone { grid-area: phone; }
+.admin-users-page .admin-edit-role { grid-area: role; }
+.admin-users-page .admin-edit-type { grid-area: type; }
+.admin-users-page .admin-edit-titular { grid-area: titular; }
 .admin-users-page .modal-form-section {
     min-width: 0;
     margin: 0;
@@ -259,12 +273,14 @@
     margin: 0 0 20px;
     min-width: 0;
 }
-.admin-users-page .edit-modal .input-field > label.active {
+.admin-users-page .edit-modal .input-field > label.active,
+.admin-users-page .edit-modal .input-field > .select-label {
     display: block;
     position: static;
     transform: none;
     margin: 0 0 8px;
     font-size: 14px;
+    line-height: 1.4;
 }
 .admin-users-page .edit-modal .input-field:has(> label.active) {
     display: flex;
@@ -280,7 +296,7 @@
     padding: 0 10px;
 }
 .admin-users-page .switch-group {
-    grid-column: 1 / -1;
+    grid-area: status;
     flex-direction: row;
     margin-top: 4px;
 }
@@ -289,12 +305,18 @@
     border-radius: 6px;
 }
 .admin-users-page .admin-modal-actions {
-    grid-column: 1 / -1;
+    grid-area: actions;
     display: flex;
     justify-content: flex-end;
     margin-top: 24px;
     padding-top: 20px;
     border-top: 1px solid var(--ctq-border-soft);
+}
+.admin-users-page .admin-payment-status {
+    grid-area: payment;
+    margin: 12px 0 0;
+    color: var(--ctq-text-muted);
+    overflow-wrap: anywhere;
 }
 .admin-users-page .admin-modal-actions > button {
     width: auto;
@@ -342,9 +364,16 @@
     }
     .admin-users-page .admin-edit-form {
         grid-template-columns: minmax(0, 1fr);
-    }
-    .admin-users-page .admin-edit-form > .modal-form-section:first-child {
-        grid-row: auto;
+        grid-template-areas:
+            "name"
+            "email"
+            "phone"
+            "role"
+            "type"
+            "titular"
+            "status"
+            "payment"
+            "actions";
     }
     .admin-users-page .edit-modal .modal-body {
         padding: 18px 16px;

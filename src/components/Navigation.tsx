@@ -69,7 +69,7 @@ const Navigation: React.FC = () => {
         { to: '/adminpayments', label: 'Mensualidades', show: tokenExists && isUserRoleAdmin },
         { to: '/multibooking', label: 'Multi-Booking', show: tokenExists && (isUserRoleAdmin || isUserRoleProfesor) },
         { to:'/resetpassword', label: 'Reset Pass', show: tokenExists && isUserRoleAdmin},
-    ].map(item => ({ ...item, show: item.show && (!user?.financiallyRestricted || item.to === '/monthlypayments') }));
+    ];
 
     return (
         <>

@@ -1,6 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { legacyMembershipReturn, memberCheckoutIdentity, membershipReference, membershipSessionPath, paymentLoginReturn, safeMembershipCheckoutUrl, selectableMemberDues } from '../src/utils/memberPayments.ts';
+import { legacyMembershipReturn, memberCheckoutIdentity, membershipReference, membershipSessionPath, paymentLoginReturn, reservationAllowed, safeMembershipCheckoutUrl, selectableMemberDues } from '../src/utils/memberPayments.ts';
+
+test('reservation capability respects current permission and legacy response compatibility', () => {
+  assert.equal(reservationAllowed({ canReserve: false, financiallyRestricted: false }), false);
+  assert.equal(reservationAllowed({ financiallyRestricted: true }), false);
+  assert.equal(reservationAllowed({ canReserve: true, financiallyRestricted: false }), true);
+});
 
 test('checkout accepts only the provider HTTPS host, never arbitrary browser URLs', () => {
   for (const url of ['https://www.mercadopago.cl/checkout/v1/redirect?pref_id=fixture', 'https://sandbox.mercadopago.cl/checkout/fixture']) assert.ok(safeMembershipCheckoutUrl(url));

@@ -30,6 +30,7 @@ try {
             const members = [
                 { ...base, _id: '1'.padStart(24, '0'), namePlayer: 'Carga fixture', email: 'carga@example.invalid', partnerType: 'Carga', titularId: null },
                 ...Array.from({ length: 40 }, (_, i) => ({ ...base, _id: String(i + 2).padStart(24, '0'), namePlayer: i < 2 ? `Álvaro Titular Apellido Compuesto ${i}` : `Titular ${String(i).padStart(2, '0')} ${'Apellido'.repeat(i === 2 ? 18 : 1)}`, email: `titular${i}@example.invalid`, partnerType: 'Titular' })),
+                { ...base, _id: '99'.padStart(24, '0'), namePlayer: 'Titular inactivo fixture', email: 'inactive@example.invalid', partnerType: 'Titular', statePlayer: false },
             ];
             page.on('pageerror', error => errors.push(error.message));
             await context.route('**/*', async route => {
@@ -39,6 +40,7 @@ try {
                     if (req.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
                     if (url.pathname.endsWith('/me/access')) return route.fulfill({ headers, json: { role: 'admin', name: 'Admin fixture', financiallyRestricted: false } });
                     if (url.pathname === '/register' && req.method() === 'GET') return route.fulfill({ headers, json: members });
+                    if (/\/membership-billing\/admin\/members\/[^/]+\/access$/.test(url.pathname)) return route.fulfill({ headers, json: { memberId: members[0]._id, canReserve: false, hasOverdueDues: true, overduePeriods: ['2026-10'], overdueAmount: 5000, exempt: false } });
                     if (url.pathname === '/register/admin/carga%40example.invalid' && req.method() === 'PATCH') {
                         const body = req.postDataJSON(); writes.push({ body, authenticated: req.headers().authorization === `Bearer ${token}` });
                         Object.assign(members[0], body); return route.fulfill({ headers, json: members[0] });
@@ -62,9 +64,31 @@ try {
                     window.visualViewport.dispatchEvent(new Event('resize'));
                 }, reduced);
             };
-            const screenshot = async state => { const file = `${state}-${engine}-${width}.png`; await page.screenshot({ path: resolve(output, file) }); report.captures.push(file); };
+            const screenshot = async state => { const file = `${state}-${engine}-${width}.png`; await page.screenshot({ path: resolve(output, file), animations: 'disabled' }); report.captures.push(file); };
             await page.goto(`${origin}/adminregister`);
             await page.getByRole('button', { name: 'Editar a Carga fixture', exact: true }).click();
+            await page.getByRole('status').filter({ hasText: 'Mensualidades vencidas' }).waitFor();
+            check(!await page.locator('input[name=updatePayment]').isChecked() && await page.locator('input[name=updatePayment]').isDisabled() && await page.locator('input[name=statePlayer]').isChecked(), `${label}: overdue evidence disables payment override but keeps account active`);
+            await page.waitForFunction(() => {
+                const input = document.querySelector('input[name=updatePayment]');
+                return !input.checked && parseFloat(getComputedStyle(input.nextElementSibling, '::after').left) <= 1;
+            });
+            check(true, `${label}: payment switch visually settles in the off position`);
+            const layout = await page.evaluate(() => {
+                const box = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { top: r.top, bottom: r.bottom, left: r.left, right: r.right }; };
+                return { email: box('.admin-edit-email'), type: box('.admin-edit-type'), titular: box('.admin-edit-titular'), role: box('.admin-edit-role'), name: box('.admin-edit-name'), form: box('.admin-edit-form'), width: document.documentElement.scrollWidth };
+            });
+            check(layout.width <= width + 1, `${label}: editor has no horizontal overflow`);
+            if (width >= 640) {
+                check(Math.abs(layout.email.top - layout.type.top) < 2 && Math.abs(layout.name.top - layout.role.top) < 2 && layout.type.left > layout.email.right, `${label}: desktop/tablet member type aligns with email and role with name`);
+                check(layout.titular.top >= layout.type.bottom && Math.abs(layout.titular.left - layout.type.left) < 2, `${label}: titular appears directly below member type in the right column`);
+            } else check(layout.titular.top >= layout.type.bottom && layout.type.top >= layout.role.bottom, `${label}: mobile keeps member type and titular adjacent in one column`);
+            await screenshot('editor-carga');
+            const type = page.locator('.admin-edit-type .admin-member-select__control');
+            await type.click(); await page.getByRole('option', { name: 'Titular', exact: true }).click();
+            check(await page.locator('.admin-edit-titular').count() === 0, `${label}: Titular hides association without saving`);
+            await type.click(); await page.getByRole('option', { name: 'Carga', exact: true }).click();
+            check(await page.locator('.admin-edit-titular').count() === 1 && writes.length === 0, `${label}: choosing Carga reveals association without saving`);
             await page.locator('#namePlayer').fill('Carga fixture editada');
             const compact = width < 1000;
             if (compact) await page.getByRole('button', { name: 'Titular asociado', exact: true }).click();
@@ -76,6 +100,7 @@ try {
                 const search = page.getByRole('combobox', { name: 'Buscar titular por nombre o correo', exact: true });
                 if (!compact) check(await search.inputValue() === 'alvaro', `${label}: iPad keeps typed query when keyboard removes dropdown space`);
                 await search.fill('');
+                check(await page.getByRole('option').filter({ hasText: 'Titular inactivo fixture' }).count() === 0, `${label}: inactive titulares are not offered`);
                 const metrics = await page.evaluate(() => {
                     const rect = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height }; };
                     const list = document.querySelector('.option-picker-results');
@@ -116,7 +141,7 @@ try {
             await page.getByRole('button', { name: 'Actualizar', exact: true }).click(); await page.locator('.swal2-confirm').click();
             check(writes.length === 1 && writes[0].authenticated && JSON.stringify(writes[0].body) === JSON.stringify({ namePlayer: 'Carga fixture editada', partnerType: 'Carga', titularId: '3'.padStart(24, '0') }), `${label}: explicit save sends only reviewed changes with bearer`);
             check(errors.length === 0 && unexpected.length === 0, `${label}: no page errors or unexpected real requests`);
-            report.views.push({ engine, browser: browser.version(), width, writes });
+            report.views.push({ engine, browser: browser.version(), width, layout, writes });
             await context.close();
         }
         await browser.close(); browser = null;

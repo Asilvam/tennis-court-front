@@ -12,7 +12,7 @@ const compiled = await build({
             react: `export default {};export const useState=initial=>{const h=globalThis.__titular,i=h.cursor++;if(!(i in h.states))h.states[i]=typeof initial==='function'?initial():initial;return[h.states[i],v=>h.states[i]=typeof v==='function'?v(h.states[i]):v];};export const useRef=initial=>{const h=globalThis.__titular,i=h.refCursor++;return h.refs[i]||={current:initial};};export const useEffect=fn=>globalThis.__titular.effects.push(fn);export const useMemo=fn=>fn();export const useCallback=fn=>fn;`,
             'react/jsx-runtime': `export const jsx=(type,props)=>({type,props});export const jsxs=jsx;export const Fragment='Fragment';`,
             'react-router-dom': `export const useNavigate=()=>()=>{};export const useLocation=()=>({state:null});export const useSearchParams=()=>[new URLSearchParams(),()=>{}];`,
-            axios: `export default {get:async()=>({data:globalThis.__titular.rows}),isAxiosError:()=>false,patch:async(url,body,config)=>{const h=globalThis.__titular;h.writes.push({url,body,config});if(h.wait)await h.wait;return{status:200};}};`,
+            axios: `export default {get:async url=>({data:url.endsWith('/access')?globalThis.__titular.access:globalThis.__titular.rows}),isAxiosError:()=>false,patch:async(url,body,config)=>{const h=globalThis.__titular;h.writes.push({url,body,config});if(h.wait)await h.wait;return{status:200};}};`,
             sweetalert2: `export default {fire:(...args)=>{globalThis.__titular.alerts.push(args);return Promise.resolve({isConfirmed:true});}};`,
             'react-select': `export default 'Select';`,
             '@fortawesome/react-fontawesome': `export const FontAwesomeIcon='Icon';`,
@@ -39,10 +39,11 @@ const flush = async () => { await new Promise(setImmediate); render(); };
 const edit = () => { find(node => node.props?.['aria-label'] === 'Editar a Carga fixture').props.onClick({ currentTarget: {} }); render(); };
 beforeEach(async () => {
     const base = { cellular: '+56912345678', role: 'user', statePlayer: true, updatePayment: true };
-    h = { states: [], refs: [], cursor: 0, refCursor: 0, effects: [], writes: [], alerts: [], rows: [
+    h = { states: [], refs: [], cursor: 0, refCursor: 0, effects: [], writes: [], alerts: [], access: { memberId: 'carga', canReserve: true, hasOverdueDues: false, overduePeriods: [], overdueAmount: 0, exempt: false }, rows: [
         { ...base, _id: 'carga', email: 'carga@example.invalid', namePlayer: 'Carga fixture', partnerType: 'Carga', titularId: 'titular-a' },
         { ...base, _id: 'titular-a', email: 'a@example.invalid', namePlayer: 'Ana Fixture', partnerType: 'Titular' },
         { ...base, _id: 'titular-b', email: 'b@example.invalid', namePlayer: 'Beto Fixture', partnerType: 'Titular' },
+        { ...base, _id: 'titular-inactive', email: 'inactive@example.invalid', namePlayer: 'Titular inactivo', partnerType: 'Titular', statePlayer: false },
     ] };
     globalThis.__titular = h;
     globalThis.document = { body: {} };
@@ -63,6 +64,35 @@ test('opens the picker with the typed query and visible viewport, without saving
     assert.equal(find(node => node.props?.role === 'dialog').props['aria-label'], 'Titular asociado');
     assert.equal(find(node => node.type === 'form'), undefined);
     assert.deepEqual(find(node => node.props?.className === 'edit-modal-backdrop').props.style, { top: 40, left: 0, width: 390, height: 380 });
+    assert.equal(h.writes.length, 0);
+});
+test('private overdue evidence turns the payment switch off without overwriting manual flags or sending a payment', async () => {
+    h.access = { ...h.access, canReserve: false, hasOverdueDues: true, overduePeriods: ['2026-10'], overdueAmount: 5000 };
+    edit(); await flush();
+    const input = find(node => node.props?.name === 'updatePayment');
+    assert.equal(input.props.checked, false);
+    assert.equal(input.props.disabled, true);
+    assert.equal(find(node => node.props?.name === 'statePlayer').props.checked, true);
+    assert.equal(h.writes.length, 0);
+});
+test('offers only active titulares and preserves an existing inactive association as a draft value', () => {
+    assert.ok(!selector().props.options.some(option => option.value === 'titular-inactive'));
+    const current = h.rows.find(member => member._id === 'titular-a');
+    current.statePlayer = false;
+    render();
+    assert.ok(!selector().props.options.some(option => option.value === current._id));
+    assert.equal(selector().props.value.value, current._id);
+    assert.ok(selector().props.value.label.includes('no vigente'));
+    assert.equal(h.writes.length, 0);
+});
+test('reveals titular below member type only when the draft is Carga', () => {
+    const type = () => find(node => node.type === 'Select' && node.props?.['aria-label'] === 'Tipo de socio');
+    type().props.onChange({ value: 'Titular' }); render();
+    assert.equal(selector(), undefined);
+    assert.ok(find(node => node.props?.className === 'input-field admin-edit-type'));
+    type().props.onChange({ value: 'Carga' }); render();
+    assert.ok(find(node => node.props?.className === 'input-field admin-edit-titular'));
+    assert.ok(selector());
     assert.equal(h.writes.length, 0);
 });
 test('canceling picker keeps the association and other draft changes', () => {

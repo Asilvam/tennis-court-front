@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LoadingSpinner } from './LoadingSpinner';
 import { useAuth } from './useAuth.ts';
+import { reservationAllowed } from '../utils/memberPayments';
 import { AdaptiveSelect, type SelectOption } from './AdaptiveSelect';
 import { OptionPicker } from './OptionPicker';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
@@ -172,6 +173,10 @@ const MultipleBookingForm: React.FC = () => {
 
     const handleReserve = async () => {
         if (submitting.current) return;
+        if (!reservationAllowed(user)) {
+            await Swal.fire({ icon: 'warning', title: 'Reservas bloqueadas', text: 'Regulariza tu habilitación de pago para crear nuevas reservas.', confirmButtonText: 'Aceptar' });
+            return;
+        }
         submitting.current = true;
         try {
             const warning = !token

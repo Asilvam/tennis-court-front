@@ -17,6 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { LoadingSpinner } from './LoadingSpinner';
 import { MembershipBatchEnrollment } from './MembershipBatchEnrollment';
+import { MembershipAutomationSettings } from './MembershipAutomationSettings';
 import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import { useUnsavedEditorChanges } from '../hooks/useUnsavedCategoryChanges';
 import { billingPeriodRange, shiftBillingPeriod } from '../utils/membershipPeriods';
@@ -553,6 +554,7 @@ export default function AdminMembershipPayments() {
           </button>
         )}
       </header>
+      {!memberId && !context && <MembershipAutomationSettings />}
       {person && !context && (
         <section className="ap-member-summary" aria-label="Datos del socio">
           <h2>{person.name}</h2>

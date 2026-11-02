@@ -84,6 +84,97 @@
   margin: 18px 0;
   border-bottom: 1px solid var(--ctq-border-soft);
 }
+.ap-automation {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ctq-border-soft);
+}
+.ap-automation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ap-automation-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.ap-automation-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 32px;
+  margin-top: 12px;
+}
+.ap-automation-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  min-height: 44px;
+  color: var(--ctq-text);
+  cursor: pointer;
+  font-size: 14px;
+}
+.ap-automation-control > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ap-automation-control small {
+  display: block;
+  color: var(--ctq-text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+.admin-membership-payments .ap-automation-control input[type='checkbox'] {
+  position: absolute;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: auto;
+  z-index: 1;
+}
+.ap-automation-lever {
+  display: block;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--ctq-border-soft);
+  border: 1px solid var(--ctq-text-muted);
+  position: relative;
+}
+.ap-automation-lever::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ctq-text-muted);
+}
+.ap-automation-control input:checked + .ap-automation-lever {
+  background: rgba(122, 209, 247, 0.22);
+  border-color: var(--ctq-accent);
+}
+.ap-automation-control input:checked + .ap-automation-lever::after {
+  left: 23px;
+  background: var(--ctq-accent);
+}
+.ap-automation-control input:focus-visible + .ap-automation-lever {
+  outline: 2px solid var(--ctq-accent);
+  outline-offset: 3px;
+}
+.ap-automation-control input:disabled + .ap-automation-lever {
+  opacity: 0.45;
+}
+@media (max-width: 640px) {
+  .ap-automation-controls { grid-template-columns: minmax(0, 1fr); }
+}
 .ap-tabs button {
   border-radius: 0;
   border-color: transparent;
@@ -163,7 +254,7 @@
   min-width: 0;
   text-align: left;
 }
-.admin-membership-payments input[type='checkbox'] {
+.admin-membership-payments input[type='checkbox']:not([role='switch']) {
   position: static;
   opacity: 1;
   pointer-events: auto;
@@ -174,13 +265,13 @@
   margin: 0;
   accent-color: var(--ctq-accent);
 }
-.admin-membership-payments input[type='checkbox'] + span {
+.admin-membership-payments input[type='checkbox']:not([role='switch']) + span {
   padding: 0;
   height: auto;
   line-height: 1.4;
 }
-.admin-membership-payments input[type='checkbox'] + span::before,
-.admin-membership-payments input[type='checkbox'] + span::after {
+.admin-membership-payments input[type='checkbox']:not([role='switch']) + span::before,
+.admin-membership-payments input[type='checkbox']:not([role='switch']) + span::after {
   display: none;
 }
 .ap-table {

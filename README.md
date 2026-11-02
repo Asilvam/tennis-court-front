@@ -78,6 +78,24 @@ Correccion posterior de hover/foco pastel y contraste de texto en filas y menu:
 Selector de titular de una carga: busqueda adaptativa y recuperacion de foco con
 teclado movil, pruebas y capturas en
 [correccion-selector-titular-ios.md](docs/correccion-selector-titular-ios.md).
+Distribucion de Editar usuario: Tipo alineado con Correo y titular asociado debajo,
+con lista de titulares activos y evidencias responsive en
+[ajuste-edicion-socio-layout.md](docs/ajuste-edicion-socio-layout.md).
+
+Etapa 1 de permisos de mensualidades: una restriccion financiera no oculta el menu
+ni fuerza la vista de pagos; impide nuevas reservas mediante permiso del backend.
+El editor consulta la deuda por una ruta privada y no registra pagos al cambiar
+el indicador manual. Detalle tecnico y compatibilidad en
+[etapa 1 del backend](../tennis-app-backend/docs/membership-reservation-access-stage-1.md).
+
+**Mensualidades CTQ > Automatizacion global** incorpora controles separados de
+generacion recurrente y bloqueo de reservas por mora. Solo estan en la vista global,
+no en el detalle individual. Confirmaciones SweetAlert2, permisos backend, revision
+optimista y auditoria; no activa opciones por abrir la pantalla ni cambia pagos.
+Detalle y evidencia: [controles administrativos](docs/membership-automation-controls.md).
+
+Cierre local revisado de permisos, controles y editor, sin activar opciones reales:
+[reporte coordinado](../tennis-app-backend/docs/cierre-cambios-mensualidades.md).
 
 ## Tech Stack
 

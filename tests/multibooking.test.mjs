@@ -63,6 +63,13 @@ test('required fields show SweetAlert and never submit incomplete selections',as
   check('08:15-10:00');await button('Reservar').props.onClick();await flush();assert.equal(h.dialogs.at(-1).title,'Sin motivo');
   assert.equal(h.writes.length,0);
 });
+test('manual payment restriction preserves the form but blocks creation before any request',async()=>{
+  h.auth.user.canReserve=false;render();
+  await button('Reservar').props.onClick();await flush();
+  assert.equal(h.dialogs.at(-1).title,'Reservas bloqueadas');
+  assert.equal(h.writes.length,0);
+  assert.ok(find(n=>n.type==='fieldset'));
+});
 test('dates are sorted, deduplicated and synchronized with the calendar',()=>{
   const dates=future(3);chooseDates([dates[2],dates[0],dates[2]]);
   assert.deepEqual(calendar().props.selectedDates.map(date=>DateTime.fromJSDate(date).toISODate()),[dates[0],dates[2]].map(date=>DateTime.fromJSDate(date).toISODate()));

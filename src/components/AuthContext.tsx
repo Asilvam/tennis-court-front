@@ -55,8 +55,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         };
         const intercept = axios.interceptors.response.use(response => response, error => {
             if (isCurrent() && currentSessionUnauthorized(error, token, import.meta.env.VITE_API_URL)) expire();
-            else if (isCurrent() && error.response?.data?.code === 'PAYMENTS_ONLY')
-                setSession(previous => ({ ...previous, user: previous.user ? { ...previous.user, financiallyRestricted: true } : null }));
+            else if (isCurrent() && ['RESERVATION_BLOCKED', 'PAYMENTS_ONLY'].includes(error.response?.data?.code))
+                setSession(previous => ({ ...previous, user: previous.user ? { ...previous.user, financiallyRestricted: true, canReserve: false, reservationBlockReason: error.response?.data?.reason } : null }));
             return Promise.reject(error);
         });
         const refresh = async () => {
@@ -67,6 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 });
                 if (isCurrent()) setSession(previous => ({ ...previous, user: previous.user ? {
                     ...previous.user, name: data.name, role: data.role, financiallyRestricted: data.financiallyRestricted,
+                    canReserve: data.canReserve ?? !data.financiallyRestricted, reservationBlockReason: data.reason,
                 } : null }));
             } catch { /* Network and service failures do not revoke authentication. */ }
         };

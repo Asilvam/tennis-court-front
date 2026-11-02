@@ -6,6 +6,8 @@ export interface User {
     email: string;
     role: string;
     financiallyRestricted?: boolean;
+    canReserve?: boolean;
+    reservationBlockReason?: string | null;
 }
 
 export interface AuthContextType {

@@ -157,11 +157,11 @@ function MembershipPaymentsPortal() {
   const resumeUrl = safeMembershipCheckoutUrl(payment?.initPoint);
   return <main className="member-payments" aria-busy={busy || loading}>
     <header className="mp-header">
-      {!context?.access.financiallyRestricted && <Link to="/" className="mp-icon" aria-label="Volver al inicio" title="Volver al inicio"><FontAwesomeIcon icon={faArrowLeft} /></Link>}
+      {<Link to="/" className="mp-icon" aria-label="Volver al inicio" title="Volver al inicio"><FontAwesomeIcon icon={faArrowLeft} /></Link>}
       <div><h1>Mis mensualidades</h1><p>{user?.name}</p></div>
       <button className="mp-icon mp-refresh" title="Actualizar cuotas" aria-label="Actualizar cuotas" disabled={loading || busy} onClick={async () => { setLoading(true); try { await loadHome(); } catch (error) { await showError(error); } finally { setLoading(false); } }}><FontAwesomeIcon icon={faRotateRight} /></button>
     </header>
-    {context?.access.financiallyRestricted && <p className="mp-access">{context.access.reason === 'OVERDUE_DUES' ? 'Tienes mensualidades vencidas. Tu acceso está limitado a pagos hasta regularizarlas.' : 'Tu acceso está limitado a pagos. Comunícate con administración para revisar tu habilitación.'}</p>}
+    {context?.access.financiallyRestricted && <p className="mp-access">{context.access.reason === 'OVERDUE_DUES' ? 'Tienes mensualidades vencidas. No puedes crear reservas hasta regularizarlas.' : 'Las nuevas reservas están bloqueadas. Comunícate con administración para revisar tu habilitación.'}</p>}
     {reference && <section className="mp-attempt" aria-live="polite">
       <div><h2>{payment ? paymentStatusLabel(payment.status) : 'Consultando intento de pago'}</h2><p>{payment?.status === 'CONFIRMED' ? 'Mensualidades registradas.' : payment?.status === 'REVIEW_REQUIRED' ? 'La operación necesita revisión de administración. No vuelvas a pagar estas cuotas.' : payment?.status === 'CANCELLED' ? 'El intento fue cerrado sin pago confirmado.' : 'La confirmación depende de Mercado Pago. No repitas el pago si ya se realizó un cobro.'}</p><small>{reference}</small></div>
       {context?.access.mpEnabled && <div className="mp-attempt-actions"><button disabled={busy} onClick={reconcile}><FontAwesomeIcon icon={faRotateRight} /> Consultar pago</button>{resumeUrl && <a className="mp-button" href={resumeUrl}>Continuar pago <FontAwesomeIcon icon={faArrowRight} /></a>}</div>}

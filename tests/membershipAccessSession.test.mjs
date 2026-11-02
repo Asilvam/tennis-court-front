@@ -98,11 +98,12 @@ test('the backend can restore ordinary access on the next refresh', async () => 
   assert.equal(harness.states[0].user.financiallyRestricted, false);
   assert.equal(harness.requests.length, 2);
 });
-test('backend PAYMENTS_ONLY denial updates the session without revoking login identity', async () => {
+test('backend reservation denial updates capability without revoking login identity', async () => {
   mount(); await flush();
-  const error = { response: { data: { code: 'PAYMENTS_ONLY' } } };
+  const error = { response: { data: { code: 'RESERVATION_BLOCKED', reason: 'OVERDUE_DUES' } } };
   await assert.rejects(() => harness.reject(error));
   assert.equal(harness.states[0].user.financiallyRestricted, true);
+  assert.equal(harness.states[0].user.canReserve, false);
   assert.equal(harness.states[0].token, token);
 });
 test('a network outage does not erase the session or claim new permissions', async () => {

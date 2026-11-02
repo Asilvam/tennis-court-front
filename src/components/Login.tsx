@@ -15,6 +15,8 @@ export interface LoginResponse {
     namePlayer: string;
     role: string;
     financiallyRestricted?: boolean;
+    canReserve?: boolean;
+    reservationBlockReason?: string | null;
 }
 
 const Login: React.FC = () => {
@@ -33,8 +35,8 @@ const Login: React.FC = () => {
         setError(null); // Clear previous errors
         try {
             const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, {username, password});
-            const { accessToken, namePlayer, role, financiallyRestricted } = response.data;
-            login({ name: namePlayer, email: username, role, financiallyRestricted }, accessToken);
+            const { accessToken, namePlayer, role, financiallyRestricted, canReserve, reservationBlockReason } = response.data;
+            login({ name: namePlayer, email: username, role, financiallyRestricted, canReserve, reservationBlockReason }, accessToken);
             
             const Toast = Swal.mixin({
                 toast: true,
@@ -54,7 +56,7 @@ const Login: React.FC = () => {
             })
             
             const returnTo = paymentLoginReturn(location.state?.from);
-            navigate(financiallyRestricted && returnTo === '/' ? '/monthlypayments' : returnTo);
+            navigate(returnTo);
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
