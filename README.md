@@ -105,6 +105,11 @@ sin incluir inactivos, ya habilitados o casos en revision ni confirmar el lote.
 [evidencia responsive](docs/evidence/generation-stage2/browser-validation.json).
 Sin nuevas env, activacion, pagos reales ni certificacion en dispositivos fisicos.
 
+Correccion local del menu tactil:
+[diagnostico, cambios y pruebas](docs/navigation-touch-fix.md). Oculta el menu
+vacio sin login y evita su cierre antes del clic de Mi historial/Logout en iPad.
+Sin cambios de paleta, permisos, dependencias ni env. Pendiente aceptacion fisica.
+
 ## Tech Stack
 
 | Layer | Technology |

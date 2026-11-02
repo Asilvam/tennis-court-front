@@ -22,6 +22,7 @@ const result = await build({
             Fragment: 'Fragment'
           };
           export const useEffect = () => {};
+          export const useCallback = fn => fn;
           export const useRef = value => ({ current: value });`,
           'react-router-dom': `export const Link = 'Link'; export const useNavigate = () => () => {};`,
           sweetalert2: `export default { fire: () => Promise.resolve() };`,

@@ -1,0 +1,10 @@
+{
+  "command": "node --experimental-strip-types --test tests/*.test.*",
+  "node": "v22.19.0",
+  "status": "passed",
+  "tests": 337,
+  "pass": 337,
+  "fail": 0,
+  "skipped": 0,
+  "cancelled": 0
+}

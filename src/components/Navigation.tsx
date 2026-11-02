@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { removeTokenFromLocalStorage } from '../utils/tokenUtils';
@@ -12,6 +12,7 @@ declare const M: any;
 
 const Navigation: React.FC = () => {
     const sidenavRef = useRef<HTMLUListElement>(null);
+    const dropdownRef = useRef<{ close: () => void } | null>(null);
     const navigate = useNavigate();
     const { user, logout, isAuthenticated } = useAuth();
 
@@ -19,6 +20,7 @@ const Navigation: React.FC = () => {
     const isUserRoleAdmin = user?.role === 'admin';
     const isUserRoleProfesor = user?.role === 'profesor';
     const namePlayer = user?.name || '';
+    const closeDropdown = useCallback(() => dropdownRef.current?.close(), []);
 
     useEffect(() => {
         const dropdownElems = document.querySelectorAll('.ctq-nav .dropdown-trigger');
@@ -26,7 +28,10 @@ const Navigation: React.FC = () => {
             alignment: 'right',
             constrainWidth: false,
             coverTrigger: false,
+            // Keep the target stable between touchend and the compatibility click on iPad.
+            closeOnClick: false,
         });
+        dropdownRef.current = dropdownInstances[0] || null;
 
         const sidenavInstance = M.Sidenav.init(sidenavRef.current, {});
         const closeSidenavOnClick = () => sidenavInstance?.close();
@@ -35,12 +40,19 @@ const Navigation: React.FC = () => {
 
         return () => {
             dropdownInstances.forEach((instance: { destroy: () => void }) => instance.destroy());
+            dropdownRef.current = null;
             sidenavInstance.el.removeEventListener('click', closeSidenavOnClick);
             sidenavInstance?.destroy();
         };
     }, []);
 
-    const handleLogout = () => {
+    useEffect(() => {
+        if (!tokenExists) closeDropdown();
+    }, [tokenExists, closeDropdown]);
+
+    const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        closeDropdown();
         if (tokenExists) {
             removeTokenFromLocalStorage();
             removeUserInfoFromLocalStorage();
@@ -88,7 +100,7 @@ const Navigation: React.FC = () => {
                                 <Link to="/login">Login</Link>
                             </li>
                         )}
-                        <li>
+                        <li hidden={!tokenExists}>
                             <a className="dropdown-trigger" href="#!" data-target="dropdown1">
                                 Menu<i className="material-icons right">arrow_drop_down</i>
                             </a>
@@ -98,12 +110,12 @@ const Navigation: React.FC = () => {
             </nav>
 
             {/* Dropdown Structure */}
-            <ul id="dropdown1" className="dropdown-content ctq-nav__dropdown">
+            <ul id="dropdown1" className="dropdown-content ctq-nav__dropdown" hidden={!tokenExists}>
                 {navItems.map(
                     (item, index) =>
                         item.show && (
                             <li key={index}>
-                                <Link to={item.to} className="ctq-nav__dropdown-link">{item.label}</Link>
+                                <Link to={item.to} className="ctq-nav__dropdown-link" onClick={closeDropdown}>{item.label}</Link>
                             </li>
                         )
                 )}

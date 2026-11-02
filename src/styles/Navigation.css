@@ -74,6 +74,11 @@
   overflow-y: auto;
 }
 
+.ctq-nav__links > li[hidden],
+.ctq-nav__dropdown[hidden] {
+  display: none !important;
+}
+
 .ctq-nav__dropdown > li {
   min-height: 0;
 }

@@ -1,0 +1,23 @@
+{
+  "executedAt": "2026-11-02T02:15:09.198Z",
+  "scope": "Updated Wi-Fi fixture frontend and real synthetic login only",
+  "cases": [
+    {
+      "engine": "webkit",
+      "realFixtureLogin": true,
+      "outsideClickCloses": true,
+      "keyboardOpen": true,
+      "keyboardHistory": true,
+      "logoutClearsSession": true
+    },
+    {
+      "engine": "chromium",
+      "realFixtureLogin": true,
+      "outsideClickCloses": true,
+      "keyboardOpen": true,
+      "keyboardHistory": true,
+      "logoutClearsSession": true
+    }
+  ],
+  "status": "passed"
+}
