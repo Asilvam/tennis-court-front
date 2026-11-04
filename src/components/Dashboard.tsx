@@ -73,12 +73,12 @@ const getStatusEmoji = (status: string) => {
     return '';
 };
 
-const renderCourtStatus = (status: string) => {
+const renderCourtStatus = (status: string, isNotice = false) => {
     const emoji = getStatusEmoji(status);
-    if (emoji) {
+    if (isNotice || emoji || getStatusCategory(status) === 'campeonato') {
         return (
             <span className="status-text">
-                <span aria-hidden="true">{emoji}</span> {status}
+                {emoji && <span aria-hidden="true">{emoji} </span>}{status}
             </span>
         );
     }
@@ -102,9 +102,15 @@ const renderCourtStatus = (status: string) => {
     if (players.length === 4) {
         return (
             <div className="status-matchup status-matchup-doubles">
-                <span className="status-team">{players[0]} / {players[1]}</span>
+                <div className="status-team" role="group" aria-label="Team 1">
+                    <span className="status-player">{players[0]}</span>
+                    <span className="status-player">{players[1]}</span>
+                </div>
                 <span className="status-vs">vs</span>
-                <span className="status-team">{players[2]} / {players[3]}</span>
+                <div className="status-team" role="group" aria-label="Team 2">
+                    <span className="status-player">{players[2]}</span>
+                    <span className="status-player">{players[3]}</span>
+                </div>
             </div>
         );
     }
@@ -498,7 +504,7 @@ const Dashboard: React.FC = () => {
                                         <span className="court-name">
                                             {slot.court.replace('Cancha ', 'C')}
                                         </span>
-                                        {!slot.available && renderCourtStatus(slot.data)}
+                                        {!slot.available && renderCourtStatus(slot.data, slot.isBlockedByAdmin)}
                                     </div>
                                 ))}
                             </div>

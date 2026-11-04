@@ -1,0 +1,60 @@
+{
+  "executedAt": "2026-11-04T17:54:59.544Z",
+  "dateLocal": "2026-11-04",
+  "scope": "Dashboard presentation only: long notices, doubles teams, responsive legend",
+  "runtime": "Node 22.19.0",
+  "unit": {
+    "tests": 355,
+    "pass": 355,
+    "fail": 0,
+    "skipped": 0
+  },
+  "newUnitTests": 8,
+  "build": "passed",
+  "typescript": "passed",
+  "eslint": "passed",
+  "browser": {
+    "status": "passed",
+    "views": 16,
+    "checks": 211,
+    "widths": [
+      320,
+      390,
+      430,
+      768,
+      820,
+      1024,
+      1157,
+      1440
+    ],
+    "engines": [
+      "webkit",
+      "chromium"
+    ],
+    "runtimeErrors": [],
+    "unexpected": [],
+    "writes": []
+  },
+  "paletteLiteralsUnchanged": true,
+  "backendChanged": false,
+  "realDatabaseWrites": 0,
+  "paymentRulesChanged": false,
+  "envChanged": false,
+  "productionDeployment": false,
+  "physicalDeviceAcceptance": false,
+  "sourceHashes": {
+    "src/components/Dashboard.tsx": "c6621368e6eb0372850ad1f32c55a488526eeebcb89e4dd70c46ab91b61c31c5",
+    "src/styles/Dashboard.css": "784caf9054f2a2c2abd5a16b3ee6faccf8713cb154a7e89a72fca965ad504bf4",
+    "tests/dashboardStatus.test.mjs": "21ad281676594c58f7c8d52759b4c43e44a028d817789bd88a5805bfba211b86",
+    "tests/e2e/dashboardStatus.mjs": "523677d3837271d2f4b1757339182e42d3098184f0e15443d2919e7d6beb4996"
+  },
+  "doublesRefinement": {
+    "equalTeamColumns": true,
+    "textCentersMeasuredWithDOMRange": true,
+    "fixedVersus": {
+      "width": 32,
+      "height": 28
+    },
+    "mobileMatchBelowCourtCode": true
+  }
+}

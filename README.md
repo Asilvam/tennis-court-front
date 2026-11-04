@@ -115,6 +115,10 @@ Las acciones asincronas muestran spinner de boton, panel o SweetAlert2; navegaci
 y seleccion local no agregan esperas artificiales. Validacion local automatizada
 completa; pendiente aceptacion en dispositivos fisicos y sin despliegue.
 
+Dashboard responsive: [avisos largos, equipos de dobles y leyenda](docs/dashboard-status-layout.md).
+Se mantienen colores y reglas de reserva. Evidencia geometrica y capturas en
+movil, tablet y escritorio; no equivale a certificacion en iPhone/iPad fisicos.
+
 ## Tech Stack
 
 | Layer | Technology |

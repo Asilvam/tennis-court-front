@@ -101,8 +101,9 @@
 /* Legend Bar */
 .legend-bar {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px 20px;
+    grid-template-columns: repeat(7, max-content);
+    justify-content: space-between;
+    gap: 10px 12px;
     margin-bottom: 22px;
     padding: 16px 18px;
     background: linear-gradient(180deg, rgba(17, 37, 68, 0.92) 0%, rgba(10, 27, 51, 0.96) 100%);
@@ -117,13 +118,15 @@
 .legend-item {
     display: flex;
     align-items: center;
+    min-width: 0;
+    gap: 6px;
 }
 
 .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    margin-right: 5px;
+    flex: 0 0 10px;
     display: inline-block;
 }
 
@@ -228,11 +231,14 @@
     padding: 10px;
     gap: 10px;
     overflow-x: auto;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .court-card {
-    flex: 1;
-    min-width: 100px;
+    flex: 1 1 0;
+    min-width: 0;
+    box-sizing: border-box;
     padding: 15px 10px;
     border-radius: 16px;
     text-align: center;
@@ -259,35 +265,60 @@
 }
 
 .status-text {
-    font-size: 0.75rem;
-    opacity: 0.8;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    text-align: left;
 }
 
 .status-matchup {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     justify-content: center;
     gap: 8px;
     width: 100%;
     margin-top: 6px;
-    flex-wrap: wrap;
+    min-width: 0;
     text-align: center;
 }
 
 .status-matchup-doubles {
-    gap: 6px 10px;
+    grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+    gap: 8px;
+}
+
+.status-matchup-doubles > .status-vs {
+    width: 32px;
+    height: 28px;
+    padding: 0;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0;
 }
 
 .status-player,
 .status-team {
-    font-size: 0.9rem;
+    font-size: 14px;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.4;
     color: currentColor;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .status-team {
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
 }
 
 .status-vs {
@@ -432,6 +463,12 @@
 }
 
 /* Responsive Adjustments */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .legend-bar {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .dashboard-header {
         flex-direction: column;
@@ -484,17 +521,21 @@
 
     .court-card {
         width: 100%;
+        flex: 0 0 auto;
         /* Default: Full width for column layout */
         margin-bottom: 0;
         /* Reset margin for column layout */
-        flex-direction: row;
-        /* Horizontal layout for better mobile list view */
-        justify-content: space-between;
-        padding: 15px;
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 10px;
+        align-items: start;
+        padding: 14px 12px;
         min-height: 50px;
     }
 
     .courts-container.all-available .court-card {
+        display: flex;
+        flex: 1 1 0;
         width: calc(33% - 10px);
         /* Approx 3 per row, considering gap */
         min-width: unset;
@@ -513,11 +554,15 @@
     .court-name {
         margin-bottom: 0;
         font-size: 1rem;
+        text-align: left;
     }
 
-    .status-player,
-    .status-team {
-        font-size: 0.98rem;
+    .status-matchup {
+        margin-top: 0;
+    }
+
+    .status-matchup-doubles {
+        grid-column: 1 / -1;
     }
 
     .courts-container.all-available .court-name {
