@@ -1,0 +1,41 @@
+{
+  "executedAt": "2026-11-04T20:19:17.600Z",
+  "scope": "Only occupied court clipping added; preexisting event color and emoji changes preserved",
+  "runtime": "v22.19.0",
+  "redBeforeFix": {
+    "focused": 13,
+    "passed": 12,
+    "failed": 1,
+    "reason": "Missing overflow hidden in occupied card rule"
+  },
+  "unit": {
+    "tests": 360,
+    "pass": 360,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "status": "passed",
+    "views": 16,
+    "checks": 315,
+    "errors": [],
+    "writes": [],
+    "unexpected": []
+  },
+  "pixels": {
+    "status": "passed",
+    "images": 32,
+    "assertions": 96
+  },
+  "build": "passed",
+  "typescriptApp": "passed",
+  "eslint": "passed",
+  "sourceHashes": {
+    "src/styles/Dashboard.css": "3308be2f49574695182f8feab7fe1868d37bb77a96b9ca3911727e1d18f3735b",
+    "tests/dashboardStatus.test.mjs": "f15b720d75d454a5bff04db665a00b30b65f5570a80d5281dedee9c90b7db4de",
+    "tests/e2e/dashboardStatus.mjs": "34a65496bab3560e4610f4f90739eacbf6a9d718bb7f8f45d1b90696e3a075cd"
+  },
+  "realDatabaseWrites": 0,
+  "deployed": false,
+  "physicalDeviceAcceptance": false
+}

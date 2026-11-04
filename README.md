@@ -120,6 +120,11 @@ Se mantienen colores y reglas de reserva. Evidencia geometrica y capturas en
 movil, tablet y escritorio; no equivale a certificacion en iPhone/iPad fisicos.
 Distribucion posterior aprobada: [cancha vertical lateral en movil, tablet y escritorio](docs/dashboard-court-labels.md),
 con nombres horizontales centrados cuando la cancha esta disponible.
+Correccion posterior: [recorte de franjas de eventos en las esquinas](docs/dashboard-event-corners.md),
+conservando los fondos y emojis aportados por el usuario.
+Distribucion: [columnas iguales y horario compacto en tablet](docs/dashboard-court-distribution.md).
+Pendiente de aprobacion: horario como banda superior en tablet para mejorar
+los saltos de apellidos en dobles; esa alternativa no esta implementada.
 
 ## Tech Stack
 

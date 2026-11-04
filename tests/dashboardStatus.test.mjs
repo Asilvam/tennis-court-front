@@ -95,3 +95,20 @@ test('all court labels retain the complete name as a single rotatable string', (
 test('dashboard passes the backend notice flag to the renderer', () => {
   assert.match(source, /renderCourtStatus\(slot\.data, slot\.isBlockedByAdmin\)/);
 });
+
+test('occupied court cards clip their colored rail to the existing rounded border', async () => {
+  const css = await readFile(new URL('../src/styles/Dashboard.css', import.meta.url), 'utf8');
+  const occupiedRule = css.match(/\.court-card:not\(\.available\)\s*\{([^}]+)\}/)?.[1];
+  assert.ok(occupiedRule);
+  assert.match(occupiedRule, /overflow:\s*hidden\s*;/);
+});
+
+test('desktop court rows define three equal grid tracks regardless of availability', async () => {
+  const css = await readFile(new URL('../src/styles/Dashboard.css', import.meta.url), 'utf8');
+  assert.match(css, /@media\s*\(min-width:\s*769px\)\s*\{\s*\.courts-container\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\);/);
+});
+
+test('tablet schedule column is narrower without changing mobile layout', async () => {
+  const css = await readFile(new URL('../src/styles/Dashboard.css', import.meta.url), 'utf8');
+  assert.match(css, /@media\s*\(min-width:\s*769px\)\s*and\s*\(max-width:\s*1023px\)\s*\{\s*\.time-label\s*\{\s*flex-basis:\s*152px;\s*width:\s*152px;/);
+});

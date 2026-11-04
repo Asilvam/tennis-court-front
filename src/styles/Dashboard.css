@@ -122,6 +122,16 @@
     gap: 6px;
 }
 
+/* Únicamente los cuatro eventos utilizan emojis en la leyenda. */
+.legend-event-emoji {
+    display: inline-flex;
+    flex: 0 0 14px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
 .dot {
     width: 10px;
     height: 10px;
@@ -266,6 +276,7 @@
 
 .court-card:not(.available) {
     display: grid;
+    overflow: hidden;
     grid-template-columns: 34px minmax(0, 1fr);
     align-items: stretch;
     padding: 0;
@@ -476,59 +487,61 @@
     opacity: 0.9;
 }
 
+/* Eventos y bloqueos: superficies limpias, sin franjas ni relieves fuertes.
+   Se mantienen dimensiones, grilla, tipografía y comportamiento de las tarjetas. */
 .court-card.championship {
-    background-color: rgba(168, 85, 247, 0.14);
-    color: #e9d5ff;
-    border-color: rgba(192, 132, 252, 0.28);
+    background-color: #322546;
+    color: #e3caff;
+    border-color: #ae86e7;
 }
 
 .court-card.maintenance {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background-color: #172033;
-    color: #fff7d6;
-    border-color: #fbbf24;
-    box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.24);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-}
-
-.court-card.maintenance::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-        135deg,
-        rgba(15, 23, 42, 0.68) 0 14px,
-        rgba(251, 191, 36, 0.38) 14px 28px
-    );
-}
-
-.court-card.maintenance > * {
-    position: relative;
-    z-index: 1;
+    background-color: #3c3020;
+    color: #ffd787;
+    border-color: #d9a64d;
 }
 
 .court-card.class {
-    background-color: rgba(74, 222, 128, 0.14);
-    color: #bbf7d0;
-    border-color: rgba(74, 222, 128, 0.24);
+    background-color: #173d37;
+    color: #a2f0c5;
+    border-color: #36b98a;
 }
 
 .court-card.weather {
-    background-color: #94a3b8;
-    background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px),
-        linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
-    color: #f8fafc;
-    border-color: #475569;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: #263b54;
+    color: #d7e9fa;
+    border-color: #7e9fbe;
 }
 
+/* Diferenciar la franja lateral sin cambiar su ancho ni su orientación. */
+.court-card.championship .court-name { background-color: #46315f; }
+.court-card.maintenance .court-name { background-color: #574126; }
+.court-card.class .court-name { background-color: #205348; }
+.court-card.weather .court-name { background-color: #354c68; }
+
+/* El detalle sigue siendo legible y conserva todos los datos originales. */
+.court-card.championship .status-text { color: #f0e4fc; }
+.court-card.maintenance .status-text { color: #fae9c7; }
+.court-card.class .status-text { color: #dbf7e9; }
+.court-card.weather .status-text { color: #dae5f3; }
+
 /* Responsive Adjustments */
+@media (min-width: 769px) {
+    .courts-container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
 @media (min-width: 769px) and (max-width: 1023px) {
+    .time-label {
+        flex-basis: 152px;
+        width: 152px;
+        padding: 12px 8px;
+        font-size: 14px;
+        gap: 4px;
+    }
+
     .legend-bar {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }

@@ -63,7 +63,7 @@ const getStatusEmoji = (status: string) => {
     if (category === 'clases') return '🎾';
     if (category === 'campeonato') return '🏆';
     if (category === 'reserva') return '✏️';
-    if (category === 'mantencion') return '🪏';
+    if (category === 'mantencion') return '🛠️';
     if (category === 'clima') {
         if (normalizedStatus.includes('viento')) return '🌬️';
         if (/trueno|tormenta|rayo/.test(normalizedStatus)) return '⛈️';
@@ -488,10 +488,10 @@ const Dashboard: React.FC = () => {
                 <div className="legend-item available"><span className="dot available"></span>Disponible</div>
                 <div className="legend-item reserved"><span className="dot reserved"></span>Reservado</div>
                 <div className="legend-item pending-payment"><span className="dot pending-payment"></span>Pendiente de pago</div>
-                <div className="legend-item maintenance"><span className="dot maintenance"></span>Mantención</div>
-                <div className="legend-item championship"><span className="dot championship"></span>Campeonato</div>
-                <div className="legend-item class"><span className="dot class"></span>Clases</div>
-                <div className="legend-item weather"><span className="dot weather"></span>Clima</div>
+                <div className="legend-item maintenance"><span className="legend-event-emoji" aria-hidden="true">🛠️</span>Mantención</div>
+                <div className="legend-item championship"><span className="legend-event-emoji" aria-hidden="true">🏆</span>Campeonato</div>
+                <div className="legend-item class"><span className="legend-event-emoji" aria-hidden="true">🎾</span>Clases</div>
+                <div className="legend-item weather"><span className="legend-event-emoji" aria-hidden="true">🌦️</span>Clima</div>
             </div>
 
             {/* Time Slots Grid */}

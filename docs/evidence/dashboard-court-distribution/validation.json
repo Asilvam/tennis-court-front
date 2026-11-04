@@ -1,0 +1,333 @@
+{
+  "executedAt": "2026-11-04T20:30:03.544Z",
+  "runtime": "v22.19.0",
+  "unit": {
+    "tests": 362,
+    "pass": 362,
+    "fail": 0,
+    "skipped": 0
+  },
+  "focused": 15,
+  "redBeforeGridFix": {
+    "tests": 15,
+    "pass": 13,
+    "fail": 2
+  },
+  "browser": {
+    "status": "passed",
+    "views": 20,
+    "checks": 453,
+    "errors": [],
+    "writes": [],
+    "unexpected": []
+  },
+  "measurements": [
+    {
+      "width": 390,
+      "timeWidths": [
+        356,
+        356,
+        356,
+        356,
+        356,
+        356
+      ],
+      "rows": [
+        [
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          }
+        ],
+        [
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          }
+        ],
+        [
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          }
+        ],
+        [
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          }
+        ],
+        [
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          },
+          {
+            "x": 27,
+            "width": 336
+          }
+        ],
+        [
+          {
+            "x": 27,
+            "width": 106.65625
+          },
+          {
+            "x": 141.65625,
+            "width": 106.671875
+          },
+          {
+            "x": 256.328125,
+            "width": 106.671875
+          }
+        ]
+      ]
+    },
+    {
+      "width": 820,
+      "timeWidths": [
+        152,
+        152,
+        152,
+        152,
+        152,
+        152
+      ],
+      "rows": [
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ],
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ],
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ],
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ],
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ],
+        [
+          {
+            "x": 179,
+            "width": 198
+          },
+          {
+            "x": 387,
+            "width": 198
+          },
+          {
+            "x": 595,
+            "width": 198
+          }
+        ]
+      ]
+    },
+    {
+      "width": 1157,
+      "timeWidths": [
+        190,
+        190,
+        190,
+        190,
+        190,
+        190
+      ],
+      "rows": [
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ],
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ],
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ],
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ],
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ],
+        [
+          {
+            "x": 283.5,
+            "width": 253.328125
+          },
+          {
+            "x": 546.828125,
+            "width": 253.328125
+          },
+          {
+            "x": 810.15625,
+            "width": 253.328125
+          }
+        ]
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "src/components/Dashboard.tsx": "93a06f23a748ba80334233d19bd2a9defa84689367755c24e5986bec986b2c25",
+    "src/styles/Dashboard.css": "70c50b683da758e5c2265ff9e6499e85f2d6a96243827bcc31adf72c85f58b53",
+    "tests/dashboardStatus.test.mjs": "102555a575322b41d31894db0c016f97bcde3da00b3d7195f5b317a1fc0519bc",
+    "tests/e2e/dashboardStatus.mjs": "044f63bfbbaee9d053531eb0a0aa7a13e68ac4e36e0c9e08451197496a105fed",
+    "aplicar_tarjetas_eventos.py": "9f67866b38202cadddab198b8e1ba026f9fdb5a2fd981293fff02f5773a395a7"
+  },
+  "build": "passed",
+  "typescriptApp": "passed",
+  "eslint": "passed",
+  "scriptExecuted": false,
+  "scriptModified": false,
+  "pendingTabletUX": "Some doubles surnames still break in narrow columns. Top schedule band proposed, not approved or implemented.",
+  "realDatabaseWrites": 0,
+  "productionDeployment": false,
+  "physicalDeviceAcceptance": false
+}

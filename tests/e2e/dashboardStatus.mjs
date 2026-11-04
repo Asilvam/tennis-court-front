@@ -21,7 +21,7 @@ const fixtures = [
   { time: '12:15-14:00', slots: [court(1, 'Mantencion - ' + 'SectorSinEspacios'.repeat(6), { isBlockedByAdmin: true }), court(2, 'Pendiente de pago', { isPendingPayment: true }), court(3, 'Clima - Lluvia intensa, canchas cerradas', { isBlockedByAdmin: true })] },
   { time: '16:15-18:00', slots: [court(1, 'Clases - José Christian Ordenes Vegas', { isBlockedByAdmin: true }), court(2, 'J. Millar, B. Millar'), court(3, 'V. Bugueño, J. Ordenes, M. Fonseca, V. Illesca')] },
   { time: '18:15-20:00', slots: [court(1, fullNames.join(', ')), court(2, 'Jugador Nombre Completo, Rival Apellido Compuesto'), court(3)] },
-  { time: '20:15-22:00', slots: [court(1), court(2), court(3)] },
+  { time: '20:15-22:00', slots: [court(1), court(2), court(3, '', { isPayed: true })] },
 ];
 const css = await readFile(resolve(root, 'node_modules/materialize-css/dist/css/materialize.min.css'));
 const js = await readFile(resolve(root, 'node_modules/materialize-css/dist/js/materialize.min.js'));
@@ -33,7 +33,7 @@ let browser, page;
 try {
   for (const engine of ['webkit', 'chromium']) {
     browser = await ({ webkit, chromium }[engine]).launch(engine === 'chromium' ? { executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true } : { headless: true });
-    for (const width of [320, 390, 430, 768, 820, 1024, 1157, 1440]) {
+    for (const width of [320, 390, 430, 768, 769, 820, 1023, 1024, 1157, 1440]) {
       const label = `${engine}/${width}`;
       const ctx = await browser.newContext({ viewport: { width, height: 1000 }, locale: 'es-CL', timezoneId: 'America/Santiago', hasTouch: width <= 820 });
       await ctx.addInitScript(token => {
@@ -74,6 +74,8 @@ try {
         const rect = el => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom }; };
         return {
           width: innerWidth, documentWidth: document.documentElement.scrollWidth,
+          clipping: [...document.querySelectorAll('.court-card:not(.available)')].map(el => ({ overflowX: getComputedStyle(el).overflowX, overflowY: getComputedStyle(el).overflowY, radius: getComputedStyle(el).borderTopLeftRadius })),
+          times: [...document.querySelectorAll('.time-label')].map(el => ({ ...rect(el), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth, children: [...el.childNodes].map(node => { const range = document.createRange(); range.selectNode(node); return rect(range); }) })),
           legend: [...document.querySelectorAll('.legend-item')].map(rect),
           rows: [...document.querySelectorAll('.time-row')].map(row => ({ courts: [...row.querySelectorAll('.court-card')].map(rect), width: row.querySelector('.courts-container').clientWidth, scrollWidth: row.querySelector('.courts-container').scrollWidth })),
           texts: [...document.querySelectorAll('.status-text,.status-player,.status-reason')].map(el => ({ text: el.textContent, ...rect(el), width: el.clientWidth, scrollWidth: el.scrollWidth, height: el.clientHeight, scrollHeight: el.scrollHeight, fontSize: parseFloat(getComputedStyle(el).fontSize), overflow: getComputedStyle(el).textOverflow })),
@@ -86,7 +88,16 @@ try {
         };
       });
       check(metrics.documentWidth <= width + 1, `${label}: page fits viewport`);
+      check(metrics.clipping.length > 0 && metrics.clipping.every(card => card.overflowX === 'hidden' && card.overflowY === 'hidden' && card.radius === '16px'), `${label}: occupied court rails are clipped to the existing rounded corners`);
       check(metrics.rows.every(row => row.scrollWidth <= row.width + 1), `${label}: no court-row horizontal scrolling`);
+      check(metrics.times.every(time => time.scrollWidth <= time.clientWidth + 1 && time.children.every(child => child.x >= time.x && child.right <= time.right)), `${label}: schedule text and night-light icon fit their column`);
+      if (width >= 769) {
+        check(metrics.rows.every(row => row.courts.every(card => Math.abs(card.width - row.courts[0].width) < 1)), `${label}: all three court tracks have equal widths in mixed and empty rows`);
+        check(metrics.rows.every(row => row.courts.every((card, i) => Math.abs(card.x - metrics.rows[0].courts[i].x) < 1)), `${label}: court columns remain aligned across all time slots`);
+      } else {
+        check(metrics.rows.slice(0, -1).every(row => row.courts.every((card, i) => Math.abs(card.x - row.courts[0].x) < 1 && Math.abs(card.width - row.courts[0].width) < 1 && (!i || card.y >= row.courts[i - 1].bottom))), `${label}: mixed mobile rows keep full-width vertically stacked courts`);
+      }
+      if (width >= 769 && width <= 1023) check(metrics.times.every(time => Math.abs(time.width - 152) < 1), `${label}: tablet schedule column uses the approved compact width`);
       check(metrics.texts.every(text => text.scrollWidth <= text.width + 1 && text.scrollHeight <= text.height + 1 && text.fontSize >= 14 && text.overflow !== 'ellipsis'), `${label}: complete readable text without clipping or ellipsis`);
       check(metrics.cardContents.every(({ card, contents }) => contents.every(content => content.x >= card.x && content.right <= card.right && content.y >= card.y && content.bottom <= card.bottom)), `${label}: every text and versus stays inside its court card`);
       check(metrics.rows.every(row => row.courts.every((card, index) => index === 0 || (width <= 768 && row.courts[index - 1].y !== card.y ? row.courts[index - 1].bottom <= card.y : row.courts[index - 1].right <= card.x))), `${label}: court cards do not overlap`);
@@ -106,6 +117,8 @@ try {
       check(available.length === 3 && available.every(item => Math.abs(item.y - available[0].y) < 1), `${label}: fully available courts remain compact on one row`);
       await page.screenshot({ path: resolve(output, `${engine}-${width}-dashboard.png`), fullPage: true, animations: 'disabled' });
       await page.locator('.time-row').nth(3).screenshot({ path: resolve(output, `${engine}-${width}-matchups.png`), animations: 'disabled' });
+      await page.locator('.court-card.maintenance').first().screenshot({ path: resolve(output, `${engine}-${width}-maintenance.png`), animations: 'disabled' });
+      await page.locator('.court-card.weather').first().screenshot({ path: resolve(output, `${engine}-${width}-weather.png`), animations: 'disabled' });
       await page.locator('.court-card.championship').first().click();
       check(await page.locator('[role=dialog]').count() === 0, `${label}: blocked notice does not open booking`);
       await page.locator('.time-row').last().locator('.court-card').first().click();
