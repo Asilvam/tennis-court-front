@@ -264,6 +264,71 @@
     margin-bottom: 2px;
 }
 
+.court-card:not(.available) {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: stretch;
+    padding: 0;
+    gap: 0;
+    min-height: 80px;
+}
+
+.court-card:not(.available) .court-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 0;
+    margin: 0;
+    border-right: 1px solid rgba(148, 163, 184, 0.28);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.court-card:not(.available) .court-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    padding: 8px 0;
+}
+
+.court-content {
+    min-width: 0;
+    display: grid;
+    align-content: center;
+    gap: 5px;
+    padding: 12px 8px;
+}
+
+.court-card.available .court-name {
+    width: 100%;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.status-notice-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.status-reason {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.status-notice-emoji {
+    flex: 0 0 auto;
+}
+
 .status-text {
     display: block;
     width: 100%;
@@ -280,16 +345,16 @@
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
-    margin-top: 6px;
+    margin-top: 0;
     min-width: 0;
     text-align: center;
 }
 
 .status-matchup-doubles {
     grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
-    gap: 8px;
+    gap: 6px;
 }
 
 .status-matchup-doubles > .status-vs {
@@ -525,10 +590,8 @@
         /* Default: Full width for column layout */
         margin-bottom: 0;
         /* Reset margin for column layout */
-        display: grid;
-        grid-template-columns: 28px minmax(0, 1fr);
-        gap: 10px;
-        align-items: start;
+        display: flex;
+        align-items: center;
         padding: 14px 12px;
         min-height: 50px;
     }
@@ -544,7 +607,7 @@
         /* Back to column for compact display in row */
         justify-content: center;
         align-items: center;
-        padding: 10px;
+        padding: 10px 3px;
     }
 
     .court-card:last-child {
@@ -561,12 +624,4 @@
         margin-top: 0;
     }
 
-    .status-matchup-doubles {
-        grid-column: 1 / -1;
-    }
-
-    .courts-container.all-available .court-name {
-        margin-bottom: 2px;
-        /* Restore margin for column layout in row */
-    }
 }

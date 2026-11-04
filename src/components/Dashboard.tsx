@@ -61,6 +61,7 @@ const getStatusEmoji = (status: string) => {
     const normalizedStatus = status.toLocaleLowerCase('es-CL');
 
     if (category === 'clases') return '🎾';
+    if (category === 'campeonato') return '🏆';
     if (category === 'reserva') return '✏️';
     if (category === 'mantencion') return '🪏';
     if (category === 'clima') {
@@ -73,13 +74,34 @@ const getStatusEmoji = (status: string) => {
     return '';
 };
 
-const renderCourtStatus = (status: string, isNotice = false) => {
+const getCourtNotice = (status: string, isBlockedByAdmin = false) => {
+    const category = getStatusCategory(status);
     const emoji = getStatusEmoji(status);
-    if (isNotice || emoji || getStatusCategory(status) === 'campeonato') {
+    if (!isBlockedByAdmin && !emoji && category !== 'campeonato') return null;
+    const knownReason = ['clases', 'campeonato', 'reserva', 'mantencion', 'clima'].includes(category);
+    const separator = knownReason ? status.indexOf(' - ') : -1;
+    return {
+        reason: knownReason ? (separator >= 0 ? status.slice(0, separator) : status).trim() : '',
+        detail: separator >= 0 ? status.slice(separator + 3).trim() : knownReason ? '' : status,
+        emoji,
+    };
+};
+
+const renderCourtName = (court: string) => (
+    <span className="court-name"><span className="court-label">{court}</span></span>
+);
+
+const renderCourtStatus = (status: string, isNotice = false) => {
+    const notice = getCourtNotice(status, isNotice);
+    if (notice) {
         return (
-            <span className="status-text">
-                {emoji && <span aria-hidden="true">{emoji} </span>}{status}
-            </span>
+            <>
+                {notice.reason && <div className="status-notice-heading">
+                    <span className="status-reason">{notice.reason}</span>
+                    {notice.emoji && <span className="status-notice-emoji" aria-hidden="true">{notice.emoji}</span>}
+                </div>}
+                {notice.detail && <span className="status-text">{notice.detail}</span>}
+            </>
         );
     }
 
@@ -487,10 +509,15 @@ const Dashboard: React.FC = () => {
                                 )}
                             </div>
                             <div className={`courts-container ${allAvailable ? 'all-available' : ''}`}>
-                                {timeSlot.slots.map((slot, idx) => (
+                                {timeSlot.slots.map((slot, idx) => {
+                                    const notice = !slot.available && getCourtNotice(slot.data, slot.isBlockedByAdmin);
+                                    const playerCount = slot.available ? 0 : slot.data.split(',').filter(player => player.trim()).length;
+                                    const isMatch = !slot.available && !notice && [2, 4].includes(playerCount);
+                                    return (
                                     <div
                                         key={idx}
                                         className={`court-card ${slot.available ? 'available' : 'unavailable'} 
+                                                    ${notice ? 'court-card--notice' : isMatch ? 'court-card--match' : ''}
                                                     ${expiredTimeSlot ? 'expired' : ''}
                                                     ${slot.isPayed ? 'paid' : ''} 
                                                     ${slot.isPendingPayment ? 'pending-payment' : ''}
@@ -501,12 +528,11 @@ const Dashboard: React.FC = () => {
                                                     ${getStatusCategory(slot.data) === 'reserva' ? 'reserved' : ''}`}
                                         onClick={() => handleTimeSlotClick(slot.court, timeSlot.time, slot.isPayed, slot.available, slot.data, slot.isBlockedByAdmin)}
                                     >
-                                        <span className="court-name">
-                                            {slot.court.replace('Cancha ', 'C')}
-                                        </span>
-                                        {!slot.available && renderCourtStatus(slot.data, slot.isBlockedByAdmin)}
+                                        {renderCourtName(slot.court)}
+                                        {!slot.available && <div className="court-content">{renderCourtStatus(slot.data, slot.isBlockedByAdmin)}</div>}
                                     </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     )

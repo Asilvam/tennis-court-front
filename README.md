@@ -118,6 +118,8 @@ completa; pendiente aceptacion en dispositivos fisicos y sin despliegue.
 Dashboard responsive: [avisos largos, equipos de dobles y leyenda](docs/dashboard-status-layout.md).
 Se mantienen colores y reglas de reserva. Evidencia geometrica y capturas en
 movil, tablet y escritorio; no equivale a certificacion en iPhone/iPad fisicos.
+Distribucion posterior aprobada: [cancha vertical lateral en movil, tablet y escritorio](docs/dashboard-court-labels.md),
+con nombres horizontales centrados cuando la cancha esta disponible.
 
 ## Tech Stack
 
