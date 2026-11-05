@@ -126,6 +126,16 @@ export function billingPeriodLabel(period: string): string {
     timeZone: 'UTC',
   }).format(new Date(`${period}-01T12:00:00Z`));
 }
+export function billingPeriodShortLabel(period: string): string {
+  return new Intl.DateTimeFormat('es-CL', {
+    month: 'short',
+    year: '2-digit',
+    timeZone: 'UTC',
+  }).formatToParts(new Date(`${period}-01T12:00:00Z`))
+    .filter((part) => part.type === 'month' || part.type === 'year')
+    .map((part) => part.value.replace(/\.$/, ''))
+    .join('-');
+}
 export function toggleDueSelection(
   dues: MembershipDue[],
   selected: string[],

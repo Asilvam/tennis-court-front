@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
-import { billingMoney, billingPeriodLabel, paymentStatusLabel } from "../utils/membershipPayments";
+import { billingMoney, billingPeriodLabel, billingPeriodShortLabel, paymentStatusLabel } from "../utils/membershipPayments";
 import type { BillingContext } from "../utils/membershipPayments";
 import { MembershipEnrollment } from "./MembershipEnrollment";
 import { MembershipBatchEnrollment } from "./MembershipBatchEnrollment";
@@ -106,7 +106,12 @@ export function AdminMembershipMember({
             {dues.map((row) => (
               <tr key={row.id}>
                 <td data-label="Mes">
-                  <strong>{billingPeriodLabel(row.period)}</strong>
+                  <strong>
+                    <span className="ap-due-period-full">{billingPeriodLabel(row.period)}</span>
+                    <abbr className="ap-due-period-short" title={billingPeriodLabel(row.period)}>
+                      {billingPeriodShortLabel(row.period)}
+                    </abbr>
+                  </strong>
                 </td>
                 <td data-label="Vencimiento">
                   {new Intl.DateTimeFormat("es-CL", { timeZone: "America/Santiago" }).format(

@@ -23,7 +23,7 @@ const routes = [
   ['/dashboard', '.dashboard-container', '.court-card'],
   ['/adminregister', '.admin-register-container', '.user-table tbody tr'],
   ['/adminreserves', '.ar-container', '.ar-table tbody tr'],
-  ['/ranking', '.ranking-wrapper', '.category-card'],
+  ['/ranking', '.ranking-wrapper', '.ranking-table'],
   ['/myhistory', '.history-page', '.history-table tbody tr'],
   ['/multibooking', '.mbf-container', '.mbf-form-layout'],
   ['/adminpayments', '.admin-membership-payments', '.ap-table tbody tr'],
@@ -140,7 +140,7 @@ try {
         await page.waitForURL(`${origin}${path}`);
       };
       await page.locator('.ctq-nav__brand').click();
-      await menuNavigate('/ranking'); await page.locator('.category-card').first().waitFor();
+      await menuNavigate('/ranking'); await page.locator('.ranking-table').waitFor();
       await menuNavigate('/profile'); await page.locator('.profile-section--history .match-row').first().waitFor();
       const afterNavigation = await page.locator('.profile-container').boundingBox();
       check(Math.abs(afterNavigation.width - home.width) < 1, `${engine}/${width}: shared width survives SPA navigation and accumulated styles`);

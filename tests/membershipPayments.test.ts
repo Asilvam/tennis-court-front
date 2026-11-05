@@ -5,6 +5,8 @@ import {
   bankPaymentPayload,
   bankRequestIdentity,
   billingToday,
+  billingPeriodLabel,
+  billingPeriodShortLabel,
   paymentMethodLabel,
   paymentStatusLabel,
   selectedDuesTotal,
@@ -14,6 +16,14 @@ import {
 } from '../src/utils/membershipPayments.ts';
 
 const now = new Date('2026-10-17T15:00:00Z');
+test('billing period keeps full desktop label and compact month-year for mobile', () => {
+  assert.equal(billingPeriodLabel('2026-11'), 'noviembre de 2026');
+  const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+  for (const [index, month] of months.entries()) {
+    assert.equal(billingPeriodShortLabel(`2026-${String(index + 1).padStart(2, '0')}`), `${month}-26`);
+  }
+  assert.equal(billingPeriodShortLabel('2027-01'), 'ene-27');
+});
 const context: BillingContext = {
   memberId: 'titular',
   members: [

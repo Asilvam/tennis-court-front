@@ -582,6 +582,10 @@
 .ap-dues-table th:last-child {
   width: auto;
 }
+.ap-dues-table .ap-due-period-short {
+  display: none;
+  text-decoration: none;
+}
 .ap-enrollment {
   padding: 16px 0;
 }
@@ -714,7 +718,8 @@
     display: flex;
     flex-direction: column;
   }
-  .ap-table td[data-label]:not(:first-child)::before {
+  .ap-table td[data-label]:not(:first-child)::before,
+  .ap-dues-table td:first-child::before {
     content: attr(data-label);
     display: block;
     font-size: 11px;
@@ -765,10 +770,36 @@
     gap: 8px;
   }
   .ap-dues-table tbody tr {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.25fr) repeat(2, minmax(0, 1fr));
+    gap: 10px 8px;
+  }
+  .ap-dues-table td:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .ap-dues-table td:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    white-space: nowrap;
+  }
+  .ap-dues-table td:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1;
+    white-space: nowrap;
   }
   .ap-dues-table td:nth-child(4) {
-    grid-column: 2;
-    grid-row: 3;
+    grid-column: 4;
+    grid-row: 1;
+  }
+  .ap-dues-table td,
+  .ap-dues-table strong {
+    font-size: 14px;
+  }
+  .ap-dues-table .ap-due-period-full {
+    display: none;
+  }
+  .ap-dues-table .ap-due-period-short {
+    display: inline;
+    white-space: nowrap;
   }
 }

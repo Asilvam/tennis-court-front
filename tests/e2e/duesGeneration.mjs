@@ -92,6 +92,13 @@ try {
           return { width: innerWidth, documentWidth: document.documentElement.scrollWidth, scale: visualViewport?.scale, overflow, overlaps };
         });
         check(metrics.documentWidth <= width + 1 && !metrics.overflow && !metrics.overlaps, `${label}/${name}: no horizontal overflow or overlapping controls`);
+        if (width <= 650) {
+          const rowsAligned = await page.locator('.ap-dues-table tbody tr').evaluateAll(rows => rows.every(row => {
+            const [month, due, amount, status] = [...row.cells].map(cell => cell.getBoundingClientRect());
+            return Math.abs(month.y - due.y) < 1 && month.right <= due.x && Math.abs(due.y - amount.y) < 1 && Math.abs(due.y - status.y) < 1 && due.right <= amount.x && amount.right <= status.x;
+          }));
+          check(rowsAligned, `${label}/${name}: compact month, due date, amount and status share one row`);
+        }
         await page.screenshot({ path: resolve(output, `${name}-${engine}-${width}.png`), fullPage: true });
         return metrics;
       };
