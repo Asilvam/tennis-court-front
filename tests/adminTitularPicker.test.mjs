@@ -23,6 +23,8 @@ const compiled = await build({
             './OptionPicker': `export const OptionPicker='OptionPicker';`,
             './AppLoader': `export default 'AppLoader';`,
             './LoadingSpinner': `export const LoadingSpinner='LoadingSpinner';`,
+            '../hooks/useAdminDirectory': `export const useAdminDirectory=()=>({items:globalThis.__titular.rows,total:globalThis.__titular.rows.length,loading:false,refresh:async()=>{},params:{},fetching:false,page:1,pages:1,pageSize:25});`,
+            './AdminDirectoryControls': `export const AdminDirectoryToolbar='DirectoryToolbar';export const AdminDirectoryPagination='DirectoryPagination';`,
         };
         builder.onResolve({ filter: /.*/ }, args => args.path in modules ? { path: args.path, namespace: 'fixture' } : undefined);
         builder.onLoad({ filter: /.*/, namespace: 'fixture' }, args => ({ loader: 'js', contents: modules[args.path] }));
@@ -48,7 +50,7 @@ beforeEach(async () => {
     globalThis.__titular = h;
     globalThis.document = { body: {} };
     globalThis.requestAnimationFrame = () => 0;
-    render(); h.effects.splice(0).forEach(fn => fn()); await flush(); edit();
+    render(); h.effects.splice(0).forEach(fn => fn()); await flush(); edit(); await flush();
 });
 afterEach(() => { delete globalThis.__titular; delete globalThis.requestAnimationFrame; delete globalThis.document; });
 

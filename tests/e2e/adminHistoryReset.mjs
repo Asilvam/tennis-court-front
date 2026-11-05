@@ -58,7 +58,7 @@ try {
           if(url.pathname.endsWith('/me/access'))return respond({role:'admin',name,financiallyRestricted:false});
           if(url.pathname==='/register'&&request.method()==='GET')return respond(users);
           if(url.pathname==='/match-ranking/ranking'&&request.method()==='GET'){rankingReads++;return respond(rankingData);}
-          if(url.pathname.startsWith('/court-reserve/history/'))return respond(rows);
+          if(url.pathname==='/court-reserve/my-history')return respond({items:rows,total:rows.length,cancelled:rows.filter(row=>!row.state).length,page:1,pageSize:25,pages:1});
           if(request.method()==='DELETE'&&url.pathname==='/court-reserve/fixture-future'){
             writes.push({method:'DELETE',path:url.pathname,authenticated:request.headers().authorization===`Bearer ${token}`});
             rows=rows.map(row=>({...row,state:false}));return respond({success:true});

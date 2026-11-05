@@ -8,6 +8,9 @@ import { getTokenFromLocalStorage } from '../utils/tokenUtils';
 import Swal from 'sweetalert2';
 import AppLoader from './AppLoader';
 import { LoadingSpinner } from './LoadingSpinner';
+import { useSearchParams } from 'react-router-dom';
+import { AdminDirectoryPagination } from './AdminDirectoryControls';
+import { historyPagination } from '../utils/reservationHistory';
 import '../styles/MyHistoryReserve.css';
 
 interface Reservation {
@@ -26,8 +29,14 @@ interface Reservation {
 }
 
 const MyHistoryReserve: React.FC = () => {
-    const [reserves, setReserves] = useState<Reservation[]>([]);
+    const [history, setHistory] = useState({ items: [] as Reservation[], total: 0, cancelled: 0, page: 1, pageSize: 25, pages: 1 });
+    const reserves = history.items;
     const [loading, setLoading] = useState(true);
+    const [fetching, setFetching] = useState(true);
+    const requestSequence = useRef(0);
+    const invalidateRequests = useCallback(() => { requestSequence.current++; }, []);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const { page, pageSize } = historyPagination(searchParams);
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const deleting = deletingId !== null;
     const deletingRef = useRef(false);
@@ -49,14 +58,28 @@ const MyHistoryReserve: React.FC = () => {
         );
     };
 
-    const fetchReserves = useCallback(async () => {
-        setLoading(true);
+    const setPagination = useCallback((key: string, value: string) => {
+        setSearchParams(previous => {
+            const next = new URLSearchParams(previous);
+            if ((key === 'page' && value === '1') || (key === 'pageSize' && value === '25')) next.delete(key);
+            else next.set(key, value);
+            if (key === 'pageSize') next.delete('page');
+            return next;
+        }, { replace: true });
+    }, [setSearchParams]);
+
+    const fetchReserves = useCallback(async (signal?: AbortSignal) => {
+        const sequence = ++requestSequence.current;
+        setFetching(true);
         try {
-            const response = await axios.get(`${apiUrl}/court-reserve/history/${namePlayer}`, {
-                headers: { Authorization: `Bearer ${token}` },
+            const response = await axios.get<typeof history>(`${apiUrl}/court-reserve/my-history`, {
+                params: { page, pageSize }, headers: { Authorization: `Bearer ${token}` }, signal, timeout: 15000,
             });
-            setReserves(response.data);
+            if (signal?.aborted || sequence !== requestSequence.current) return;
+            setHistory(response.data);
+            if (response.data.page !== page) setPagination('page', String(response.data.page));
         } catch (error) {
+            if (signal?.aborted || sequence !== requestSequence.current || axios.isCancel(error)) return;
             if (axios.isAxiosError(error) && error.response?.status === 401) return;
             await Swal.fire({
                 icon: 'error',
@@ -65,13 +88,18 @@ const MyHistoryReserve: React.FC = () => {
                 confirmButtonText: 'Aceptar',
             });
         } finally {
-            setLoading(false);
+            if (!signal?.aborted && sequence === requestSequence.current) {
+                setLoading(false);
+                setFetching(false);
+            }
         }
-    }, [apiUrl, namePlayer, token]);
+    }, [apiUrl, token, page, pageSize, setPagination]);
 
     useEffect(() => {
-        void fetchReserves();
-    }, [fetchReserves]);
+        const controller = new AbortController();
+        void fetchReserves(controller.signal);
+        return () => { controller.abort(); invalidateRequests(); };
+    }, [fetchReserves, invalidateRequests]);
 
     const handleView = (reserve: Reservation) => {
         void Swal.fire({
@@ -147,14 +175,17 @@ const MyHistoryReserve: React.FC = () => {
                 <dl className="history-kpis">
                     <div>
                         <dt>Reservas</dt>
-                        <dd>{reserves.length}</dd>
+                        <dd>{history.total}</dd>
                     </div>
                     <div>
                         <dt>Canceladas</dt>
-                        <dd>{reserves.filter((reserve) => !reserve.state).length}</dd>
+                        <dd>{history.cancelled}</dd>
                     </div>
                 </dl>
             </header>
+            <div className="history-loading" role="status" aria-live="polite">
+                {fetching && <><LoadingSpinner size={16} /><span>Actualizando historial...</span></>}
+            </div>
             {reserves.length > 0 ? (
                 <div className="history-table-wrap">
                     <table
@@ -214,7 +245,7 @@ const MyHistoryReserve: React.FC = () => {
                                                 type="button"
                                                 className="history-btn history-delete-btn"
                                                 aria-busy={deletingId === reserve.idCourtReserve}
-                                                disabled={deleting || !isOkToDelete(reserve)}
+                                                disabled={deleting || fetching || !isOkToDelete(reserve)}
                                                 onClick={() =>
                                                     void handleDelete(reserve.idCourtReserve)
                                                 }
@@ -240,6 +271,7 @@ const MyHistoryReserve: React.FC = () => {
                     <p>Cuando realices una reserva, aparecerá aquí.</p>
                 </div>
             )}
+            <AdminDirectoryPagination list={{ ...history, fetching: fetching || deleting, setParam: setPagination }} />
         </main>
     );
 };

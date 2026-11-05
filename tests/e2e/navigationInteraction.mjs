@@ -38,7 +38,7 @@ try {
             ? { accessToken: token, namePlayer: 'Administrador fixture', role: 'admin', canReserve: true, financiallyRestricted: false }
             : url.pathname.endsWith('/me/access')
               ? { name: 'Administrador fixture', role: 'admin', canReserve: true, financiallyRestricted: false }
-              : [];
+              : url.pathname === '/court-reserve/my-history' ? { items: [], total: 0, cancelled: 0, page: 1, pageSize: 25, pages: 1 } : [];
           return route.fulfill({ json: data });
         }
         if (url.pathname.endsWith('/materialize.min.css')) return route.fulfill({ contentType: 'text/css', body: materializeCss });

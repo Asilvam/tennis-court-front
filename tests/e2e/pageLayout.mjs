@@ -74,6 +74,7 @@ try {
           if (path.startsWith('/court-reserve/active/')) return respond([]);
           if (path.startsWith('/court-reserve/available/')) return respond([{ time: '20:00-21:30', slots: Array.from({ length: 3 }, (_, i) => ({ court: `Cancha ${i+1}`, available: i === 0, isPayed: false, isBlockedByAdmin: false, data: i ? 'reserva - Nombre Completo Apellido Largo vs Otro Socio Nombre Completo' : '' })) }]);
           if (path === '/court-reserve' || path.startsWith('/court-reserve/history/')) return respond(reserves);
+          if (path === '/court-reserve/my-history') return respond({ items: reserves, total: reserves.length, cancelled: reserves.filter(row => !row.state).length, page: 1, pageSize: 25, pages: 1 });
           if (path.endsWith('/editor')) return respond({ player: { name, email, active: true }, categories: [{ category: '3', points: 1635, isActive: true }, { category: 'Dobles', points: 500, isActive: true }], revision: 'fixture-revision' });
           if (path === '/membership-billing/admin/members') return respond({ items: [{ ...member, amount: 180, status: 'OPEN', pricingMode: 'TEST' }], total: 1 });
           if (path.endsWith(`/admin/members/${id}`)) return respond(billing);

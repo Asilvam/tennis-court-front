@@ -46,6 +46,7 @@ try {
           if (p.startsWith('/court-reserve/active/')) return respond(null);
           if (p.startsWith('/court-reserve/available/')) return respond([{ time: '08:15-10:00', slots: [{ court: 'Cancha 1', available: true, isPayed: false, isBlockedByAdmin: false, data: '' }] }]);
           if (p === '/register/names') return respond([name, 'Otro socio']);
+          if (p === '/court-reserve/my-history') return respond({ items: [], total: 0, cancelled: 0, page: 1, pageSize: 25, pages: 1 });
           if (p === '/news-ctq' || p === '/match-ranking' || p.includes('/history/')) return respond([]);
           unexpected.push(p); return respond([]);
         }

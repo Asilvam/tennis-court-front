@@ -11,12 +11,14 @@ const compiled = await build({
     const modules = {
       react: `export default {}; export const useState=initial=>{const h=globalThis.__reserves,i=h.cursor++;if(!(i in h.states))h.states[i]=initial;return [h.states[i],next=>h.states[i]=typeof next==='function'?next(h.states[i]):next];};export const useRef=initial=>{const h=globalThis.__reserves,i=h.refCursor++;return h.refs[i]||={current:initial};};export const useCallback=fn=>fn;export const useEffect=effect=>{const h=globalThis.__reserves;if(!h.effect){h.effect=effect;h.pending.push(effect);}};`,
       'react/jsx-runtime': `export const jsx=(type,props)=>({type,props});export const jsxs=jsx;`,
-      axios: `export default {get:async url=>{const h=globalThis.__reserves;h.reads.push(url);return {data:h.rows};},delete:async(url,options)=>{const h=globalThis.__reserves;h.writes.push({url,options});if(h.defer)await h.defer;if(h.deleteError)throw h.deleteError;return {data:{}};}};`,
+      axios: `export default {delete:async(url,options)=>{const h=globalThis.__reserves;h.writes.push({url,options});if(h.defer)await h.defer;if(h.deleteError)throw h.deleteError;h.rows=h.rows.filter(row=>!url.endsWith('/'+row.idCourtReserve));return {data:{}};}};`,
       sweetalert2: `export default {fire:async options=>{const h=globalThis.__reserves;h.dialogs.push(options);return {isConfirmed:h.confirmed};}};`,
       '@fortawesome/react-fontawesome': `export const FontAwesomeIcon='Icon';`,
       '@fortawesome/free-solid-svg-icons': `export const faTrash=0,faCalendarAlt=0;`,
       './AppLoader': `export default 'Loader';`,
       './LoadingSpinner': `export const LoadingSpinner='Spinner';`,
+      '../hooks/useAdminDirectory': `export const useAdminDirectory=()=>{const h=globalThis.__reserves;if(!h.loaded){h.loaded=true;h.reads.push('directory');}return{items:h.rows,total:h.rows.length,loading:false,refresh:async()=>{h.reads.push('directory');},params:{date:'upcoming'},fetching:false,page:1,pages:1,pageSize:25};};`,
+      './AdminDirectoryControls': `export const AdminDirectoryToolbar='DirectoryToolbar';export const AdminDirectoryPagination='DirectoryPagination';`,
     };
     builder.onResolve({ filter: /.*/ }, args=>args.path in modules?{path:args.path,namespace:'fixture'}:undefined);
     builder.onLoad({ filter: /.*/, namespace:'fixture' }, args=>({loader:'js',contents:modules[args.path]}));

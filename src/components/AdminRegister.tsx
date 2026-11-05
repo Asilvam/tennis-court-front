@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMagnifyingGlass, faMoneyBillTransfer, faTimes, faUsersGear } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faEdit, faKey, faLayerGroup, faMoneyBillTransfer, faTimes, faUsersGear } from '@fortawesome/free-solid-svg-icons';
 import {customStyles} from "../utils/customStyles.ts";
 import {roleOptions} from "../constants/playerConstants.ts";
 import AppLoader from './AppLoader';
@@ -19,6 +19,9 @@ import { memberPaymentsRoute } from '../utils/membershipNavigation';
 import { useVisibleViewport } from '../hooks/useVisibleViewport';
 import { AdaptiveSelect } from './AdaptiveSelect';
 import { OptionPicker } from './OptionPicker';
+import { useAdminDirectory } from '../hooks/useAdminDirectory';
+import { memberDirectoryDefaults } from '../utils/adminDirectory';
+import { AdminDirectoryToolbar, AdminDirectoryPagination } from './AdminDirectoryControls';
 
 interface Register extends EditableMember {
     namePlayer: string;
@@ -32,6 +35,7 @@ interface Register extends EditableMember {
     verificationToken: string;
     // points: string;
     role: string;
+    canReserve?: boolean;
 }
 
 interface SelectOption {
@@ -48,14 +52,11 @@ interface MemberAccessSummary {
     exempt: boolean;
 }
 
-let adminUsersCache: Register[] | null = null;
-
 const AdminRegister: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
     const scrollRestored = useRef(false);
-    const [searchParams, setSearchParams] = useSearchParams();
 
     const initialEditUser: Register = {
         namePlayer: '',             // Empty string for player's name
@@ -74,11 +75,12 @@ const AdminRegister: React.FC = () => {
     };
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [users, setUsers] = useState<Register[]>(() => adminUsersCache ?? []);
-    const [searchTerm, setSearchTerm] = useState<string>(() => searchParams.get('search') ?? '');
+    const directory = useAdminDirectory<Register>('members', memberDirectoryDefaults);
+    const { items: users, loading, refresh: fetchRegisters } = directory;
+    const [titulares, setTitulares] = useState<EditableMember[]>([]);
+    const [loadingTitulares, setLoadingTitulares] = useState(false);
     const [editUser, setEditUser] = useState<Register>(initialEditUser); // State for editing user
     const [originalEditUser, setOriginalEditUser] = useState<Register | null>(null);
-    const [loading, setLoading] = useState(() => adminUsersCache === null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [memberAccess, setMemberAccess] = useState<MemberAccessSummary | null>(null);
@@ -186,55 +188,6 @@ const AdminRegister: React.FC = () => {
         }),
     };
 
-    const fetchRegisters = useCallback(async () => {
-        if (adminUsersCache === null) {
-            setLoading(true);
-        }
-        try {
-            const response = await axios.get(`${apiUrl}/register`);
-            adminUsersCache = response.data;
-            setUsers(response.data);
-        } catch (error) {
-            console.error('Error fetching registers:', error);
-            let errorMessage = 'An unexpected error occurred';
-            if (axios.isAxiosError<{ message?: string }>(error)) {
-                if (error.response) {
-                    errorMessage = `Server responded with error: ${error.response.status} - ${error.response.data?.message || error.response.statusText}`;
-                } else if (error.request) {
-                    errorMessage = 'No response received from the server';
-                } else {
-                    errorMessage = error.message;
-                }
-            } else if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to fetch registers!',
-                footer: `<p>${errorMessage}</p>`,
-            });
-        } finally {
-            setLoading(false);
-        }
-    }, [apiUrl]);
-
-    const updateSearchTerm = (value: string) => {
-        setSearchTerm(value);
-
-        const nextParams = new URLSearchParams(searchParams);
-        if (value.trim()) {
-            nextParams.set('search', value);
-        } else {
-            nextParams.delete('search');
-        }
-        setSearchParams(nextParams, { replace: true });
-    };
-
-    useEffect(() => {
-        fetchRegisters();
-    }, [fetchRegisters]);
-
     useEffect(() => {
         const saved = (location.state as { adminUsersScrollY?: unknown } | null)?.adminUsersScrollY;
         if (loading || scrollRestored.current || typeof saved !== 'number' || !Number.isFinite(saved)) return;
@@ -252,6 +205,15 @@ const AdminRegister: React.FC = () => {
         setIsEditModalOpen(true);
         setMemberAccess(null);
         const request = ++accessRequest.current;
+        setLoadingTitulares(true);
+        setTitulares([]);
+        void axios.get<EditableMember[]>(`${apiUrl}/admin-directory/titulares`, {
+            params: { excludeId: user._id, currentId: user.titularId || undefined }, headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }, timeout: 15000,
+        }).then(({ data }) => {
+            if (accessRequest.current === request) setTitulares(data);
+        }).catch(() => {
+            if (accessRequest.current === request) void Swal.fire({ icon: 'warning', title: 'Titulares sin cargar', text: 'No se pudieron cargar los titulares vigentes. Cierra y vuelve a abrir el editor para reintentar.' });
+        }).finally(() => { if (accessRequest.current === request) setLoadingTitulares(false); });
         if (user._id) void axios.get<MemberAccessSummary>(`${apiUrl}/membership-billing/admin/members/${user._id}/access`, {
             headers: { Authorization: `Bearer ${getTokenFromLocalStorage()}` }, timeout: 15000,
         }).then(({ data }) => {
@@ -297,8 +259,8 @@ const AdminRegister: React.FC = () => {
         return Object.keys(buildAdminMemberUpdate(editUser, originalEditUser)).length > 0;
     }, [editUser, originalEditUser]);
 
-    const availableTitulares = useMemo(() => titularOptions(users.filter(user => user.statePlayer), editUser._id), [users, editUser._id]);
-    const associatedTitular = users.find(user => user._id === editUser.titularId);
+    const availableTitulares = useMemo(() => titularOptions(titulares.filter(user => user.statePlayer), editUser._id), [titulares, editUser._id]);
+    const associatedTitular = [...titulares, ...users].find(user => user._id === editUser.titularId);
     const selectedTitular = availableTitulares.find(option => option.value === editUser.titularId)
         ?? (associatedTitular ? { value: associatedTitular._id!, label: `${associatedTitular.namePlayer} — ${associatedTitular.email} (no vigente)` } : null);
 
@@ -331,7 +293,7 @@ const AdminRegister: React.FC = () => {
             try {
                 if (!originalEditUser) return;
                 const update = buildAdminMemberUpdate(editUser, originalEditUser);
-                validateMemberAssociation(update, editUser, users);
+                validateMemberAssociation(update, editUser, titulares);
                 const response = await axios.patch(
                     `${apiUrl}/register/admin/${encodeURIComponent(editUser.email)}`,
                     update,
@@ -349,7 +311,6 @@ const AdminRegister: React.FC = () => {
                 }
 
                 Swal.fire('Success', `${editUser.namePlayer} informacion actualizada.`, 'success');
-                updateSearchTerm('');
                 handleCloseEditModal();
             } catch (error) {
                 const message = axios.isAxiosError(error) ? error.response?.data?.message || 'No se pudo actualizar el socio.'
@@ -389,7 +350,6 @@ const AdminRegister: React.FC = () => {
 
         try {
             await requestPasswordRecovery(apiUrl, user.email, { admin: true, token: getTokenFromLocalStorage() });
-            updateSearchTerm('');
             Swal.fire({ icon: 'warning', title: 'Solicitud recibida', text: ADMIN_PASSWORD_RECOVERY_MESSAGE, customClass: { popup: 'password-recovery-popup' } });
         } catch (error) {
             console.error('Error resetting password:', error);
@@ -397,10 +357,7 @@ const AdminRegister: React.FC = () => {
         }
     };
 
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-    const filteredUsers = users.filter(user =>
-        user.namePlayer.toLowerCase().includes(normalizedSearch)
-    );
+    const filteredUsers = users;
 
     return loading ? (
         <div className="admin-users-loader">
@@ -414,27 +371,16 @@ const AdminRegister: React.FC = () => {
                 </div>
                 <div className="admin-register-badge">
                     <FontAwesomeIcon icon={faUsersGear} />
-                    <span>{filteredUsers.length} usuarios</span>
+                    <span>{directory.total} usuarios</span>
                 </div>
             </div>
 
             <div className="admin-card">
-                <div className="search-wrapper">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
-                    <input
-                        type="text"
-                        className="browser-default"
-                        placeholder="Buscar por nombre de jugador..."
-                        aria-label="Buscar usuarios por nombre"
-                        value={searchTerm}
-                        onChange={e => updateSearchTerm(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                            }
-                        }}
-                    />
-                </div>
+                <AdminDirectoryToolbar list={directory} placeholder="Buscar por nombre o correo" fields={[
+                    { key: 'state', label: 'Estado', options: [{ value: '', label: 'Todos' }, { value: 'active', label: 'Activos' }, { value: 'inactive', label: 'Inactivos' }] },
+                    { key: 'memberType', label: 'Tipo de socio', options: [{ value: '', label: 'Todos' }, ...memberTypeOptions] },
+                    { key: 'access', label: 'Permiso de reserva', options: [{ value: '', label: 'Todos' }, { value: 'allowed', label: 'Habilitados' }, { value: 'blocked', label: 'Bloqueados' }] },
+                ]} />
 
                 <div className="table-wrapper">
                     <table className="user-table" aria-label="Usuarios del club">
@@ -453,19 +399,19 @@ const AdminRegister: React.FC = () => {
                                     className={`name-cell ${
                                         !user.statePlayer
                                             ? 'name-cell--inactive'
-                                            : !user.updatePayment
+                                            : user.canReserve === false
                                                 ? 'name-cell--payment-due'
                                                 : ''
                                     }`}
-                                    title={!user.statePlayer ? 'Usuario inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Usuario activo'}
+                                    title={!user.statePlayer ? 'Usuario inactivo' : user.canReserve === false ? 'Reserva bloqueada' : 'Usuario activo'}
                                 >
                                     <span className="admin-user-name" title={user.namePlayer}>{user.namePlayer}</span>
                                     <span className="admin-user-email">{user.email}</span>
                                 </td>
                                 <td className="admin-user-type">{memberType(user.partnerType) || '—'}</td>
                                 <td className="admin-user-state">
-                                    <span className={`admin-user-status ${!user.statePlayer ? 'is-inactive' : !user.updatePayment ? 'is-due' : 'is-active'}`}>
-                                        {!user.statePlayer ? 'Inactivo' : !user.updatePayment ? 'Pago pendiente' : 'Activo'}
+                                    <span className={`admin-user-status ${!user.statePlayer ? 'is-inactive' : user.canReserve === false ? 'is-due' : 'is-active'}`}>
+                                        {!user.statePlayer ? 'Inactivo' : user.canReserve === false ? 'Reserva bloqueada' : 'Activo'}
                                     </span>
                                 </td>
                                 <td className="action-cell">
@@ -481,7 +427,9 @@ const AdminRegister: React.FC = () => {
                                     <button
                                         type="button"
                                         className="btn-floating btn-small waves-effect waves-light action-categories-btn"
-                                        onClick={() => navigate(`/admincategories?email=${encodeURIComponent(user.email)}`)}
+                                        onClick={() => navigate(`/admincategories?email=${encodeURIComponent(user.email)}`, {
+                                            state: { returnTo: `/adminregister${location.search}`, returnScrollY: window.scrollY },
+                                        })}
                                         disabled={!user.statePlayer}
                                         title={user.statePlayer ? 'Administrar categorías' : 'Disponible al activar el usuario'}
                                         aria-label={`Administrar categorías de ${user.namePlayer}`}
@@ -533,6 +481,7 @@ const AdminRegister: React.FC = () => {
                         </tbody>
                     </table>
                 </div>
+                <AdminDirectoryPagination list={directory} />
             </div>
 
             {/* Edit Modal */}
@@ -658,8 +607,9 @@ const AdminRegister: React.FC = () => {
                                                         onChange={option => setEditUser(prev => ({ ...prev, titularId: option?.value ?? null }))}
                                                         onOpenPicker={openTitularPicker}
                                                         styles={modalSelectStyles}
-                                                        isDisabled={isSaving}
+                                                        isDisabled={isSaving || loadingTitulares}
                                                     />
+                                                    {loadingTitulares && <LoadingSpinner size={18} />}
                                                     {editUser.titularId && (
                                                         <button type="button" className="admin-titular-clear" aria-label="Quitar titular asociado" title="Quitar titular asociado" disabled={isSaving} onClick={() => setEditUser(prev => ({ ...prev, titularId: null }))}>
                                                             <FontAwesomeIcon icon={faTimes} />

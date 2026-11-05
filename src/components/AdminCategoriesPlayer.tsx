@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,6 +27,7 @@ import type {
 import { useUnsavedCategoryChanges } from '../hooks/useUnsavedCategoryChanges';
 import { confirmDiscardCategoryChanges } from '../utils/categoryConfirmation';
 import '../styles/MemberCategories.css';
+import { membershipUsersReturn } from '../utils/membershipNavigation';
 
 function errorMessage(error: unknown): string {
     if (axios.isAxiosError(error)) {
@@ -48,6 +49,9 @@ export default function AdminCategoriesPlayer() {
     const [params] = useSearchParams();
     const email = params.get('email');
     const navigate = useNavigate();
+    const location = useLocation();
+    const usersReturn = membershipUsersReturn(location.state);
+    const returnToUsers = () => navigate(usersReturn.returnTo, { state: usersReturn.state });
     const [data, setData] = useState<CategoryEditorData | null>(null);
     const [draft, setDraft] = useState<CategoryDraft>({
         activeCategories: [],
@@ -199,7 +203,7 @@ export default function AdminCategoriesPlayer() {
                     aria-label="Volver a socios"
                     title="Volver a socios"
                     disabled={saving}
-                    onClick={() => navigate('/adminregister')}
+                    onClick={returnToUsers}
                 >
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </button>
@@ -487,9 +491,7 @@ export default function AdminCategoriesPlayer() {
                                         className="mc-cancel"
                                         type="button"
                                         disabled={saving}
-                                        onClick={() =>
-                                            navigate('/adminregister')
-                                        }
+                                        onClick={returnToUsers}
                                     >
                                         Cancelar
                                     </button>

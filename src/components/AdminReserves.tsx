@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,6 +6,9 @@ import { faCalendarAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import AppLoader from './AppLoader';
 import { LoadingSpinner } from './LoadingSpinner';
 import '../styles/AdminReserves.css';
+import { useAdminDirectory } from '../hooks/useAdminDirectory';
+import { reserveDirectoryDefaults, reserveRequestParams } from '../utils/adminDirectory';
+import { AdminDirectoryPagination, AdminDirectoryToolbar } from './AdminDirectoryControls';
 
 interface Reserve {
     idCourtReserve: string;
@@ -18,21 +21,10 @@ interface Reserve {
 
 const AdminReserves: React.FC = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [reserves, setReserves] = useState<Reserve[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const directory = useAdminDirectory<Reserve>('reserves', reserveDirectoryDefaults, reserveRequestParams);
+    const { items: reserves, loading } = directory;
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const deleting = useRef(false);
-
-    const fetchReserves = useCallback(async () => {
-        try {
-            const response = await axios.get<Reserve[]>(`${apiUrl}/court-reserve`);
-            setReserves(response.data);
-        } catch (error) {
-            console.error('Error fetching reserves:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [apiUrl]);
 
     const handleDelete = async (reserveId: string) => {
         if (deleting.current) return;
@@ -55,7 +47,7 @@ const AdminReserves: React.FC = () => {
                     await axios.delete(`${apiUrl}/court-reserve/${reserveId}`, {
                         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                     });
-                    setReserves((prev) => prev.filter((r) => r.idCourtReserve !== reserveId));
+                    await directory.refresh();
                     await Swal.fire({
                         icon: 'success',
                         title: 'Eliminada',
@@ -78,10 +70,6 @@ const AdminReserves: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        void fetchReserves();
-    }, [fetchReserves]);
-
     if (loading) return <AppLoader text="Cargando reservas..." />;
 
     return (
@@ -94,10 +82,17 @@ const AdminReserves: React.FC = () => {
                 </div>
                 {reserves.length > 0 && (
                     <span className="ar-hero-badge">
-                        {reserves.length} reserva{reserves.length !== 1 ? 's' : ''}
+                        {directory.total} reserva{directory.total !== 1 ? 's' : ''}
                     </span>
                 )}
             </div>
+
+            <AdminDirectoryToolbar list={directory} placeholder="Buscar jugador" fields={[
+                { key: 'date', label: 'Fecha', options: [{ value: 'upcoming', label: 'Todas las próximas' }, { value: 'today', label: 'Hoy' }, { value: 'tomorrow', label: 'Mañana' }, { value: 'range', label: 'Rango de fechas' }] },
+                ...(directory.params.date === 'range' ? [{ key: 'from', label: 'Desde', date: true }, { key: 'to', label: 'Hasta', date: true }] : []),
+                { key: 'court', label: 'Cancha', options: [{ value: '', label: 'Todas' }, ...[1, 2, 3].map(n => ({ value: `Cancha ${n}`, label: `Cancha ${n}` }))] },
+                { key: 'turn', label: 'Turno', options: [{ value: '', label: 'Todos' }, ...['08:15-10:00', '10:15-12:00', '12:15-14:00', '14:15-16:00', '16:15-18:00', '18:15-20:00', '20:15-22:00', '22:15-00:00'].map(value => ({ value, label: value }))] },
+            ]} />
 
             {/* Card */}
             <div className="ar-card">
@@ -176,6 +171,7 @@ const AdminReserves: React.FC = () => {
                     </div>
                 )}
             </div>
+            <AdminDirectoryPagination list={directory} />
         </main>
     );
 };

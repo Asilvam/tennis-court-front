@@ -1,5 +1,10 @@
 # Tennis Court Front — Club de Tenis Quintero
 
+Listados administrativos: [filtros y paginacion de Usuarios y Reservas](docs/admin-directory-filters.md).
+Implementacion local con consultas privadas separadas; requiere backend compatible.
+
+Historial propio: [paginacion de reservas, contrato y pruebas](docs/reservation-history-pagination.md).
+
 Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform that allows club members to manage court reservations, track match results, and participate in a category-based ranking ladder (Escalerilla CTQ). Admins can manage users, schedules, and club content.
 
 ---

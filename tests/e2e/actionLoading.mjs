@@ -48,7 +48,7 @@ try {
             : url.pathname.endsWith('/settings') ? { generationEnabled: false, autoBlockEnabled: false, migrationReviewed: true, revision: 'f'.repeat(64) }
             : url.pathname === '/membership-billing/me/dues' ? { ...contextData, currentPeriod: current, access: { mpEnabled: false } }
             : url.pathname.includes('player-category-points') ? categories
-            : url.pathname.startsWith('/court-reserve/history/') ? [{ idCourtReserve: 'fixture', court: 'Cancha 1', player1: person.name, player2: 'Rival Ficticio', turn: '08:15-10:00', dateToPlay: '2099-01-01', state: true, isForRanking: true }]
+            : url.pathname === '/court-reserve/my-history' ? {items:[{ idCourtReserve: 'fixture', court: 'Cancha 1', player1: person.name, player2: 'Rival Ficticio', turn: '08:15-10:00', dateToPlay: '2099-01-01', state: true, isForRanking: true }],total:1,cancelled:0,page:1,pageSize:25,pages:1}
             : url.pathname === '/membership-billing/admin/enrollment/preview' ? batch
             : url.pathname.endsWith('/dues/preview') ? preview
             : [];

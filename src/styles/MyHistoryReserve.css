@@ -57,6 +57,14 @@
 .history-table-wrap {
     width: 100%;
 }
+.history-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 26px;
+    color: var(--ctq-text-muted);
+    font-size: 13px;
+}
 .history-table {
     width: 100%;
     table-layout: fixed;
