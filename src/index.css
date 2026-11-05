@@ -45,9 +45,17 @@ body {
   background: var(--ctq-page-gradient);
 }
 
-.app-content-wrapper {
-  width: 100%;
+.app-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app-content-wrapper {
+  flex: 0 0 auto;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Prevent iOS focus zoom in portrait and landscape, including select search inputs. */

@@ -130,6 +130,9 @@ conservando los fondos y emojis aportados por el usuario.
 Distribucion: [columnas iguales y horario compacto en tablet](docs/dashboard-court-distribution.md).
 Pendiente de aprobacion: horario como banda superior en tablet para mejorar
 los saltos de apellidos en dobles; esa alternativa no esta implementada.
+Pie global con version de paquete/compilacion y cabecera persistente:
+[contrato, metadatos y evidencias](docs/site-footer-fixed-header.md).
+Sin nuevas variables configurables; la revision se resuelve al compilar.
 
 ## Tech Stack
 

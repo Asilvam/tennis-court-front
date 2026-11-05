@@ -1,5 +1,5 @@
 .home-page {
-  min-height: 100vh;
+  padding-bottom: 24px;
   background: var(--ctq-page-gradient);
   color: var(--ctq-text);
 }
@@ -18,7 +18,6 @@
 .home-hero {
   position: relative;
   overflow: hidden;
-  min-height: 100%;
   padding: 24px 0 16px;
   background:
     radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 32%, rgba(255, 255, 255, 0) 60%),
@@ -320,7 +319,6 @@
   }
 
   .home-hero {
-    min-height: calc(88vh - 64px);
     padding-bottom: 28px;
   }
 

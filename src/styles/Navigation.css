@@ -1,4 +1,8 @@
 .ctq-nav {
+  position: sticky;
+  top: 0;
+  z-index: 990;
+  flex-shrink: 0;
   --ctq-nav-height: 64px;
   height: calc(var(--ctq-nav-height) + env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);

@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './components/AuthContext.tsx';
 import Home from './components/Home.tsx';
 import Navigation from './components/Navigation.tsx';
+import Footer from './components/Footer.tsx';
 import InactivityLogout from "./components/InactivityLogout.tsx";
 import AppLoader from './components/AppLoader.tsx';
 import './hooks/useUnsavedCategoryChanges';
@@ -41,7 +42,7 @@ const App: React.FC = () => {
                      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                             <InactivityLogout /> {/* Auto logout component */}
                             <AuthSessionBoundary>
-                            <div>
+                            <div className="app-shell">
                                    <Navigation />
                                    <div className="app-content-wrapper">
                                           <Suspense fallback={routeFallback}>
@@ -91,6 +92,7 @@ const App: React.FC = () => {
                                                  </MembershipSessionBoundary>
                                           </Suspense>
                                    </div>
+                                   <Footer />
                             </div>
                             </AuthSessionBoundary>
                      </Router>
