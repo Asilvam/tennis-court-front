@@ -16,26 +16,7 @@ valores invalidos antes de consultar y se acepta el ajuste de ultima pagina del
 servidor. Recargas tienen spinner CTQ y controles bloqueados; las peticiones
 obsoletas se abortan/ignoran. Los 401 siguen al limite global de sesion.
 
-Se ajustaron fixtures de pruebas consumidoras al nuevo contrato, sin cambiar
-la funcionalidad de esas otras pantallas. Regresion: 388 pruebas frontend,
-TypeScript, ESLint y build aprobados. El arnes adminPagination cubre 191 controles
-y 30 vistas Chromium/WebKit (Usuarios, Reservas e Historial), con anchos
-320/390/700/820/1440. API ficticia de 61 reservas propias para la prueba visual.
-
-Reportes, capturas y hashes: docs/evidence/reservation-history/. No certifica
-dispositivos iOS fisicos ni reemplaza el arnes HTTP con MongoDB del backend.
-Fuentes remotas se sustituyen durante la prueba de navegador.
-
-[Contrato, consultas, seguridad y evidencia API del backend](../../tennis-app-backend/docs/reservation-history-pagination.md).
+[Contrato, consultas y seguridad del backend](../../tennis-app-backend/docs/reservation-history-pagination.md).
 
 Requiere actualizar el backend compatible primero. No modifica .env, env.example,
 pagos, permisos de cancelacion ni datos reales. Sin nuevas variables.
-
-## Validacion del Commit
-
-Se verifico una copia temporal del indice Git, excluyendo footer, configuracion,
-lockfiles y otras mejoras locales pendientes. Esa copia tiene 377 pruebas
-frontend aprobadas, TypeScript y build aprobados. Las 388 indicadas arriba
-corresponden al workspace completo de la implementacion; no se incorporan los
-tests ajenos para inflar el alcance del commit. Reporte del recorte verificado:
-`docs/evidence/reservation-history/commit-validation.json`.

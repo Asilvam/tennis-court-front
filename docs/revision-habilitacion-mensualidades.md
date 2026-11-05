@@ -111,31 +111,3 @@ alcance: ocultar el selector hasta que la habilitacion inicial termine; eso
 evita la promesa falsa, pero mantiene dos operaciones y no simplifica por si
 solo la generacion posterior. La recomendacion principal es separar cuotas e
 ingresos y hacer que la seleccion de periodos corresponda a la accion visible.
-
-## Evidencias y limites
-
-- [Informe de los seis recorridos](evidence/enrollment-review/review.json).
-- [Hashes del codigo inspeccionado y build](evidence/enrollment-review/sources.json).
-- [Movil WebKit: enero seleccionado / una cuota](evidence/enrollment-review/preview-webkit-390.png).
-- [Escritorio Chromium: mismo desacople](evidence/enrollment-review/preview-chromium-1440.png).
-- [Historial movil vacio](evidence/enrollment-review/history-webkit-390.png).
-
-El arnes local esta en `frontend-reservas-ctq/output/review-membership-enrollment.cjs`.
-Usa el build aislado `/private/tmp/ctq-site-identity-dist`, respuestas API
-simuladas y JWT fixture que nunca se envia al club. El POST de preview recibe
-una respuesta ficticia; prueba que el frontend omite el rango, no que el
-backend real haya generado una cuota. El comportamiento de backend se
-contrasto leyendo su politica y DTO actuales, sin ejecutar escrituras.
-
-Solo se permitieron consultas GET y POST a la preview simulada. No se pulso
-confirmacion con motivo valido, ni se invocaron endpoints de alta o cobro.
-Los navegadores se cerraron al finalizar. No se modifico codigo de aplicacion
-ni se repitio una suite financiera: esta entrega es diagnostico, no correccion.
-Las capturas guardadas contienen personas ficticias; no se copiaron a Git los
-datos personales de las imagenes originales del usuario.
-
-La implementacion posterior debe probar rango unico/varios meses, mes actual
-mas tres futuros, titular/carga, aprobaciones previas, inactivos, operaciones
-concurrentes, reintentos, auditoria sin texto libre y distincion entre cuotas y
-pagos. Acompanarla con unitarias backend/frontend, integracion Mongo fixture
-y E2E en movil/escritorio; no probar generacion contra socios reales sin permiso.

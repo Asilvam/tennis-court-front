@@ -29,32 +29,3 @@ Se modifica exclusivamente `src/styles/Navigation.css` en runtime:
 Los cambios locales anteriores de mensualidades, `.env`, lockfile y archivos
 generados permanecen intactos y sin incorporar a un commit. No se agregan
 dependencias, variables, cambios backend ni configuracion de despliegue.
-
-## Verificacion
-
-Build Vite 7.3.7 aprobado, Node 22.22.2. Regresion frontend: 257 pruebas
-aprobadas, 0 fallidas y 0 omitidas. Lint y `git diff --check` aprobados.
-
-Prueba reproducible: `tests/e2e/navigationLayout.mjs`, ejecutada con build
-real y API simulada para sesion/noticias; sin consultas al club ni escrituras.
-
-```sh
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-nav-layout-final
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/navigationLayout.mjs /private/tmp/ctq-nav-layout-final /private/tmp/ctq-nav-layout-delivery /ruta/al/modulo/playwright/index.mjs
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-git diff --check
-```
-
-Chromium y WebKit: 22 recorridos, 120 comprobaciones a 390, 820, 992, 993,
-1024, 1280, 1399, 1400, 1440, 2068 y 2560 px. Se esperan fuentes y animaciones
-antes de medir: igualdad geometrica de wrappers y margenes en escritorio,
-desplegable dentro del contenedor, ausencia de overflow horizontal, titulo
-sin solape visual con icono movil y funcionamiento del menu lateral.
-
-[Evidencia JSON](evidence/navigation-layout/navigation-layout.json) incluye
-hash SHA-256 del CSS, versiones de navegadores y coordenadas DOM por viewport.
-Capturas representativas desktop/movil en el mismo directorio.
-
-La emulacion WebKit no sustituye un iPhone/iPad fisico. El ajuste no se ha
-comprobado en el sitio publicado porque no se ha desplegado.

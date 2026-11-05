@@ -1,6 +1,0 @@
-{
-  "src/components/Navigation.tsx": "d12de28129eba83ee14bc051156d24a1bdf231dcc1e0631b0a24ba817aca7d27",
-  "src/styles/Navigation.css": "c0422026fd71225e9aafcc28e3209ddb3ae4b5089a9fa3a6131d127ae07e2abb",
-  "tests/navigationInteraction.test.mjs": "a211913907b7e4f3f3d987f036e8b53775973ca14b4cb3b150d22b3ebfe17ee1",
-  "tests/e2e/navigationInteraction.mjs": "2751e4377ff523d8599a78ec016ac064366d21677098fc923e527153e6085c64"
-}

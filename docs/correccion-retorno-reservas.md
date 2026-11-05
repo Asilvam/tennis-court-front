@@ -97,62 +97,6 @@ Tras el limite queda una accion manual de verificacion. Un error detiene la
 corrida, sin repetir automaticamente ni inferir aprobacion. CONFIRMED muestra
 SweetAlert2; REVIEW no afirma reserva confirmada. No se promete envio de correo.
 
-## Evidencias y resultados
-
-Corrida final: 2026-10-29. Evidencia filtrada versionable:
-[validation.json](evidence/reservation-return/validation.json).
-Incluye resultados, 96 controles detallados, HEAD base y SHA-256 de fuentes,
-bundle, informes y capturas. Los HEAD son bases anteriores al commit; los hashes
-de fuentes identifican el codigo validado, no solo el estado del HEAD base.
-`deployed` y `releaseApproved` siguen en `false`.
-
-| Validacion | Resultado |
-| --- | --- |
-| Backend completo | 845 pruebas, 55 suites, 0 fallos, 0 omitidas; Mongo local con replica set |
-| Frontend completo | 241 pruebas, 0 fallos, 0 omitidas |
-| Mercado Pago completo | 129 pruebas, 8 suites, 0 fallos, 0 omitidas; SDK simulado |
-| HTTP + navegador | 96 controles, todos aprobados; Chromium/WebKit a 390, 820 y 1440 px |
-| Tipos | Front `tsc -b --noEmit`, backend/MP `tsc --noEmit --incremental false`: aprobados |
-| Build / lint front | Aprobados |
-| Lint backend enfocado | Nueva prueba, controlador y guard/permisos: aprobado |
-| Lint backend ampliado | Persisten max-len preexistentes en `mp.service.ts` y `mp.controller.spec.ts`; no se modifica `.prettierrc` del usuario |
-| Integridad | `git diff --check` aprobado en los tres proyectos |
-
-Total de regresion: 1215 pruebas; los 96 controles E2E se informan aparte,
-no como casos unitarios adicionales. No se ejecuto nuevamente correo porque
-esta correccion no modifica su codigo ni usa SMTP.
-
-Capturas del bundle fixture, no del despliegue:
-
-- [Movil: confirmacion pendiente](evidence/reservation-return/return-waiting-chromium-390.png).
-- [Tablet: confirmacion persistida](evidence/reservation-return/return-confirmed-webkit-820.png).
-- [Escritorio: confirmacion persistida](evidence/reservation-return/return-confirmed-chromium-1440.png).
-
-El E2E usa `MpController`, `MpService`, AuthService, Passport/JWT, guard de
-mensualidades y modelo Mongo de reservas reales en una base temporal. El
-adaptador de socios y permisos del portal usa datos fixture en memoria; no
-revalida toda la logica de membresias. La confirmacion tardia se representa
-actualizando solo una reserva fixture: no se dispara un webhook real ni se
-pretende certificar su entrega. El SDK/proveedor no interviene en este GET.
-
-Los controles incluyen URL approved falsa, success/failure/pending con estado
-de URL contradictorio, JWT ausente/vencido, 401 del servidor, propietario ajeno,
-legacy sin owner, referencia ausente, 503/red, lectura tras confirmacion tardia,
-REVIEW, SweetAlert2, limite de cuatro consultas, restauracion tras login,
-cuenta restringida, consola sin errores y ausencia de desbordamiento horizontal.
-WebKit no sustituye una prueba en un iPhone/iPad fisico.
-
-El arnes bloquea APIs/proveedores externos y sirve bundle/Materialize locales
-bajo el origen CTQ emulado; solo permite fuentes publicas de Google. Las unicas
-escrituras HTTP admitidas son login fixture. Solo prepara/actualiza datos en
-Mongo local y elimina su base al finalizar. No inicia AppModule, cron o workers.
-
-Una corrida diagnostica fallo porque el arnes bloqueaba tambien Materialize,
-dependencia global del menu. Se sirvio esa dependencia desde node_modules;
-no se altero la app ni se ocultaron errores para aprobar. Otra captura se tomo
-durante el cierre animado de SweetAlert2; la corrida final espera su cierre.
-Las corridas incompletas y esas capturas no se cuentan como evidencia final.
-
 ## Reproduccion
 
 Regresion de frontend:

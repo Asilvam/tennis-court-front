@@ -5,10 +5,6 @@ Estado: implementado y validado localmente. Sin commit, push o despliegue.
 
 ## Diagnostico comprobado
 
-La revision anterior se hizo con el build real y acceso simulado, sin enviar
-reservas. El registro original esta en
-[review-before.json](evidence/multibooking/review-before.json).
-
 - Un detalle de 80 caracteres sin espacios llevaba el ancho del documento a
   716 px en pantallas de 320 y 390 px. La fila del motivo no podia contraerse.
 - En escritorio la configuracion seguia en una columna; no aprovechaba el
@@ -107,46 +103,6 @@ de reenviar. Un 401 se deja al cierre de sesion global, sin alerta local competi
 Esto evita duplicar una solicitud activa en esta instancia del formulario;
 no ofrece idempotencia entre recargas ni confirma si un timeout dejo reservas
 persistidas. Esas garantias requieren soporte y verificacion del backend.
-
-## Verificacion y evidencia
-
-Node 22.22.2, Vite 7.3.7; suite del working tree completo, incluyendo las
-mejoras anteriores pendientes:
-
-- **280 pruebas unitarias aprobadas**, 0 fallidas/omitidas; 12 nuevas de Multi-booking.
-- **12 recorridos y 288 comprobaciones E2E**: Chromium y WebKit a 320x760,
-  390x844, 820x1024, 1024x768, 1440x1000 y 820x500.
-- Regresion de 13 vistas, dos motores, 820/1440 px:
-  **52 vistas y 226 comprobaciones** de contenedores/alineacion/paleta.
-- Lint, TypeScript, build y `git diff --check` aprobados.
-
-Los E2E comprueban ancho con detalle sin espacios, layout de columnas, estabilidad
-de checkboxes, teclado, calendario visible y espanol, contraste de todas las
-fechas seleccionadas incluso en hover, borde del input, resumen cartesiano,
-cancelacion, error simulado, guardia de doble clic, POST exacto y Bearer,
-limites de fechas/reservas, profesor y redireccion al login ante 401.
-
-```sh
-npm run test:multibooking
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-npx tsc -b
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-multibooking-dist-final --emptyOutDir
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/multibooking.mjs /private/tmp/ctq-multibooking-dist-final /private/tmp/ctq-multibooking-evidence /ruta/al/modulo/playwright/index.mjs
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/pageLayout.mjs /private/tmp/ctq-multibooking-dist-final /private/tmp/ctq-layout-regression-multibooking /ruta/al/modulo/playwright/index.mjs 820,1440
-git diff --check
-```
-
-Evidencia versionable en `docs/evidence/multibooking/`:
-
-- [multibooking.json](evidence/multibooking/multibooking.json): comprobaciones,
-  geometria, versiones de navegadores, payloads ficticios sin token y hashes SHA-256.
-- [unit.tap](evidence/multibooking/unit.tap): salida real de las 280 pruebas.
-- [page-layout.json](evidence/multibooking/page-layout.json): regresion de vistas.
-- [Escritorio](evidence/multibooking/form-chromium-1440x1000.png),
-  [movil](evidence/multibooking/form-webkit-390x844.png),
-  [tablet](evidence/multibooking/form-webkit-820x1024.png) y
-  [calendario horizontal](evidence/multibooking/calendar-webkit-820x500.png).
 
 ## Limites y publicacion
 

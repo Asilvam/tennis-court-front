@@ -5,6 +5,9 @@ Implementacion local con consultas privadas separadas; requiere backend compatib
 
 Historial propio: [paginacion de reservas, contrato y pruebas](docs/reservation-history-pagination.md).
 
+Los reportes de pruebas, capturas y evidencias se conservan solo en local,
+fuera del repositorio. En Git se mantienen contratos tecnicos y manuales de uso.
+
 Frontend web application for **Club de Tenis Quintero (CTQ)** — a platform that allows club members to manage court reservations, track match results, and participate in a category-based ranking ladder (Escalerilla CTQ). Admins can manage users, schedules, and club content.
 
 ---
@@ -97,17 +100,13 @@ el indicador manual. Detalle tecnico y compatibilidad en
 generacion recurrente y bloqueo de reservas por mora. Solo estan en la vista global,
 no en el detalle individual. Confirmaciones SweetAlert2, permisos backend, revision
 optimista y auditoria; no activa opciones por abrir la pantalla ni cambia pagos.
-Detalle y evidencia: [controles administrativos](docs/membership-automation-controls.md).
-
-Cierre local revisado de permisos, controles y editor, sin activar opciones reales:
-[reporte coordinado](../tennis-app-backend/docs/cierre-cambios-mensualidades.md).
+Detalle tecnico: [controles administrativos](docs/membership-automation-controls.md).
 
 Etapa 2 consolidada en local: portal/cotizacion no emiten cuotas; el mensaje al
 apagar automatizacion conserva solo la generacion manual administrativa.
 En Habilitar socios, Seleccionar pendientes alterna con Deseleccionar pendientes,
 sin incluir inactivos, ya habilitados o casos en revision ni confirmar el lote.
-[Contrato y pruebas](../tennis-app-backend/docs/membership-generation-stage-2.md),
-[evidencia responsive](docs/evidence/generation-stage2/browser-validation.json).
+[Contrato de generacion](../tennis-app-backend/docs/membership-generation-stage-2.md).
 Sin nuevas env, activacion, pagos reales ni certificacion en dispositivos fisicos.
 
 Correccion local del menu tactil:
@@ -131,7 +130,7 @@ Distribucion: [columnas iguales y horario compacto en tablet](docs/dashboard-cou
 Pendiente de aprobacion: horario como banda superior en tablet para mejorar
 los saltos de apellidos en dobles; esa alternativa no esta implementada.
 Pie global con version de paquete/compilacion y cabecera persistente:
-[contrato, metadatos y evidencias](docs/site-footer-fixed-header.md).
+[contrato y metadatos](docs/site-footer-fixed-header.md).
 Sin nuevas variables configurables; la revision se resuelve al compilar.
 
 ## Tech Stack
@@ -422,21 +421,11 @@ Unit regression: frontend 237, backend focused 103, Mercado Pago 128, mail 30.
 External payment providers, database writes and SMTP were mocked in unit tests;
 no live checkout, payment, reset request or email was generated for this stage.
 
-Stage 3 technical tests ran on 2026-10-29: 1221 regression tests passed across
-the four projects and 96 integrated checkpoints passed on Chromium/WebKit in
-mobile/tablet/desktop viewports, with real local NestJS/JWT/Mongo transactions
-and simulated provider/SMTP transports. The user signed in to the published
-domain as test 1 and the profile was checked read-only. No live payment, reset,
-mail delivery or financial portal write was initiated by the validation.
-
-Stage 3 closure is **not approved**: the published reservation success page can
-announce an unverified payment from URL parameters alone (pre-existing behavior
-on both domains). Existing payment links may still return to the old frontend,
-which remains available; there is no forced redirect. Local session corrections
-are still separate from deployed code.
-See the [stage 3 validation report](docs/ctq-cloudflare-stage3-validacion.md)
-and [filtered evidence](docs/evidence/ctq-cloudflare-stage3.json) for cases,
-limitations, the reservation finding and remaining approval decisions.
+Reservation payment returns must obtain their status from the backend, not
+from URL approval parameters. See the [technical return contract](docs/correccion-retorno-reservas.md).
+Existing payment links may still return to the previous frontend, which remains
+available; there is no forced redirect. Publishing and enabling a new domain
+requires a separate approval from local implementation or testing.
 
 Browser storage is origin-specific: members must sign in again at the new
 domain, and attempts stored under the old origin are not copied automatically.

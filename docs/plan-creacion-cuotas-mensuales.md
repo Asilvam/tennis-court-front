@@ -7,7 +7,7 @@ Sin cambios de datos del club, configuracion productiva o despliegues.
 Frontend base: `32bba18` (miniatura CTQ ya versionada, sin push).
 Backend de referencia: `2fc86e9`; no modificar ajustes locales ajenos.
 
-## Objetivo y evidencia
+## Objetivo y diagnostico
 
 Separar claramente la creacion de cuotas y el registro de dinero recibido.
 El rango de meses elegido debe coincidir con la revision y la confirmacion;
@@ -191,7 +191,7 @@ transacciones. Usar fixtures equivalentes a usuario test 1/test 2 con precios
 Mercado Pago y correo simulados: no realizar cobros, enviar correos o habilitar
 socios del club para hacer pasar el E2E.
 
-Guardar evidencia nueva: comandos y versiones, informes de unitarias, estado
+Guardar evidencia nueva solo en local, fuera de Git: comandos y versiones, informes de unitarias, estado
 de BD fixture antes/despues, traza de requests, hashes de codigo y capturas
 sin datos personales. No reutilizar las 251 pruebas de miniatura como prueba
 de esta correccion ni afirmar que la revision anterior ya valido persistencia.
@@ -232,13 +232,7 @@ de cuotas permanecen separados del commit `32bba18` de identidad visual.
   Se probaron pagos/historico conservados, concurrencia, cambio de mes y rollback.
 - Contrato legacy sin approvalHash permanece disponible para el frontend
   anterior; retirarlo o dejar de usarlo en la pantalla corresponde a etapa 2.
-- Resultado real: 883 pruebas backend aprobadas, 56 suites, 0 omitidas; HTTP/JWT
-  y MongoDB fixture reales, proveedores externos simulados. Tipos y lint
-  enfocado aprobados. No se ejecutaron cobros ni cambios de socios reales.
-
-Informe y hashes en el backend:
-`docs/membership-dues-generation-stage-1.md` y
-`docs/evidence/dues-generation-stage1/validation.json`.
+Contrato del backend: `docs/membership-dues-generation-stage-1.md`.
 Al terminar la etapa 1 no se habia modificado React. La eliminacion del motivo
 visible, el rango conectado y los ajustes responsive se ejecutaron despues,
 en la etapa 2 descrita abajo.

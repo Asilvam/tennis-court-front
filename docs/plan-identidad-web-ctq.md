@@ -220,10 +220,8 @@ ni el texto institucional. El PNG pesa 743112 bytes; no se convierte en una
 captura de una cuenta ni incluye datos dinamicos. Fuentes originales y el
 `icon.png` legacy conservaron sus hashes iniciales.
 
-Informe de activos con formatos, tamanos y SHA-256:
-[assets.json](evidence/site-identity/assets.json).
 Una primera extraccion mostraba fragmentos del aro exterior en sus esquinas;
-se corrigio antes de la validacion final. No se usa esa version como evidencia.
+se corrigio para mantener el emblema limpio.
 
 `index.html` contiene el titulo, metadatos e iconos antes de cargar React.
 No se agrega Helmet, SSR, API de imagenes ni configuracion por ambiente.
@@ -238,54 +236,6 @@ proceso de instalacion aviso que el shell tenia Node 26; la validacion final
 se realizo con Node 22.22.2 y npm 10.9.7, compatibles con package.json.
 La resolucion de las versiones ya permitidas por el proyecto produjo Vite
 7.3.7 en este entorno; no se cambiaron los rangos existentes para esa herramienta.
-
-## 9. Resultados y evidencias de validacion local
-
-| Comprobacion | Resultado real |
-| --- | --- |
-| Regresion completa frontend | 251 aprobadas, 0 fallos, 0 omitidas; incluye 10 nuevas |
-| Lint | `npm run lint`, salida 0 |
-| Tipos | `npx tsc -b --noEmit`, salida 0 |
-| Build fixture | Vite 7.3.7, salida 0; API ficticia, sin llamadas al club |
-| HTTP / navegadores | 55 controles aprobados |
-| Cambios | `git diff --check`, salida 0 |
-| Frontend local existente | `/login` en 127.0.0.1:5183 devuelve HTML actualizado, HTTP 200 |
-| Publicacion / WhatsApp real | No ejecutadas; siguen pendientes |
-
-Evidencia versionable:
-
-- [validation.json](evidence/site-identity/validation.json): resumen, versiones,
-  hashes de fuentes, informe TAP, build y capturas.
-- [browser-http.json](evidence/site-identity/browser-http.json): los 55 controles
-  y respuestas HTTP observadas, sin tokens ni cuentas reales.
-- [Activos en movil/WebKit](evidence/site-identity/assets-webkit-390.png).
-- [Activos en escritorio/Chromium](evidence/site-identity/assets-chromium-1440.png).
-- [Login existente en movil/WebKit](evidence/site-identity/login-webkit-390.png).
-
-Los primeros dos montajes son hojas de inspeccion de activos, no tarjetas
-capturadas en WhatsApp. La captura de login comprueba que el cambio de head
-no sustituye el diseno de la aplicacion. El navegador headless no captura su
-barra de pestanas: se comprobaron las referencias, entrega binaria y capacidad
-de decodificacion del icono, no una foto del favicon en la interfaz de Safari.
-
-El arnes `tests/e2e/siteMetadata.mjs` levanta un servidor efimero con
-`serve-handler`, usando la misma regla SPA de `serve -s`. Comprueba 12 respuestas
-HTML (4 rutas x 3 User-Agent), 4 recursos por GET/HEAD, 36 controles en la matriz
-de navegador, 2 verificaciones sin JavaScript y 1 invariante sin escrituras:
-55 controles en total. Los User-Agent son simulados, no rastreadores reales.
-
-La matriz emula los origenes CTQ y Heroku anterior, con Chromium 156.0.8078.48
-y WebKit 26.5, a 390/820/1440 px. Se verifican titulo, idioma y OG, dimensiones
-de los cuatro formatos, pixeles azules/amarillos no vacios, ausencia de
-desbordamiento horizontal y errores JavaScript. Las rutas privadas con query
-fixture no se reflejan en los metadatos. Respuestas de imagen son PNG/ICO,
-con hashes esperados, no HTML de fallback.
-
-APIs y proveedores externos bloqueados; solo se permiten fuentes publicas
-de Google. Materialize se sirve desde node_modules. No se efectuan login,
-pagos, reservas, correos o escrituras en la BD. Al terminar se cerraron los
-navegadores y el servidor HTTP efimero. El servidor Vite existente se conserva;
-no se inicia backend ni se cambian DNS o configuraciones de Heroku.
 
 ## 10. Reproduccion y pendientes
 
@@ -307,11 +257,6 @@ del arnes corresponde a macOS. Si se usa una carpeta de navegadores distinta,
 configurar el runtime de pruebas, no el `.env` de la aplicacion. Fuentes y
 assets se verifican contra sus hashes; regenerarlos exige registrar la nueva
 evidencia y volver a ejecutar las pruebas.
-
-Informes originales en esta maquina: `/private/tmp/ctq-identity-front-tests.tap`
-y `/private/tmp/ctq-site-identity-evidence/site-metadata-e2e.json`. El resumen
-versionable conserva hashes, controles y tres capturas representativas.
-El build se genero en `/private/tmp/ctq-site-identity-dist` y no se publico.
 
 Queda autorizar commit/push/despliegue del frontend y completar la etapa 3:
 HTTP/MIME publicados, favicon en navegador real, acceso directo en iPhone/iPad

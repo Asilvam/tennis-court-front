@@ -68,35 +68,6 @@ del backend; no se oculta una frase en React para eludir validaciones.
   columna y acciones apiladas en movil; controles de al menos 44/46 px.
 - No se modifica viewport ni se deshabilita el zoom del usuario.
 
-## Verificacion ejecutada
-
-Node 22.22.2, Vite 7.3.7. Comandos desde el repositorio frontend:
-
-```sh
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-npx tsc -b
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-dues-stage2-dist
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/duesGeneration.mjs /private/tmp/ctq-dues-stage2-dist /private/tmp/ctq-dues-stage2-final /ruta/al/modulo/playwright/index.mjs
-```
-
-- Unitarias frontend: **257 aprobadas, 0 fallidas, 0 omitidas**. Incluyen altas,
-  rangos, motivo excepcional, preservacion de identidad, conflictos y apertura
-  de pago solo lectura; regresion de autenticacion, reservas y pagos existente.
-- Lint, TypeScript y build: aprobados. Advertencia de build: salida temporal fuera
-  del proyecto, prevista para la prueba aislada; no se modifico dist productivo.
-- Navegador: **168 comprobaciones, 8 recorridos**, Chromium/WebKit a
-  320/390/820/1440 px. Revision, cancelacion, generacion, historial, apertura de
-  pago, cero nuevas, mes pagado, timeout tras escritura simulada, reintento exacto,
-  carga a $50, titular a $180, omision del ya habilitado y 401 hacia login.
-- Capturas y medicion DOM: sin overflow horizontal ni interseccion de los
-  controles revisados. Inspeccion visual de preview movil WebKit y desktop Chromium.
-
-Evidencia: [informe de navegador](evidence/dues-generation-stage2/dues-generation-ui.json),
-[unitarias TAP](evidence/dues-generation-stage2/unit.tap).
-El JSON contiene versiones de navegador, hashes SHA-256 de fuentes y requests
-fixture sin token. Capturas representativas en el mismo directorio.
-
 ## Limites y entrega
 
 La prueba de navegador usa el build real de React con una API simulada con estado;

@@ -47,27 +47,6 @@ ni recortes. No se cambia la paleta ni la leyenda de siete estados.
 No cambia backend, datos, pagos, permisos, horarios, reglas de reserva, contratos,
 dependencias, `.env` o fotos.
 
-## Evidencia
-
-- 12 pruebas del renderer real extraido por AST; cuatro nuevas respecto de la
-  etapa anterior. Cubren orden motivo/emoji, ausencia de prefijo duplicado,
-  separacion del primer guion, avisos desconocidos y nombres reales de cancha.
-- Regresion frontend: 359 pruebas aprobadas, cero fallidas u omitidas.
-- Build Vite, TypeScript y ESLint aprobados con Node 22.19.0.
-- Chromium y WebKit a 320/390/430/768/820/1024/1157/1440px: 16 vistas,
-  299 comprobaciones aprobadas. APIs sinteticas sin escrituras de datos reales.
-- Medidas de texto y tarjetas: sin recortes, desbordes o solapes; etiqueta lateral
-  separada del encuentro, cadena completa girada en todos los anchos y nombres
-  horizontales centrados en todas las canchas vacias,
-  motivo antes del emoji, detalle debajo, dos columnas de equipo iguales y versus
-  centrado en el espacio del partido. Se inspeccionaron las capturas finales.
-- Cero errores JavaScript y cero escrituras de reservas, socios o pagos. Las
-  pruebas no certifican backend real ni Safari fisico; fuentes remotas sustituidas
-  por CSS vacio, por lo que tampoco certifican el icono Material Icons del menu.
-
-[Resumen y hashes](evidence/dashboard-court-labels/validation.json),
-[reporte de navegador](evidence/dashboard-court-labels/browser-validation.json).
-
 ## Reproduccion
 
 ```bash

@@ -100,44 +100,6 @@ La prueba verifica los cuatro tokens base en cada ruta:
 --ctq-yellow  #f4e85a
 ```
 
-## Pruebas ejecutadas
-
-Node 22.22.2 y Vite 7.3.7. Resultados finales:
-
-- **262 pruebas frontend aprobadas**, 0 fallidas/omitidas. Incluye cinco pruebas
-  nuevas de Perfil: endpoints solo lectura/nombre completo, modos, teclado,
-  vacios/avatar y modo Dobles inicial. Servicios de foto mantienen su suite previa.
-- Lint, TypeScript, build y `git diff --check`: aprobados.
-- `pageLayout.mjs`: **156 casos de ruta/viewport y 704 comprobaciones**.
-  Chromium y WebKit, 13 rutas/variantes, 390/820/1024/1280/1440/2068 px.
-- `navigationLayout.mjs`: **22 casos y 120 comprobaciones**, incluidos los
-  puntos 992/993 y 1399/1400 px, hasta 2560 px. Barra y menus siguen alineados.
-
-El recorrido verifica ancho no mayor al Home, alineacion de shell/padding en
-escritorio, ausencia de overflow horizontal de pagina y tokens de paleta.
-Incluye datos en tablas/listados, Perfil vacio, solo Dobles, teclado, avatar
-decodificado, seleccion de foto sin envio y regreso a Perfil desde Ranking
-mediante navegacion SPA para detectar interferencia de CSS ya cargado.
-Se esperan fuentes y cierre de loaders antes de medir/capturar.
-
-```sh
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-npx tsc -b
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-common-layout-delivery-dist
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/pageLayout.mjs /private/tmp/ctq-common-layout-delivery-dist /private/tmp/ctq-common-layout-delivery /ruta/al/modulo/playwright/index.mjs
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/navigationLayout.mjs /private/tmp/ctq-common-layout-delivery-dist /private/tmp/ctq-common-layout-navigation /ruta/al/modulo/playwright/index.mjs
-git diff --check
-```
-
-Evidencia versionable en `docs/evidence/common-layout/`:
-
-- [page-layout.json](evidence/common-layout/page-layout.json): resultados,
-  coordenadas por ruta/viewport, versiones de navegador y hashes SHA-256 de fuentes.
-- [navigation-layout.json](evidence/common-layout/navigation-layout.json): regresion de barra.
-- [unit.tap](evidence/common-layout/unit.tap): salida real de las 262 pruebas.
-- Capturas representativas de Perfil movil/tablet/escritorio y listados principales.
-
 ## Limites
 
 Build real de React con respuestas de API simuladas; no Nest/Mongo ni servicios

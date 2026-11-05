@@ -134,54 +134,6 @@ Runtime/estilos: `Ranking.tsx` y `Ranking.css`.
   y se agrega una comprobacion de color calculado y etiquetas contenidas.
 - Vistas de datos vacios y error sin tarjeta blanca ni jugadores ficticios.
 
-## Verificacion
-
-- 295 pruebas frontend aprobadas; incluye 13 nuevas de Historial/Reset y ocho
-  de Ranking (orden, filtrado, limites Masters, interaccion y avatar).
-- Matriz de navegador: Chromium y WebKit a 320x760, 390x844, 768x1024,
-  820x1180, 1024x768 y 1440x1000. Se prueba tambien el editor a 390x420 como
-  reduccion del area visible; se espera el frame de medicion del hook.
-  Resultado: 12 recorridos, 60 capturas de medidas de vistas y 638 comprobaciones
-  aprobadas. Las medidas incluyen la recuperacion publica; las capturas PNG
-  se toman solo en los tamanos representativos 390/820/1440.
-- Recorridos: usuarios/nombre largo/correo largo, busqueda/estado vacio,
-  permisos visuales de inactivos, editor y select, cierre/retorno de foco,
-  historial/detalle/cancelacion/DELETE simulado/estado vacio, reset pendiente/
-  exito/error/401, recuperacion publica y confirmacion invalida/valida; Ranking
-  con categorias, nombres largos, puntos, imagen rota, cambio/cierre de categoria
-  y comprobaciones de contencion/color calculado del menu.
-- Regresion adicional de contenedores de 13 vistas a 820/1440 px en ambos motores:
-  52 vistas y 226 comprobaciones aprobadas.
-- Lint, tipos, build y diff check. Resultados detallados en los JSON y TAP adjuntos.
-
-```sh
-npm run test:history-recovery-layout
-npm run test:ranking-layout
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-npx tsc -b
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-four-views-dist-final --emptyOutDir
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/adminHistoryReset.mjs /private/tmp/ctq-four-views-dist-final /private/tmp/ctq-four-views-evidence-final /ruta/al/modulo/playwright/index.mjs
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/pageLayout.mjs /private/tmp/ctq-four-views-dist-final /private/tmp/ctq-four-views-regression-final /ruta/al/modulo/playwright/index.mjs 820,1440
-git diff --check
-```
-
-Evidencia en `docs/evidence/admin-history-reset/`: `admin-history-reset.json`
-con comprobaciones, medidas y hashes SHA-256, `unit.tap`, `page-layout.json` y
-capturas representativas de escritorio/movil/tablet. Los logs TAP conservan
-resultados, normalizando solamente espacios finales de linea.
-
-- [Resultados de las cuatro vistas](evidence/admin-history-reset/admin-history-reset.json).
-- [Pruebas unitarias](evidence/admin-history-reset/unit.tap).
-- [Regresion de contenedores](evidence/admin-history-reset/page-layout.json).
-- Ranking en [escritorio](evidence/admin-history-reset/ranking-chromium-1440.png),
-  [movil](evidence/admin-history-reset/ranking-webkit-390.png) y
-  [tablet](evidence/admin-history-reset/ranking-webkit-820.png).
-- [Usuarios escritorio](evidence/admin-history-reset/users-chromium-1440.png),
-  [editor movil](evidence/admin-history-reset/editor-webkit-390.png),
-  [Historial escritorio](evidence/admin-history-reset/history-chromium-1440.png) y
-  [Reset Pass escritorio](evidence/admin-history-reset/reset-chromium-1440.png).
-
 ## Limites
 
 Todas las llamadas de club y operaciones de escritura son fixtures `.invalid`.

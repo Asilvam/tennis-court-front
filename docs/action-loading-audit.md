@@ -66,31 +66,6 @@ en vez de duplicarlo en todos los controles.
 El administrador de imagenes residual se elimino por autorizacion separada,
 no se refactorizo. Ver [retirada del carrusel](retired-carousel.md).
 
-## Pruebas y evidencia
-
-- 347 pruebas unitarias aprobadas, cero fallidas u omitidas. Incluyen esperas
-  controladas en preview, habilitacion, generacion, vigencia, borrado de historial
-  y liberacion de horario; bloqueo de doble clic, error y reintento explicito.
-- TypeScript, ESLint y build Vite aprobados en Node 22.19.0.
-- Playwright: 48 recorridos y 171 comprobaciones; Chromium y WebKit a 390, 820
-  y 1440px. El build real usa APIs ficticias con respuestas detenidas de forma
-  controlada: preview/generacion, habilitacion masiva, categorias, borrado de
-  reserva, nueva contrasena y recarga del portal.
-- Se comprueban controles deshabilitados, ambas capas PNG del spinner, ausencia
-  de desborde horizontal, una solicitud durante la espera y liberacion tras 503.
-- Los motores no emulan un inset fisico de iOS. La prueba sustituye solo dentro
-  del navegador `env(...)` por 47px en el CSS real y comprueba padding, alto total
-  de 103px y posicion del titulo. No es certificacion de Safari en un iPhone real.
-- El primer intento uso un comando CDP no soportado. Se corrigio el arnes, no
-  el comportamiento productivo, y el recorrido final paso en ambos motores.
-- Sin excepciones JavaScript ni peticiones a cuentas, pagos o correos reales.
-  Fuentes remotas sustituidas por CSS vacio; las capturas no certifican el icono
-  Material Icons. La auditoria de todos los controles no equivale a ejecutar
-  todas las operaciones reales del club ni a certificar su backend.
-
-[Reporte de navegador](evidence/action-loading/browser-validation.json),
-[resumen y hashes](evidence/action-loading/validation.json).
-
 ## Reproduccion
 
 ```bash

@@ -48,38 +48,6 @@ No se modifica mensualidades, backend, APIs, base de datos, dependencias ni env.
 - Leyenda en siete columnas de contenido desde 1024px, cuatro/tres opciones
   entre 769 y 1023px, y dos columnas hasta 768px. Ningun color fue sustituido.
 
-## Pruebas
-
-- Ocho pruebas nuevas en `tests/dashboardStatus.test.mjs`. Compilan los helpers
-  extraidos del AST del archivo real, sin copiar una segunda implementacion.
-  Cubren avisos largos y con comas, iconos existentes, singles, parejas, orden y
-  nombres completos, texto desconocido y uso del flag existente.
-- Regresion completa: 355 pruebas aprobadas, cero fallidas u omitidas.
-- Build Vite, TypeScript y ESLint aprobados con Node 22.19.0.
-- Playwright: Chromium y WebKit; 320, 390, 430, 768, 820, 1024, 1157 y 1440px.
-  Dieciseis vistas, 211 comprobaciones aprobadas. Frontend real con APIs ficticias;
-  no se crean reservas, pagos, correos ni cambios en datos del club.
-- Comprobaciones geometricas: texto/versus contenidos en su tarjeta, tarjetas
-  sin solape, ningun scroll horizontal, avisos completos, dos jugadores apilados
-  por equipo, centro real del texto medido con DOM Range, columnas iguales y
-  versus en el centro de la tarjeta, siete opciones a la misma altura en
-  escritorio y filas cuatro/tres en tablet. Se preservan las canchas disponibles
-  compactas; una bloqueada no abre reserva y una disponible abre el modal existente.
-- Se inspeccionaron capturas, ademas de las medidas. La revision visual detecto
-  la compresion de tarjetas y motivo ampliar el test de contencion, antes de
-  ejecutar nuevamente toda la matriz.
-- Tras la observacion del usuario sobre la distribucion de dobles, se centro el
-  texto de cada equipo y se dio ancho completo al encuentro en movil. No se
-  cambiaron singles, avisos o colores para ese refinamiento. Las capturas
-  `before-centered-*` conservan la distribucion anterior para comparacion.
-
-[Resumen y hashes](evidence/dashboard-status/validation.json),
-[evidencia de navegador](evidence/dashboard-status/browser-validation.json).
-
-Las fuentes remotas se sustituyen por CSS vacio en la prueba para no depender de
-red externa. Las capturas no certifican el icono Material Icons de navegacion ni
-el renderizado nativo exacto de iOS. La logica de backend no se certifica con mocks.
-
 ## Reproduccion
 
 ```bash

@@ -46,37 +46,9 @@ Backend debe desplegarse primero; no se ha desplegado ninguno ni se agregan env.
 Contrato y algoritmo de permisos:
 [documento backend](../../tennis-app-backend/docs/admin-directory-filters.md).
 
-## Evidencia y Limites
-
-- 382 pruebas frontend aprobadas, sin fallidas ni omitidas.
-- 6 unitarias nuevas de backend; regresion backend 726 aprobadas, 211 integraciones
-  antiguas omitidas y no certificadas por esta tarea.
-- 26 controles integrados Nest/JWT/MongoDB desechable y snapshots inalterados.
-- 97 comprobaciones React contra ese backend, 8 vistas Chromium/WebKit a
-  320/390/820/1440px; capturas inspeccionadas en movil y escritorio.
-- Cero errores de runtime, escrituras de negocio o descargas de listados legados
-  completos en la prueba de navegador. Sin SMTP, cobros o cuentas reales.
-- Build, TypeScript y ESLint frontend aprobados. Fuentes remotas sustituidas;
-  no certifica Material Icons ni dispositivos iOS fisicos.
-
-Resultados y hashes en `docs/evidence/admin-directory/validation.json`, con el
-reporte del navegador y capturas seleccionadas. La correccion posterior de la
-ruta de eliminacion fue aprobada y se documenta en backend:
-[autorizacion de cancelacion](../../tennis-app-backend/docs/reservation-cancellation-security.md).
-No cambia las pruebas ni el alcance visual de este documento.
-
-```bash
-node --experimental-strip-types --test tests/*.test.*
-node node_modules/typescript/bin/tsc --noEmit -p tsconfig.app.json
-node node_modules/eslint/bin/eslint.js .
-```
-
-La prueba conectada se ejecuta desde el arnes backend, que compila este frontend
-con una URL ficticia limitada a ese proceso. No se edita `.env`.
-
 ## Ajuste de Alineacion de Paginacion
 
-2026-11-05, posterior a la validacion conectada anterior. Alcance aprobado:
+2026-11-05. Alcance aprobado:
 presentacion de la paginacion compartida por Usuarios y Reservas, sin cambios
 de consultas, permisos, componentes de negocio ni selectores de otras pantallas.
 
@@ -97,10 +69,6 @@ cinco anchos (320/390/700/820/1440). Comprueba centros verticales, filas, limite
 ausencia de solapes y funcionamiento de 100 filas y siguiente pagina.
 Esta prueba usa una API ficticia con 148 usuarios y 48 reservas; NO sustituye
 las pruebas conectadas con MongoDB ni certifica dispositivos iOS fisicos.
-
-Regresion frontend posterior al ajuste: 385 pruebas aprobadas. TypeScript, ESLint
-y build aprobados. Reporte geometrico, capturas y hashes del ajuste en
-`docs/evidence/admin-pagination/`. No modifica `.env` ni datos reales.
 
 ```bash
 node --test tests/adminDirectoryPagination.test.mjs

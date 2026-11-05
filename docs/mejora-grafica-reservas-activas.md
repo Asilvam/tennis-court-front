@@ -64,41 +64,6 @@ ninguna operacion ni reintento automatico. La confirmacion sigue siendo SweetAle
 - Se quitan colores inline antiguos de las alertas para heredar la paleta global
   CTQ; confirmacion principal amarilla, mensajes de exito/error conservados.
 
-## Verificacion ejecutada
-
-Node 22.22.2 y Vite 7.3.7:
-
-- **268 pruebas frontend aprobadas**, 0 fallidas, 0 omitidas.
-- Seis pruebas nuevas del componente: datos completos/semantica, cancelacion,
-  contrato DELETE y fila correcta, doble clic, error y estado vacio.
-- TypeScript, lint, build y `git diff --check` aprobados.
-- Chromium/WebKit: **14 recorridos y 210 comprobaciones**, a
-  320/390/767/768/820/1024/1440 px, incluidos ambos lados del breakpoint.
-
-El E2E comprueba fondos y colores calculados de cabeceras/celdas, hover, foco,
-papelera y SweetAlert; no solo valores de variables globales. Tambien verifica
-nombre largo/sin espacios, ausencia de recortes/intersecciones de celdas,
-scroll horizontal, fecha/turno completos, boton 44 px, cancelacion, error de
-DELETE simulado, exito simulado que elimina una sola fila y estado sin reservas.
-Se inspeccionaron capturas de escritorio Chromium, tablet y movil WebKit.
-
-```sh
-npm run test:admin-reserves
-node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
-npm run lint
-npx tsc -b
-VITE_API_URL=https://api.ctq-fixture.invalid npm run build -- --outDir /private/tmp/ctq-active-reserves-dist
-PLAYWRIGHT_BROWSERS_PATH=/private/tmp/ctq-playwright-browsers node tests/e2e/adminReserves.mjs /private/tmp/ctq-active-reserves-dist /private/tmp/ctq-active-reserves-evidence /ruta/al/modulo/playwright/index.mjs
-git diff --check
-```
-
-Evidencia en `docs/evidence/active-reserves/`:
-
-- [active-reserves.json](evidence/active-reserves/active-reserves.json): resultados,
-  coordenadas, colores renderizados, versiones, requests fixture sin token y hashes SHA-256.
-- [unit.tap](evidence/active-reserves/unit.tap): resultado real de las 268 pruebas.
-- Capturas de escritorio/tablet/movil con datos ficticios.
-
 ## Limites
 
 Se usa el build real de React, pero toda API de reservas y eliminacion esta

@@ -30,30 +30,6 @@ Se propuso colocar el horario como banda superior en tablet, manteniendo las
 tres canchas debajo. Esa alternativa NO esta aprobada ni implementada y no
 forma parte de este commit. No se declara cerrada la revision UX de tablet.
 
-## Validacion Tecnica
-
-- Dos pruebas nuevas de configuracion CSS fallaron antes del ajuste y pasan
-  despues. Renderer/CSS focalizado: 15 casos; suite frontend completa: 362
-  aprobadas, ninguna fallida u omitida.
-- Vite build, ESLint y TypeScript de la aplicacion aprobados con Node 22.19.0.
-- Chromium y WebKit: 20 vistas, anchos 320, 390, 430, 768, 769, 820, 1023,
-  1024, 1157 y 1440px; 453 comprobaciones aprobadas.
-- Se verifican igualdad de anchos y alineacion de columnas entre horarios,
-  espacio del horario e icono nocturno, canchas apiladas en movil, fila vacia
-  compacta, etiquetas, texto sin recorte, equipos y formulario de reserva.
-- Cero errores JavaScript, escrituras de negocio o solicitudes inesperadas.
-  APIs ficticias; no se modifica base real, backend, `.env` o configuracion.
-- Se inspeccionaron capturas de escritorio a 1157px y tablet a 820px.
-  Fuentes remotas sustituidas por CSS vacio: no certifica el icono de fuente
-  del menu ni Safari en dispositivos fisicos. Las pruebas geometricas no
-  sustituyen la aceptacion visual; se conserva la limitacion anterior.
-
-Informes, hashes y capturas seleccionadas:
-`docs/evidence/dashboard-court-distribution/validation.json` y
-`docs/evidence/dashboard-court-distribution/browser-validation.json`.
-La corrida previa del recorte y sus 96 controles de pixeles permanece en
-`docs/evidence/dashboard-event-corners/`; corresponde a la revision anterior.
-
 ## Reproduccion
 
 ```bash

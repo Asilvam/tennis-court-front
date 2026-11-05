@@ -57,43 +57,6 @@ Un nuevo commit requiere reiniciar Vite o recompilar para renovar el identificad
 - El nivel 990 queda por debajo de sidenav/overlay de Materialize y de modales
   y SweetAlert2 existentes. No se cambian acciones ni permisos de los menus.
 
-## Validacion
-
-- Once pruebas unitarias nuevas: resolucion de metadatos, SHA de plataforma,
-  fallback Git, ausencia de Git, datos invalidos, footer, ano, modo local y
-  montaje global, ausencia de relleno por altura forzada y separacion de 24px
-  en Inicio. Suite completa: 373
-  aprobadas, ninguna omitida o fallida.
-- TypeScript de aplicacion y configuracion Vite, ESLint y build aprobados con
-  Node 22.19.0.
-- Build adicional con `SOURCE_VERSION` ficticio: se comprobo que el bundle
-  contiene `abcdef1` y la version del paquete, sin modificar `.env`.
-- Chromium y WebKit a 320, 390, 600, 820, 1024 y 1440px: 48 vistas y 314
-  comprobaciones iniciales, con Home, Login, ruta no encontrada y Dashboard
-  autenticado. Tras ajustar la altura natural del pie, la corrida final conserva
-  las 48 vistas y suma 386 comprobaciones.
-- Se mide que la cabecera conserva su posicion al hacer scroll y su espacio
-  inicial, que el footer no tapa el contenido ni desborda, y que el SHA/version
-  aparecen en el build de produccion. Se comprueba ademas que el pie sigue
-  inmediatamente el contenido, que Inicio reserva solo 24px tras sus contactos y que
-  una pagina corta no empuja el pie al fondo de la pantalla. Se comprueban Mi historial y cierre de
-  sesion desde el menu tras desplazarse, con tacto hasta 1024px y raton a 1440px.
-- Cero errores JavaScript o escrituras de negocio. APIs y sesion ficticias;
-  sin tocar socios, reservas, pagos, correos o configuracion real.
-
-Los resultados geometricos y capturas estan en `docs/evidence/site-shell/`.
-Las fuentes remotas estan sustituidas por contenido vacio: las capturas muestran
-el texto alternativo de Material Icons; no certifican la fuente del icono.
-No equivalen a aceptacion en iPhone/iPad fisicos ni a despliegue en Heroku.
-No se modifico el comportamiento de autenticacion o la eleccion de su destino
-publico al cerrar sesion; las pruebas solo verifican que la sesion se limpia
-y que el footer permanece disponible en la pantalla publica resultante.
-
-Actualizacion 2026-11-05: commit separado autorizado tras aceptacion visual del
-usuario. Las 373 pruebas corresponden a la corrida historica del footer; la
-regresion actual incluye tambien listados e historial y suma 388 aprobadas.
-Se excluyen .env, lockfiles y los trabajos pendientes de mensualidades/Node24.
-
 ## Reproduccion
 
 ```bash
@@ -106,5 +69,4 @@ node tests/e2e/siteShell.mjs /private/tmp/ctq-site-shell-build /private/tmp/ctq-
 ```
 
 La URL ficticia se limita al proceso temporal de build. No editar `.env`.
-La evidencia final corresponde al build temporal `ctq-site-shell-gap-build`;
-las instrucciones anteriores permiten reproducirlo con cualquier directorio nuevo.
+Las instrucciones anteriores permiten usar cualquier directorio temporal nuevo.

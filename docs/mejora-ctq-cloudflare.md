@@ -328,14 +328,10 @@ que la correccion JWT pendiente este publicada en el frontend de Heroku.
 
 ## 7. Etapa 3: pruebas integradas, cierre pendiente
 
-Autorizada y validada tecnicamente el 2026-10-29. Bitacora y resultados detallados en
-[Validacion tecnica de etapa 3](ctq-cloudflare-stage3-validacion.md). Se encontro
-un aviso falso de aprobacion en el retorno de reservas del frontend publicado;
-no fue causado por Cloudflare y no se corrigio sin acordar alcance adicional.
-No confundir la ejecucion de pruebas con aprobar el cierre de la etapa.
-La matriz final aprobo 96 controles aislados en Chromium/WebKit (390/820/1440 px),
-y la regresion suma 1221 pruebas aprobadas. El piloto inicio sesion por si mismo
-y su perfil se reviso en la UI publicada, sin abrir operaciones financieras.
+El retorno de reservas requiere confirmacion del backend, no aprobacion basada
+solo en parametros de URL. El contrato se documenta en
+[correccion del retorno de reservas](correccion-retorno-reservas.md).
+Ejecutar pruebas no autoriza por si solo el cierre ni la liberacion de la etapa.
 
 ### 7.1 Matriz de pruebas
 

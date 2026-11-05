@@ -26,26 +26,3 @@ no se modificaron para esta retirada.
 
 No se modifica backend, almacenamiento de imagenes, base de datos, `.env`,
 dependencias ni la carga de fotos del perfil. No se realiza push o despliegue.
-
-## Evidencia
-
-`tests/retiredCarousel.test.mjs` contiene tres pruebas: ausencia de import/ruta,
-ausencia del componente/CSS y conservacion de ambas imagenes del inicio.
-
-```bash
-node --test tests/retiredCarousel.test.mjs
-node --experimental-strip-types --test tests/*.test.*
-node node_modules/typescript/bin/tsc -b --pretty false
-node node_modules/eslint/bin/eslint.js .
-```
-
-La regresion local completa pasa 345 pruebas, cero fallidas u omitidas. Build
-Vite, TypeScript y ESLint verificados en Node 22.19.0. Ese total incluye cambios
-locales de loading pendientes, no 345 pruebas exclusivas de esta eliminacion.
-[Resumen verificable](evidence/retired-carousel/validation.json).
-
-La validacion del trabajo de loading es separada de esta retirada. El primer
-intento de navegador quedo incompleto por un comando de emulacion de safe-area
-no soportado. Posteriormente se ajusto ese arnes y se completo la validacion
-automatizada, documentada en [la auditoria de loading](action-loading-audit.md).
-La revision fisica en iPhone/iPad sigue pendiente.

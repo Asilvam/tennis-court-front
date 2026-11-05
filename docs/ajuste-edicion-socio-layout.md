@@ -30,28 +30,3 @@ Sus alturas se distribuian independientemente.
 Los helpers de asociacion y el contrato de PATCH del backend no se modifican.
 Solo Actualizar envia los campos cambiados, con JWT. No se cambia la logica de
 Activo, Pago al dia, mensualidades, generacion de cuotas ni bloqueo financiero.
-
-## Validacion
-
-- 310 pruebas unitarias aprobadas, sin fallos ni omitidas.
-- Dos casos nuevos: titulares activos con asociacion inactiva preservada, y
-  aparicion/desaparicion del titular al cambiar el tipo sin guardar.
-- TypeScript, ESLint y build Vite aprobados.
-- 12 escenarios Playwright: Chromium y WebKit en 320, 390, 768, 820, 1024 y
-  1440px; 186 comprobaciones aprobadas.
-- Se verifican alineacion, orden, ausencia de overflow horizontal, cambio de
-  tipo, seleccion, teclado simulado, foco y un unico PATCH explicito con JWT.
-- Datos de prueba y APIs interceptadas `.invalid`, sin datos ni escrituras reales.
-  La reduccion de `visualViewport` es simulada, no certifica Safari fisico.
-
-Evidencias:
-
-- [Resumen unitario y herramientas](evidence/admin-member-layout/validation.json).
-- [Casos E2E, geometria y hashes](evidence/admin-member-layout/browser-validation.json).
-- [Escritorio Chromium 1440px](evidence/admin-member-layout/editor-carga-chromium-1440.png).
-- [Tablet WebKit 820px](evidence/admin-member-layout/editor-carga-webkit-820.png).
-- [Movil WebKit 390px](evidence/admin-member-layout/editor-carga-webkit-390.png).
-
-El servidor de desarrollo existente respondio en
-`http://127.0.0.1:5183/adminregister`. No se modificaron `.env`, credenciales,
-base de datos, variables de Heroku ni archivos de otros proyectos en esta tarea.
