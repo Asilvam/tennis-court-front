@@ -5,6 +5,18 @@ Estado: etapas 1 y 2 implementadas y validadas localmente; etapa 3 pendiente.
 Repositorio: tennis-court-front, rama develop.
 Revision base: `934499a5dc30cb3dd28e0c2aa78a4f394478a4c9`.
 
+Actualizacion local de miniatura: 2026-11-07, America/Santiago.
+El contrato de imagen compartida vigente es v2, descrito en la seccion 3.
+La implementacion inicial de v1 se conserva como antecedente tecnico en la
+seccion 8; no describe la composicion visual actual.
+
+Verificacion local v2 realizada: 10 pruebas de metadatos aprobadas, build Vite
+aprobado y 55 controles HTTP/navegador aprobados con Chrome y WebKit. El arnes
+valido GET/HEAD, MIME, dimensiones, pixeles de marca, correspondencia con los
+archivos de public/ y metadatos sin JavaScript. No se consultaron APIs reales.
+Las capturas y el reporte de esa ejecucion no se incorporan al repositorio.
+No se certifica la cache ni la vista previa real de WhatsApp. Sin despliegue.
+
 ## 1. Alcance
 
 Identificar el frontend con la marca CTQ en dos superficies:
@@ -68,8 +80,11 @@ ya probada. Se preservan los originales y los cambios locales ajenos a la tarea.
 - Favicon: emblema central reconocible del logo CTQ (pelota y olas), sin intentar
   comprimir el texto institucional completo a 16 px. No redibujar ni inventar
   otro escudo; validar visualmente la derivacion antes de adoptarla.
-- Vista previa: logo horizontal existente, completo y sin deformacion, sobre
-  fondo claro y con margenes. Mantener azul, celeste y amarillo de la marca.
+- Vista previa v2: composicion generada con ImageGen usando el escudo circular
+  como referencia. Fondo azul oscuro CTQ, nombre del club en blanco y amarillo,
+  servicios y dominio legibles, cancha con marcaciones en perspectiva diagonal.
+  Se ajustaron el tamano de la cancha y sus lineas de fondo por solicitud del
+  usuario. Los archivos originales de los logos no se modifican.
 - Imagen propuesta: 1200 x 630 px. Es un formato de composicion elegido para
   esta entrega, no una garantia de recorte identico en todas las plataformas.
 - Sin fotos de socios, informacion de cuenta, datos de reservas, montos o
@@ -82,7 +97,8 @@ ya probada. Se preservan los originales y los cambios locales ajenos a la tarea.
 | `/ctq-favicon-v1.ico` | ICO con tamanos 16, 32 y 48 px, compatibilidad de navegador |
 | `/ctq-favicon-v1-32.png` | PNG real, 32 x 32, alternativa declarada con sizes |
 | `/ctq-apple-touch-v1.png` | PNG real, 180 x 180, acceso directo iOS |
-| `/images/ctq-compartir-v1.png` | PNG real, 1200 x 630, imagen institucional compartida |
+| `/images/ctq-compartir-v2.png` | PNG real, 1200 x 630, miniatura compartida vigente |
+| `/images/ctq-compartir-v1.png` | Version inicial conservada; ya no se referencia en Open Graph |
 
 Nombres versionados para distinguirlos de los iconos anteriores y facilitar
 diagnostico de cache. No sobrescribir ni borrar `icon.png`, los SVG anteriores
@@ -100,10 +116,10 @@ No prometer invalidacion instantanea de caches externas por cambiar el archivo.
 | og:site_name | `Club de Tenis Quintero` |
 | og:locale | `es_CL` |
 | og:url | `https://ctq.serviciosasm.cl/` |
-| og:image | `https://ctq.serviciosasm.cl/images/ctq-compartir-v1.png` |
+| og:image | `https://ctq.serviciosasm.cl/images/ctq-compartir-v2.png` |
 | og:image:type | `image/png` |
 | og:image:width / height | `1200` / `630` |
-| og:image:alt | `Logo del Club de Tenis Quintero` |
+| og:image:alt | `Club de Tenis Quintero: reservas, ranking y mensualidades.` |
 
 Los metadatos deben estar en el HTML inicial de `index.html`, no depender de
 React, login o una API. Open Graph define sus propiedades en el head del HTML;
@@ -199,7 +215,7 @@ rollback de pagos ni cambios de datos del club.
 - Commit de esta mejora: autorizado posteriormente; revision final en Git.
 - Push, despliegue y comprobacion real de WhatsApp: no realizados.
 
-## 8. Implementacion y procedencia de recursos
+## 8. Implementacion inicial v1 y procedencia de recursos
 
 Generador reproducible: `scripts/build-site-identity.mjs`. Solo genera los
 cuatro archivos nuevos y su informe, sin sobrescribir fuentes ni iconos legacy.
@@ -214,7 +230,7 @@ con margen, sobre fondo `#f8f8f6`, y se exporta en PNG. El ICO empaqueta
 los PNG 16/32/48 con su directorio de offsets; los navegadores decodificaron
 los marcos y las pruebas verificaron sus dimensiones e integridad.
 
-La imagen social usa `new_logo_ctq.png`, redimensionado a `1200x630` mediante
+La imagen social v1 usaba `new_logo_ctq.png`, redimensionado a `1200x630` mediante
 `fit=cover`, centrado. Se recorta espacio exterior de la imagen, no el logo
 ni el texto institucional. El PNG pesa 743112 bytes; no se convierte en una
 captura de una cuenta ni incluye datos dinamicos. Fuentes originales y el
@@ -239,11 +255,12 @@ La resolucion de las versiones ya permitidas por el proyecto produjo Vite
 
 ## 10. Reproduccion y pendientes
 
-Ejecutar con Node 22 / npm 10 desde el frontend. El generador y el E2E reciben
-rutas de herramientas como argumentos; no son variables nuevas de la app.
+Ejecutar con Node 22 / npm 10 desde el frontend. El E2E recibe la ruta del
+runtime de herramientas como argumento; no es una variable nueva de la app.
+La imagen v2 es un activo raster generado con ImageGen y normalizado a
+1200 x 630; no se regenera con el generador historico de iconos v1.
 
 ```bash
-node scripts/build-site-identity.mjs /ruta/al/runtime/node_modules/sharp/dist/index.mjs
 npm run test:site-metadata
 node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs
 npm run lint
@@ -255,8 +272,11 @@ node tests/e2e/siteMetadata.mjs /tmp/ctq-site-identity-dist /tmp/ctq-site-identi
 WebKit debe estar instalado en el runtime de Playwright; la ruta de Chrome
 del arnes corresponde a macOS. Si se usa una carpeta de navegadores distinta,
 configurar el runtime de pruebas, no el `.env` de la aplicacion. Fuentes y
-assets se verifican contra sus hashes; regenerarlos exige registrar la nueva
-evidencia y volver a ejecutar las pruebas.
+assets se verifican directamente: dimensiones y firma PNG/ICO, hashes de los
+logos originales y coincidencia entre public/ y los archivos servidos del build.
+No se leen informes de docs/evidence/. El E2E rechaza una carpeta de salida
+dentro del repositorio; capturas y reportes permanecen solo en almacenamiento
+local externo. No se crean variables de entorno nuevas.
 
 Queda autorizar commit/push/despliegue del frontend y completar la etapa 3:
 HTTP/MIME publicados, favicon en navegador real, acceso directo en iPhone/iPad

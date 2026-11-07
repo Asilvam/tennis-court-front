@@ -21,9 +21,9 @@ const description = 'Reservas de canchas, ranking y mensualidades del Club de Te
 const expected = {
     'og:title': title, 'og:description': description, 'og:type': 'website', 'og:site_name': title,
     'og:locale': 'es_CL', 'og:url': 'https://ctq.serviciosasm.cl/',
-    'og:image': 'https://ctq.serviciosasm.cl/images/ctq-compartir-v1.png',
+    'og:image': 'https://ctq.serviciosasm.cl/images/ctq-compartir-v2.png',
     'og:image:type': 'image/png', 'og:image:width': '1200', 'og:image:height': '630',
-    'og:image:alt': 'Logo del Club de Tenis Quintero',
+    'og:image:alt': 'Club de Tenis Quintero: reservas, ranking y mensualidades.',
 };
 const publicFile = file => new URL(`public/${file}`, root);
 const pngSize = bytes => {
@@ -76,7 +76,7 @@ test('icon alternatives form one CTQ family, with correct formats and no competi
 
 for (const [file, size] of [
     ['ctq-favicon-v1-32.png', [32, 32]], ['ctq-apple-touch-v1.png', [180, 180]],
-    ['images/ctq-compartir-v1.png', [1200, 630]],
+    ['images/ctq-compartir-v2.png', [1200, 630]],
 ]) test(`${file} is an actual PNG with the declared dimensions`, async () => {
     assert.deepEqual(pngSize(await readFile(publicFile(file))), size);
 });
@@ -102,12 +102,9 @@ test('ICO contains all three correctly bounded PNG frames, identical to the stan
     assert.equal(next, bytes.length);
 });
 
-test('asset provenance hashes match outputs and unchanged official source images', async () => {
-    const evidence = JSON.parse(await readFile(new URL('docs/evidence/site-identity/assets.json', root), 'utf8'));
-    for (const [file, metadata] of Object.entries(evidence.outputs))
-        assert.equal(hash(await readFile(publicFile(file))), metadata.sha256, file);
-    for (const [file, value] of Object.entries(evidence.sources))
-        assert.equal(hash(await readFile(publicFile(file))), value, file);
+test('official source images are unchanged and the redesigned thumbnail differs from the legacy version', async () => {
+    assert.notEqual(hash(await readFile(publicFile('images/ctq-compartir-v2.png'))),
+        hash(await readFile(publicFile('images/ctq-compartir-v1.png'))));
     assert.equal(hash(await readFile(publicFile('images/new_logo_ctq.png'))),
         '9338cbe3ddef0fddc6f441d73047956dccd719a8a71cfa5616b6081238577c6d');
     assert.equal(hash(await readFile(publicFile('images/logo_circ_ctq.jpeg'))),

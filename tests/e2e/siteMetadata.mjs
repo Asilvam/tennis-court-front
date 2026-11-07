@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { resolve, dirname } from 'node:path';
+import { resolve, dirname, relative, isAbsolute } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import handler from 'serve-handler';
 import { parse } from 'parse5';
@@ -11,10 +11,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const [distArg, outArg, playwrightArg] = process.argv.slice(2);
 assert(distArg && outArg && playwrightArg, 'Usage: node tests/e2e/siteMetadata.mjs BUILD OUTPUT PLAYWRIGHT_MODULE');
 const dist = resolve(distArg), output = resolve(outArg);
+const outputRelative = relative(root, output);
+assert(isAbsolute(outputRelative) || outputRelative === '..' || outputRelative.startsWith('../'), 'Evidence output must be outside the repository');
 const { chromium, webkit } = await import(pathToFileURL(resolve(playwrightArg)).href);
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const origins = ['https://ctq.serviciosasm.cl', 'https://app-tenis-qtro-2-be6b838be293.herokuapp.com'];
-const report = { date: '2026-10-29', mode: 'Local build and serve-handler; public origins emulated; no live CTQ APIs',
+const report = { executedAt: new Date().toISOString(), mode: 'Local build and serve-handler; public origins emulated; no live CTQ APIs',
     deployed: false, passed: [], captures: [], http: [], browsers: {} };
 let server, browser, page;
 const walk = node => [node, ...(node.childNodes || []).flatMap(walk)];
@@ -23,7 +25,14 @@ const fixtureUrls = [];
 
 try {
     await mkdir(output, { recursive: true });
-    const assets = JSON.parse(await readFile(resolve(root, 'docs/evidence/site-identity/assets.json'), 'utf8'));
+    const assets = { outputs: {
+        'ctq-favicon-v1.ico': {},
+        'ctq-favicon-v1-32.png': { width: 32, height: 32 },
+        'ctq-apple-touch-v1.png': { width: 180, height: 180 },
+        'images/ctq-compartir-v2.png': { width: 1200, height: 630 },
+    } };
+    for (const [file, metadata] of Object.entries(assets.outputs))
+        metadata.sha256 = hash(await readFile(resolve(root, 'public', file)));
     const index = await readFile(resolve(dist, 'index.html'));
     assert(index.includes('Club de Tenis Quintero'));
     report.bundleSha256 = hash(index);
@@ -45,7 +54,7 @@ try {
             const og = Object.fromEntries(metadata.filter(node => attr(node, 'property')?.startsWith('og:'))
                 .map(node => [attr(node, 'property'), attr(node, 'content')]));
             assert.equal(og['og:title'], 'Club de Tenis Quintero');
-            assert.equal(og['og:image'], `${origins[0]}/images/ctq-compartir-v1.png`);
+            assert.equal(og['og:image'], `${origins[0]}/images/ctq-compartir-v2.png`);
             assert.equal(og['og:url'], `${origins[0]}/`);
             assert(!JSON.stringify(og).includes('private-marker'));
             report.http.push({ path, userAgent: ua, status: response.status, contentType: response.headers.get('content-type') });
@@ -96,7 +105,7 @@ try {
                 assert.equal(await page.title(), 'Club de Tenis Quintero');
                 assert.equal(await page.locator('html').getAttribute('lang'), 'es-CL');
                 assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'),
-                    `${origins[0]}/images/ctq-compartir-v1.png`);
+                    `${origins[0]}/images/ctq-compartir-v2.png`);
                 report.passed.push(`${engine}/${width}/${originIndex}: app login retains institutional metadata`);
                 const pixels = await page.evaluate(async inputs => {
                     const decoded = [];
@@ -134,7 +143,7 @@ try {
                         <h1>Club de Tenis Quintero</h1><header>
                         ${[16, 32, 48].map(size => `<figure><img src="${icon('ctq-favicon-v1.ico')}" width="${size}" height="${size}" alt="Favicon CTQ"><figcaption>${size} px</figcaption></figure>`).join('')}
                         <figure><img src="${icon('ctq-apple-touch-v1.png')}" width="90" height="90" alt="Icono CTQ iOS"><figcaption>iOS: 180 px</figcaption></figure></header>
-                        <h2>Imagen institucional para compartir</h2><img class="share" src="${icon('images/ctq-compartir-v1.png')}" width="1200" height="630" alt="Logo del Club de Tenis Quintero"></main></body></html>`);
+                        <h2>Imagen institucional para compartir</h2><img class="share" src="${icon('images/ctq-compartir-v2.png')}" width="1200" height="630" alt="Club de Tenis Quintero: reservas, ranking y mensualidades."></main></body></html>`);
                     await page.locator('.share').evaluate(image => image.decode());
                     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
                     const capture = `assets-${engine}-${width}.png`;
@@ -155,7 +164,7 @@ try {
         await noJs.goto(`${local}/login`);
         assert.equal(await noJs.title(), 'Club de Tenis Quintero');
         assert.equal(await noJs.locator('meta[property="og:image"]').getAttribute('content'),
-            `${origins[0]}/images/ctq-compartir-v1.png`);
+            `${origins[0]}/images/ctq-compartir-v2.png`);
         report.passed.push(`${engine}: initial metadata exists with JavaScript disabled`);
         await context.close(); await browser.close(); browser = null;
     }

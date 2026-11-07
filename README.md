@@ -31,16 +31,22 @@ Sin variables de entorno nuevas; se reutiliza `VITE_API_URL`.
 
 Implementado localmente: titulo `Club de Tenis Quintero`, idioma `es-CL`,
 favicon ICO/PNG, icono iOS y metadatos Open Graph estaticos en `index.html`.
-Imagen publica prevista para compartir: `/images/ctq-compartir-v1.png`,
-1200 x 630, derivada del logo existente sin redibujarlo.
+Imagen publica para compartir: `/images/ctq-compartir-v2.png`, PNG de
+1200 x 630. Composicion azul CTQ, escudo circular, nombre del club,
+servicios, dominio y cancha en perspectiva diagonal. Generada con ImageGen;
+los archivos originales de los logos y los iconos no se modifican.
+La version v1 se conserva como recurso legacy, sin referencia Open Graph activa.
 Informe tecnico, procedencia de activos, hashes, etapas y resultados:
 [plan-identidad-web-ctq.md](docs/plan-identidad-web-ctq.md).
 
-Validacion local: 251 pruebas, 55 controles HTTP/navegador, lint, tipos y build
+Validacion de la implementacion inicial: 251 pruebas, 55 controles HTTP/navegador, lint, tipos y build
 aprobados. No esta desplegado y aun no se ha comprobado una miniatura real de
 WhatsApp ni un acceso directo en un iPhone/iPad fisico.
 No requiere variables nuevas ni cambios en backend, correo o Mercado Pago;
 `parse5` es solo una dependencia de desarrollo para validar HTML estructurado.
+La actualizacion v2 queda local hasta su publicacion; no certifica la vista previa
+real de WhatsApp. Las pruebas validan los archivos publicos directamente y no
+dependen de informes de evidencias en el repositorio.
 
 ```bash
 npm run test:site-metadata
